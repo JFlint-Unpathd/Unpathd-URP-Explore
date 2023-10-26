@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
-//using Inventory.Model;
 using Inventory.UI;
 
 
@@ -19,6 +18,7 @@ public class InventoryController : MonoBehaviour
     }
 
 
+    // toggles inventory menu on and off
     public void Update() 
     {
         if(Input.GetKeyDown(KeyCode.I))
