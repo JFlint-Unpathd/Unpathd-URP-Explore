@@ -70,8 +70,8 @@ public class UIInventoryItem : MonoBehaviour
 
     public void OnPointerClick(BaseEventData data)
     {
-       // if(empty)
-       //     return;
+        if(empty)
+            return;
 
         PointerEventData pointerData = (PointerEventData)data;
 
