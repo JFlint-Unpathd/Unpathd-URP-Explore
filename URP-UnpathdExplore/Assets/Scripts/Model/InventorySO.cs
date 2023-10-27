@@ -2,63 +2,56 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Runtime.InteropServices.WindowsRuntime;
 
-namespace Inventory.Model
-{
-    [CreateAssetMenu]
+[CreateAssetMenu]
     public class InventorySO : ScriptableObject
-    {
-        [SerializeField]
-        private List<InventoryItem> inventoryItems;
+{
+    [SerializeField]
+    private List<InventoryItem> inventoryItems;
 
-        [field: SerializeField]
-        public int Size { get; private set; } = 10;
+    [field: SerializeField]
+    public int Size { get; private set; } = 10;
 
-        public event Action<Dictionary<int, InventoryItem>> OnInventoryUpdated;
-
-        public void Initialize()
-        {
-            inventoryItems = new List<InventoryItem>();
-            for (int i = 0; i < Size; i++)
-            {
-                inventoryItems.Add(InventoryItem.GetEmptyItem());
-            }
+   public void Initialize()
+   {
+        inventoryItems = new List<InventoryItem>();
+        for (int i = 0; i < Size; i++)
+        {   
+            inventoryItems.Add(InventoryItem.GetEmptyItem());
         }
+   }
 
-        public int AddItem(ItemSO item, int quantity)
-        {
-            if(item.IsStackable == false)
-            {
-                for (int i = 0; i < inventoryItems.Count; i++)
+   public void AddItem(ItemSO item, int quantity)
+   {
+        for (int i = 0; i < inventoryItems.Count; i++)
+            {   
+                if(inventoryItems[i].isEmpty)
                 {
-                    if(InventoryItem[i].isEmpty)
+                    inventoryItems[i] = new InventoryItem
                     {
-                        InventoryItems[i] = new InventoryItem
-                        {
-                            item = item, quantity = quantity
-                        };
-                    }
+                        item = item,
+                        quantity = quantity
+                    };
                 }
-            }
+            }    
+   }
 
-        public Dictionary<int, InventoryItem> GetCurrentInventoryState()
+   public Dictionary<int, InventoryItem> GetCurrentInventoryState()
+   {
+        Dictionary<int, InventoryItem> returnValue = new Dictionary<int, InventoryItem>();
+        for (int i = 0; i < inventoryItems.Count; i++)
         {
-            Dictionary<int, InventoryItem> returnValue =
-                new Dictionary<int, InventoryItem>();
-
-            for (int i = 0; i < inventoryItems.Count; i++)
-            {
-                if (inventoryItems[i].IsEmpty)
-                    continue;
+                if(inventoryItems[i].isEmpty)
+                continue;
                 returnValue[i] = inventoryItems[i];
-            }
-            return returnValue;
         }
+            return returnValue;
 }
 }
 
     
-[System.Serializable]
+[Serializable]
 public struct InventoryItem
 {
     public int quantity;
@@ -70,15 +63,18 @@ public struct InventoryItem
     {
         return new InventoryItem
         {
-            item = this.item, quantity = newQuantity, 
+            item = this.item, 
+            quantity = newQuantity, 
         };
     }    
 
 //  struct cannot be null, so this is the workaround
     public static InventoryItem GetEmptyItem() => new InventoryItem
     {
-        item = null, quantity = 0
+        item = null, 
+        quantity = 0
     };
     
 }
-}
+
+
