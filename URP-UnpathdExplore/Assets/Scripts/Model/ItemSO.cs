@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,7 @@ public class ItemSO : ScriptableObject
     [field: TextArea]
     public string Description { get; set; }
     [field: SerializeField]
-    public Sprite itemImage { get; set; }
+    public Sprite ItemImage { get; set; }
 
 }
+

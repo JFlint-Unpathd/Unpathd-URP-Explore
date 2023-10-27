@@ -20,7 +20,7 @@ public class UIInventoryPage : MonoBehaviour
     List<UIInventoryItem> listOfUIItems = new List<UIInventoryItem>();
     private int currentlyDraggedItemIndex = -1;
 
-    public event Action<int> OnDescriptionrequested, OnItemActionrequested, OnStartDragging;
+    public event Action<int> OnDescriptionRequested, OnItemActionrequested, OnStartDragging;
     public event Action <int, int> OnSwapItems;
 
 
@@ -98,7 +98,7 @@ public class UIInventoryPage : MonoBehaviour
             int index = listOfUIItems.IndexOf(inventoryItemUI);
             if(index == -1)
             return;
-            OnDescriptionrequested?.Invoke(index);
+            OnDescriptionRequested?.Invoke(index);
         }
 
         public void Show()
@@ -130,5 +130,12 @@ public class UIInventoryPage : MonoBehaviour
             mouseFollower.Toggle(false);
             currentlyDraggedItemIndex = -1;
         }
-}
+
+        internal void UpdateDescription(int itemIndex, Sprite itemImage, string name, string description)
+        {
+           itemDescription.SetDescription(itemImage, name, description);
+           DeslectAllItems();
+           listOfUIItems[itemIndex].Select();
+        }
+    }
 }
