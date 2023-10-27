@@ -70,9 +70,7 @@ public class UIInventoryItem : MonoBehaviour
 
     public void OnPointerClick(BaseEventData data)
     {
-        if(empty)
-            return;
-
+        
         PointerEventData pointerData = (PointerEventData)data;
 
         if(pointerData.button == PointerEventData.InputButton.Right)
