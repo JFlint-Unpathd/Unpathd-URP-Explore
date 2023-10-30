@@ -4,8 +4,8 @@ using UnityEngine;
 using System;
 //using System.Runtime.InteropServices.WindowsRuntime;
 
-    // namespace Inventory.Model
-    // {
+    namespace Inventory.Model
+{
     [CreateAssetMenu]
     public class InventorySO : ScriptableObject
     {
@@ -14,6 +14,8 @@ using System;
 
         [field: SerializeField]
         public int Size { get; private set; } = 10;
+
+        public event Action<Dictionary<int, InventoryItem>> OnInventoryUpdated;
 
         public void Initialize()
             {
@@ -35,9 +37,15 @@ using System;
                                 item = item,
                                 quantity = quantity
                             };
+                            return;
                         }
                     }    
         }
+
+    public void AddItem(InventoryItem item)
+    {
+        AddItem(item.item, item.quantity);
+    }
 
     public Dictionary<int, InventoryItem> GetCurrentInventoryState()
     {
@@ -56,9 +64,19 @@ using System;
             return inventoryItems[itemIndex];
         }
 
+        public void SwapItems(int itemIndex1, int itemIndex2)
+        {
+            InventoryItem item1 = inventoryItems[itemIndex1];
+            inventoryItems[itemIndex1] = inventoryItems[itemIndex2];
+            inventoryItems[itemIndex2] = item1;
+            InformAboutChange();
+        }
 
+        private void InformAboutChange()
+        {
+            OnInventoryUpdated?.Invoke(GetCurrentInventoryState());
+        }
     }
-
         
     [Serializable]
     public struct InventoryItem
@@ -86,6 +104,6 @@ using System;
         };
         
     }
-//}
+}
 
 
