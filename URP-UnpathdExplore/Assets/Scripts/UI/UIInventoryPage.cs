@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Inventory.UI
-{
+//namespace Inventory.UI
+//{
 public class UIInventoryPage : MonoBehaviour
 {
     [SerializeField]
@@ -42,10 +42,17 @@ public class UIInventoryPage : MonoBehaviour
             uiItem.OnItemClicked += HandleItemSelection;
             uiItem.OnItemBeginDrag += HandleBeginDrag;
             uiItem.OnItemDroppedOn += HandleSwap;
-            uiItem.OnIteEndDrag += HandleEndDrag;
+            uiItem.OnItemEndDrag += HandleEndDrag;
             uiItem.OnRightMouseBtnClick += HandleShowItemActions;
         }
     }
+
+        internal void UpdateDescription(int itemIndex, Sprite itemImage, string name, string description)
+        {
+            itemDescription.SetDescription(itemImage, name, description);
+            DeslectAllItems();
+            listOfUIItems[itemIndex].Select();
+        }
 
         public void UpdateData(int itemIndex, Sprite itemImage, int itemQuantity)
         {
@@ -131,11 +138,6 @@ public class UIInventoryPage : MonoBehaviour
             currentlyDraggedItemIndex = -1;
         }
 
-        internal void UpdateDescription(int itemIndex, Sprite itemImage, string name, string description)
-        {
-           itemDescription.SetDescription(itemImage, name, description);
-           DeslectAllItems();
-           listOfUIItems[itemIndex].Select();
-        }
+        
     }
-}
+//}

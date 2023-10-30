@@ -2,81 +2,90 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.Runtime.InteropServices.WindowsRuntime;
+//using System.Runtime.InteropServices.WindowsRuntime;
 
-[CreateAssetMenu]
+    // namespace Inventory.Model
+    // {
+    [CreateAssetMenu]
     public class InventorySO : ScriptableObject
-{
-    [SerializeField]
-    private List<InventoryItem> inventoryItems;
+    {
+        [SerializeField]
+        private List<InventoryItem> inventoryItems;
 
-    [field: SerializeField]
-    public int Size { get; private set; } = 10;
+        [field: SerializeField]
+        public int Size { get; private set; } = 10;
 
-   public void Initialize()
-   {
-        inventoryItems = new List<InventoryItem>();
-        for (int i = 0; i < Size; i++)
-        {   
-            inventoryItems.Add(InventoryItem.GetEmptyItem());
-        }
-   }
-
-   public void AddItem(ItemSO item, int quantity)
-   {
-        for (int i = 0; i < inventoryItems.Count; i++)
-            {   
-                if(inventoryItems[i].isEmpty)
+        public void Initialize()
+            {
+                inventoryItems = new List<InventoryItem>();
+                for (int i = 0; i < Size; i++)
                 {
-                    inventoryItems[i] = new InventoryItem
-                    {
-                        item = item,
-                        quantity = quantity
-                    };
+                    inventoryItems.Add(InventoryItem.GetEmptyItem());
                 }
-            }    
-   }
+            }
 
-   public Dictionary<int, InventoryItem> GetCurrentInventoryState()
-   {
-        Dictionary<int, InventoryItem> returnValue = new Dictionary<int, InventoryItem>();
-        for (int i = 0; i < inventoryItems.Count; i++)
+        public void AddItem(ItemSO item, int quantity)
         {
-                if(inventoryItems[i].isEmpty)
-                continue;
-                returnValue[i] = inventoryItems[i];
+                for (int i = 0; i < inventoryItems.Count; i++)
+                    {   
+                        if(inventoryItems[i].IsEmpty)
+                        {
+                            inventoryItems[i] = new InventoryItem
+                            {
+                                item = item,
+                                quantity = quantity
+                            };
+                        }
+                    }    
         }
-            return returnValue;
-}
 
-    
-}
-
-    
-[Serializable]
-public struct InventoryItem
-{
-    public int quantity;
-    public ItemSO item;
-
-    public bool isEmpty => item == null;
-
-    public InventoryItem ChangeQuantity(int newQuantity)
+    public Dictionary<int, InventoryItem> GetCurrentInventoryState()
     {
-        return new InventoryItem
+            Dictionary<int, InventoryItem> returnValue = new Dictionary<int, InventoryItem>();
+            for (int i = 0; i < inventoryItems.Count; i++)
+            {
+                    if(inventoryItems[i].IsEmpty)
+                    continue;
+                    returnValue[i] = inventoryItems[i];
+            }
+                return returnValue;
+        }
+
+        public InventoryItem GetItemAt(int itemIndex)
         {
-            item = this.item, 
-            quantity = newQuantity, 
-        };
-    }    
+            return inventoryItems[itemIndex];
+        }
 
-//  struct cannot be null, so this is the workaround
-    public static InventoryItem GetEmptyItem() => new InventoryItem
+
+    }
+
+        
+    [Serializable]
+    public struct InventoryItem
     {
-        item = null, 
-        quantity = 0
-    };
-    
-}
+        public int quantity;
+        public ItemSO item;
+
+        public bool IsEmpty => item == null;
+
+        public InventoryItem ChangeQuantity(int newQuantity)
+        {
+            return new InventoryItem
+            {
+                item = this.item, 
+                quantity = newQuantity, 
+            };
+        }    
+
+    //  struct cannot be null, so this is the workaround
+        public static InventoryItem GetEmptyItem() 
+        => new InventoryItem
+        {
+            item = null, 
+            quantity = 0
+        };
+        
+    }
+//}
 
 

@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
-using Inventory.UI;
-using Unity.VisualScripting;
+//using Inventory.UI;
+//using Inventory.Model;
 
-
+//namespace Inventory
+//{
 public class InventoryController : MonoBehaviour
 {
     [SerializeField]
@@ -18,7 +19,7 @@ public class InventoryController : MonoBehaviour
     private void Start()
     {
         PrepareUI();
-        // inventoryData.Initialize();
+        //inventoryData.Initialize();
     }
 
     private void PrepareUI()
@@ -29,6 +30,7 @@ public class InventoryController : MonoBehaviour
         this.inventoryUI.OnStartDragging += HandleDragging;
         this.inventoryUI.OnItemActionrequested += HandleItemActionRequest;
     }
+
 
     
     private void HandleItemActionRequest(int itemIndex)
@@ -48,19 +50,18 @@ public class InventoryController : MonoBehaviour
     private void HandleDescriptionRequest(int itemIndex)
     {
         InventoryItem inventoryItem = inventoryData.GetItemAt(itemIndex);
-        if (inventoryItem.isEmpty)
+        if(inventoryItem.IsEmpty)
+        {
+            inventoryUI.ResetSelection();
             return;
+        }
+        
         ItemSO item = inventoryItem.item;
         inventoryUI.UpdateDescription(itemIndex, item.ItemImage,
-         item.name, item.Description);
+            item.name, item.Description);
     }
 
-    public InventoryItem GetItemAt(int itemIndex)
-    {
-        return inventoryItems[itemIndex];
-    }
-
-
+  
     // toggles inventory menu on and off
     public void Update() 
     {
@@ -83,3 +84,4 @@ public class InventoryController : MonoBehaviour
         }   
     }
 }
+//}

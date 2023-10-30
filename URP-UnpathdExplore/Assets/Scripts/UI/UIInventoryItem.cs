@@ -19,7 +19,8 @@ public class UIInventoryItem : MonoBehaviour
     [SerializeField]
     private Image borderImage;
 
-    public event Action<UIInventoryItem> OnItemClicked, OnItemDroppedOn, OnItemBeginDrag, OnIteEndDrag, OnRightMouseBtnClick;
+    public event Action<UIInventoryItem> OnItemClicked, OnItemDroppedOn, OnItemBeginDrag, 
+    OnItemEndDrag, OnRightMouseBtnClick;
     private bool empty = true;
 
     public void Awake() 
@@ -48,7 +49,7 @@ public class UIInventoryItem : MonoBehaviour
 
     public void Select()
     {
-        this.borderImage.enabled = true;
+        borderImage.enabled = true;
     }
 
     public void OnBeginDrag()
@@ -65,7 +66,7 @@ public class UIInventoryItem : MonoBehaviour
 
     public void OnEndDrag()
     {
-        OnIteEndDrag?.Invoke(this);
+        OnItemEndDrag?.Invoke(this);
     }
 
     public void OnPointerClick(BaseEventData data)
@@ -84,6 +85,7 @@ public class UIInventoryItem : MonoBehaviour
         }
 
     }
+
 
 
 
