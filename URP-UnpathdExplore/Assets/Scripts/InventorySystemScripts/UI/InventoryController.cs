@@ -56,7 +56,7 @@ namespace Inventory
             this.inventoryUI.OnDescriptionRequested += HandleDescriptionRequest;
             this.inventoryUI.OnSwapItems += HandleSwapItems;
             this.inventoryUI.OnStartDragging += HandleDragging;
-            this.inventoryUI.OnItemActionRequested += HandleItemActionRequest;
+            //this.inventoryUI.OnItemActionRequested += HandleItemActionRequest;
         }
 
 

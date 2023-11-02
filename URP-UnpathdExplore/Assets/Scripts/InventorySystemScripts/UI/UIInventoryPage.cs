@@ -20,7 +20,8 @@ namespace Inventory.UI
         List<UIInventoryItem> listOfUIItems = new List<UIInventoryItem>();
         private int currentlyDraggedItemIndex = -1;
 
-        public event Action<int> OnDescriptionRequested, OnItemActionRequested, OnStartDragging;
+        public event Action<int> OnDescriptionRequested, OnStartDragging;
+        // removed OnItemActionRequested from line above
         public event Action <int, int> OnSwapItems;
 
 
