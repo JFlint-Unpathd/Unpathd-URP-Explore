@@ -52,7 +52,7 @@ public class DBUnpathExplorer : MonoBehaviour
 
                         // this will display as many times as the records are returned
                         // note that to show all the records in a text field i had to use += otherwise only the last record would show up
-
+                        // "\t\t" - space, "\n" - new line
                         resultsList.text += reader["title"] + "\t\t" + "\n";
 
                     }
