@@ -6,27 +6,34 @@ using System.Data;
 using System.Xml.Linq;
 using System.IO;
 using TMPro;
+using System.Reflection.Emit;
+using Unity.VisualScripting;
 
 public class DBUnpathExplorer : MonoBehaviour
 {
     //object to spawn to represent obj in scene
     public GameObject objectToSpawn;
+    public GameObject uiPrefab;
 
     public Vector3 origin = Vector3.zero;
     public float radius = 10;
 
-    public TMP_Text resultsList;
+    public TMP_Text resultsText;
 
-    // Start is called before the first frame update
+    // instance of list that will contain results loaded from database or add new results 
+    private List<Results> results = new List<Results>();
+
     void Start()
     {
-        PlaceNameList();
+        GetResults();
     }
 
-    public void PlaceNameList()
-    {
-        //clear out list before displaying new contents
-        resultsList.text = "";
+    public void GetResults()
+    {   //clear list to make sure list up to date
+        results.Clear();
+
+        //clear out database list before displaying new contents
+        resultsText.text = "";
 
         //initialize database
         string dbName = "URI=file:unpath.db";
@@ -44,6 +51,7 @@ public class DBUnpathExplorer : MonoBehaviour
                 {
                     while(reader.Read())
                     {
+                      
                         Debug.Log("Result: " + reader["title"]);
 
                         // Finds a position in a sphere with a radius of 10 units.
@@ -53,7 +61,7 @@ public class DBUnpathExplorer : MonoBehaviour
                         // this will display as many times as the records are returned
                         // note that to show all the records in a text field i had to use += otherwise only the last record would show up
                         // "\t\t" - space, "\n" - new line
-                        resultsList.text += reader["title"] + "\t\t" + "\n";
+                        resultsText.text += reader["title"] + "\t\t" + "\n";
 
                     }
 
@@ -63,6 +71,17 @@ public class DBUnpathExplorer : MonoBehaviour
 
             connection.Close();
 
+        }
+    }
+
+    private void ShowResults()
+    {
+        for (int i = 0; i < results.Count; i++)
+        {
+            GameObject tmpObject = Instantiate(uiPrefab);
+            Results tmpResult = results[i];
+
+            //tmpObject.GetComponent<ResultsScript>()SetResult(tmpResult.idLabel, tmpResult.resTitle, tmpResult.resPlace);
         }
     }
 
