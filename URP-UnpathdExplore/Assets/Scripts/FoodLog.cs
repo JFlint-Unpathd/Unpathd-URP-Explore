@@ -1,8 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Data;
 using Mono.Data.Sqlite;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEditor.MemoryProfiler;
 using UnityEngine;
 using UnityEngine.UI;
@@ -96,7 +95,7 @@ public class FoodLog : MonoBehaviour
                     // this will display as many times as the records are returned
                     // note that to show all the records in a text field i had to use += otherwise only the last record would show up
 
-                    foodList.text += reader["foodname"] + "\t" + reader["meal"] + "\n";
+                    foodList.text += reader["foodname"] + "\t\t" + reader["meal"] + "\n";
 
                     reader.Close();
                 }         
