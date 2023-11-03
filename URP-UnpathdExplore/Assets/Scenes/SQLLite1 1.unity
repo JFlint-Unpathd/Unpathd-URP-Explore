@@ -1226,7 +1226,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 831077368}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 978.1554, y: 527.4357, z: 0.061222076}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1242,14 +1242,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 831077368}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c91f5f2f651e47743a70b92c7b02dee0, type: 3}
+  m_Script: {fileID: 11500000, guid: 4ba3cc4adb5129e46ad2e8282ed23f09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToSpawn: {fileID: 8809293829100465760, guid: ed5fcb46d5708c1428a9a91805e6d89d,
+  objectToSpawn: {fileID: 160126393362769355, guid: 6fd26ec5b65d6014db69d1d4908bec59,
     type: 3}
-  uiPrefab: {fileID: 0}
   origin: {x: 0, y: 0, z: 0}
-  radius: 50
+  radius: 300
   resultsText: {fileID: 1145719735}
 --- !u!1 &934822304
 GameObject:
@@ -1325,7 +1324,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: -200}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1145719735
 MonoBehaviour:
@@ -2182,9 +2181,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -17, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1538307340
 MonoBehaviour:
@@ -2614,7 +2613,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2041713254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2865,7 +2864,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
