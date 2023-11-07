@@ -104,6 +104,8 @@ public class DBUnpathE2 : MonoBehaviour
         // Construct the SQL query with the dynamically determined tags
         string query = "SELECT * FROM resource WHERE ";
 
+        //bool responsible for adding OR separator in sql query, if it is the first
+        //tag an OR is not neccesary, however afterwards it is
         bool firstTag = true;
 
         foreach (string tag in tags)
@@ -120,6 +122,9 @@ public class DBUnpathE2 : MonoBehaviour
     
         // Add a LIMIT clause to limit the results to 500
         query += " LIMIT 500";
+
+        // Log the query to the console
+        Debug.Log("SQL Query: " + query);
         
         // Execute the SQL query
         using (var connection = new SqliteConnection("URI=file:unpath.db"))
