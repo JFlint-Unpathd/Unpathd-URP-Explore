@@ -33,7 +33,7 @@ public class DBUnpathE2 : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // Check for left mouse button click
+        if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -41,49 +41,37 @@ public class DBUnpathE2 : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 GameObject clickedObject = hit.collider.gameObject;
+                string clickedTag = clickedObject.tag;
 
-                if (clickedObject.CompareTag("england") || clickedObject.CompareTag("victorian") || clickedObject.CompareTag("ship"))
-                {
-                    selectedObjects.Add(clickedObject);
-                    Debug.Log("Item added!");
-                }
+                selectedObjects.Add(clickedObject);
+                Debug.Log("Item added with tag: " + clickedTag);
 
-                // Check if the list contains one object of each tag
-                if (ContainsOneObjectOfEachTag("england", "victorian", "ship"))
+                if (ContainsThreeDifferentTags())
                 {
-                    Debug.Log("Item of each type added, can execute query!");
+                    Debug.Log("Three different tags added, can execute query!");
                     ExecuteSQLQuery();
                 }
             }
         }
     }
 
-    bool ContainsOneObjectOfEachTag(string england, string victorian, string ship)
+
+    bool ContainsThreeDifferentTags()
     {
-        int count1 = 0, count2 = 0, count3 = 0;
+        // Create a HashSet to store the unique tags
+        HashSet<string> uniqueTags = new HashSet<string>();
 
         foreach (GameObject obj in selectedObjects)
         {
-            if (obj.CompareTag(england))
+            uniqueTags.Add(obj.tag);
+
+            if (uniqueTags.Count == 3)
             {
-                count1++;
-            }
-            else if (obj.CompareTag(victorian))
-            {
-                count2++;
-            }
-            else if (obj.CompareTag(ship))
-            {
-                count3++;
+                return true;
             }
         }
-        
-        return (count1 > 0 && count2 > 0 && count3 > 0);
 
-        // This method checks if there is at least one object with each of the specified tags.
-        // It counts the number of objects with each tag and ensures each count is greater than zero.
-        // If all counts are greater than zero, it returns true.
-
+        return false;
     }
 
     void ExecuteSQLQuery()
@@ -91,25 +79,44 @@ public class DBUnpathE2 : MonoBehaviour
         results.Clear();
         resultsText.text = "";
 
-        // Construct a SQL query to select all columns from resource where any column contains the keywords
-        string query = "SELECT * FROM resource WHERE ";
+        // Create a list to store the dynamically determined tags
+        List<string> tags = new List<string>();
 
-        string[] keywords = new string[] { "ship", "victorian", "england" };
-
-        bool firstKeyword = true;
-
-        foreach (string keyword in keywords)
-    {
-        if (!firstKeyword)
+        // Add the dynamically determined tags from selectedObjects
+        foreach (GameObject obj in selectedObjects)
         {
-            query += " OR ";
+            if (!tags.Contains(obj.tag))
+            {
+                tags.Add(obj.tag);
+            }
+
+            // Check if we have collected three tags; if so, break the loop
+            if (tags.Count == 3)
+            {
+                break;
+            }
         }
 
-        query += "title LIKE '%" + keyword + "%' OR description LIKE '%" + keyword + "%' OR placename LIKE '%" + keyword + "%'";
 
-        firstKeyword = false;
-        Debug.Log(query);
-    }
+        // Check if we have collected three different tags
+        if (tags.Count == 3)
+        {
+        // Construct the SQL query with the dynamically determined tags
+        string query = "SELECT * FROM resource WHERE ";
+
+        bool firstTag = true;
+
+        foreach (string tag in tags)
+        {
+            if (!firstTag)
+            {
+                query += " OR ";
+            }
+
+            query += "title LIKE '%" + tag + "%' OR description LIKE '%" + tag + "%' OR placename LIKE '%" + tag + "%'";
+
+            firstTag = false;
+        }
     
         // Add a LIMIT clause to limit the results to 500
         query += " LIMIT 500";
@@ -151,4 +158,10 @@ public class DBUnpathE2 : MonoBehaviour
             connection.Close();
         }
     }
+
+    else
+    {
+        Debug.Log("Not enough unique tags collected to execute the query.");
+    }
+}
 }
