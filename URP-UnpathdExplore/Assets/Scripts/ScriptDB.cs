@@ -4,7 +4,7 @@ using UnityEngine;
 using Mono.Data.Sqlite;
 using System;
 using System.Data;
-using UnityEditorInternal;
+//using UnityEditorInternal;
 
 public class ScriptDB : MonoBehaviour
 {

@@ -2,7 +2,7 @@ using System.Data;
 using Mono.Data.Sqlite;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.MemoryProfiler;
+//using UnityEditor.MemoryProfiler;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
