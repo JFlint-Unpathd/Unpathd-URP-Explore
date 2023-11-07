@@ -13,7 +13,6 @@ public class DBUnpathExplorer : MonoBehaviour
 {
     //object to spawn to represent obj in scene
     public GameObject objectToSpawn;
-    public GameObject uiPrefab;
 
     public Vector3 origin = Vector3.zero;
     public float radius = 10;
@@ -21,7 +20,7 @@ public class DBUnpathExplorer : MonoBehaviour
     public TMP_Text resultsText;
 
     // instance of list that will contain results loaded from database or add new results 
-    private List<Results> results = new List<Results>();
+    public List<Results> results = new List<Results>();
 
     void Start()
     {
@@ -45,14 +44,15 @@ public class DBUnpathExplorer : MonoBehaviour
 
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "SELECT title FROM resource WHERE placename = 'England';";
+                command.CommandText = "SELECT * FROM resource WHERE placename = 'England';";
 
                 using (IDataReader reader = command.ExecuteReader())
                 {
                     while(reader.Read())
                     {
+                        
                       
-                        Debug.Log("Result: " + reader["title"]);
+                        Debug.Log( "Result: " + reader["title"]);
 
                         // Finds a position in a sphere with a radius of 10 units.
                         Vector3 randomPosition = origin + Random.insideUnitSphere * radius;
@@ -74,16 +74,7 @@ public class DBUnpathExplorer : MonoBehaviour
         }
     }
 
-    private void ShowResults()
-    {
-        for (int i = 0; i < results.Count; i++)
-        {
-            GameObject tmpObject = Instantiate(uiPrefab);
-            Results tmpResult = results[i];
-
-            //tmpObject.GetComponent<ResultsScript>()SetResult(tmpResult.idLabel, tmpResult.resTitle, tmpResult.resPlace);
-        }
-    }
+ 
 
    
 }
