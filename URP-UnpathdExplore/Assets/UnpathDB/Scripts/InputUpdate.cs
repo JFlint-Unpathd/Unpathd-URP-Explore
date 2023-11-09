@@ -54,5 +54,19 @@ public class InputUpdate : MonoBehaviour {
     private void FixedUpdate() {
         OVRInput.FixedUpdate();
     }
+
+    // added by Maria
+    public void HandleSelection(UnpathSelector selectedObject) 
+    {
+        if (selectedObject != null) {
+            m_databaseController.AddToQuery(selectedObject.m_QueryTerm, SqliteController.QueryType.Or);
+            Debug.Log($"Selected: {selectedObject.m_QueryTerm}");
+        }
+    }
+
+    public void ExectuteQ() 
+    {
+        m_databaseController.RunQuery();
+    }
 }
 
