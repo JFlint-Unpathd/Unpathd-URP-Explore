@@ -5,6 +5,8 @@ using System.IO;
 using UnityEngine;
 using System.Collections;
 using System.Text;
+using TMPro;
+
 
 public class SqliteController : MonoBehaviour {
     // Resources:
@@ -47,6 +49,7 @@ public class SqliteController : MonoBehaviour {
         } else {
             InitDB( dbPath );
         }
+
     }
 
     private void OnDestroy() {
@@ -72,6 +75,8 @@ public class SqliteController : MonoBehaviour {
     /// Test function for queries and layout.
     /// </summary>
     public void InstanciateAllAtLatLng() {
+        Debug.Log("InstanciateAllAtLatLng method called");
+
         //private string SelectFromDBTemplate = @"SELECT {0} FROM {1} WHERE {2}";
         string selections = "*";
         string tableNames = "resource";  // Table Names. If more than one, surround with parentheses. E.g. (resources, assets)
@@ -89,6 +94,7 @@ public class SqliteController : MonoBehaviour {
             string desc = reader.GetString( reader.GetOrdinal( "description" ) );
             string placename = reader.GetString( reader.GetOrdinal( "placename" ) );
 
+
             int latOrdinal = reader.GetOrdinal( "lat" );
             if( reader.GetFieldType( latOrdinal ) == typeof( string ) ) {
                 string latString = reader.GetString( latOrdinal );
@@ -103,6 +109,12 @@ public class SqliteController : MonoBehaviour {
                     UnpathResource res = obj.AddComponent<UnpathResource>();
                     res.m_LatLng = new LatLng( lat, lng );
                     m_resourceDict.Add( id, res );
+
+                    // added by M
+                    res.resultTextTMP.text = $"Title: {title}, ID: {id}, Description: {desc}, Place Name: {placename}";
+                    // Debug log to check if text is being set correctly
+                    Debug.Log($"Setting text for {res.name}: {res.resultTextTMP.text}");
+
                     ++count;
                 }
             }
@@ -186,6 +198,7 @@ public class SqliteController : MonoBehaviour {
     }
 
     public void RunQuery() {
+       
         StringBuilder builder = new StringBuilder();
         for( int i = 0, len = m_currentQueryList.Count; i < len; i++ ) {
             builder.Append( m_currentQueryList[i] );
@@ -214,6 +227,19 @@ public class SqliteController : MonoBehaviour {
                     obj.transform.SetParent( m_root.transform );
                     UnpathResource res = obj.AddComponent<UnpathResource>();
                     res.m_LatLng = new LatLng( lat, lng );
+
+                    //added by M
+                    // Find the TextMeshProUGUI component in child objects
+                    //TextMeshProUGUI textMeshPro = obj.GetComponentInChildren<TextMeshProUGUI>();
+                    TextMeshProUGUI textMeshPro = obj.GetComponentInChildren<TextMeshProUGUI>(true);
+                    // Check if the TextMeshProUGUI component is found
+                    if (textMeshPro != null)
+                    {
+                        textMeshPro.text = $"Title: {title}";
+                        //textMeshPro.text = $"Title: {title}, ID: {id}, Description: {desc}, Place Name: {placename}";
+                    }
+                    // 
+
                     m_resourceDict.Add( id, res );
                     ++count;
                 }

@@ -10,7 +10,7 @@ public class DBUnpathE2 : MonoBehaviour
     public GameObject objectToSpawn;
     public Vector3 origin = Vector3.zero;
     public float radius = 10;
-    public TMP_Text resultsText;
+    //public TMP_Text resultsText;
 
     //list for database results to be collated once sql query executed
     public List<Results> results = new List<Results>();
@@ -28,7 +28,7 @@ public class DBUnpathE2 : MonoBehaviour
     void Start()
     {
         // clears any previous result text
-        resultsText.text = "";
+        //resultsText.text = "";
     }
 
     void Update()
@@ -77,7 +77,7 @@ public class DBUnpathE2 : MonoBehaviour
     void ExecuteSQLQuery()
     {
         results.Clear();
-        resultsText.text = "";
+        //resultsText.text = "";
 
         // Create a list to store the dynamically determined tags
         List<string> tags = new List<string>();
@@ -156,7 +156,7 @@ public class DBUnpathE2 : MonoBehaviour
                             textElement.text = title; // Set the text to the title
                         }
 
-                        resultsText.text += title + "\t\t" + "\n";
+                        //resultsText.text += title + "\t\t" + "\n";
                     }
                 }
             }
