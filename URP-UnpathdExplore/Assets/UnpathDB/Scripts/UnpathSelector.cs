@@ -7,6 +7,7 @@ using TMPro;
 
 public class UnpathSelector : MonoBehaviour, IPointerClickHandler {
 
+    public string m_Title;
     public string m_QueryTerm;
     private SqliteController m_databaseController;
 
@@ -51,7 +52,7 @@ public class UnpathSelector : MonoBehaviour, IPointerClickHandler {
         label_TmpPro = GetComponentInChildren<TextMeshProUGUI>(true);
 
         if (label_TmpPro != null) {
-            label_TmpPro.text = m_QueryTerm;
+            label_TmpPro.text = m_Title;
         } else {
             Debug.LogWarning("TextMeshPro component not found on the child GameObject or its descendants.");
         }
