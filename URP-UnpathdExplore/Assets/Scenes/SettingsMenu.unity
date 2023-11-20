@@ -1010,6 +1010,7 @@ GameObject:
   - component: {fileID: 236048238}
   - component: {fileID: 236048240}
   - component: {fileID: 236048239}
+  - component: {fileID: 236048241}
   m_Layer: 5
   m_Name: Panel (1)
   m_TagString: Untagged
@@ -1075,6 +1076,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 236048237}
   m_CullTransparentMesh: 1
+--- !u!114 &236048241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236048237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd6422e6a9c28ae44bab776da771e433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &242931583
 GameObject:
   m_ObjectHideFlags: 0
@@ -1886,12 +1899,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorPairs:
-  - textColor: {r: 0, g: 0, b: 0, a: 0}
-    panelColor: {r: 0.9607844, g: 0.8352942, b: 0.2784314, a: 0}
-  - textColor: {r: 0, g: 0, b: 0, a: 0}
-    panelColor: {r: 1, g: 1, b: 1, a: 0}
-  - textColor: {r: 1, g: 1, b: 1, a: 0}
-    panelColor: {r: 0.16470589, g: 0.32941177, b: 0.4745098, a: 0}
+  - textColor: {r: 0, g: 0, b: 0, a: 1}
+    panelColor: {r: 0.9607844, g: 0.8352942, b: 0.2784314, a: 1}
+  - textColor: {r: 0, g: 0, b: 0, a: 1}
+    panelColor: {r: 1, g: 1, b: 1, a: 1}
+  - textColor: {r: 1, g: 1, b: 1, a: 1}
+    panelColor: {r: 0.16470589, g: 0.32941177, b: 0.4745098, a: 1}
 --- !u!1 &332110997
 GameObject:
   m_ObjectHideFlags: 0
@@ -4648,6 +4661,7 @@ GameObject:
   - component: {fileID: 1139718081}
   - component: {fileID: 1139718083}
   - component: {fileID: 1139718082}
+  - component: {fileID: 1139718084}
   m_Layer: 5
   m_Name: Panel (2)
   m_TagString: Untagged
@@ -4713,6 +4727,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1139718080}
   m_CullTransparentMesh: 1
+--- !u!114 &1139718084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1139718080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd6422e6a9c28ae44bab776da771e433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1225303679
 GameObject:
   m_ObjectHideFlags: 0
@@ -4833,7 +4859,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1225303681}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 329830914}
+        m_TargetAssemblyTypeName: UIColorManager, Assembly-CSharp
+        m_MethodName: ChangeColor
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1240479650
 GameObject:
   m_ObjectHideFlags: 0
@@ -5294,6 +5332,7 @@ GameObject:
   - component: {fileID: 1293109309}
   - component: {fileID: 1293109311}
   - component: {fileID: 1293109310}
+  - component: {fileID: 1293109312}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -5417,6 +5456,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1293109308}
   m_CullTransparentMesh: 1
+--- !u!114 &1293109312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1293109308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd6422e6a9c28ae44bab776da771e433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1340365629
 GameObject:
   m_ObjectHideFlags: 0
@@ -5943,13 +5994,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 329830910}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 329830914}
+        m_TargetAssemblyTypeName: UIColorManager, Assembly-CSharp
+        m_MethodName: ChangeColor
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -6351,7 +6402,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1570691698}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 329830914}
+        m_TargetAssemblyTypeName: UIColorManager, Assembly-CSharp
+        m_MethodName: ChangeColor
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1571186164
 GameObject:
   m_ObjectHideFlags: 0
@@ -6971,6 +7034,7 @@ GameObject:
   - component: {fileID: 1759371283}
   - component: {fileID: 1759371285}
   - component: {fileID: 1759371284}
+  - component: {fileID: 1759371286}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -7094,6 +7158,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1759371282}
   m_CullTransparentMesh: 1
+--- !u!114 &1759371286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759371282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd6422e6a9c28ae44bab776da771e433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1789111288
 GameObject:
   m_ObjectHideFlags: 0
