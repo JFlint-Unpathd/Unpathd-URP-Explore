@@ -27,16 +27,16 @@ public class UIColorSetter : MonoBehaviour
         {
             if (textComponent != null)
             {
-                Debug.Log("Setting text color to: " + UIColorManager.Instance.CurrentColors.textColor);
+                //Debug.Log("Setting text color to: " + UIColorManager.Instance.CurrentColors.textColor);
                 textComponent.color = UIColorManager.Instance.CurrentColors.textColor;
-                Debug.Log("color set");
+                //Debug.Log("color set");
             }
 
             if (imageComponent != null)
             {
-                Debug.Log("Setting panel color to: " + UIColorManager.Instance.CurrentColors.panelColor);
+                //Debug.Log("Setting panel color to: " + UIColorManager.Instance.CurrentColors.panelColor);
                 imageComponent.color = UIColorManager.Instance.CurrentColors.panelColor;
-                Debug.Log("color set");
+                //Debug.Log("color set");
             }
         }
     }
