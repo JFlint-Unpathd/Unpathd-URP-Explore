@@ -9,10 +9,14 @@ using TMPro;
 public class UpdateTextBoxStyle : MonoBehaviour
 {
     private TMP_Text _textBox;
-
+    private void Awake()
+    {
+        _textBox = GetComponent<TMP_Text>();
+    }
     private void OnEnable()
     {
         FontSizeCustomizer.UpdatedTheTextStyle += UpdateTextStyle;
+        
     }
     
     private void OnDisable()
@@ -20,17 +24,16 @@ public class UpdateTextBoxStyle : MonoBehaviour
         FontSizeCustomizer.UpdatedTheTextStyle -= UpdateTextStyle;
     }
 
-    private void Awake()
-    {
-        _textBox = GetComponent<TMP_Text>();
-    }
-    
     private void UpdateTextStyle(string styleName)
     {
+        Debug.Log($"UpdateTextStyle called with styleName: {styleName}");
+
         if (_textBox.textStyle.name != styleName)
             return;
+        Debug.Log("StyleNameError");
         
         _textBox.textStyle = TMP_Settings.defaultStyleSheet.GetStyle(styleName);
+        Debug.Log("Updated the text style from FontSizeCustomizer script");
         
         int lastPage = _textBox.textInfo.pageCount - 1;
         

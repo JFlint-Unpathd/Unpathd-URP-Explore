@@ -40,7 +40,9 @@ public class FontSizeCustomizer : MonoBehaviour
             openingDefinitionField.SetValue(style, modifiedOpeningDefinition);
 
         style.RefreshStyle();
+        //Debug.Log("style refreshed");
         
         UpdatedTheTextStyle?.Invoke(styleName);
+        //Debug.Log("update text style");
     }
 }
