@@ -6,6 +6,7 @@ using UnityEngine;
 using System.Collections;
 using System.Text;
 using TMPro;
+using UnityEngine.XR.Interaction.Toolkit;
 
 
 public class SqliteController : MonoBehaviour {
@@ -31,6 +32,11 @@ public class SqliteController : MonoBehaviour {
     private List<string> m_orQueryList = new List<string>();
     private List<string> m_andQueryList = new List<string>();
     private List<string> m_currentQueryList = new List<string>();
+
+    //added by M 
+    // The list of currently selected UnpathResource objects.for zoom logic
+    private List<UnpathResource> selectionList = new List<UnpathResource>();
+    //... 
     public enum QueryType {
         None,
         And,
@@ -228,6 +234,14 @@ public class SqliteController : MonoBehaviour {
                     UnpathResource res = obj.AddComponent<UnpathResource>();
                     res.m_LatLng = new LatLng( lat, lng );
 
+                    //added by M for Zoom logic
+                    // Get the XRSimpleInteractable component and set up the OnSelect event.
+                    XRSimpleInteractable interactable = obj.GetComponent<XRSimpleInteractable>();
+                    interactable.onSelectEntered.AddListener((interactor) => {
+                        OnResourceSelected(id);
+                        StartCoroutine(DeactivateUnselectedAfterSeconds(5));
+                    });
+
                     //added by M
                     // Find the TextMeshProUGUI component in child objects
                     //TextMeshProUGUI textMeshPro = obj.GetComponentInChildren<TextMeshProUGUI>();
@@ -248,5 +262,28 @@ public class SqliteController : MonoBehaviour {
         StaticBatchingUtility.Combine( m_root );
         Debug.Log( $"Object count: {count}" );
     }
+    
+    // added by M for zoom logic
+    private void OnResourceSelected(string selectedId) {
+        UnpathResource selectedResource = m_resourceDict[selectedId];
+        if (selectedResource.IsSelected) {
+            // If the resource is already selected, deselect it.
+            selectedResource.IsSelected = false;
+            selectionList.Remove(selectedResource);
+        } else {
+            // Otherwise, select the resource.
+            selectedResource.IsSelected = true;
+            selectionList.Add(selectedResource);
+        }
+    }
 
+    private IEnumerator DeactivateUnselectedAfterSeconds(float seconds) {
+        yield return new WaitForSecondsRealtime(seconds);
+        foreach (var resource in m_resourceDict.Values) {
+            if (!selectionList.Contains(resource)) {
+                resource.gameObject.SetActive(false);
+            }
+        }
+    }
+    //......
 }
