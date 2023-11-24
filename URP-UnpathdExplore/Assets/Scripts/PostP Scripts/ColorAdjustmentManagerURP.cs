@@ -3,6 +3,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using TMPro;
 
 public class ColorAdjustmentsManagerURP : MonoBehaviour
 {
@@ -10,13 +11,13 @@ public class ColorAdjustmentsManagerURP : MonoBehaviour
     private ColorAdjustments colorAdjustments;
 
     [Header("UI Values")]
-    [SerializeField] private Text postExposureValueText;
-    [SerializeField] private Text contrastValueText;
-    [SerializeField] private Text saturationValueText;
-    [SerializeField] private Text hueShiftValueText;
+    [SerializeField] private TMP_Text postExposureValueText;
+    [SerializeField] private TMP_Text contrastValueText;
+    [SerializeField] private TMP_Text saturationValueText;
+    [SerializeField] private TMP_Text hueShiftValueText;
 
     [Header("UI Dropdown")]
-    [SerializeField] private Dropdown colorDropdown;
+    [SerializeField] private TMP_Dropdown colorDropdown;
     List<string> colColorDropdown = new List<string> { "White", "Green", "Red", "Blue", "Black" };
 
 

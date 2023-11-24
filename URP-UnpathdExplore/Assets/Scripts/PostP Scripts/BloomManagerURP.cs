@@ -3,6 +3,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using TMPro;
 
 public class BloomManagerURP : MonoBehaviour
 {
@@ -10,12 +11,12 @@ public class BloomManagerURP : MonoBehaviour
     private Bloom _bloom;
 
     [Header("UI Dropdowns")]
-    [SerializeField] private Dropdown bloomColorDropdown;
+    [SerializeField] private TMP_Dropdown bloomColorDropdown;
     List<string> bloomDropdownColor = new List<string> { "White", "Green", "Red", "Blue", "Black" };
 
     [Header("UI Values")]
-    [SerializeField] private Text bloomIntensityValueText;
-    [SerializeField] private Text bloomThresholdValueText;
+    [SerializeField] private TMP_Text bloomIntensityValueText;
+    [SerializeField] private TMP_Text bloomThresholdValueText;
     
 
     private void Start()

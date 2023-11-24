@@ -3,20 +3,21 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using TMPro;
 
 public class VignetteManURP : MonoBehaviour
 {
     [Header("Post Processing Volume")]
-    [SerializeField] private Volume _postProcessVolume;
+    private Volume _postProcessVolume;
     private UnityEngine.Rendering.Universal.Vignette _vignette;
 
     [Header("UI Dropdowns")]
-    [SerializeField] private Dropdown vignetteColorDropdown;
+    [SerializeField] private TMP_Dropdown vignetteColorDropdown;
     List<string> vignetteDropdownColor = new List<string> { "White", "Green", "Red", "Blue", "Black" };
 
     [Header("UI Values")]
-    [SerializeField] private Text vignetteIntensityValueText;
-    [SerializeField] private Text vignetteSmoothnessValueText;
+    [SerializeField] private TMP_Text vignetteIntensityValueText;
+    [SerializeField] private TMP_Text vignetteSmoothnessValueText;
 
 
 
