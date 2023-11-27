@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Mono.Data.Sqlite;
 using System.Data;
 using System.IO;
+using System;
 using UnityEngine;
 using System.Collections;
 using System.Text;
@@ -58,7 +59,9 @@ public class SqliteController : MonoBehaviour {
         if( !File.Exists( dbPath ) ) {
             StartCoroutine( CopyFromStreamingAssetsToPersistentData() );
         } else {
+
             InitDB( dbPath );
+            Debug.Log($"Database Schema: {GetDatabaseSchema()}");
         }
 
     }
@@ -69,9 +72,9 @@ public class SqliteController : MonoBehaviour {
     }
 
     // ADDED TODAY
-    public SqliteDataReader ExecuteJoinCommand(string selections, string primaryTable, string joinTable, string PK, string matches)
+    public SqliteDataReader ExecuteJoinCommand(string selections, string tableNames, string PK, string matches)
     {
-    string commandText = string.Format(SelectFromWithJoinDBTemplate, selections, primaryTable, joinTable, primaryTable, PK, matches);
+    string commandText = string.Format(SelectFromWithJoinDBTemplate, selections, tableNames, PK, matches);
     m_command.CommandText = commandText;
     Debug.Log(m_command.CommandText);
     return m_command.ExecuteReader();
@@ -86,13 +89,30 @@ public class SqliteController : MonoBehaviour {
     // }
 
 
-    private void InitDB( string dbPath ) {
-        m_connection = new SqliteConnection( "URI=file:" + dbPath );
-        m_connection.Open();
-        m_command = m_connection.CreateCommand();
+    // private void InitDB( string dbPath ) {
+    //     m_connection = new SqliteConnection( "URI=file:" + dbPath );
+    //     m_connection.Open();
+    //     m_command = m_connection.CreateCommand();
 
-        //InstanciateAllAtLatLng();
+    //     //InstanciateAllAtLatLng();
+    // }
+
+    //added today
+        private void InitDB(string dbPath)
+    {
+        try
+        {
+            m_connection = new SqliteConnection("URI=file:" + dbPath);
+            m_connection.Open();
+            m_command = m_connection.CreateCommand();
+            Debug.Log("Database initialized successfully.");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error during database initialization: {ex.Message}");
+        }
     }
+
 
     /// <summary>
     /// Test function for queries and layout.
@@ -216,12 +236,75 @@ public class SqliteController : MonoBehaviour {
         }
     }
 
+   
+    
+   private string GetDatabaseSchema()
+{
+    m_command.CommandText = "SELECT name FROM sqlite_master WHERE type='table';";
+    StringBuilder schemaBuilder = new StringBuilder("Tables in Database:\n");
+
+    try
+    {
+        using (var reader = m_command.ExecuteReader())
+        {
+            while (reader.Read())
+            {
+                string tableName = reader.GetString(0);
+                schemaBuilder.AppendLine(tableName);
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        // Log any exceptions for debugging
+        Debug.LogError($"Error getting database schema: {ex.Message}");
+    }
+
+    return schemaBuilder.ToString();
+}
+
+
     public void ResetQuery() {
         m_currentQueryList.Clear();
     }
 
+    
+    private bool IsTablePresent(string tableName) {
+        m_command.CommandText = $"SELECT name FROM sqlite_master WHERE type='table' AND name='{tableName}'";
+
+        try {
+            var result = m_command.ExecuteScalar();
+            bool isPresent = result != null && result.ToString() == tableName;
+
+            // Log debugging information
+            Debug.Log($"Is '{tableName}' table present: {isPresent}");
+
+            return isPresent;
+        } catch (Exception ex) {
+            // Log any exceptions for debugging
+            Debug.LogError($"Error checking if '{tableName}' table is present: {ex.Message}");
+            return false;
+        }
+    }
+
+         
+
     public void RunQuery() {
-       
+        
+         Debug.Log($"Join Query: {m_command.CommandText}");
+
+        // Check if 'resource' table is present
+        if (!IsTablePresent("resource")) {
+            Debug.LogError("Error: 'resource' table not present");
+            return;
+        }
+
+        // Check if 'extra' table is present
+        if (!IsTablePresent("extra")) {
+            Debug.LogError("Error: 'extra' table not present");
+            return;
+    }
+
         StringBuilder builder = new StringBuilder();
         for( int i = 0, len = m_currentQueryList.Count; i < len; i++ ) {
             builder.Append( m_currentQueryList[i] );
@@ -233,15 +316,14 @@ public class SqliteController : MonoBehaviour {
 
         //added today
         string selections = "resource.*, extra.*"; // Adjust the columns as needed
-        string primaryTable = "resource";
-        string joinTable = "extra";
-        string commonId = "PK"; // Adjust to your common primary key column
+        string tableNames = "resource, extra";
+        string commonId = "PK";
         int count = 0;
 
 
         //SqliteDataReader reader = ExecuteCommand( selections, tableNames, builder.ToString() );
         //ADDED TODAY
-        SqliteDataReader reader = ExecuteJoinCommand(selections, primaryTable, joinTable, commonId, builder.ToString());
+        SqliteDataReader reader = ExecuteJoinCommand(selections, tableNames, commonId, builder.ToString());
         while( reader.Read() ) {
             string title = reader.GetString( reader.GetOrdinal( "title" ) ); // this could be optimized to just use the bare integer, once the table layout has been finalised.
             string id = reader.GetString( reader.GetOrdinal( "ids" ) );
