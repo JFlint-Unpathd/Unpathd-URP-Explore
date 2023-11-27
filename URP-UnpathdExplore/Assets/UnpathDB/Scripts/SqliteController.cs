@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Mono.Data.Sqlite;
 using System.Data;
 using System.IO;
-using System;
 using UnityEngine;
 using System.Collections;
 using System.Text;
@@ -23,12 +22,8 @@ public class SqliteController : MonoBehaviour {
 
     private string SelectAllDBTemplate = "SELECT * FROM resource";
     private string SelectFromDBTemplate = @"SELECT {0} FROM {1} WHERE {2}";
-    //private string SelectFromWithJoinDBTemplate = @"SELECT {0} FROM {1} JOIN {2} ON {3}";
-    
-    //ADDED TODAY
-    private string SelectFromWithJoinDBTemplate = @"SELECT {0} FROM {1} JOIN {2} ON {3}.PK = {2}.PK";
-
-    
+    private string SelectFromWithJoinDBTemplate = @"SELECT {0} FROM {1} JOIN {2} ON {3}";
+   
 
     private SqliteConnection m_connection;
     private SqliteCommand m_command;
@@ -59,9 +54,7 @@ public class SqliteController : MonoBehaviour {
         if( !File.Exists( dbPath ) ) {
             StartCoroutine( CopyFromStreamingAssetsToPersistentData() );
         } else {
-
             InitDB( dbPath );
-            Debug.Log($"Database Schema: {GetDatabaseSchema()}");
         }
 
     }
@@ -71,17 +64,17 @@ public class SqliteController : MonoBehaviour {
         m_connection?.Dispose();
     }
 
-    // ADDED TODAY
-    public SqliteDataReader ExecuteJoinCommand(string selections, string tableNames, string PK, string matches)
-    {
-    string commandText = string.Format(SelectFromWithJoinDBTemplate, selections, tableNames, PK, matches);
+    //added today
+    
+    public SqliteDataReader ExecuteCommandWithJoin( string selections, string tableNames, string joinTable, string joinCondition, string matches ) {
+    string commandText = $"SELECT {selections} FROM {tableNames} JOIN {joinTable} ON {joinCondition} WHERE {matches}";
     m_command.CommandText = commandText;
-    Debug.Log(m_command.CommandText);
+    Debug.Log( m_command.CommandText );
     return m_command.ExecuteReader();
     }
 
 
-    //orig
+   
     // public SqliteDataReader ExecuteCommand( string selections, string tableNames, string matches ) {
     //     m_command.CommandText = string.Format( SelectFromDBTemplate, selections, tableNames, matches );
     //     Debug.Log( m_command.CommandText );
@@ -89,82 +82,15 @@ public class SqliteController : MonoBehaviour {
     // }
 
 
-    // private void InitDB( string dbPath ) {
-    //     m_connection = new SqliteConnection( "URI=file:" + dbPath );
-    //     m_connection.Open();
-    //     m_command = m_connection.CreateCommand();
+    private void InitDB( string dbPath ) {
+        m_connection = new SqliteConnection( "URI=file:" + dbPath );
+        m_connection.Open();
+        m_command = m_connection.CreateCommand();
 
-    //     //InstanciateAllAtLatLng();
-    // }
-
-    //added today
-        private void InitDB(string dbPath)
-    {
-        try
-        {
-            m_connection = new SqliteConnection("URI=file:" + dbPath);
-            m_connection.Open();
-            m_command = m_connection.CreateCommand();
-            Debug.Log("Database initialized successfully.");
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError($"Error during database initialization: {ex.Message}");
-        }
+        //InstanciateAllAtLatLng();
     }
 
-
-    /// <summary>
-    /// Test function for queries and layout.
-    /// </summary>
-    public void InstanciateAllAtLatLng() {
-        Debug.Log("InstanciateAllAtLatLng method called");
-
-        //private string SelectFromDBTemplate = @"SELECT {0} FROM {1} WHERE {2}";
-        string selections = "*";
-        string tableNames = "resource";  // Table Names. If more than one, surround with parentheses. E.g. (resources, assets)
-        string matches = "placename LIKE '%orkney%'";
-
-        GameObject root = new GameObject( "root" );
-        int count = 0;
-
-        //SqliteDataReader reader = ExecuteCommand( selections, tableNames, matches );
-        m_command.CommandText = SelectAllDBTemplate;
-        SqliteDataReader reader = m_command.ExecuteReader();
-        while( reader.Read() ) {
-            string title = reader.GetString( reader.GetOrdinal( "title" ) );
-            string id = reader.GetString( reader.GetOrdinal( "ids" ) );
-            string desc = reader.GetString( reader.GetOrdinal( "description" ) );
-            string placename = reader.GetString( reader.GetOrdinal( "placename" ) );
-
-
-            int latOrdinal = reader.GetOrdinal( "lat" );
-            if( reader.GetFieldType( latOrdinal ) == typeof( string ) ) {
-                string latString = reader.GetString( latOrdinal );
-                string lngString = reader.GetString( reader.GetOrdinal( "lng" ) );
-                double lat = 0f;
-                double lng = 0f;
-                if( double.TryParse( latString, out lat ) && double.TryParse( lngString, out lng ) ) {
-                    GameObject obj;
-                    obj = Instantiate( m_ResourcePrefab, new Vector3( (float)lng, 0f, (float)(lat - 50.0) ), Quaternion.identity );
-                    obj.name = title + "__" + id;
-                    obj.transform.SetParent( root.transform );
-                    UnpathResource res = obj.AddComponent<UnpathResource>();
-                    res.m_LatLng = new LatLng( lat, lng );
-                    m_resourceDict.Add( id, res );
-
-                    // added by M
-                    res.resultTextTMP.text = $"Title: {title}, ID: {id}, Description: {desc}, Place Name: {placename}";
-                    // Debug log to check if text is being set correctly
-                    Debug.Log($"Setting text for {res.name}: {res.resultTextTMP.text}");
-
-                    ++count;
-                }
-            }
-        }
-        StaticBatchingUtility.Combine( root );
-        Debug.Log( $"Object count: {count}" );
-    }
+    
 
     /// <summary>
     /// The actual database file needs to be read from disk, but streaming it as an object every time is a pain so copy it to persistent data folder.
@@ -236,75 +162,12 @@ public class SqliteController : MonoBehaviour {
         }
     }
 
-   
-    
-   private string GetDatabaseSchema()
-{
-    m_command.CommandText = "SELECT name FROM sqlite_master WHERE type='table';";
-    StringBuilder schemaBuilder = new StringBuilder("Tables in Database:\n");
-
-    try
-    {
-        using (var reader = m_command.ExecuteReader())
-        {
-            while (reader.Read())
-            {
-                string tableName = reader.GetString(0);
-                schemaBuilder.AppendLine(tableName);
-            }
-        }
-    }
-    catch (Exception ex)
-    {
-        // Log any exceptions for debugging
-        Debug.LogError($"Error getting database schema: {ex.Message}");
-    }
-
-    return schemaBuilder.ToString();
-}
-
-
     public void ResetQuery() {
         m_currentQueryList.Clear();
     }
 
-    
-    private bool IsTablePresent(string tableName) {
-        m_command.CommandText = $"SELECT name FROM sqlite_master WHERE type='table' AND name='{tableName}'";
-
-        try {
-            var result = m_command.ExecuteScalar();
-            bool isPresent = result != null && result.ToString() == tableName;
-
-            // Log debugging information
-            Debug.Log($"Is '{tableName}' table present: {isPresent}");
-
-            return isPresent;
-        } catch (Exception ex) {
-            // Log any exceptions for debugging
-            Debug.LogError($"Error checking if '{tableName}' table is present: {ex.Message}");
-            return false;
-        }
-    }
-
-         
-
     public void RunQuery() {
-        
-         Debug.Log($"Join Query: {m_command.CommandText}");
-
-        // Check if 'resource' table is present
-        if (!IsTablePresent("resource")) {
-            Debug.LogError("Error: 'resource' table not present");
-            return;
-        }
-
-        // Check if 'extra' table is present
-        if (!IsTablePresent("extra")) {
-            Debug.LogError("Error: 'extra' table not present");
-            return;
-    }
-
+       
         StringBuilder builder = new StringBuilder();
         for( int i = 0, len = m_currentQueryList.Count; i < len; i++ ) {
             builder.Append( m_currentQueryList[i] );
@@ -313,17 +176,15 @@ public class SqliteController : MonoBehaviour {
         // string selections = "*";
         // string tableNames = "resource";
         // int count = 0;
+        // SqliteDataReader reader = ExecuteCommand( selections, tableNames, builder.ToString() );
 
-        //added today
-        string selections = "resource.*, extra.*"; // Adjust the columns as needed
-        string tableNames = "resource, extra";
-        string commonId = "PK";
+        string selections = "*";
+        string tableNames = "resource";
+        string joinTable = "extra";
+        string joinCondition = "resource.PK=extra.PK";
         int count = 0;
 
-
-        //SqliteDataReader reader = ExecuteCommand( selections, tableNames, builder.ToString() );
-        //ADDED TODAY
-        SqliteDataReader reader = ExecuteJoinCommand(selections, tableNames, commonId, builder.ToString());
+        SqliteDataReader reader = ExecuteCommandWithJoin( selections, tableNames, joinTable, joinCondition, builder.ToString() );
         while( reader.Read() ) {
             string title = reader.GetString( reader.GetOrdinal( "title" ) ); // this could be optimized to just use the bare integer, once the table layout has been finalised.
             string id = reader.GetString( reader.GetOrdinal( "ids" ) );
