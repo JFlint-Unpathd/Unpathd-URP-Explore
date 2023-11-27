@@ -22,7 +22,12 @@ public class SqliteController : MonoBehaviour {
 
     private string SelectAllDBTemplate = "SELECT * FROM resource";
     private string SelectFromDBTemplate = @"SELECT {0} FROM {1} WHERE {2}";
-    private string SelectFromWithJoinDBTemplate = @"SELECT {0} FROM {1} JOIN {2} ON {3}";
+    //private string SelectFromWithJoinDBTemplate = @"SELECT {0} FROM {1} JOIN {2} ON {3}";
+    
+    //ADDED TODAY
+    private string SelectFromWithJoinDBTemplate = @"SELECT {0} FROM {1} JOIN {2} ON {3}.PK = {2}.PK";
+
+    
 
     private SqliteConnection m_connection;
     private SqliteCommand m_command;
@@ -63,11 +68,23 @@ public class SqliteController : MonoBehaviour {
         m_connection?.Dispose();
     }
 
-    public SqliteDataReader ExecuteCommand( string selections, string tableNames, string matches ) {
-        m_command.CommandText = string.Format( SelectFromDBTemplate, selections, tableNames, matches );
-        Debug.Log( m_command.CommandText );
-        return m_command.ExecuteReader();
+    // ADDED TODAY
+    public SqliteDataReader ExecuteJoinCommand(string selections, string primaryTable, string joinTable, string PK, string matches)
+    {
+    string commandText = string.Format(SelectFromWithJoinDBTemplate, selections, primaryTable, joinTable, primaryTable, PK, matches);
+    m_command.CommandText = commandText;
+    Debug.Log(m_command.CommandText);
+    return m_command.ExecuteReader();
     }
+
+
+    //orig
+    // public SqliteDataReader ExecuteCommand( string selections, string tableNames, string matches ) {
+    //     m_command.CommandText = string.Format( SelectFromDBTemplate, selections, tableNames, matches );
+    //     Debug.Log( m_command.CommandText );
+    //     return m_command.ExecuteReader();
+    // }
+
 
     private void InitDB( string dbPath ) {
         m_connection = new SqliteConnection( "URI=file:" + dbPath );
@@ -209,16 +226,28 @@ public class SqliteController : MonoBehaviour {
         for( int i = 0, len = m_currentQueryList.Count; i < len; i++ ) {
             builder.Append( m_currentQueryList[i] );
         }
-        string selections = "*";
-        string tableNames = "resource";
+        
+        // string selections = "*";
+        // string tableNames = "resource";
+        // int count = 0;
+
+        //added today
+        string selections = "resource.*, extra.*"; // Adjust the columns as needed
+        string primaryTable = "resource";
+        string joinTable = "extra";
+        string commonId = "PK"; // Adjust to your common primary key column
         int count = 0;
 
-        SqliteDataReader reader = ExecuteCommand( selections, tableNames, builder.ToString() );
+
+        //SqliteDataReader reader = ExecuteCommand( selections, tableNames, builder.ToString() );
+        //ADDED TODAY
+        SqliteDataReader reader = ExecuteJoinCommand(selections, primaryTable, joinTable, commonId, builder.ToString());
         while( reader.Read() ) {
             string title = reader.GetString( reader.GetOrdinal( "title" ) ); // this could be optimized to just use the bare integer, once the table layout has been finalised.
             string id = reader.GetString( reader.GetOrdinal( "ids" ) );
             string desc = reader.GetString( reader.GetOrdinal( "description" ) );
             string placename = reader.GetString( reader.GetOrdinal( "placename" ) );
+
 
             int latOrdinal = reader.GetOrdinal( "lat" );
             if( reader.GetFieldType( latOrdinal ) == typeof( string ) ) {
