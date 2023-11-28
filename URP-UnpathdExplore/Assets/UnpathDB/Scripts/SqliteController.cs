@@ -66,6 +66,8 @@ public class SqliteController : MonoBehaviour {
         //added by M for zoom logic
         XRGrabInteractable grabInteractable = zoomObject.GetComponent<XRGrabInteractable>();
 
+        grabInteractable.onHoverEntered.AddListener(HandleHoverEnter);
+        grabInteractable.onHoverExited.AddListener(HandleHoverExit);
         grabInteractable.onSelectEntered.AddListener(HandleSelectEnter);
         grabInteractable.onSelectExited.AddListener(HandleSelectExit);
     }
@@ -248,9 +250,8 @@ public class SqliteController : MonoBehaviour {
             UnpathResource selectedResource = m_resourceDict[selectedId];
             if (selectedResource.IsSelected) {
 
-            Debug.Log("Already Selected");
+            //Debug.Log("Already Selected");
             zoomObject.SetActive(true);
-            
 
                 // // If the resource is already selected, deselect it.
                 // selectedResource.IsSelected = false;
@@ -270,37 +271,36 @@ public class SqliteController : MonoBehaviour {
             }
         }
 
-        public void DeactivateUnselected() {
-            foreach (var resource in m_resourceDict.Values) {
-                if (!selectionList.Contains(resource)) {
-                    resource.gameObject.SetActive(false);
-                }
-            }
-        }
-
-        public void ReactivateUnselected()
-        {
-            foreach (var resource in m_resourceDict.Values)
-            {
-                if (!selectionList.Contains(resource))
-                {
-                    resource.gameObject.SetActive(true);
-                }
-            }
-        }
         
         
-        private void HandleSelectEnter(XRBaseInteractor interactor)
+        private void HandleHoverEnter(XRBaseInteractor interactor)
         {
             // Toggle the activation status each time the interactable is selected
             isActivated = !isActivated;
             ToggleActivation(isActivated);
         }
 
-        private void HandleSelectExit(XRBaseInteractor interactor)
+        private void HandleHoverExit(XRBaseInteractor interactor)
         {
             // Add any necessary behavior when the interactable is deselected
         }
+
+        private void HandleSelectEnter(XRBaseInteractor interactor) {
+        // Toggle the activation status each time the interactable is selected
+        isActivated = !isActivated;
+        ToggleActivation(isActivated);
+        if (isActivated) {
+            ClearSelection();
+        }
+        }
+
+        private void HandleSelectExit(XRBaseInteractor interactor) {
+        // Add any necessary behavior when the interactable is deselected
+        // if (isActivated) {
+        //     ClearSelection();
+        // }
+        }
+
 
         public void ToggleActivation(bool activate) 
         {
@@ -311,6 +311,15 @@ public class SqliteController : MonoBehaviour {
                     resource.gameObject.SetActive(activate);
                 }
             }
+        }
+        
+
+        public void ClearSelection() {
+        foreach (var selectedResource in selectionList) {
+            selectedResource.IsSelected = false;
+            selectedResource.GetComponent<Renderer>().material = originalMaterial;
+        }
+        selectionList.Clear();
         }
 
 }
