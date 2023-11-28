@@ -35,9 +35,15 @@ public class SqliteController : MonoBehaviour {
     private List<string> m_currentQueryList = new List<string>();
 
     //added by M 
-    // The list of currently selected UnpathResource objects.for zoom logic
+    // The list of currently selected UnpathResource objects for zoom logic
     private List<UnpathResource> selectionList = new List<UnpathResource>();
+    public Material selectionColor;
+    public Material originalMaterial;
+    
+    public GameObject zoomObject;
+    private bool isActivated = false;
     //... 
+
     public enum QueryType {
         None,
         And,
@@ -56,7 +62,12 @@ public class SqliteController : MonoBehaviour {
         } else {
             InitDB( dbPath );
         }
+        
+        //added by M for zoom logic
+        XRGrabInteractable grabInteractable = zoomObject.GetComponent<XRGrabInteractable>();
 
+        grabInteractable.onSelectEntered.AddListener(HandleSelectEnter);
+        grabInteractable.onSelectExited.AddListener(HandleSelectExit);
     }
 
     private void OnDestroy() {
@@ -64,17 +75,15 @@ public class SqliteController : MonoBehaviour {
         m_connection?.Dispose();
     }
 
-    //added today
-    
+    //added by Maria
     public SqliteDataReader ExecuteCommandWithJoin( string selections, string tableNames, string joinTable, string joinCondition, string matches ) {
-    string commandText = $"SELECT {selections} FROM {tableNames} JOIN {joinTable} ON {joinCondition} WHERE {matches}";
+    string commandText = $"SELECT {selections} FROM {tableNames} LEFT JOIN {joinTable} ON {joinCondition} WHERE {matches}";
     m_command.CommandText = commandText;
     Debug.Log( m_command.CommandText );
     return m_command.ExecuteReader();
     }
 
-
-   
+    // ORIGINAL BY BRUCE
     // public SqliteDataReader ExecuteCommand( string selections, string tableNames, string matches ) {
     //     m_command.CommandText = string.Format( SelectFromDBTemplate, selections, tableNames, matches );
     //     Debug.Log( m_command.CommandText );
@@ -173,6 +182,7 @@ public class SqliteController : MonoBehaviour {
             builder.Append( m_currentQueryList[i] );
         }
         
+        // Original by Bruce
         // string selections = "*";
         // string tableNames = "resource";
         // int count = 0;
@@ -206,25 +216,23 @@ public class SqliteController : MonoBehaviour {
                     UnpathResource res = obj.AddComponent<UnpathResource>();
                     res.m_LatLng = new LatLng( lat, lng );
 
+                     
+
                     //added by M for Zoom logic
-                    // Get the XRSimpleInteractable component and set up the OnSelect event.
+                    //Get the XRSimpleInteractable component and set up the OnSelect event.
                     XRSimpleInteractable interactable = obj.GetComponent<XRSimpleInteractable>();
-                    interactable.onSelectEntered.AddListener((interactor) => {
+                    interactable.onHoverEntered.AddListener((interactor) => {
                         OnResourceSelected(id);
-                        StartCoroutine(DeactivateUnselectedAfterSeconds(5));
                     });
 
                     //added by M
                     // Find the TextMeshProUGUI component in child objects
-                    //TextMeshProUGUI textMeshPro = obj.GetComponentInChildren<TextMeshProUGUI>();
                     TextMeshProUGUI textMeshPro = obj.GetComponentInChildren<TextMeshProUGUI>(true);
-                    // Check if the TextMeshProUGUI component is found
                     if (textMeshPro != null)
                     {
                         textMeshPro.text = $"Title: {title}";
                         //textMeshPro.text = $"Title: {title}, ID: {id}, Description: {desc}, Place Name: {placename}";
                     }
-                    // 
 
                     m_resourceDict.Add( id, res );
                     ++count;
@@ -236,26 +244,73 @@ public class SqliteController : MonoBehaviour {
     }
     
     // added by M for zoom logic
-    private void OnResourceSelected(string selectedId) {
-        UnpathResource selectedResource = m_resourceDict[selectedId];
-        if (selectedResource.IsSelected) {
-            // If the resource is already selected, deselect it.
-            selectedResource.IsSelected = false;
-            selectionList.Remove(selectedResource);
-        } else {
-            // Otherwise, select the resource.
-            selectedResource.IsSelected = true;
-            selectionList.Add(selectedResource);
-        }
-    }
+        private void OnResourceSelected(string selectedId) {
+            UnpathResource selectedResource = m_resourceDict[selectedId];
+            if (selectedResource.IsSelected) {
 
-    private IEnumerator DeactivateUnselectedAfterSeconds(float seconds) {
-        yield return new WaitForSecondsRealtime(seconds);
-        foreach (var resource in m_resourceDict.Values) {
-            if (!selectionList.Contains(resource)) {
-                resource.gameObject.SetActive(false);
+            Debug.Log("Already Selected");
+            zoomObject.SetActive(true);
+            
+
+                // // If the resource is already selected, deselect it.
+                // selectedResource.IsSelected = false;
+                // selectionList.Remove(selectedResource);
+
+                // // Change the material back to the original material.
+                // selectedResource.GetComponent<Renderer>().material = originalMaterial;
+            } 
+
+            else {
+                // Otherwise, select the resource.
+                selectedResource.IsSelected = true;
+                selectionList.Add(selectedResource);
+
+                // Change the material to the selectionColor.
+                selectedResource.GetComponent<Renderer>().material = selectionColor;
             }
         }
-    }
-    //......
+
+        public void DeactivateUnselected() {
+            foreach (var resource in m_resourceDict.Values) {
+                if (!selectionList.Contains(resource)) {
+                    resource.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        public void ReactivateUnselected()
+        {
+            foreach (var resource in m_resourceDict.Values)
+            {
+                if (!selectionList.Contains(resource))
+                {
+                    resource.gameObject.SetActive(true);
+                }
+            }
+        }
+        
+        
+        private void HandleSelectEnter(XRBaseInteractor interactor)
+        {
+            // Toggle the activation status each time the interactable is selected
+            isActivated = !isActivated;
+            ToggleActivation(isActivated);
+        }
+
+        private void HandleSelectExit(XRBaseInteractor interactor)
+        {
+            // Add any necessary behavior when the interactable is deselected
+        }
+
+        public void ToggleActivation(bool activate) 
+        {
+            foreach (var resource in m_resourceDict.Values) 
+            {
+                if (!selectionList.Contains(resource)) 
+                {
+                    resource.gameObject.SetActive(activate);
+                }
+            }
+        }
+
 }
