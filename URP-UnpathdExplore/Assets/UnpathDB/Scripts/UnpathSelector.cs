@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.UI;
 
 public class UnpathSelector : MonoBehaviour, IPointerClickHandler {
 
@@ -13,12 +15,45 @@ public class UnpathSelector : MonoBehaviour, IPointerClickHandler {
 
     //added by M
     private TextMeshProUGUI label_TmpPro;
+    private Image imageComponent; 
+    private XRGrabInteractable grabInteractable;
+    private bool labelOn = false;
+     
+
+    
+
+    private void Awake()
+    {
+        // Added by M - Cache the components
+        m_databaseController = GameObject.FindWithTag("DB").GetComponent<SqliteController>();
+        label_TmpPro = GetComponentInChildren<TextMeshProUGUI>(true);
+        //Image imageComponent = GetComponentInChildren<Image>(true);
+        imageComponent = transform.Find("Interactable Label").GetComponent<Image>();
+        grabInteractable = GetComponent<XRGrabInteractable>(); 
+    
+    }
+    
+    //...
 
     private void Start() {
-        m_databaseController = GameObject.FindWithTag( "DB" ).GetComponent<SqliteController>();
-
+        // original position of this line
+        //m_databaseController = GameObject.FindWithTag( "DB" ).GetComponent<SqliteController>();
+        
         //added by M
+        grabInteractable.onHoverEntered.AddListener(HandleHoverEnter);
+        grabInteractable.onHoverExited.AddListener(HandleHoverExit);
         UpdateLabelText();
+
+        // Initially hide the label and image
+        if (imageComponent != null)
+        {
+            imageComponent.gameObject.SetActive(false);
+        }
+        if (label_TmpPro != null)
+        {
+            label_TmpPro.gameObject.SetActive(false);
+        }
+ 
 
     }
 
@@ -48,7 +83,6 @@ public class UnpathSelector : MonoBehaviour, IPointerClickHandler {
 
      private void UpdateLabelText() {
 
-        
         label_TmpPro = GetComponentInChildren<TextMeshProUGUI>(true);
 
         if (label_TmpPro != null) {
@@ -57,6 +91,41 @@ public class UnpathSelector : MonoBehaviour, IPointerClickHandler {
             Debug.LogWarning("TextMeshPro component not found on the child GameObject or its descendants.");
         }
     }
+
+    private void HandleHoverEnter(XRBaseInteractor interactor)
+    {
+        
+        labelOn = true;
+        //Image imageComponent = GetComponentInChildren<Image>();
+
+        if (labelOn && imageComponent != null)
+        {
+            imageComponent.gameObject.SetActive(true); // Show the Image
+        }
+
+        if (label_TmpPro != null)
+        {
+            label_TmpPro.gameObject.SetActive(true); // Show the label
+        }
+        
+    }
+
+    private void HandleHoverExit(XRBaseInteractor interactor)
+    {
+        labelOn = false;
+        //Image imageComponent = GetComponentInChildren<Image>();
+
+        if (!labelOn && imageComponent != null)
+        {
+            imageComponent.gameObject.SetActive(false); // Hide the Image
+        }
+
+        if (label_TmpPro != null)
+        {
+            label_TmpPro.gameObject.SetActive(false); // Hide the label
+        }
+    }
+    //....
 
 
 }
