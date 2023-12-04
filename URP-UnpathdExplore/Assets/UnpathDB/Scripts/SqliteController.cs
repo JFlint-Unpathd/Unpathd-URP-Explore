@@ -101,8 +101,6 @@ public class SqliteController : MonoBehaviour {
         //InstanciateAllAtLatLng();
     }
 
-    
-
     /// <summary>
     /// The actual database file needs to be read from disk, but streaming it as an object every time is a pain so copy it to persistent data folder.
     /// </summary>
@@ -218,7 +216,14 @@ public class SqliteController : MonoBehaviour {
                     UnpathResource res = obj.AddComponent<UnpathResource>();
                     res.m_LatLng = new LatLng( lat, lng );
 
-                     
+                    
+              // Assess the temporal column and set y-coordinate based on tags
+                int temporalOrdinal = reader.GetOrdinal("temporal");
+                if (!reader.IsDBNull(temporalOrdinal)) {
+                    string temporalTag = reader.GetString(temporalOrdinal);
+                    float yCoordinate = GetYCoordinateFromTemporalTag(temporalTag);
+                    obj.transform.position = new Vector3(obj.transform.position.x, yCoordinate, obj.transform.position.z);
+                }
 
                     //added by M for Zoom logic
                     //Get the XRSimpleInteractable component and set up the OnSelect event.
@@ -244,6 +249,26 @@ public class SqliteController : MonoBehaviour {
         StaticBatchingUtility.Combine( m_root );
         Debug.Log( $"Object count: {count}" );
     }
+
+    //added today for y logic
+        private float GetYCoordinateFromTemporalTag(string temporalTag) {
+    // Extract the relevant information from the URL
+    string[] parts = temporalTag.Split('/');
+    string lastPart = parts[parts.Length - 1].ToLower().Replace("%20", " "); // Convert to lowercase and replace %20 with space
+
+    // Check for specific keywords in the last part of the URL
+    if (lastPart.Contains("medieval")) {
+        return 1f;
+    } else if (lastPart.Contains("first world war")) {
+        return 2f;
+    } else if (lastPart.Contains("second world war")) {
+        return 3f;
+    } else if (lastPart.Contains("modern")) {
+        return 4f;
+    } else {
+        return 0f; // Default value if the tag is not recognized
+    }
+}
     
     // added by M for zoom logic
         private void OnResourceSelected(string selectedId) {

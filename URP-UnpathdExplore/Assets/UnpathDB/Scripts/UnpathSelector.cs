@@ -79,6 +79,11 @@ public class UnpathSelector : MonoBehaviour, IPointerClickHandler {
 
             Debug.Log($"Selected: {m_QueryTerm} on GameObject: {thisGameObject.name}");
         }
+        //added today to get all results
+        else
+        {
+            Debug.Log("No condition to be passed.");
+        }
     }
 
      private void UpdateLabelText() {
