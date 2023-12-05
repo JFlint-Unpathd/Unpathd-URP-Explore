@@ -9,10 +9,6 @@ using StylizedWater;
 [RequireComponent(typeof(Rigidbody))]
 public class BuoyantObject : MonoBehaviour
 {
-    //added by M
-    private float currentVelocityDrag;
-    private float currentAngularDrag;
-//..
     private Color red = new Color(0.92f, 0.25f, 0.2f);
     private Color green = new Color(0.2f, 0.92f, 0.51f);
     private Color blue = new Color(0.2f, 0.67f, 0.92f);
@@ -54,11 +50,6 @@ public class BuoyantObject : MonoBehaviour
 
         effectorProjections = new Vector3[effectors.Length];
         for (int i = 0; i < effectors.Length; i++) effectorProjections[i] = effectors[i].position;
-
-        //addded By M
-        // Initialize current drag values
-        currentVelocityDrag = velocityDrag;
-        currentAngularDrag = angularDrag;
     }
 
     void OnDisable()
@@ -86,32 +77,16 @@ public class BuoyantObject : MonoBehaviour
             if (effectorHeight < waveHeight) // submerged
             {
                 float submersion = Mathf.Clamp01(waveHeight - effectorHeight) / objectDepth;
-                // ADDED BY M
-                float buoyancyFactor = Mathf.SmoothStep(0f, 1f, submersion);
-                float buoyancy = Mathf.Abs(Physics.gravity.y) * buoyancyFactor * strength;
-
-                // Gradual interpolation for velocity drag
-                currentVelocityDrag = Mathf.Lerp(currentVelocityDrag, velocityDrag, Time.fixedDeltaTime);
-
-                // Gradual interpolation for angular drag
-                currentAngularDrag = Mathf.Lerp(currentAngularDrag, angularDrag, Time.fixedDeltaTime);
-
-                rb.AddForce(-rb.velocity * currentVelocityDrag, ForceMode.VelocityChange);
-                rb.AddTorque(-rb.angularVelocity * currentAngularDrag, ForceMode.Impulse);
-
-                //....
-
-                //ORIGINAL CODE
-                //float buoyancy = Mathf.Abs(Physics.gravity.y) * submersion * strength;
+                float buoyancy = Mathf.Abs(Physics.gravity.y) * submersion * strength;
 
                 // buoyancy
                 rb.AddForceAtPosition(Vector3.up * buoyancy, effectorPosition, ForceMode.Acceleration);
-                
+
                 // drag
-                //rb.AddForce(-rb.velocity * velocityDrag * Time.fixedDeltaTime, ForceMode.VelocityChange);
+                rb.AddForce(-rb.velocity * velocityDrag * Time.fixedDeltaTime, ForceMode.VelocityChange);
 
                 // torque
-                //rb.AddTorque(-rb.angularVelocity * angularDrag * Time.fixedDeltaTime, ForceMode.Impulse);
+                rb.AddTorque(-rb.angularVelocity * angularDrag * Time.fixedDeltaTime, ForceMode.Impulse);
             }
         }
     }
