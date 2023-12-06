@@ -66,10 +66,10 @@ public class SqliteController : MonoBehaviour {
         //added by M for zoom logic
         XRGrabInteractable grabInteractable = zoomObject.GetComponent<XRGrabInteractable>();
 
-        grabInteractable.onHoverEntered.AddListener(HandleHoverEnter);
-        grabInteractable.onHoverExited.AddListener(HandleHoverExit);
-        grabInteractable.onSelectEntered.AddListener(HandleSelectEnter);
-        grabInteractable.onSelectExited.AddListener(HandleSelectExit);
+        grabInteractable.hoverEntered.AddListener(HandleHoverEnter);
+        grabInteractable.hoverExited.AddListener(HandleHoverExit);
+        grabInteractable.selectEntered.AddListener(HandleSelectEnter);
+        grabInteractable.selectExited.AddListener(HandleSelectExit);
     }
 
     private void OnDestroy() {
@@ -228,7 +228,7 @@ public class SqliteController : MonoBehaviour {
                     //added by M for Zoom logic
                     //Get the XRSimpleInteractable component and set up the OnSelect event.
                     XRSimpleInteractable interactable = obj.GetComponent<XRSimpleInteractable>();
-                    interactable.onHoverEntered.AddListener((interactor) => {
+                    interactable.hoverEntered.AddListener((interactor) => {
                         OnResourceSelected(id);
                     });
 
@@ -298,19 +298,19 @@ public class SqliteController : MonoBehaviour {
 
         
         
-        private void HandleHoverEnter(XRBaseInteractor interactor)
+        private void HandleHoverEnter(HoverEnterEventArgs args)
         {
             // Toggle the activation status each time the interactable is selected
             isActivated = !isActivated;
             ToggleActivation(isActivated);
         }
 
-        private void HandleHoverExit(XRBaseInteractor interactor)
+        private void HandleHoverExit(HoverExitEventArgs args)
         {
             // Add any necessary behavior when the interactable is deselected
         }
 
-        private void HandleSelectEnter(XRBaseInteractor interactor) {
+        private void HandleSelectEnter(SelectEnterEventArgs args) {
         // Toggle the activation status each time the interactable is selected
         isActivated = !isActivated;
         ToggleActivation(isActivated);
@@ -319,7 +319,7 @@ public class SqliteController : MonoBehaviour {
         }
         }
 
-        private void HandleSelectExit(XRBaseInteractor interactor) {
+        private void HandleSelectExit(SelectExitEventArgs args) {
         // Add any necessary behavior when the interactable is deselected
         // if (isActivated) {
         //     ClearSelection();

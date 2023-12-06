@@ -40,8 +40,8 @@ public class UnpathSelector : MonoBehaviour, IPointerClickHandler {
         //m_databaseController = GameObject.FindWithTag( "DB" ).GetComponent<SqliteController>();
         
         //added by M
-        grabInteractable.onHoverEntered.AddListener(HandleHoverEnter);
-        grabInteractable.onHoverExited.AddListener(HandleHoverExit);
+        grabInteractable.hoverEntered.AddListener(HandleHoverEnter);
+        grabInteractable.hoverExited.AddListener(HandleHoverExit);
         UpdateLabelText();
 
         // Initially hide the label and image
@@ -97,7 +97,7 @@ public class UnpathSelector : MonoBehaviour, IPointerClickHandler {
         }
     }
 
-    private void HandleHoverEnter(XRBaseInteractor interactor)
+    private void HandleHoverEnter(HoverEnterEventArgs args)
     {
         
         labelOn = true;
@@ -115,7 +115,7 @@ public class UnpathSelector : MonoBehaviour, IPointerClickHandler {
         
     }
 
-    private void HandleHoverExit(XRBaseInteractor interactor)
+    private void HandleHoverExit(HoverExitEventArgs args)
     {
         labelOn = false;
         //Image imageComponent = GetComponentInChildren<Image>();
