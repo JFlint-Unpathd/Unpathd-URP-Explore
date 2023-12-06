@@ -176,6 +176,12 @@ public class SqliteController : MonoBehaviour {
     }
 
     public void RunQuery() {
+
+        //added by M
+        if (m_currentQueryList.Count == 0) {
+        Debug.Log("Selection list is empty. Add query terms before running the query.");
+        return;
+        }
        
         StringBuilder builder = new StringBuilder();
         for( int i = 0, len = m_currentQueryList.Count; i < len; i++ ) {
@@ -194,7 +200,7 @@ public class SqliteController : MonoBehaviour {
         string joinCondition = "resource.PK=extra.PK";
         int count = 0;
 
-        SqliteDataReader reader = ExecuteCommandWithJoin( selections, tableNames, joinTable, joinCondition, builder.ToString() );
+        using (SqliteDataReader reader = ExecuteCommandWithJoin(selections, tableNames, joinTable, joinCondition, builder.ToString())){
         while( reader.Read() ) {
             string title = reader.GetString( reader.GetOrdinal( "title" ) ); // this could be optimized to just use the bare integer, once the table layout has been finalised.
             string id = reader.GetString( reader.GetOrdinal( "ids" ) );
@@ -246,6 +252,7 @@ public class SqliteController : MonoBehaviour {
                 }
             }
         }
+    }
         StaticBatchingUtility.Combine( m_root );
         Debug.Log( $"Object count: {count}" );
     }
