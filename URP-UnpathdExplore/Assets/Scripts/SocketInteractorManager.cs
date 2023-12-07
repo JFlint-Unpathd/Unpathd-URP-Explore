@@ -23,6 +23,10 @@ public class SocketInteractorManager : MonoBehaviour
         {
             snappedObjects.Add(snappedObject); // Add snapped object to our list
             unpathSelector.HandleSelection();  // Call the HandleSelection method
+            
+           // Make the snapped object a child of the socket interactor
+            snappedObject.transform.parent = transform;
+
         }
         else
         {
@@ -32,7 +36,7 @@ public class SocketInteractorManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        // It's a good practice to remove listeners when they're no longer needed
+        //remove listeners when they're no longer needed
         socketInteractor.onSelectEntered.RemoveListener(AddAndHandleSelection);
     }
 }

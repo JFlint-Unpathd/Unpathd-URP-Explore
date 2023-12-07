@@ -14,7 +14,9 @@ public class SqliteController : MonoBehaviour {
     // https://www.mono-project.com/docs/database-access/providers/sqlite/
 
     // Mono DLL in MonoBleedingEdge/lib/mono/unity
-
+    public GameObject refiningObjects;
+    public GameObject socketInteractor;
+    public GameObject queryRefiner;
     public GameObject m_ResourcePrefab;
     private GameObject m_root;
 
@@ -221,6 +223,7 @@ public class SqliteController : MonoBehaviour {
                     obj.transform.SetParent( m_root.transform );
                     UnpathResource res = obj.AddComponent<UnpathResource>();
                     res.m_LatLng = new LatLng( lat, lng );
+                    FilterOff();
 
                     
               // Assess the temporal column and set y-coordinate based on tags
@@ -352,6 +355,13 @@ public class SqliteController : MonoBehaviour {
             selectedResource.GetComponent<Renderer>().material = originalMaterial;
         }
         selectionList.Clear();
+        }
+
+        public void FilterOff()
+        {
+            refiningObjects.SetActive(false);
+            socketInteractor.SetActive(false);
+            queryRefiner.SetActive(false);
         }
 
 }
