@@ -246,7 +246,8 @@ public class SqliteController : MonoBehaviour {
                     TextMeshProUGUI textMeshPro = obj.GetComponentInChildren<TextMeshProUGUI>(true);
                     if (textMeshPro != null)
                     {
-                        textMeshPro.text = $"Title: {title}";
+                        textMeshPro.text = title;
+                        //textMeshPro.text = $"Title: {title}";
                         //textMeshPro.text = $"Title: {title}, ID: {id}, Description: {desc}, Place Name: {placename}";
                     }
 

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1791216211652402419}
   - component: {fileID: 4734410696831750060}
   - component: {fileID: 2077245405848210421}
+  - component: {fileID: 3810175164138660344}
   m_Layer: 0
   m_Name: Marker
   m_TagString: Untagged
@@ -234,6 +235,20 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 5060444177187149915, guid: 1a9219f225391664589167ed6199e0f3, type: 3}
+--- !u!114 &3810175164138660344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4214193684241001795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44e2759b26e9f9540911e45872930b6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  label: {fileID: 1062000137701295475}
+  text: {fileID: 5345251873685484687}
 --- !u!1001 &5457589066209496866
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -415,6 +430,12 @@ PrefabInstance:
 --- !u!224 &1062000137701295475 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4972461246388570705, guid: 1880ab2e364ebd54cb1752e421ed608b,
+    type: 3}
+  m_PrefabInstance: {fileID: 5457589066209496866}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &5345251873685484687 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 113546656724204461, guid: 1880ab2e364ebd54cb1752e421ed608b,
     type: 3}
   m_PrefabInstance: {fileID: 5457589066209496866}
   m_PrefabAsset: {fileID: 0}

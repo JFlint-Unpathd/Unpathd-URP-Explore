@@ -5,8 +5,8 @@ public class LookAt : MonoBehaviour
     public Transform label;
     public Transform text;
 
-    // Start is called before the first frame update
-    void Start()
+    // Update is called once per frame
+    void Update()
     {
         // Find the main camera and set it as the target
         Transform target = Camera.main?.transform;
@@ -14,21 +14,25 @@ public class LookAt : MonoBehaviour
         if (target == null)
         {
             Debug.LogError("Main camera not found!");
+            return; // exit the function if there is no main camera
         }
 
-        // Set the target for the label and text
+        // Set the LookAt rotation for the label and text
         if (label != null)
         {
-            label.LookAt(target);
-            // Optionally, you can set the local rotation to ensure correct orientation
-            label.localRotation = Quaternion.Euler(0, 180, 0);
+            SetLookAt(label, target);
         }
 
         if (text != null)
         {
-            text.LookAt(target);
-            // Optionally, you can set the local rotation for the text as well
-            text.localRotation = Quaternion.Euler(0, 180, 0);
+            SetLookAt(text, target);
         }
+    }
+
+    // Function to set LookAt for a given transform based on a target
+    void SetLookAt(Transform toRotate, Transform target)
+    {
+        Vector3 dirToTarget = (target.position - toRotate.position).normalized;
+        toRotate.LookAt(toRotate.position - dirToTarget, Vector3.up);
     }
 }
