@@ -22,6 +22,7 @@ public class SocketInteractorManager : MonoBehaviour
     public void AddAndHandleSelection(XRBaseInteractable interactable)
     {
         GameObject snappedObject = interactable.gameObject;
+
         UnpathSelector unpathSelector = snappedObject.GetComponent<UnpathSelector>();
         SpawnAndToggle spawnAndToggle = snappedObject.GetComponent<SpawnAndToggle>();
 
@@ -29,7 +30,7 @@ public class SocketInteractorManager : MonoBehaviour
         {
             CurrentSnappedObject = snappedObject;
             CurrentChildSnappedObject = snappedObject;
-            
+
             snappedObjects.Add(snappedObject); // Add snapped object to our list
             unpathSelector.HandleSelection();  // Call the HandleSelection method
             snappedObject.transform.parent = transform; // Make the snapped object a child of the socket interactor
@@ -38,10 +39,8 @@ public class SocketInteractorManager : MonoBehaviour
 
         else if (spawnAndToggle != null)
         {
-            foreach (var spawnedObject in spawnAndToggle.GetSpawnedObjects())
-            {
-                spawnedObject.SetActive(false);
-            }
+            CurrentSnappedObject = snappedObject;
+            spawnAndToggle.DisableSpawnedObjects();  // Disable spawned child objects
         }
 
         else
@@ -52,7 +51,23 @@ public class SocketInteractorManager : MonoBehaviour
 
     private void RemoveAndHandleDeselection(XRBaseInteractable interactable)
     {
-        CurrentSnappedObject = null;
+         Debug.Log("RemoveAndHandleDeselection called"); // Debug statement
+
+        GameObject unsnappedObject = interactable.gameObject;
+        SpawnAndToggle spawnAndToggle = unsnappedObject.GetComponent<SpawnAndToggle>();
+        
+        Debug.Log("SpawnAndToggle component: " + spawnAndToggle); // Debug statement
+
+        if (unsnappedObject == CurrentChildSnappedObject)
+        {
+            CurrentChildSnappedObject = null;
+        }
+        else if (spawnAndToggle != null)  // Check if the unsnapped object is the main parent object
+        {
+            CurrentSnappedObject = null;
+            Debug.Log("Enabling spawned objects"); // Debug statement
+            spawnAndToggle.EnableSpawnedObjects();  // Re-enable spawned child objects
+        }
     }
 
     private void OnDestroy()

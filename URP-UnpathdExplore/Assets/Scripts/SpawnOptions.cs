@@ -20,6 +20,7 @@ public class SpawnAndToggle : MonoBehaviour
     private XRBaseInteractable interactable;
 
     private bool hasSpawned = false;
+    public bool isParentBeingMoved = false;
 
     private bool CheckIfParentIsSnapped() 
     {
@@ -68,12 +69,13 @@ public class SpawnAndToggle : MonoBehaviour
 
     private void OnHoverEnter(XRBaseInteractor interactor)
     {
+        
         if (!hasSpawned)
         {
             SpawnObjects();
             hasSpawned = true;
         }
-        else
+        else if (!isParentBeingMoved)  // Check if the parent is not currently being moved
         {
             ToggleSpawnedObjectsVisibility();
         }
@@ -117,6 +119,8 @@ public class SpawnAndToggle : MonoBehaviour
 
      private void OnSelectEnter(XRBaseInteractor interactor)
     {
+        isParentBeingMoved = true;
+
         // Check if any spawned object is currently visible before toggling
         if (spawnedObjects.Exists(obj => obj.activeSelf))
         {
@@ -132,6 +136,30 @@ public class SpawnAndToggle : MonoBehaviour
 
     private void OnSelectExit(XRBaseInteractor interactor)
     {
+        StartCoroutine(DelayedOnSelectExit());
+        //isParentBeingMoved = false;
+    }
 
+    private IEnumerator DelayedOnSelectExit()
+    {
+        yield return null; // Wait for next frame
+        isParentBeingMoved = false;
+    }
+
+    public void DisableSpawnedObjects()
+    {
+        foreach (var spawnedObject in spawnedObjects)
+        {
+            spawnedObject.SetActive(false);
+        }
+    }
+
+    public void EnableSpawnedObjects()
+    {
+        Debug.Log("EnableSpawnedObjects called"); // Debug statement
+        foreach (var spawnedObject in spawnedObjects)
+        {
+            spawnedObject.SetActive(true);
+        }
     }
 }
