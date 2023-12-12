@@ -8,35 +8,57 @@ public class SocketInteractorManager : MonoBehaviour
     private XRSocketInteractor socketInteractor;
     private List<GameObject> snappedObjects = new List<GameObject>();
 
+    // A static variable to keep track of the currently snapped object
+    public static GameObject CurrentSnappedObject;
+    public static GameObject CurrentChildSnappedObject;
+
     private void Awake()
     {
         socketInteractor = GetComponent<XRSocketInteractor>();
         socketInteractor.onSelectEntered.AddListener(AddAndHandleSelection);
+        socketInteractor.onSelectExited.AddListener(RemoveAndHandleDeselection);
     }
 
-    private void AddAndHandleSelection(XRBaseInteractable interactable)
+    public void AddAndHandleSelection(XRBaseInteractable interactable)
     {
         GameObject snappedObject = interactable.gameObject;
         UnpathSelector unpathSelector = snappedObject.GetComponent<UnpathSelector>();
+        SpawnAndToggle spawnAndToggle = snappedObject.GetComponent<SpawnAndToggle>();
 
         if (unpathSelector != null)
         {
+            CurrentSnappedObject = snappedObject;
+            CurrentChildSnappedObject = snappedObject;
+            
             snappedObjects.Add(snappedObject); // Add snapped object to our list
             unpathSelector.HandleSelection();  // Call the HandleSelection method
-            
-           // Make the snapped object a child of the socket interactor
-            snappedObject.transform.parent = transform;
+            snappedObject.transform.parent = transform; // Make the snapped object a child of the socket interactor
 
         }
+
+        else if (spawnAndToggle != null)
+        {
+            foreach (var spawnedObject in spawnAndToggle.GetSpawnedObjects())
+            {
+                spawnedObject.SetActive(false);
+            }
+        }
+
         else
         {
-            Debug.Log("The snapped object does not have an UnpathSelector script attached.");
+            Debug.Log("The snapped object does not have an UnpathSelector or SpawnAndToggle script attached.");
         }
+    }
+
+    private void RemoveAndHandleDeselection(XRBaseInteractable interactable)
+    {
+        CurrentSnappedObject = null;
     }
 
     private void OnDestroy()
     {
         //remove listeners when they're no longer needed
         socketInteractor.onSelectEntered.RemoveListener(AddAndHandleSelection);
+        socketInteractor.onSelectExited.RemoveListener(RemoveAndHandleDeselection);
     }
 }
