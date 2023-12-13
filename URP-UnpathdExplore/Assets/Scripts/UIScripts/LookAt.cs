@@ -3,9 +3,9 @@ using UnityEngine;
 public class LookAt : MonoBehaviour
 {
     public Transform label;
-    public Transform text;
+   // public Transform text;
 
-    // Update is called once per frame
+   
     void Update()
     {
         // Find the main camera and set it as the target
@@ -23,10 +23,10 @@ public class LookAt : MonoBehaviour
             SetLookAt(label, target);
         }
 
-        if (text != null)
-        {
-            SetLookAt(text, target);
-        }
+        // if (text != null)
+        // {
+        //     SetLookAt(text, target);
+        // }
     }
 
     // Function to set LookAt for a given transform based on a target

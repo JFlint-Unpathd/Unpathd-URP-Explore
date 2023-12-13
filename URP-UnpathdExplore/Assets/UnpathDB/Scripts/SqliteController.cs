@@ -284,13 +284,13 @@ public class SqliteController : MonoBehaviour {
     // added by M for zoom logic
         private void OnResourceSelected(string selectedId) {
             UnpathResource selectedResource = m_resourceDict[selectedId];
-            if (selectedResource.IsSelected) {
+            if (selectedResource.isSelected) {
 
             //Debug.Log("Already Selected");
             zoomObject.SetActive(true);
 
                 // // If the resource is already selected, deselect it.
-                // selectedResource.IsSelected = false;
+                // selectedResource.isSelected = false;
                 // selectionList.Remove(selectedResource);
 
                 // // Change the material back to the original material.
@@ -299,7 +299,7 @@ public class SqliteController : MonoBehaviour {
 
             else {
                 // Otherwise, select the resource.
-                selectedResource.IsSelected = true;
+                selectedResource.isSelected = true;
                 selectionList.Add(selectedResource);
 
                 // Change the material to the selectionColor.
@@ -352,7 +352,7 @@ public class SqliteController : MonoBehaviour {
 
         public void ClearSelection() {
         foreach (var selectedResource in selectionList) {
-            selectedResource.IsSelected = false;
+            selectedResource.isSelected = false;
             selectedResource.GetComponent<Renderer>().material = originalMaterial;
         }
         selectionList.Clear();
