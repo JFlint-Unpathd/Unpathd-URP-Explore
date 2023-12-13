@@ -4,9 +4,10 @@ using UnityEngine;
 using TMPro;
 
 public class UnpathResource : MonoBehaviour {
-
-    public string m_Name;
-    //public string m_Label;
+    
+    //original giving me errors
+    //public string m_Name;
+    public string m_Label;
     public string m_Title;
     public string m_Description;
     public LatLng m_LatLng;
