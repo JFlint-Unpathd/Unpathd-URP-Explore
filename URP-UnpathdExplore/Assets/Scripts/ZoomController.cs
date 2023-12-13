@@ -102,7 +102,7 @@ public class ZoomController : MonoBehaviour
     {
         foreach (var selectedResource in selectionList)
         {
-            selectedResource.IsSelected = false;
+            selectedResource.isSelected = false;
         }
 
         selectionList.Clear();

@@ -38,7 +38,7 @@ public class SqliteController : MonoBehaviour {
 
     //added by M 
     // The list of currently selected UnpathResource objects for zoom logic
-    private List<UnpathResource> selectionList = new List<UnpathResource>();
+    private List<UnpathResource> zoomList = new List<UnpathResource>();
     public Material selectionColor;
     public Material originalMaterial;
     
@@ -238,7 +238,7 @@ public class SqliteController : MonoBehaviour {
                     //Get the XRSimpleInteractable component and set up the OnSelect event.
                     XRSimpleInteractable interactable = obj.GetComponent<XRSimpleInteractable>();
                     interactable.hoverEntered.AddListener((interactor) => {
-                        OnResourceSelected(id);
+                        ZoomList(id);
                     });
 
                     //added by M
@@ -282,25 +282,17 @@ public class SqliteController : MonoBehaviour {
 }
     
     // added by M for zoom logic
-        private void OnResourceSelected(string selectedId) {
+        private void ZoomList(string selectedId) {
             UnpathResource selectedResource = m_resourceDict[selectedId];
-            if (selectedResource.isSelected) {
-
-            //Debug.Log("Already Selected");
-            zoomObject.SetActive(true);
-
-                // // If the resource is already selected, deselect it.
-                // selectedResource.isSelected = false;
-                // selectionList.Remove(selectedResource);
-
-                // // Change the material back to the original material.
-                // selectedResource.GetComponent<Renderer>().material = originalMaterial;
+            if (selectedResource.isHovered) 
+            {
+                zoomObject.SetActive(true);
             } 
 
             else {
                 // Otherwise, select the resource.
-                selectedResource.isSelected = true;
-                selectionList.Add(selectedResource);
+                selectedResource.isHovered = true;
+                zoomList.Add(selectedResource);
 
                 // Change the material to the selectionColor.
                 selectedResource.GetComponent<Renderer>().material = selectionColor;
@@ -322,19 +314,17 @@ public class SqliteController : MonoBehaviour {
         }
 
         private void HandleSelectEnter(SelectEnterEventArgs args) {
-        // Toggle the activation status each time the interactable is selected
-        isActivated = !isActivated;
-        ToggleActivation(isActivated);
-        if (isActivated) {
-            ClearSelection();
-        }
+
+            // Toggle the activation status each time the interactable is selected
+            isActivated = !isActivated;
+            ToggleActivation(isActivated);
+            if (isActivated) {
+                ClearSelection();
+            }
         }
 
         private void HandleSelectExit(SelectExitEventArgs args) {
-        // Add any necessary behavior when the interactable is deselected
-        // if (isActivated) {
-        //     ClearSelection();
-        // }
+       
         }
 
 
@@ -342,7 +332,7 @@ public class SqliteController : MonoBehaviour {
         {
             foreach (var resource in m_resourceDict.Values) 
             {
-                if (!selectionList.Contains(resource)) 
+                if (!zoomList.Contains(resource)) 
                 {
                     resource.gameObject.SetActive(activate);
                 }
@@ -351,11 +341,13 @@ public class SqliteController : MonoBehaviour {
         
 
         public void ClearSelection() {
-        foreach (var selectedResource in selectionList) {
-            selectedResource.isSelected = false;
-            selectedResource.GetComponent<Renderer>().material = originalMaterial;
-        }
-        selectionList.Clear();
+
+            foreach (var selectedResource in zoomList) {
+                selectedResource.isHovered = false;
+                selectedResource.GetComponent<Renderer>().material = originalMaterial;
+            }
+            zoomList.Clear();
+            
         }
 
         public void FilterOff()

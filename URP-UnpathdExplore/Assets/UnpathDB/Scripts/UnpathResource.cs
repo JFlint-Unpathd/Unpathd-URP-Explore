@@ -16,5 +16,6 @@ public class UnpathResource : MonoBehaviour {
     // added by M
     public TextMeshProUGUI resultTextTMP;
     public bool isSelected { get; set; }
+    public bool isHovered { get; set; }
     
 }
