@@ -32,19 +32,21 @@ public class SqliteController : MonoBehaviour {
 
     private Dictionary<string, UnpathResource> m_resourceDict = new Dictionary<string, UnpathResource>();
 
+
     private List<string> m_orQueryList = new List<string>();
     private List<string> m_andQueryList = new List<string>();
     private List<string> m_currentQueryList = new List<string>();
 
-    //added by M 
-    // The list of currently selected UnpathResource objects for zoom logic
-    private List<UnpathResource> zoomList = new List<UnpathResource>();
-    public Material selectionColor;
-    public Material originalMaterial;
+ 
+    //added as a public getter for zoomlogic
+    public Dictionary<string, UnpathResource> GetResourceDict() 
+    {
+        return m_resourceDict;
+    }
+    public ZoomController zoomController;
+
+    //....
     
-    public GameObject zoomObject;
-    private bool isActivated = false;
-    //... 
 
     public enum QueryType {
         None,
@@ -64,14 +66,10 @@ public class SqliteController : MonoBehaviour {
         } else {
             InitDB( dbPath );
         }
-        
-        //added by M for zoom logic
-        XRGrabInteractable grabInteractable = zoomObject.GetComponent<XRGrabInteractable>();
 
-        grabInteractable.hoverEntered.AddListener(HandleHoverEnter);
-        grabInteractable.hoverExited.AddListener(HandleHoverExit);
-        grabInteractable.selectEntered.AddListener(HandleSelectEnter);
-        grabInteractable.selectExited.AddListener(HandleSelectExit);
+        // added to fill in inspector, kept clearing field, failsafe option
+        zoomController = FindObjectOfType<ZoomController>();
+        
     }
 
     private void OnDestroy() {
@@ -226,20 +224,26 @@ public class SqliteController : MonoBehaviour {
                     FilterOff();
 
                     
-              // Assess the temporal column and set y-coordinate based on tags
+                // Assess the temporal column and set y-coordinate based on tags
                 int temporalOrdinal = reader.GetOrdinal("temporal");
-                if (!reader.IsDBNull(temporalOrdinal)) {
+                if (!reader.IsDBNull(temporalOrdinal)) 
+                {
                     string temporalTag = reader.GetString(temporalOrdinal);
                     float yCoordinate = GetYCoordinateFromTemporalTag(temporalTag);
                     obj.transform.position = new Vector3(obj.transform.position.x, yCoordinate, obj.transform.position.z);
                 }
 
-                    //added by M for Zoom logic
-                    //Get the XRSimpleInteractable component and set up the OnSelect event.
+                    // added for zoom logic
+                    // interactable that has been instantiated is being added to zoom list when a hover is detected
+                    
                     XRSimpleInteractable interactable = obj.GetComponent<XRSimpleInteractable>();
-                    interactable.hoverEntered.AddListener((interactor) => {
-                        ZoomList(id);
-                    });
+                    if (interactable == null) 
+                    {
+                        interactable = obj.AddComponent<XRSimpleInteractable>();
+                    }
+
+                    interactable.hoverEntered.AddListener((interactor) => { zoomController.ZoomList(id); });
+                    
 
                     //added by M
                     // Find the TextMeshProUGUI component in child objects
@@ -261,8 +265,8 @@ public class SqliteController : MonoBehaviour {
         Debug.Log( $"Object count: {count}" );
     }
 
-    //added today for y logic
-        private float GetYCoordinateFromTemporalTag(string temporalTag) {
+    //added  for y logic
+    private float GetYCoordinateFromTemporalTag(string temporalTag) {
     // Extract the relevant information from the URL
     string[] parts = temporalTag.Split('/');
     string lastPart = parts[parts.Length - 1].ToLower().Replace("%20", " "); // Convert to lowercase and replace %20 with space
@@ -281,75 +285,6 @@ public class SqliteController : MonoBehaviour {
     }
 }
     
-    // added by M for zoom logic
-        private void ZoomList(string selectedId) {
-            UnpathResource selectedResource = m_resourceDict[selectedId];
-            if (selectedResource.isHovered) 
-            {
-                zoomObject.SetActive(true);
-            } 
-
-            else {
-                // Otherwise, select the resource.
-                selectedResource.isHovered = true;
-                zoomList.Add(selectedResource);
-
-                // Change the material to the selectionColor.
-                selectedResource.GetComponent<Renderer>().material = selectionColor;
-            }
-        }
-
-        
-        
-        private void HandleHoverEnter(HoverEnterEventArgs args)
-        {
-            // Toggle the activation status each time the interactable is selected
-            isActivated = !isActivated;
-            ToggleActivation(isActivated);
-        }
-
-        private void HandleHoverExit(HoverExitEventArgs args)
-        {
-            // Add any necessary behavior when the interactable is deselected
-        }
-
-        private void HandleSelectEnter(SelectEnterEventArgs args) {
-
-            // Toggle the activation status each time the interactable is selected
-            isActivated = !isActivated;
-            ToggleActivation(isActivated);
-            if (isActivated) {
-                ClearSelection();
-            }
-        }
-
-        private void HandleSelectExit(SelectExitEventArgs args) {
-       
-        }
-
-
-        public void ToggleActivation(bool activate) 
-        {
-            foreach (var resource in m_resourceDict.Values) 
-            {
-                if (!zoomList.Contains(resource)) 
-                {
-                    resource.gameObject.SetActive(activate);
-                }
-            }
-        }
-        
-
-        public void ClearSelection() {
-
-            foreach (var selectedResource in zoomList) {
-                selectedResource.isHovered = false;
-                selectedResource.GetComponent<Renderer>().material = originalMaterial;
-            }
-            zoomList.Clear();
-            
-        }
-
         public void FilterOff()
         {
             refiningObjects.SetActive(false);

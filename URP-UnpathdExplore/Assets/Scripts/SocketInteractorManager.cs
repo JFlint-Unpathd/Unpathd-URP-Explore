@@ -51,12 +51,12 @@ public class SocketInteractorManager : MonoBehaviour
 
     private void RemoveAndHandleDeselection(XRBaseInteractable interactable)
     {
-         Debug.Log("RemoveAndHandleDeselection called"); // Debug statement
+        //Debug.Log("RemoveAndHandleDeselection called"); // Debug statement
 
         GameObject unsnappedObject = interactable.gameObject;
         SpawnAndToggle spawnAndToggle = unsnappedObject.GetComponent<SpawnAndToggle>();
         
-        Debug.Log("SpawnAndToggle component: " + spawnAndToggle); // Debug statement
+        //Debug.Log("SpawnAndToggle component: " + spawnAndToggle); // Debug statement
 
         if (unsnappedObject == CurrentChildSnappedObject)
         {

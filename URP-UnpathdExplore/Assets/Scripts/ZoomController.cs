@@ -1,110 +1,103 @@
+
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using System.Collections.Generic;
 
 public class ZoomController : MonoBehaviour
 {
-    private XRGrabInteractable grabInteractable;
-    private bool isZoomed = false;
+    public GameObject sqliteControllerObject;
+    private SqliteController sqliteController;
+    
+    
+    // The list of currently selected UnpathResource objects for zoom logic
+    private List<UnpathResource> zoomList = new List<UnpathResource>();
+    public Material selectionColor;
+    public Material originalMaterial;
+    public GameObject zoomObject;
+    private bool isActivated = false;
 
-    // Reference to the SqliteController script
-    public SqliteController sqliteController;
+    
 
-    // List to store selected UnpathResource objects for zoom logic
-    private List<UnpathResource> selectionList = new List<UnpathResource>();
-
-    private void Start()
+    void Start()
     {
-        grabInteractable = GetComponent<XRGrabInteractable>();
+        sqliteController = sqliteControllerObject.GetComponent<SqliteController>();
+        
 
-        // Subscribe to the grip events
-        grabInteractable.onActivate.AddListener(OnGripActivate);
-        grabInteractable.onDeactivate.AddListener(OnGripDeactivate);
+        // Get the XRGrabInteractable component and set up the OnSelect event.
+        XRGrabInteractable grabInteractable = zoomObject.GetComponent<XRGrabInteractable>();
+
+        grabInteractable.hoverEntered.AddListener(HandleHoverEnter);
+        //grabInteractable.hoverExited.AddListener(HandleHoverExit);
+        grabInteractable.selectEntered.AddListener(HandleSelectEnter);
+        //grabInteractable.selectExited.AddListener(HandleSelectExit);
+
+        
     }
 
-    private void OnGripActivate(XRBaseInteractor interactor)
-    {
-        if (!isZoomed)
-        {
-            // Activate the zoom functionality
-            isZoomed = true;
 
-            // Raycast to select objects
-            RaycastToSelectObjects(interactor);
+        public void ZoomList(string selectedId) {
 
-            // Set all objects to invisible initially
-            SetAllObjectsVisibility(false);
-
-            // Set the selected objects to visible
-            SetSelectedObjectsVisibility(selectionList, true);
-        }
-        else
-        {
-            // Deactivate the zoom functionality
-            isZoomed = false;
-
-            // Set all objects to visible
-            SetAllObjectsVisibility(true);
-
-            // Deselect all resources
-            DeselectAllResources();
-        }
-    }
-
-    private void OnGripDeactivate(XRBaseInteractor interactor)
-    {
-        // No action needed here, as grip deactivation is handled in OnGripActivate
-    }
-
-    private void RaycastToSelectObjects(XRBaseInteractor interactor)
-    {
-        // Perform raycasting to select objects
-        RaycastHit[] hits;
-        hits = Physics.RaycastAll(interactor.transform.position, interactor.transform.forward);
-
-        // Clear the selection list
-        selectionList.Clear();
-
-        // Store selected objects in the selection list
-        foreach (var hit in hits)
-        {
-            UnpathResource selectedResource = hit.collider.GetComponent<UnpathResource>();
-            if (selectedResource != null)
+           //Debug.Log("ZoomList method called with ID: " + selectedId);
+           UnpathResource selectedResource = sqliteController.GetResourceDict()[selectedId];
+            if (selectedResource.isHovered) 
             {
-                selectionList.Add(selectedResource);
+                zoomObject.SetActive(true);
+            } 
+
+            else {
+                // Otherwise, select the resource.
+                selectedResource.isHovered = true;
+                zoomList.Add(selectedResource);
+                //Debug.Log("Zoom List Count: " + zoomList.Count);
+
+                // Change the material to the selectionColor.
+                selectedResource.GetComponent<Renderer>().material = selectionColor;
             }
         }
-    }
 
-    private void SetAllObjectsVisibility(bool isVisible)
-    {
-        // Find all objects of type UnpathResource in the scene
-        UnpathResource[] allObjects = GameObject.FindObjectsOfType<UnpathResource>();
-
-        // Set the visibility of all objects
-        foreach (var obj in allObjects)
+        
+        
+        private void HandleHoverEnter(HoverEnterEventArgs args)
         {
-            obj.gameObject.SetActive(isVisible);
-        }
-    }
-
-    private void SetSelectedObjectsVisibility(List<UnpathResource> selectedObjects, bool isVisible)
-    {
-        // Set the visibility of selected objects
-        foreach (var obj in selectedObjects)
-        {
-            obj.gameObject.SetActive(isVisible);
-        }
-    }
-
-    // added by M for zoom logic
-    private void DeselectAllResources()
-    {
-        foreach (var selectedResource in selectionList)
-        {
-            selectedResource.isSelected = false;
+            Debug.Log("Grabbed cube");            
+            // Toggle the activation status each time the interactable is selected
+            isActivated = !isActivated;
+            ToggleActivation(isActivated);
         }
 
-        selectionList.Clear();
-    }
+    
+        private void HandleSelectEnter(SelectEnterEventArgs args) {
+
+            // Toggle the activation status each time the interactable is selected, to show refined items/ show all items
+            isActivated = !isActivated;
+            ToggleActivation(isActivated);
+            if (isActivated) {
+                ClearSelection();
+            }
+        }
+
+  
+
+        public void ToggleActivation(bool activate) 
+        {
+            foreach (var resource in sqliteController.GetResourceDict().Values)
+            {
+                if (!zoomList.Contains(resource)) 
+                {
+                    resource.gameObject.SetActive(activate);
+                }
+            }
+        }
+        
+
+        public void ClearSelection() {
+
+            foreach (var selectedResource in zoomList) {
+                selectedResource.isHovered = false;
+                selectedResource.GetComponent<Renderer>().material = originalMaterial;
+            }
+            zoomList.Clear();
+            
+        }
+
 }
