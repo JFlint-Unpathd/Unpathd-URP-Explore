@@ -46,6 +46,15 @@ public class SqliteController : MonoBehaviour {
     public ZoomController zoomController;
 
     //....
+
+    //added for isolate logic
+    private List<UnpathResource> allQResults = new List<UnpathResource>();
+    // Add a public getter for allQResults
+    public List<UnpathResource> GetAllQResults()
+    {
+        return allQResults;
+    }
+    //
     
 
     public enum QueryType {
@@ -223,15 +232,21 @@ public class SqliteController : MonoBehaviour {
                     res.m_LatLng = new LatLng( lat, lng );
                     FilterOff();
 
+                    m_resourceDict.Add( id, res );
+                    ++count;
+
+                    // Add the UnpathResource object to the allObjects list
+                    allQResults.Add(res);
+
                     
-                // Assess the temporal column and set y-coordinate based on tags
-                int temporalOrdinal = reader.GetOrdinal("temporal");
-                if (!reader.IsDBNull(temporalOrdinal)) 
-                {
-                    string temporalTag = reader.GetString(temporalOrdinal);
-                    float yCoordinate = GetYCoordinateFromTemporalTag(temporalTag);
-                    obj.transform.position = new Vector3(obj.transform.position.x, yCoordinate, obj.transform.position.z);
-                }
+                    // Assess the temporal column and set y-coordinate based on tags
+                    int temporalOrdinal = reader.GetOrdinal("temporal");
+                    if (!reader.IsDBNull(temporalOrdinal)) 
+                    {
+                        string temporalTag = reader.GetString(temporalOrdinal);
+                        float yCoordinate = GetYCoordinateFromTemporalTag(temporalTag);
+                        obj.transform.position = new Vector3(obj.transform.position.x, yCoordinate, obj.transform.position.z);
+                    }
 
                     // added for zoom logic
                     // interactable that has been instantiated is being added to zoom list when a hover is detected
@@ -255,8 +270,7 @@ public class SqliteController : MonoBehaviour {
                         //textMeshPro.text = $"Title: {title}, ID: {id}, Description: {desc}, Place Name: {placename}";
                     }
 
-                    m_resourceDict.Add( id, res );
-                    ++count;
+                    
                 }
             }
         }

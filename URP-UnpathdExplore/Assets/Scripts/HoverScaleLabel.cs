@@ -1,5 +1,4 @@
 using UnityEngine;
-using System;
 using System.Collections.Generic;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.UI;
@@ -17,6 +16,10 @@ public class HoverScaleLabel : MonoBehaviour
     
     private List<UnpathResource> allObjects = new List<UnpathResource>();
     private UnpathResource selectedObject;
+    private SqliteController sqliteController;
+
+    // Move the declaration of allQResults here
+    private List<UnpathResource> allQResults;
 
     private void Awake()
     {
@@ -40,7 +43,20 @@ public class HoverScaleLabel : MonoBehaviour
         interactable.hoverExited.AddListener(ShrinkLayout);
         interactable.onSelectEntered.AddListener(ResultSelected);
         interactable.onSelectExited.AddListener(ResultDeSelected);
+    }
 
+    private void Start()
+    {
+        // Use Start instead of Awake to ensure that SqliteController has been instantiated
+        sqliteController = FindObjectOfType<SqliteController>();
+        if (sqliteController == null)
+        {
+            Debug.LogError("SqliteController not found in the scene.");
+            return;
+        }
+        
+        // Access the allQResults list through the SqliteController
+        allQResults = sqliteController.GetAllQResults();
     }
 
     private void EnlargeLayout(HoverEnterEventArgs args)
@@ -63,8 +79,17 @@ public class HoverScaleLabel : MonoBehaviour
 
         if(!resultSelected)
         {
-            selectedObject = interactor.GetComponent<UnpathResource>();
-            InfoPanelOn();
+            selectedObject = allObjects.Find(obj => obj.gameObject == interactor.gameObject);
+
+            if (selectedObject == null)
+            {
+                Debug.Log("UnpathResource component not found in the interactor object");
+            }
+            else
+            {
+                InfoPanelOn();
+            }
+            
         }
 
         else
@@ -80,20 +105,22 @@ public class HoverScaleLabel : MonoBehaviour
 
     private void InfoPanelOn()
     {
+        Debug.Log("InfoPanelOn method called");  // Debug log for checking method call
+
         titlePanel.SetActive(false);
         // Set the child panel active
         if (infoPanel != null)
         {
             infoPanel.SetActive(true);
-
         }
 
-        foreach (var obj in allObjects)
+        foreach (var obj in allQResults)
         {
             // Deactivate all objects except the selected one
             obj.gameObject.SetActive(obj == selectedObject);
         }
     }
+
     private void InfoPanelOff()
     {
         // Set the original panel active
@@ -106,7 +133,7 @@ public class HoverScaleLabel : MonoBehaviour
         }
 
         // Reactivate all objects
-        foreach (var obj in allObjects)
+        foreach (var obj in allQResults)
         {
             obj.gameObject.SetActive(true);
         }
