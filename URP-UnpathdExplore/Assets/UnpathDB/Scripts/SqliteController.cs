@@ -230,6 +230,11 @@ public class SqliteController : MonoBehaviour {
                     obj.transform.SetParent( m_root.transform );
                     UnpathResource res = obj.AddComponent<UnpathResource>();
                     res.m_LatLng = new LatLng( lat, lng );
+                    res.m_Label = title;
+                    res.m_Title = title;
+                    res.m_Description = desc;
+                    res.m_Placename = placename;
+
                     FilterOff();
 
                     m_resourceDict.Add( id, res );
@@ -261,16 +266,28 @@ public class SqliteController : MonoBehaviour {
                     
 
                     //added by M
-                    // Find the TextMeshProUGUI component in child objects
-                    TextMeshProUGUI textMeshPro = obj.GetComponentInChildren<TextMeshProUGUI>(true);
-                    if (textMeshPro != null)
-                    {
-                        textMeshPro.text = title;
-                        //textMeshPro.text = $"Title: {title}";
-                        //textMeshPro.text = $"Title: {title}, ID: {id}, Description: {desc}, Place Name: {placename}";
-                    }
+                    //Find the TextMeshProUGUI component in child objects and add info for results
+                    // TextMeshProUGUI textMeshPro = obj.GetComponentInChildren<TextMeshProUGUI>(true);
+                    // if (textMeshPro != null)
+                    // {
+                    //     textMeshPro.text = title;
+                        
+                    // }
 
-                    
+                    // Find and set the information to the TextMeshProUGUI components dynamically
+                    TextMeshProUGUI[] textComponents = res.GetComponentsInChildren<TextMeshProUGUI>(true);
+                    foreach (TextMeshProUGUI textComponent in textComponents) {
+                    if (textComponent.name.Equals("Label")) {
+                        textComponent.text = title;
+                    } else if (textComponent.name.Equals("Title")) {
+                        textComponent.text = title; 
+                    } else if (textComponent.name.Equals("Description")) {
+                        textComponent.text = desc; 
+                    } else if (textComponent.name.Equals("Placename")) {
+                        textComponent.text = placename;
+                    }
+                    }
+                 
                 }
             }
         }

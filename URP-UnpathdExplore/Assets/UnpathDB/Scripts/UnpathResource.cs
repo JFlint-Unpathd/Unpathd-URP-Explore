@@ -10,12 +10,18 @@ public class UnpathResource : MonoBehaviour {
     public string m_Label;
     public string m_Title;
     public string m_Description;
+    public string m_Placename;
     public LatLng m_LatLng;
     public List<string> m_ids;
     
     // added by M
-    public TextMeshProUGUI resultTextTMP;
+    //public TextMeshProUGUI resultTextTMP;
     public bool isSelected { get; set; }
     public bool isHovered { get; set; }
+
+    public TextMeshProUGUI labelText;
+    public TextMeshProUGUI titleText;
+    public TextMeshProUGUI descriptionText;
+    public TextMeshProUGUI placenameText;
     
 }

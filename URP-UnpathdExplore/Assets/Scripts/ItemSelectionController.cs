@@ -107,6 +107,11 @@ public class ItemSelectionController : MonoBehaviour
         else
         {
             InfoPanelOff();
+            
+            foreach (var obj in allQResults)
+            {
+                obj.gameObject.SetActive(true);
+            }
         }
     }
 
