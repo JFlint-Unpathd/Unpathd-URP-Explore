@@ -20,6 +20,7 @@ public class ZoomController : MonoBehaviour
 
     void Start()
     {
+        zoomObject.SetActive(false);
         sqliteController = sqliteControllerObject.GetComponent<SqliteController>();
         
 
@@ -59,7 +60,7 @@ public class ZoomController : MonoBehaviour
         
         private void HandleHoverEnter(HoverEnterEventArgs args)
         {
-            Debug.Log("Grabbed cube");            
+            //Debug.Log("Grabbed cube");            
             // Toggle the activation status each time the interactable is selected
             isActivated = !isActivated;
             ToggleActivation(isActivated);
