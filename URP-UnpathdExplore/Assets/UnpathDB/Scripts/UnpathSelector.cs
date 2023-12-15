@@ -20,24 +20,25 @@ public class UnpathSelector : MonoBehaviour, IPointerClickHandler {
     private bool labelOn = false;
      
 
-    
 
     private void Awake()
     {
-        // Added by M - Cache the components
-        m_databaseController = GameObject.FindWithTag("DB").GetComponent<SqliteController>();
-        label_TmpPro = GetComponentInChildren<TextMeshProUGUI>(true);
-        //Image imageComponent = GetComponentInChildren<Image>(true);
-        imageComponent = transform.Find("Interactable Label").GetComponent<Image>();
-        grabInteractable = GetComponent<XRGrabInteractable>(); 
+        
+        // label_TmpPro = GetComponentInChildren<TextMeshProUGUI>(true);
+        // imageComponent = transform.Find("Interactable Label").GetComponent<Image>();
+        // grabInteractable = GetComponent<XRGrabInteractable>(); 
     
     }
     
     //...
 
     private void Start() {
-        // original position of this line
-        //m_databaseController = GameObject.FindWithTag( "DB" ).GetComponent<SqliteController>();
+        
+        m_databaseController = GameObject.FindWithTag( "DB" ).GetComponent<SqliteController>();
+
+        label_TmpPro = GetComponentInChildren<TextMeshProUGUI>(true);
+        imageComponent = GetComponentInChildren<Image>(true);
+        grabInteractable = GetComponent<XRGrabInteractable>(); 
         
         //added by M
         grabInteractable.hoverEntered.AddListener(HandleHoverEnter);
@@ -101,7 +102,6 @@ public class UnpathSelector : MonoBehaviour, IPointerClickHandler {
     {
         
         labelOn = true;
-        //Image imageComponent = GetComponentInChildren<Image>();
 
         if (labelOn && imageComponent != null)
         {
@@ -118,7 +118,6 @@ public class UnpathSelector : MonoBehaviour, IPointerClickHandler {
     private void HandleHoverExit(HoverExitEventArgs args)
     {
         labelOn = false;
-        //Image imageComponent = GetComponentInChildren<Image>();
 
         if (!labelOn && imageComponent != null)
         {
@@ -130,6 +129,7 @@ public class UnpathSelector : MonoBehaviour, IPointerClickHandler {
             label_TmpPro.gameObject.SetActive(false); // Hide the label
         }
     }
+
     //....
 
 

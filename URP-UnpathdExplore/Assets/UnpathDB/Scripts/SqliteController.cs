@@ -234,17 +234,15 @@ public class SqliteController : MonoBehaviour {
                     res.m_Title = title;
                     res.m_Description = desc;
                     res.m_Placename = placename;
-
                     FilterOff();
-
                     m_resourceDict.Add( id, res );
                     ++count;
 
-                    // Add the UnpathResource object to the allObjects list
+                    // Add the UnpathResource object to the allObjects list for the isolate logic
                     allQResults.Add(res);
 
                     
-                    // Assess the temporal column and set y-coordinate based on tags
+                    // Access the temporal column and set y-coordinate based on tags
                     int temporalOrdinal = reader.GetOrdinal("temporal");
                     if (!reader.IsDBNull(temporalOrdinal)) 
                     {
@@ -265,26 +263,17 @@ public class SqliteController : MonoBehaviour {
                     interactable.hoverEntered.AddListener((interactor) => { zoomController.ZoomList(id); });
                     
 
-                    //added by M
-                    //Find the TextMeshProUGUI component in child objects and add info for results
-                    // TextMeshProUGUI textMeshPro = obj.GetComponentInChildren<TextMeshProUGUI>(true);
-                    // if (textMeshPro != null)
-                    // {
-                    //     textMeshPro.text = title;
-                        
-                    // }
-
-                    // Find and set the information to the TextMeshProUGUI components dynamically
+                    // Find and set the information to the TextMeshProUGUI components dynamically and add info for results
                     TextMeshProUGUI[] textComponents = res.GetComponentsInChildren<TextMeshProUGUI>(true);
                     foreach (TextMeshProUGUI textComponent in textComponents) {
                     if (textComponent.name.Equals("Label")) {
                         textComponent.text = title;
                     } else if (textComponent.name.Equals("Title")) {
-                        textComponent.text = title; 
+                        textComponent.text = "Title: " + title; 
                     } else if (textComponent.name.Equals("Description")) {
-                        textComponent.text = desc; 
+                        textComponent.text = "Description: " + desc; 
                     } else if (textComponent.name.Equals("Placename")) {
-                        textComponent.text = placename;
+                        textComponent.text = "Placename: " + placename;
                     }
                     }
                  
@@ -296,25 +285,25 @@ public class SqliteController : MonoBehaviour {
         Debug.Log( $"Object count: {count}" );
     }
 
-    //added  for y logic
-    private float GetYCoordinateFromTemporalTag(string temporalTag) {
-    // Extract the relevant information from the URL
-    string[] parts = temporalTag.Split('/');
-    string lastPart = parts[parts.Length - 1].ToLower().Replace("%20", " "); // Convert to lowercase and replace %20 with space
+        //added  for y logic
+        private float GetYCoordinateFromTemporalTag(string temporalTag) {
+            // Extract the relevant information from the URL
+            string[] parts = temporalTag.Split('/');
+            string lastPart = parts[parts.Length - 1].ToLower().Replace("%20", " "); // Convert to lowercase and replace %20 with space
 
-    // Check for specific keywords in the last part of the URL
-    if (lastPart.Contains("medieval")) {
-        return 1f;
-    } else if (lastPart.Contains("first world war")) {
-        return 2f;
-    } else if (lastPart.Contains("second world war")) {
-        return 3f;
-    } else if (lastPart.Contains("modern")) {
-        return 4f;
-    } else {
-        return 0f; // Default value if the tag is not recognized
-    }
-}
+            // Check for specific keywords in the last part of the URL
+            if (lastPart.Contains("medieval")) {
+                return 1f;
+            } else if (lastPart.Contains("first world war")) {
+                return 2f;
+            } else if (lastPart.Contains("second world war")) {
+                return 3f;
+            } else if (lastPart.Contains("modern")) {
+                return 4f;
+            } else {
+                return 0f; // Default value if the tag is not recognized
+            }
+        }
     
         public void FilterOff()
         {
