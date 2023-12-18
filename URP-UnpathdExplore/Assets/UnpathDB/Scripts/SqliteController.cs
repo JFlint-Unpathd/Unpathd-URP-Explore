@@ -55,11 +55,6 @@ public class SqliteController : MonoBehaviour {
         return allQResults;
     }
     //
-
-    // added for Map Projection
-
-    private MapProjection mapProjectionController;
-    //public GameObject birdsEye;
     
 
     public enum QueryType {
@@ -83,9 +78,6 @@ public class SqliteController : MonoBehaviour {
 
         // added to fill in inspector, kept clearing field, failsafe option
         zoomController = FindObjectOfType<ZoomController>();
-
-        //added for map projection
-        mapProjectionController = GameObject.FindWithTag( "MapController" ).GetComponent<MapProjection>();
         
     }
 
@@ -218,9 +210,6 @@ public class SqliteController : MonoBehaviour {
         int count = 0;
 
         using (SqliteDataReader reader = ExecuteCommandWithJoin(selections, tableNames, joinTable, joinCondition, builder.ToString())){
-            
-        //Instantiate(birdsEye, new Vector3(3.5f, 5.0f, -6.5f), Quaternion.identity);
-
         while( reader.Read() ) {
             string title = reader.GetString( reader.GetOrdinal( "title" ) ); // this could be optimized to just use the bare integer, once the table layout has been finalised.
             string id = reader.GetString( reader.GetOrdinal( "ids" ) );
@@ -252,8 +241,6 @@ public class SqliteController : MonoBehaviour {
                     // Add the UnpathResource object to the allObjects list for the isolate logic
                     allQResults.Add(res);
 
-                    //added for map projection
-                    mapProjectionController.ProjectMap();
                     
                     // Access the temporal column and set y-coordinate based on tags
                     int temporalOrdinal = reader.GetOrdinal("temporal");
