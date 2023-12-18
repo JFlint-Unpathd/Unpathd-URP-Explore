@@ -103,11 +103,11 @@ public class SqliteController : MonoBehaviour {
     }
 
     // ORIGINAL BY BRUCE
-    // public SqliteDataReader ExecuteCommand( string selections, string tableNames, string matches ) {
-    //     m_command.CommandText = string.Format( SelectFromDBTemplate, selections, tableNames, matches );
-    //     Debug.Log( m_command.CommandText );
-    //     return m_command.ExecuteReader();
-    // }
+    public SqliteDataReader ExecuteCommand( string selections, string tableNames, string matches ) {
+        m_command.CommandText = string.Format( SelectFromDBTemplate, selections, tableNames, matches );
+        Debug.Log( m_command.CommandText );
+        return m_command.ExecuteReader();
+    }
 
 
     private void InitDB( string dbPath ) {
@@ -206,18 +206,24 @@ public class SqliteController : MonoBehaviour {
         }
         
         // Original by Bruce
-        // string selections = "*";
-        // string tableNames = "resource";
-        // int count = 0;
-        // SqliteDataReader reader = ExecuteCommand( selections, tableNames, builder.ToString() );
-
         string selections = "*";
         string tableNames = "resource";
-        string joinTable = "extra";
-        string joinCondition = "resource.PK=extra.PK";
         int count = 0;
+        //SqliteDataReader reader = ExecuteCommand( selections, tableNames, builder.ToString() );
 
-        using (SqliteDataReader reader = ExecuteCommandWithJoin(selections, tableNames, joinTable, joinCondition, builder.ToString())){
+        //maria for join
+        // string selections = "*";
+        // string tableNames = "resource";
+        // string joinTable = "extra";
+        // string joinCondition = "resource.PK=extra.PK";
+        // int count = 0;
+
+        //using (SqliteDataReader reader = ExecuteCommandWithJoin(selections, tableNames, joinTable, joinCondition, builder.ToString())){
+
+        using (SqliteDataReader reader = ExecuteCommand(selections, tableNames, builder.ToString())){
+        
+        //added for map projection
+        mapProjectionController.ProjectMap();
             
         //Instantiate(birdsEye, new Vector3(3.5f, 5.0f, -6.5f), Quaternion.identity);
 
@@ -251,9 +257,6 @@ public class SqliteController : MonoBehaviour {
 
                     // Add the UnpathResource object to the allObjects list for the isolate logic
                     allQResults.Add(res);
-
-                    //added for map projection
-                    mapProjectionController.ProjectMap();
                     
                     // Access the temporal column and set y-coordinate based on tags
                     int temporalOrdinal = reader.GetOrdinal("temporal");
