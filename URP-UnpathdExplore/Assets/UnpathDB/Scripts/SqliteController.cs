@@ -235,7 +235,9 @@ public class SqliteController : MonoBehaviour {
 
 
             int latOrdinal = reader.GetOrdinal( "lat" );
-            if( reader.GetFieldType( latOrdinal ) == typeof( string ) ) {
+            if( reader.GetValue( latOrdinal ).GetType() != typeof (System.DBNull)){
+                
+                Debug.Log($"lat: {latOrdinal}; type: {reader.GetValue( latOrdinal ).GetType()}" );
                 string latString = reader.GetString( latOrdinal );
                 string lngString = reader.GetString( reader.GetOrdinal( "lng" ) );
                 double lat = 0f;
@@ -252,6 +254,7 @@ public class SqliteController : MonoBehaviour {
                     res.m_Description = desc;
                     res.m_Placename = placename;
                     FilterOff();
+                    Debug.Log($"id : {id}" );
                     m_resourceDict.Add( id, res );
                     ++count;
 
