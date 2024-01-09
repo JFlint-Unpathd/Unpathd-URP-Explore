@@ -58,7 +58,7 @@ public class SqliteController : MonoBehaviour {
 
     // added for Map Projection
 
-    private MapProjection mapProjectionController;
+    public MapProjection mapProjectionController;
     //public GameObject birdsEye;
     
 
@@ -85,7 +85,7 @@ public class SqliteController : MonoBehaviour {
         zoomController = FindObjectOfType<ZoomController>();
 
         //added for map projection
-        mapProjectionController = GameObject.FindWithTag( "MapController" ).GetComponent<MapProjection>();
+        mapProjectionController.GetComponent<MapProjection>();
         
     }
 
@@ -295,6 +295,7 @@ public class SqliteController : MonoBehaviour {
                         textComponent.text = "Placename: " + placename;
                     }
                     }
+
                  
                 }
             }

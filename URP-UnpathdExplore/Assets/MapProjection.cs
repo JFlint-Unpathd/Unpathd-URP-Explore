@@ -6,7 +6,7 @@ public class MapProjection : MonoBehaviour
     private string referenceObjectName = "Plymouth"; // The name of the reference object within the prefab
     private float referenceLatitude = 59.8545341f;   // Latitude of the reference object (Plymouth)
     private float referenceLongitude = -1.273013f;   // Longitude of the reference object (Plymouth)
-    private float latitudeOffset = 50.0f;            // Offset for latitude
+    private float latitudeOffset = 55.0f;            // Offset for latitude
 
     public void ProjectMap()
     {
