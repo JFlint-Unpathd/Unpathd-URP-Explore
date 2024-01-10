@@ -73,7 +73,6 @@ public class SocketInteractorManager : MonoBehaviour
         if (unsnappedObject == CurrentChildSnappedObject)
         {
             CurrentChildSnappedObject = null;
-            Debug.Log("cureent child snapped obj is null");
             
         }
         
@@ -90,6 +89,7 @@ public class SocketInteractorManager : MonoBehaviour
             CurrentSnappedObject = null;
             CurrentChildSnappedObject = null;
             mapSpawnAndToggle.ResetUnsnappedObjectPositions();
+            
             
         }
     }

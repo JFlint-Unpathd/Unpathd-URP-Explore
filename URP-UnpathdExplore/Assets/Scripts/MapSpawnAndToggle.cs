@@ -35,23 +35,9 @@ public class MapSpawnAndToggle : MonoBehaviour
         }
     }
 
-
-    private bool CheckIfIsSnapped() 
+    void Update()
     {
-        if (socketInteractorManager != null)
-        {
-            List<GameObject> snappedObjects = socketInteractorManager.GetSnappedObjects();
-
-            foreach (var region in shippingForecastRegions)
-            {
-                if (snappedObjects.Contains(region))
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        
     }
 
 
@@ -59,6 +45,7 @@ public class MapSpawnAndToggle : MonoBehaviour
     {
         interactable = GetComponent<XRBaseInteractable>();
         interactable.onHoverEntered.AddListener(OnHoverEnter);
+        interactable.onHoverEntered.AddListener(OnSelectExited);
 
         foreach (Transform child in gameObject.transform)
         {
@@ -69,30 +56,17 @@ public class MapSpawnAndToggle : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-       
-
-    }
-
-
     public void ResetUnsnappedObjectPositions()
     {
-        foreach (GameObject childObject in shippingForecastRegions)
+        foreach (var childObject in shippingForecastRegions)
         {
-            
-                if (originalPositions.ContainsKey(childObject) && originalRotations.ContainsKey(childObject))
-                {
-                    Vector3 originalPosition = originalPositions[childObject];
-                    Quaternion originalRotation = originalRotations[childObject];
-                    childObject.transform.SetPositionAndRotation(originalPosition, originalRotation);
-                }
-
-                else
-                {
-                    Debug.LogError($"Original transform not found for {childObject.name}");
-                }
-            
+           
+            if (childObject != SocketInteractorManager.CurrentSnappedObject && childObject != SocketInteractorManager.CurrentChildSnappedObject)
+            {
+                Vector3 originalPosition = originalPositions[childObject];
+                Quaternion originalRotation = originalRotations[childObject];
+                childObject.transform.SetPositionAndRotation(originalPosition, originalRotation);
+            }
         }
     }
 
@@ -105,6 +79,10 @@ public class MapSpawnAndToggle : MonoBehaviour
         regionsVisible = !regionsVisible;
         SetChildObjectsActive(regionsVisible);
 
+    }
+    private void OnSelectExited(XRBaseInteractor interactor)
+    {
+        ResetUnsnappedObjectPositions();
     }
 
     private void SetChildObjectsActive(bool active)
