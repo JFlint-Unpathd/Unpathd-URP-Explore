@@ -12,6 +12,11 @@ public class SocketInteractorManager : MonoBehaviour
     public static GameObject CurrentSnappedObject;
     public static GameObject CurrentChildSnappedObject;
 
+    public List<GameObject> GetSnappedObjects()
+    {
+        return snappedObjects;
+    }
+
     private void Awake()
     {
         socketInteractor = GetComponent<XRSocketInteractor>();
@@ -25,13 +30,14 @@ public class SocketInteractorManager : MonoBehaviour
 
         UnpathSelector unpathSelector = snappedObject.GetComponent<UnpathSelector>();
         SpawnAndToggle spawnAndToggle = snappedObject.GetComponent<SpawnAndToggle>();
+        MapSpawnAndToggle mapSpawnAndToggle = snappedObject.GetComponent<MapSpawnAndToggle>();
 
         if (unpathSelector != null)
         {
             CurrentSnappedObject = snappedObject;
             CurrentChildSnappedObject = snappedObject;
 
-            snappedObjects.Add(snappedObject); // Add snapped object to our list
+            snappedObjects.Add(snappedObject); // Add snapped object to snappedobj list
             unpathSelector.HandleSelection();  // Call the HandleSelection method
             snappedObject.transform.parent = transform; // Make the snapped object a child of the socket interactor
 
@@ -41,6 +47,11 @@ public class SocketInteractorManager : MonoBehaviour
         {
             CurrentSnappedObject = snappedObject;
             spawnAndToggle.DisableSpawnedObjects();  // Disable spawned child objects
+        }
+
+        else if (mapSpawnAndToggle != null)
+        {
+            CurrentChildSnappedObject = snappedObject;
         }
 
         else
@@ -55,18 +66,31 @@ public class SocketInteractorManager : MonoBehaviour
 
         GameObject unsnappedObject = interactable.gameObject;
         SpawnAndToggle spawnAndToggle = unsnappedObject.GetComponent<SpawnAndToggle>();
+        MapSpawnAndToggle mapSpawnAndToggle = unsnappedObject.transform.parent?.GetComponent<MapSpawnAndToggle>();
         
-        //Debug.Log("SpawnAndToggle component: " + spawnAndToggle); // Debug statement
+    
 
         if (unsnappedObject == CurrentChildSnappedObject)
         {
             CurrentChildSnappedObject = null;
+            Debug.Log("cureent child snapped obj is null");
+            
         }
+        
         else if (spawnAndToggle != null)  // Check if the unsnapped object is the main parent object
         {
             CurrentSnappedObject = null;
             Debug.Log("Enabling spawned objects"); // Debug statement
             spawnAndToggle.EnableSpawnedObjects();  // Re-enable spawned child objects
+        }
+
+        if (mapSpawnAndToggle != null)  // Handle deselection for MapSpawnAndToggle
+        {
+            
+            CurrentSnappedObject = null;
+            CurrentChildSnappedObject = null;
+            mapSpawnAndToggle.ResetUnsnappedObjectPositions();
+            
         }
     }
 

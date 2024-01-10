@@ -83,7 +83,7 @@ public class SpawnAndToggle : MonoBehaviour
 
     private void SpawnObjects()
     {
-        Debug.Log("Spawning objects...");
+        //Debug.Log("Spawning objects...");
         Vector3 originalObjectPosition = transform.position;
 
         for (int i = 0; i < objectsToSpawn.Length; i++)
