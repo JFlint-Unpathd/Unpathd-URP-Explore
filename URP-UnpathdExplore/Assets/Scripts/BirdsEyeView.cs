@@ -1,39 +1,49 @@
-// using UnityEngine;
-// using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
-// public class BirdsEyeView : MonoBehaviour
-// {
-//     private XRGrabInteractable grabInteractable;
+public class BirdsEyeView : MonoBehaviour
+{
+    [SerializeField]
+    private GameObject xrOrigin;
+    [SerializeField]
+    private Rigidbody xrOriginRigidbody;    
 
-//     private void Start()
-//     {
-//         // Ensure there is an XRGrabInteractable component on the object
-//         grabInteractable = GetComponent<XRGrabInteractable>();
-//         if (grabInteractable == null)
-//         {
-//             Debug.LogError("XRGrabInteractable component not found on the birdsEye object.");
-//             return;
-//         }
+    private XRGrabInteractable grabInteractable;
 
-//         // Subscribe to the selection event
-//         grabInteractable.onSelectEntered.AddListener(OnSelected);
-//     }
+    private bool isSelected = false;
+    private float originalYPosition;
 
-//     private void OnSelected(XRBaseInteractor interactor)
-//     {
-//         // Find the XR Rig in the scene
-//         XRRig xrRig = FindObjectOfType<XRRig>();
-//         if (xrRig == null)
-//         {
-//             Debug.LogWarning("XR Rig not found in the scene. Make sure it is present and active.");
-//             return;
-//         }
 
-//         Debug.Log("XR Rig found");
-//         // Update the XR Rig's position to match the bird's position
-//         xrRig.transform.position = transform.position;
+    private void Start()
+    {
+        originalYPosition = xrOrigin.transform.position.y;
 
-//         // You might also want to set the rotation if needed
-//         // xrRig.transform.rotation = transform.rotation;
-//     }
-// }
+        // Automatically assign XRGrabInteractable on the same GameObject
+        grabInteractable = GetComponent<XRGrabInteractable>();
+        xrOriginRigidbody.isKinematic = true;
+        
+        if (grabInteractable == null)
+        {
+            Debug.LogError("XRGrabInteractable component not found on the birdsEye object. Make sure it is attached.");
+            return;
+        }
+
+        // Subscribe to the selection event
+        grabInteractable.onSelectEntered.AddListener(OnSelected);
+    }
+
+    private void OnSelected(XRBaseInteractor interactor)
+    {
+        
+        if (!isSelected) // For the first selection
+        {
+            xrOrigin.transform.position = transform.position;
+            isSelected = true; // Switch the state to true after first selection
+        }
+        else // For the second selection
+        {
+            xrOrigin.transform.position = new Vector3(xrOrigin.transform.position.x, originalYPosition, xrOrigin.transform.position.z);
+            isSelected = false; // Switch the state back to false after second selection
+        }
+    }
+}

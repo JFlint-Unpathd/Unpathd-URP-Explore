@@ -70,11 +70,12 @@ public class ColorAdjustmentsManagerURP : MonoBehaviour
     {
         switch (index)
         {
-            case 0: colorAdjustments.colorFilter.value = Color.red; break;
-            case 1: colorAdjustments.colorFilter.value = Color.black; break;
-            case 2: colorAdjustments.colorFilter.value = Color.blue; break;
-            case 3: colorAdjustments.colorFilter.value = Color.white; break;
-            case 4: colorAdjustments.colorFilter.value = Color.green; break;
+            case 0: colorAdjustments.colorFilter.value = Color.white; break;
+            case 1: colorAdjustments.colorFilter.value = Color.green; break;
+            case 2: colorAdjustments.colorFilter.value = Color.red; break;
+            case 3: colorAdjustments.colorFilter.value = Color.blue; break;
+            case 4: colorAdjustments.colorFilter.value = Color.black; break;
+            
         }
     }
 
