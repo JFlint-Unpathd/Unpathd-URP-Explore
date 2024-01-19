@@ -1,24 +1,51 @@
-// 2024-01-18 AI-Tag 
-// This was created with assistance from Muse, a Unity Artificial Intelligence product
-
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Collections;
 
 [RequireComponent(typeof(EventTrigger))]
 public class ButtonHoverAudio : MonoBehaviour
 {
     public AudioClip hoverClip;
-    private AudioSource audioSource;
+    private Coroutine hoverCoroutine;
 
     void Start()
     {
-        audioSource = gameObject.AddComponent<AudioSource>();
-        audioSource.clip = hoverClip;
-
         EventTrigger trigger = gameObject.AddComponent<EventTrigger>();
-        EventTrigger.Entry entry = new EventTrigger.Entry();
-        entry.eventID = EventTriggerType.PointerEnter;
-        entry.callback.AddListener((eventData) => { audioSource.Play(); });
-        trigger.triggers.Add(entry);
+
+        // PointerEnter event
+        EventTrigger.Entry pointerEnterEntry = new EventTrigger.Entry();
+        pointerEnterEntry.eventID = EventTriggerType.PointerEnter;
+        pointerEnterEntry.callback.AddListener((eventData) => { StartHover(); });
+        trigger.triggers.Add(pointerEnterEntry);
+
+        //PointerExit event
+        EventTrigger.Entry pointerExitEntry = new EventTrigger.Entry();
+        pointerExitEntry.eventID = EventTriggerType.PointerExit;
+        pointerExitEntry.callback.AddListener((eventData) => { StopHover(); });
+        trigger.triggers.Add(pointerExitEntry);
+    }
+
+    private void StartHover()
+    {
+        if (hoverCoroutine != null)
+        {
+            StopCoroutine(hoverCoroutine);
+        }
+        hoverCoroutine = StartCoroutine(HoverAction());
+    }
+
+    private void StopHover()
+    {
+        if (hoverCoroutine != null)
+        {
+            StopCoroutine(hoverCoroutine);
+            hoverCoroutine = null;
+        }
+    }
+
+    private IEnumerator HoverAction()
+    {
+        yield return new WaitForSecondsRealtime(2f);
+        AudioManager.instance.PlayClip(hoverClip);
     }
 }
