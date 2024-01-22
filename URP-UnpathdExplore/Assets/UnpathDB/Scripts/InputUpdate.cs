@@ -68,5 +68,11 @@ public class InputUpdate : MonoBehaviour {
     {
         m_databaseController.RunQuery();
     }
+
+    public void ResetQuery()
+    {
+        m_databaseController.ResetQuery();
+    }
+
 }
 

@@ -1,5 +1,7 @@
 
 using System.Collections.Generic;
+using System.Collections;
+using System;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
@@ -12,6 +14,7 @@ public class SocketInteractorManager : MonoBehaviour
     public static GameObject CurrentSnappedObject;
     public static GameObject CurrentChildSnappedObject;
 
+
     public List<GameObject> GetSnappedObjects()
     {
         return snappedObjects;
@@ -23,6 +26,7 @@ public class SocketInteractorManager : MonoBehaviour
         socketInteractor.onSelectEntered.AddListener(AddAndHandleSelection);
         socketInteractor.onSelectExited.AddListener(RemoveAndHandleDeselection);
     }
+
 
     public void AddAndHandleSelection(XRBaseInteractable interactable)
     {
@@ -64,7 +68,6 @@ public class SocketInteractorManager : MonoBehaviour
 
     private void RemoveAndHandleDeselection(XRBaseInteractable interactable)
     {
-        //Debug.Log("RemoveAndHandleDeselection called"); // Debug statement
 
         GameObject unsnappedObject = interactable.gameObject;
         SpawnAndToggle spawnAndToggle = unsnappedObject.GetComponent<SpawnAndToggle>();
@@ -93,9 +96,21 @@ public class SocketInteractorManager : MonoBehaviour
             CurrentChildSnappedObject = null;
             mapSpawnAndToggle.ResetUnsnappedObjectPositions();
             
-            
         }
+
+        
+        StartCoroutine(DelayedUnparent(unsnappedObject));
     }
+
+    private IEnumerator DelayedUnparent(GameObject objToUnparent)
+    {
+        // Wait for a short delay before unparenting
+        yield return new WaitForEndOfFrame();
+
+        // Unparent the unsnapped object, allowing it to naturally exit the interaction state
+        objToUnparent.transform.parent = null;
+    }
+
 
     private void OnDestroy()
     {
@@ -103,4 +118,19 @@ public class SocketInteractorManager : MonoBehaviour
         socketInteractor.onSelectEntered.RemoveListener(AddAndHandleSelection);
         socketInteractor.onSelectExited.RemoveListener(RemoveAndHandleDeselection);
     }
+
+    public void ClearSnappedObjects()
+    {
+        snappedObjects.Clear();
+        
+    }
+
+    public void ClearCurrentSnappedObjects()
+    {
+        CurrentSnappedObject = null;
+        CurrentChildSnappedObject = null;
+    }
+
+    
 }
+

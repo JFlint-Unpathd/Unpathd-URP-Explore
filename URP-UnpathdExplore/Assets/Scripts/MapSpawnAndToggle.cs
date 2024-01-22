@@ -35,11 +35,6 @@ public class MapSpawnAndToggle : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        
-    }
-
 
     void Start()
     {
@@ -96,6 +91,14 @@ public class MapSpawnAndToggle : MonoBehaviour
                 childObject.SetActive(active);
             }
         }
+    }
+
+    public void ClearListsAndDictionaries()
+    {
+        ResetUnsnappedObjectPositions();
+        shippingForecastRegions.Clear();
+        
+
     }
 
 }

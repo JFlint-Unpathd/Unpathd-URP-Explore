@@ -332,4 +332,11 @@ public class SqliteController : MonoBehaviour {
             queryRefiner.SetActive(false);
         }
 
+        public void ClearResourceDictandLists()
+        {
+            m_resourceDict.Clear();
+            allQResults.Clear();
+        }
+
+
 }
