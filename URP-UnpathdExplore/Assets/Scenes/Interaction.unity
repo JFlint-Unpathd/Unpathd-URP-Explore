@@ -358,12 +358,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 34895493}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 225660277}
+  m_Father: {fileID: 1875794370}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &34895495
 MonoBehaviour:
@@ -1450,11 +1450,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1923326469}
-  - {fileID: 34895494}
   - {fileID: 1854699798}
-  - {fileID: 1939002733}
   - {fileID: 1564659830}
+  - {fileID: 1939002733}
   m_Father: {fileID: 1875794370}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -7067,7 +7065,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1923326468}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SoundVolume, Assembly-CSharp
         m_MethodName: ChangeVolume
         m_Mode: 1
@@ -7614,6 +7612,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1143885497}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_SelectExited:
     m_PersistentCalls:
       m_Calls: []
@@ -8104,7 +8114,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1923326468}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SoundVolume, Assembly-CSharp
         m_MethodName: PlayPauseSoundEffects
         m_Mode: 1
@@ -17646,6 +17656,7 @@ GameObject:
   - component: {fileID: 1833430094}
   - component: {fileID: 1833430095}
   - component: {fileID: 1833430096}
+  - component: {fileID: 1833430097}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -17682,7 +17693,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnpathText: {fileID: 81240645}
   settingsMenu: {fileID: 225660276}
-  introClip: {fileID: 8300000, guid: 354c37cd61ec24bbcbbc7921d0a71bc1, type: 3}
+  introClip: {fileID: 8300000, guid: 6fad98d35d3d2ae4889286d9486ec721, type: 3}
   settingsClip: {fileID: 8300000, guid: f22d2a2bd7c364c459184976ac6a95f9, type: 3}
   explanatoryClip: {fileID: 8300000, guid: b6c2e0844190e5a40bd038e8f9b9ebae, type: 3}
   resultsClip: {fileID: 8300000, guid: be04990a90d79a645be098a303003b60, type: 3}
@@ -17698,6 +17709,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e28a9193be1f99419f9a63414168447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1833430097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1833430093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3913ac6ae228bf04c879bd6a5a97b413, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeSlider: {fileID: 811509023}
 --- !u!1 &1837521605
 GameObject:
   m_ObjectHideFlags: 0
@@ -18071,6 +18095,7 @@ RectTransform:
   m_LocalScale: {x: 0.01, y: 0.01, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 34895494}
   - {fileID: 225660277}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -18788,7 +18813,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 225660277}
+    m_TransformParent: {fileID: 2072897865}
     m_Modifications:
     - target: {fileID: 1866615483603303961, guid: 71cb16f988bb0bf429293ff3aa022896,
         type: 3}
@@ -18807,18 +18832,28 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 8f7459544aba9c84d9505ed6a2e5e664, type: 3}
     - target: {fileID: 2478614031676619160, guid: 71cb16f988bb0bf429293ff3aa022896,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2478614031676619160, guid: 71cb16f988bb0bf429293ff3aa022896,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2478614031676619160, guid: 71cb16f988bb0bf429293ff3aa022896,
+        type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -1.2038866
       objectReference: {fileID: 0}
     - target: {fileID: 2478614031676619160, guid: 71cb16f988bb0bf429293ff3aa022896,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.053971887
       objectReference: {fileID: 0}
     - target: {fileID: 2478614031676619160, guid: 71cb16f988bb0bf429293ff3aa022896,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.0138498545
       objectReference: {fileID: 0}
     - target: {fileID: 2478614031676619160, guid: 71cb16f988bb0bf429293ff3aa022896,
         type: 3}
@@ -18915,7 +18950,8 @@ PrefabInstance:
       propertyPath: volumeSlider
       value: 
       objectReference: {fileID: 811509023}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8666929526376590491, guid: 71cb16f988bb0bf429293ff3aa022896, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -18930,18 +18966,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1713666721c71664f8385bf74c571e5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1923326468 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8666929526376590491, guid: 71cb16f988bb0bf429293ff3aa022896,
-    type: 3}
-  m_PrefabInstance: {fileID: 1923326466}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3913ac6ae228bf04c879bd6a5a97b413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1923326469 stripped
@@ -19032,7 +19056,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   toggleReference: {fileID: 3767432774914070194, guid: c348712bda248c246b8c49b3db54643f,
     type: 3}
-  myGameObject: {fileID: 1854699794}
+  settingsMenu: {fileID: 225660276}
 --- !u!1 &1939002732
 GameObject:
   m_ObjectHideFlags: 0
@@ -19115,19 +19139,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1854699794}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1939002732}
+      - m_Target: {fileID: 225660276}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -20314,6 +20326,7 @@ Transform:
   - {fileID: 61602086}
   - {fileID: 1931583834}
   - {fileID: 1833430094}
+  - {fileID: 1923326469}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2088622238
