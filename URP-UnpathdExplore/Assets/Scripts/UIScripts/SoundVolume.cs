@@ -8,7 +8,7 @@ public class SoundVolume : MonoBehaviour
     [SerializeField] Slider volumeSlider;
 
     private AudioSource audioSource;
-    public AudioClip soundEffects;
+    //public AudioClip soundEffects;
     
     
     void Start()
