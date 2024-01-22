@@ -60,6 +60,8 @@ public class SocketInteractorManager : MonoBehaviour
         }
     }
 
+
+
     private void RemoveAndHandleDeselection(XRBaseInteractable interactable)
     {
         //Debug.Log("RemoveAndHandleDeselection called"); // Debug statement
@@ -68,7 +70,8 @@ public class SocketInteractorManager : MonoBehaviour
         SpawnAndToggle spawnAndToggle = unsnappedObject.GetComponent<SpawnAndToggle>();
         MapSpawnAndToggle mapSpawnAndToggle = unsnappedObject.transform.parent?.GetComponent<MapSpawnAndToggle>();
         
-    
+        // Remove from snappedObjects list when an object is unsnapped
+        snappedObjects.Remove(unsnappedObject);
 
         if (unsnappedObject == CurrentChildSnappedObject)
         {

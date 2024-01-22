@@ -87,13 +87,15 @@ public class MapSpawnAndToggle : MonoBehaviour
 
     private void SetChildObjectsActive(bool active)
     {
+        List<GameObject> snappedObjects = socketInteractorManager.GetSnappedObjects();
         foreach (var childObject in shippingForecastRegions)
         {
             // Check if the childObject is currently snapped
-            if (childObject != SocketInteractorManager.CurrentSnappedObject && childObject != SocketInteractorManager.CurrentChildSnappedObject)
+            if (!snappedObjects.Contains(childObject))
             {
                 childObject.SetActive(active);
             }
         }
     }
+
 }
