@@ -12,16 +12,19 @@ public class ResetRefine : MonoBehaviour
     public GameObject bathymetricMap;
 
     public GameObject refiningObjects;
+    public GameObject refiningObjectPrefab;
     public GameObject socketInteractor;
-    public GameObject refQ;
+    public GameObject execQ;
+    public GameObject reRef;
 
     public GameObject zoomObject;
     public GameObject birdsEye;
     
 
     private void Start() {
-        m_databaseController = GameObject.FindWithTag( "DB" ).GetComponent<SqliteController>();
-        socketInteractorManager = GetComponent<SocketInteractorManager>();
+        m_databaseController = GameObject.FindWithTag( "DB" ).GetComponent<SqliteController>();  
+        socketInteractorManager = socketInteractor.GetComponentInChildren<SocketInteractorManager>();
+
         SFRMap = GameObject.FindGameObjectWithTag("SFR");
   
     }
@@ -29,6 +32,8 @@ public class ResetRefine : MonoBehaviour
     
     public void ResetRefineSearch()
     {
+
+
         // Clear results in the database controller
         List<UnpathResource> allResults = m_databaseController.GetAllQResults();
         allResults.Clear();
@@ -45,10 +50,11 @@ public class ResetRefine : MonoBehaviour
         // Access SocketInteractorManager and clear snapped objects lists
         if (socketInteractorManager != null)
         {
-            socketInteractorManager.ClearSnappedObjects();
-            socketInteractorManager.ClearCurrentSnappedObjects();
-
+            socketInteractorManager.ResetSocketInteractor();
+            
         }
+
+        SFRMap = GameObject.FindGameObjectWithTag("SFR");
         
         //Destroy instantiated items
         DestroyInstantiatedObjects();
@@ -65,12 +71,16 @@ public class ResetRefine : MonoBehaviour
         zoomObject.SetActive(false);
 
         bathymetricMap.SetActive(true);
-        refiningObjects.SetActive(true);
+        //refiningObjects.SetActive(true);
+
+        Destroy(refiningObjects);
+        refiningObjects = Instantiate(refiningObjectPrefab, transform.position, Quaternion.identity);
         socketInteractor.SetActive(true);
 
-        refQ.SetActive(true);
+        execQ.SetActive(true);
 
-        this.gameObject.SetActive(false);
+        reRef.SetActive(false);
+        
 
     }
 

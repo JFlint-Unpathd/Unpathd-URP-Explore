@@ -23,9 +23,12 @@ public class SocketInteractorManager : MonoBehaviour
     private void Awake()
     {
         socketInteractor = GetComponent<XRSocketInteractor>();
+
         socketInteractor.onSelectEntered.AddListener(AddAndHandleSelection);
         socketInteractor.onSelectExited.AddListener(RemoveAndHandleDeselection);
+
     }
+
 
 
     public void AddAndHandleSelection(XRBaseInteractable interactable)
@@ -98,18 +101,10 @@ public class SocketInteractorManager : MonoBehaviour
             
         }
 
+    
+    }
+
         
-        StartCoroutine(DelayedUnparent(unsnappedObject));
-    }
-
-    private IEnumerator DelayedUnparent(GameObject objToUnparent)
-    {
-        // Wait for a short delay before unparenting
-        yield return new WaitForEndOfFrame();
-
-        // Unparent the unsnapped object, allowing it to naturally exit the interaction state
-        objToUnparent.transform.parent = null;
-    }
 
 
     private void OnDestroy()
@@ -119,16 +114,45 @@ public class SocketInteractorManager : MonoBehaviour
         socketInteractor.onSelectExited.RemoveListener(RemoveAndHandleDeselection);
     }
 
+
     public void ClearSnappedObjects()
     {
+        for (int i = 0; i < snappedObjects.Count; i++)
+        {
+            snappedObjects[i] = null;
+        }
+
         snappedObjects.Clear();
-        
     }
+
 
     public void ClearCurrentSnappedObjects()
     {
         CurrentSnappedObject = null;
         CurrentChildSnappedObject = null;
+    }
+
+
+
+
+    public void ResetSocketInteractor()
+    {
+        Debug.Log("Snapped object count before reset: " + snappedObjects.Count);
+
+        foreach(GameObject go in snappedObjects)
+        {
+            XRBaseInteractable interactable = go.GetComponent<XRBaseInteractable>();
+            if(interactable != null)
+            {
+                RemoveAndHandleDeselection(interactable);
+            }
+        }
+
+        ClearSnappedObjects();
+        ClearCurrentSnappedObjects();
+        
+
+        Debug.Log("Snapped object count after reset: " + snappedObjects.Count);
     }
 
     
