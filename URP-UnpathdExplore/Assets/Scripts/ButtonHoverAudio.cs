@@ -6,6 +6,7 @@ using System.Collections;
 public class ButtonHoverAudio : MonoBehaviour
 {
     public AudioClip hoverClip;
+    // public AudioClip hoverClip2;
     private Coroutine hoverCoroutine;
 
     void Start()
@@ -45,7 +46,17 @@ public class ButtonHoverAudio : MonoBehaviour
 
     private IEnumerator HoverAction()
     {
-        yield return new WaitForSecondsRealtime(2f);
+         yield return new WaitForSecondsRealtime(2f);
         AudioManager.instance.PlayClip(hoverClip);
+
+        // Wait for the first clip to finish playing
+        // yield return new WaitForSeconds(hoverClip.length);
+
+        // // Check if a second clip exists before playing
+        // if (hoverClip2 != null)
+        // {
+        //     AudioManager.instance.PlayClip(hoverClip2);
+        // }
+        
     }
 }
