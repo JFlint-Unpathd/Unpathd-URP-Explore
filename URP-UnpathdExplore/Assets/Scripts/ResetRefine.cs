@@ -12,11 +12,11 @@ public class ResetRefine : MonoBehaviour
     public GameObject bathymetricMap;
 
     public GameObject refiningObjects;
-    public GameObject refiningObjectPrefab;
+    
     public GameObject socketInteractor;
+
     public GameObject execQ;
     public GameObject reRef;
-
     public GameObject zoomObject;
     public GameObject birdsEye;
     
@@ -29,10 +29,53 @@ public class ResetRefine : MonoBehaviour
   
     }
 
+    public void CreateInitialScene()
+    {
+        bathymetricMap.GetComponent<PrefabInstantiator>().InstantiatePrefab();
+        socketInteractor.GetComponent<PrefabInstantiator>().InstantiatePrefab();
+        refiningObjects.GetComponent<PrefabInstantiator>().InstantiatePrefab();
+        //execQ.GetComponent<PrefabInstantiator>().InstantiatePrefab();
+        execQ.SetActive(true);
+       
+    }
+    public void DestroyInitialScene()
+    {
+        Destroy(bathymetricMap);
+        Destroy(refiningObjects);
+        //Destroy(execQ);
+        execQ.SetActive(false);
+        Destroy(socketInteractor);
+    }
+
+    public void CreateResultsScene()
+    {
+        //birdsEye.GetComponent<PrefabInstantiator>().InstantiatePrefab();
+        birdsEye.SetActive(true);
+        //reRef.GetComponent<PrefabInstantiator>().InstantiatePrefab();
+        reRef.SetActive(true);
+        //zoomObject.GetComponent<PrefabInstantiator>().InstantiatePrefab();
+        zoomObject.SetActive(true);
+
+        SFRMap.GetComponent<PrefabInstantiator>().InstantiatePrefab();
+    }
+
+    public void DestroyResultsScene()
+    {
+        //Destroy(birdsEye);
+        birdsEye.SetActive(false);
+        //Destroy(reRef);
+        reRef.SetActive(false);
+        //Destroy(zoomObject);
+        zoomObject.SetActive(false);
+
+        Destroy(SFRMap);
+    }
+
+    
+
     
     public void ResetRefineSearch()
     {
-
 
         // Clear results in the database controller
         List<UnpathResource> allResults = m_databaseController.GetAllQResults();
@@ -56,7 +99,7 @@ public class ResetRefine : MonoBehaviour
 
         SFRMap = GameObject.FindGameObjectWithTag("SFR");
         
-        //Destroy instantiated items
+        //Destroy instantiated items from results Q
         DestroyInstantiatedObjects();
         m_databaseController.ResetQuery();
         
@@ -67,20 +110,9 @@ public class ResetRefine : MonoBehaviour
             Debug.LogError("SFRMap not found!");
         }
 
-        birdsEye.SetActive(false);
-        zoomObject.SetActive(false);
+        DestroyResultsScene();
+        CreateInitialScene();
 
-        bathymetricMap.SetActive(true);
-        //refiningObjects.SetActive(true);
-
-        Destroy(refiningObjects);
-        refiningObjects = Instantiate(refiningObjectPrefab, transform.position, Quaternion.identity);
-        socketInteractor.SetActive(true);
-
-        execQ.SetActive(true);
-
-        reRef.SetActive(false);
-        
 
     }
 
