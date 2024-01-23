@@ -12,7 +12,7 @@ public class ResetRefine : MonoBehaviour
     public GameObject bathymetricMap;
 
     public GameObject refiningObjects;
-    public GameObject refiningObjectPrefab;
+    
     public GameObject socketInteractor;
     public GameObject execQ;
     public GameObject reRef;
@@ -71,10 +71,8 @@ public class ResetRefine : MonoBehaviour
         zoomObject.SetActive(false);
 
         bathymetricMap.SetActive(true);
-        //refiningObjects.SetActive(true);
+        refiningObjects.SetActive(true);
 
-        Destroy(refiningObjects);
-        refiningObjects = Instantiate(refiningObjectPrefab, transform.position, Quaternion.identity);
         socketInteractor.SetActive(true);
 
         execQ.SetActive(true);
