@@ -5,17 +5,10 @@ using UnityEngine;
 public class AudioDelay : MonoBehaviour
 {
     public AudioClip imgSettingsVo;
-  
-    public void StartCor()
-    {
-        StartCoroutine(ExplanatoryAudioDelay(imgSettingsVo, 2f));
-    }
 
-    private IEnumerator ExplanatoryAudioDelay(AudioClip clip, float delay)
+    public void StartAudioDelay()
     {
-        yield return new WaitForSecondsRealtime(delay);
-        AudioManager.instance.PlayClip(imgSettingsVo);
+        AudioDelayManager.instance.StartExplanatoryAudioDelay(imgSettingsVo, 1f);
+        Debug.Log("Audio delay started");
     }
-
-    
 }

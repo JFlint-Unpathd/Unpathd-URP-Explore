@@ -23,11 +23,7 @@ public class ResetRefine : MonoBehaviour
         m_databaseController = GameObject.FindWithTag( "DB" ).GetComponent<SqliteController>();
         socketInteractorManager = GetComponent<SocketInteractorManager>();
         SFRMap = GameObject.FindGameObjectWithTag("SFR");
-
-        Destroy(refiningObjects);
-        Destroy(socketInteractor);
-        
-        
+  
     }
 
     
@@ -73,8 +69,6 @@ public class ResetRefine : MonoBehaviour
         socketInteractor.SetActive(true);
 
         refQ.SetActive(true);
-
-
 
         this.gameObject.SetActive(false);
 
