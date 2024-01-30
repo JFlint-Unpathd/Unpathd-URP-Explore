@@ -12,7 +12,6 @@ public class ResetRefine : MonoBehaviour
     public GameObject bathymetricMap;
 
     public GameObject refiningObjects;
-    
     public GameObject socketInteractor;
 
     public GameObject execQ;
@@ -34,44 +33,42 @@ public class ResetRefine : MonoBehaviour
         bathymetricMap.GetComponent<PrefabInstantiator>().InstantiatePrefab();
         socketInteractor.GetComponent<PrefabInstantiator>().InstantiatePrefab();
         refiningObjects.GetComponent<PrefabInstantiator>().InstantiatePrefab();
-        //execQ.GetComponent<PrefabInstantiator>().InstantiatePrefab();
-        execQ.SetActive(true);
+        execQ.GetComponent<PrefabInstantiator>().InstantiatePrefab();
+        //execQ.SetActive(true);
        
     }
     public void DestroyInitialScene()
     {
         Destroy(bathymetricMap);
         Destroy(refiningObjects);
-        //Destroy(execQ);
-        execQ.SetActive(false);
+        Destroy(execQ);
+        //execQ.SetActive(false);
         Destroy(socketInteractor);
     }
 
     public void CreateResultsScene()
     {
-        //birdsEye.GetComponent<PrefabInstantiator>().InstantiatePrefab();
-        birdsEye.SetActive(true);
-        //reRef.GetComponent<PrefabInstantiator>().InstantiatePrefab();
-        reRef.SetActive(true);
-        //zoomObject.GetComponent<PrefabInstantiator>().InstantiatePrefab();
-        zoomObject.SetActive(true);
+        birdsEye.GetComponent<PrefabInstantiator>().InstantiatePrefab();
+        //birdsEye.SetActive(true);
+        reRef.GetComponent<PrefabInstantiator>().InstantiatePrefab();
+        //reRef.SetActive(true);
+        zoomObject.GetComponent<PrefabInstantiator>().InstantiatePrefab();
+        //zoomObject.SetActive(true);
 
         SFRMap.GetComponent<PrefabInstantiator>().InstantiatePrefab();
     }
 
     public void DestroyResultsScene()
     {
-        //Destroy(birdsEye);
-        birdsEye.SetActive(false);
-        //Destroy(reRef);
-        reRef.SetActive(false);
-        //Destroy(zoomObject);
-        zoomObject.SetActive(false);
+        Destroy(birdsEye);
+        //birdsEye.SetActive(false);
+        Destroy(reRef);
+        //reRef.SetActive(false);
+        Destroy(zoomObject);
+        //zoomObject.SetActive(false);
 
         Destroy(SFRMap);
     }
-
-    
 
     
     public void ResetRefineSearch()
@@ -127,7 +124,5 @@ public class ResetRefine : MonoBehaviour
             Destroy(obj.gameObject);
         }
     }
-
-   
 
 }
