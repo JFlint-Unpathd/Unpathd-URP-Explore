@@ -8,50 +8,118 @@ public class ResetRefine : MonoBehaviour
     private SocketInteractorManager socketInteractorManager;
     private MapSpawnAndToggle mapSpawnAndToggle;
 
+    [Header("Instantiated Objects")]
+    public List<GameObject> instantiatedObjects = new List<GameObject>();
+
+    [Header("Maps")]
     public GameObject SFRMap;
     public GameObject bathymetricMap;
 
+    [Header("Prefabs")]
     public GameObject refiningObjects;
     public GameObject socketInteractor;
 
+    [Header("Scene Objects")]
     public GameObject execQ;
     public GameObject reRef;
+
+    [Header("Other Prefabs")]
     public GameObject zoomObject;
     public GameObject birdsEye;
     
 
     private void Start() {
         m_databaseController = GameObject.FindWithTag( "DB" ).GetComponent<SqliteController>();  
-        socketInteractorManager = socketInteractor.GetComponentInChildren<SocketInteractorManager>();
+        //socketInteractorManager = socketInteractor.GetComponentInChildren<SocketInteractorManager>();
 
-        SFRMap = GameObject.FindGameObjectWithTag("SFR");
+        //SFRMap = GameObject.FindGameObjectWithTag("SFR");
   
     }
 
+    // public void CreateInitialScene()
+    // {
+    //     bathymetricMap.GetComponent<PrefabInstantiator>().InstantiatePrefab();
+    //     socketInteractor.GetComponent<PrefabInstantiator>().InstantiatePrefab();
+    //     refiningObjects.GetComponent<PrefabInstantiator>().InstantiatePrefab();
+    //     //execQ.GetComponent<PrefabInstantiator>().InstantiatePrefab();
+    //     execQ.SetActive(true);
+       
+    // }
+
     public void CreateInitialScene()
     {
-        bathymetricMap.GetComponent<PrefabInstantiator>().InstantiatePrefab();
-        socketInteractor.GetComponent<PrefabInstantiator>().InstantiatePrefab();
-        refiningObjects.GetComponent<PrefabInstantiator>().InstantiatePrefab();
-        execQ.GetComponent<PrefabInstantiator>().InstantiatePrefab();
-        //execQ.SetActive(true);
-       
+        // Instantiate all prefabs and store references
+        GameObject bathymetricMapInstance = InstantiatePrefab(bathymetricMap);
+        instantiatedObjects.Add(bathymetricMapInstance);
+
+        GameObject refiningObjectsInstance = InstantiatePrefab(refiningObjects);
+        instantiatedObjects.Add(refiningObjectsInstance);
+
+        GameObject socketInteractorInstance = InstantiatePrefab(socketInteractor);
+        instantiatedObjects.Add(socketInteractorInstance);
+
+        execQ.SetActive(true);
     }
+
     public void DestroyInitialScene()
     {
-        Destroy(bathymetricMap);
-        Destroy(refiningObjects);
-        Destroy(execQ);
-        //execQ.SetActive(false);
-        Destroy(socketInteractor);
+        // Check if the bathymetricMap is instantiated and not the original prefab
+        if (bathymetricMap != null && bathymetricMap.scene.IsValid())
+        {
+            Destroy(bathymetricMap); // Destroy the instantiated GameObject
+        }
+
+        if (refiningObjects != null && refiningObjects.scene.IsValid())
+        {
+            Destroy(refiningObjects); // Destroy the instantiated GameObject
+        }
+
+        if (socketInteractor != null && socketInteractor.scene.IsValid())
+        {
+            Destroy(socketInteractor); // Destroy the instantiated GameObject
+        }
+
+        
+        
+        //Destroy(execQ);
+        execQ.SetActive(false);
+        
+    }
+
+    public void ResetScene()
+    {
+        // Destroy or deactivate all instantiated objects
+        foreach (GameObject obj in instantiatedObjects)
+        {
+            if (obj != null)
+            {
+                Destroy(obj);
+            }
+        }
+        instantiatedObjects.Clear();
+        Debug.Log("Should have destroyed");
+
+    }
+
+    private GameObject InstantiatePrefab(GameObject prefab)
+    {
+        if (prefab != null)
+        {
+            return Instantiate(prefab);
+        }
+        else
+        {
+            Debug.LogError("Prefab is null. Cannot instantiate.");
+            return null;
+        }
     }
 
     public void CreateResultsScene()
     {
         birdsEye.GetComponent<PrefabInstantiator>().InstantiatePrefab();
         //birdsEye.SetActive(true);
-        reRef.GetComponent<PrefabInstantiator>().InstantiatePrefab();
-        //reRef.SetActive(true);
+        //reRef.GetComponent<PrefabInstantiator>().InstantiatePrefab();
+        reRef.SetActive(true);
         zoomObject.GetComponent<PrefabInstantiator>().InstantiatePrefab();
         //zoomObject.SetActive(true);
 
@@ -60,10 +128,11 @@ public class ResetRefine : MonoBehaviour
 
     public void DestroyResultsScene()
     {
+        
         Destroy(birdsEye);
         //birdsEye.SetActive(false);
-        Destroy(reRef);
-        //reRef.SetActive(false);
+        //Destroy(reRef);
+        reRef.SetActive(false);
         Destroy(zoomObject);
         //zoomObject.SetActive(false);
 

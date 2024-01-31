@@ -23,7 +23,7 @@ public class MapSpawnAndToggle : MonoBehaviour
     private bool regionsVisible = false;
 
     private XRBaseInteractable interactable;
-    public SocketInteractorManager socketInteractorManager;
+    private SocketInteractorManager socketInteractorManager;
 
     void Awake()
     {
@@ -48,6 +48,13 @@ public class MapSpawnAndToggle : MonoBehaviour
 
             // Add the child object to the list
             shippingForecastRegions.Add(childObject);
+        }
+
+        // Find the SocketInteractorManager in the scene
+        socketInteractorManager = FindObjectOfType<SocketInteractorManager>();
+        if (socketInteractorManager == null)
+        {
+            Debug.LogError("SocketInteractorManager not found in the scene.");
         }
     }
 
@@ -90,7 +97,14 @@ public class MapSpawnAndToggle : MonoBehaviour
             {
                 childObject.SetActive(active);
             }
+
+            else
+            {
+                Debug.Log("Not sure why fired");
+            }
         }
+
+        
     }
 
     public void ClearListsAndDictionaries()

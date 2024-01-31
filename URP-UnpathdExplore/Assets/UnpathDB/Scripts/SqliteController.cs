@@ -253,7 +253,7 @@ public class SqliteController : MonoBehaviour {
                     res.m_Title = title;
                     res.m_Description = desc;
                     res.m_Placename = placename;
-                    FilterOff();
+                    //FilterOff();
                     Debug.Log($"id : {id}" );
                     m_resourceDict.Add( id, res );
                     ++count;
@@ -325,12 +325,12 @@ public class SqliteController : MonoBehaviour {
             }
         }
     
-        public void FilterOff()
-        {
-            refiningObjects.SetActive(false);
-            socketInteractor.SetActive(false);
-            queryRefiner.SetActive(false);
-        }
+        // public void FilterOff()
+        // {
+        //     refiningObjects.SetActive(false);
+        //     socketInteractor.SetActive(false);
+        //     queryRefiner.SetActive(false);
+        // }
 
         public void ClearResourceDictandLists()
         {
