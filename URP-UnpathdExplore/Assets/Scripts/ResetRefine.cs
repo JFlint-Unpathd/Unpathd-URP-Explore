@@ -85,10 +85,27 @@ public class ResetRefine : MonoBehaviour
 
     public void CreateResultsScene()
     {
-        SFRMap = GameObject.FindGameObjectWithTag("SFR");
+        if (resultsSceneObjects.Count == 0)
+        {
+            SFRMap = GameObject.FindGameObjectWithTag("SFR");
 
-        GameObject birdsEyeInstance = InstantiatePrefab(birdsEye);
-        resultsSceneObjects.Add(birdsEye);
+            GameObject birdsEyeInstance = InstantiatePrefab(birdsEye);
+            resultsSceneObjects.Add(birdsEyeInstance);
+        }
+
+        // Activate scene objects if they exist
+        foreach (GameObject obj in resultsSceneObjects)
+        {
+            if (obj != null)
+            {
+                obj.SetActive(true);
+            }
+        }
+
+        //SFRMap = GameObject.FindGameObjectWithTag("SFR");
+
+        //GameObject birdsEyeInstance = InstantiatePrefab(birdsEye);
+        //resultsSceneObjects.Add(birdsEye);
 
         SFRMap.SetActive(true);
         reRef.SetActive(true);
@@ -102,17 +119,38 @@ public class ResetRefine : MonoBehaviour
         // Destroy or deactivate all results scene objects
         foreach (GameObject obj in resultsSceneObjects)
         {
-            if (obj != null)
+            // if (obj != null)
+            // {
+            //     //Destroy(obj);
+            //     DestroyImmediate(obj);
+            // }
+
+             if (obj != null)
             {
-                Destroy(obj);
+                obj.SetActive(false);
             }
         }
+        
         resultsSceneObjects.Clear();
         Debug.Log("Should have destroyed resultssceneobj");
 
-        SFRMap.SetActive(false);
-        reRef.SetActive(false);
-        zoomObject.SetActive(false);
+        // Deactivate other scene objects
+        if (SFRMap != null)
+        {
+            SFRMap.SetActive(false);
+        }
+        if (reRef != null)
+        {
+            reRef.SetActive(false);
+        }
+        if (zoomObject != null)
+        {
+            zoomObject.SetActive(false);
+        }
+
+        // SFRMap.SetActive(false);
+        // reRef.SetActive(false);
+        // zoomObject.SetActive(false);
     }
 
     
