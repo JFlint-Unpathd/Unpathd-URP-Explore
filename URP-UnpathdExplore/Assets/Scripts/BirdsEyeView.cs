@@ -3,9 +3,9 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class BirdsEyeView : MonoBehaviour
 {
-    [SerializeField]
+    //[SerializeField]
     private GameObject xrOrigin;
-    [SerializeField]
+    //[SerializeField]
     private Rigidbody xrOriginRigidbody;    
 
     private XRGrabInteractable grabInteractable;
@@ -16,7 +16,28 @@ public class BirdsEyeView : MonoBehaviour
 
     private void Start()
     {
-        originalYPosition = xrOrigin.transform.position.y;
+        
+        // Find the XR Origin and its Rigidbody using the XRRig tag
+        xrOrigin = GameObject.FindWithTag("XRRig");
+
+        if (xrOrigin != null)
+        {
+            xrOriginRigidbody = xrOrigin.GetComponent<Rigidbody>();
+            // Initialize originalYPosition after xrOrigin is assigned
+            originalYPosition = xrOrigin.transform.position.y;
+
+        }
+        else
+        {
+            Debug.LogError("XR Origin not found with tag 'XRRig'. Make sure the XR Rig object is correctly tagged.");
+            return;
+        }
+
+        if (xrOriginRigidbody == null)
+        {
+            Debug.LogError("Rigidbody component not found on the XR Origin. Make sure it is correctly set up.");
+            return;
+        }
 
         // Automatically assign XRGrabInteractable on the same GameObject
         grabInteractable = GetComponent<XRGrabInteractable>();

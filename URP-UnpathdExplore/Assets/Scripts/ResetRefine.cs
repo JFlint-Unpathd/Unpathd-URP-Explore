@@ -9,7 +9,9 @@ public class ResetRefine : MonoBehaviour
     private MapSpawnAndToggle mapSpawnAndToggle;
 
     [Header("Instantiated Objects")]
-    public List<GameObject> instantiatedObjects = new List<GameObject>();
+    public List<GameObject> refiningSceneObjects = new List<GameObject>();
+    [Header("Results Scene Obj")]
+    public List<GameObject> resultsSceneObjects = new List<GameObject>();
 
     [Header("Maps")]
     public GameObject SFRMap;
@@ -36,68 +38,37 @@ public class ResetRefine : MonoBehaviour
   
     }
 
-    // public void CreateInitialScene()
-    // {
-    //     bathymetricMap.GetComponent<PrefabInstantiator>().InstantiatePrefab();
-    //     socketInteractor.GetComponent<PrefabInstantiator>().InstantiatePrefab();
-    //     refiningObjects.GetComponent<PrefabInstantiator>().InstantiatePrefab();
-    //     //execQ.GetComponent<PrefabInstantiator>().InstantiatePrefab();
-    //     execQ.SetActive(true);
-       
-    // }
-
+    
     public void CreateInitialScene()
     {
         // Instantiate all prefabs and store references
         GameObject bathymetricMapInstance = InstantiatePrefab(bathymetricMap);
-        instantiatedObjects.Add(bathymetricMapInstance);
+        refiningSceneObjects.Add(bathymetricMapInstance);
 
         GameObject refiningObjectsInstance = InstantiatePrefab(refiningObjects);
-        instantiatedObjects.Add(refiningObjectsInstance);
+        refiningSceneObjects.Add(refiningObjectsInstance);
 
         GameObject socketInteractorInstance = InstantiatePrefab(socketInteractor);
-        instantiatedObjects.Add(socketInteractorInstance);
+        refiningSceneObjects.Add(socketInteractorInstance);
 
         execQ.SetActive(true);
     }
 
+
     public void DestroyInitialScene()
     {
-        // Check if the bathymetricMap is instantiated and not the original prefab
-        if (bathymetricMap != null && bathymetricMap.scene.IsValid())
-        {
-            Destroy(bathymetricMap); // Destroy the instantiated GameObject
-        }
-
-        if (refiningObjects != null && refiningObjects.scene.IsValid())
-        {
-            Destroy(refiningObjects); // Destroy the instantiated GameObject
-        }
-
-        if (socketInteractor != null && socketInteractor.scene.IsValid())
-        {
-            Destroy(socketInteractor); // Destroy the instantiated GameObject
-        }
-
-        
-        
-        //Destroy(execQ);
-        execQ.SetActive(false);
-        
-    }
-
-    public void ResetScene()
-    {
         // Destroy or deactivate all instantiated objects
-        foreach (GameObject obj in instantiatedObjects)
+        foreach (GameObject obj in refiningSceneObjects)
         {
             if (obj != null)
             {
                 Destroy(obj);
             }
         }
-        instantiatedObjects.Clear();
+        refiningSceneObjects.Clear();
         Debug.Log("Should have destroyed");
+
+        execQ.SetActive(false);
 
     }
 
@@ -116,27 +87,34 @@ public class ResetRefine : MonoBehaviour
 
     public void CreateResultsScene()
     {
-        birdsEye.GetComponent<PrefabInstantiator>().InstantiatePrefab();
-        //birdsEye.SetActive(true);
-        //reRef.GetComponent<PrefabInstantiator>().InstantiatePrefab();
-        reRef.SetActive(true);
-        zoomObject.GetComponent<PrefabInstantiator>().InstantiatePrefab();
-        //zoomObject.SetActive(true);
+        GameObject birdsEyeInstance = InstantiatePrefab(birdsEye);
+        resultsSceneObjects.Add(birdsEye);
 
-        SFRMap.GetComponent<PrefabInstantiator>().InstantiatePrefab();
+        GameObject SFRMap = InstantiatePrefab(SFRMap);
+        resultsSceneObjects.Add(SFRMap);
+
+        
+        reRef.SetActive(true);
+        zoomObject.SetActive(true);
+
     }
 
     public void DestroyResultsScene()
     {
         
-        Destroy(birdsEye);
-        //birdsEye.SetActive(false);
-        //Destroy(reRef);
-        reRef.SetActive(false);
-        Destroy(zoomObject);
-        //zoomObject.SetActive(false);
+        // Destroy or deactivate all results scene objects
+        foreach (GameObject obj in resultsSceneObjects)
+        {
+            if (obj != null)
+            {
+                Destroy(obj);
+            }
+        }
+        resultsSceneObjects.Clear();
+        Debug.Log("Should have destroyed");
 
-        Destroy(SFRMap);
+        reRef.SetActive(false);
+        zoomObject.SetActive(false);
     }
 
     
@@ -185,10 +163,10 @@ public class ResetRefine : MonoBehaviour
     private void DestroyInstantiatedObjects()
     {
         // Get all GameObjects with UnpathResource component
-        UnpathResource[] instantiatedObjects = FindObjectsOfType<UnpathResource>();
+        UnpathResource[] refiningObjects = FindObjectsOfType<UnpathResource>();
 
         // Destroy each instantiated GameObject
-        foreach (UnpathResource obj in instantiatedObjects)
+        foreach (UnpathResource obj in refiningObjects)
         {
             Destroy(obj.gameObject);
         }
