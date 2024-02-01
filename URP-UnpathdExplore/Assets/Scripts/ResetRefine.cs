@@ -30,11 +30,9 @@ public class ResetRefine : MonoBehaviour
     public GameObject birdsEye;
     
 
-    private void Start() {
+    private void Awake() {
         m_databaseController = GameObject.FindWithTag( "DB" ).GetComponent<SqliteController>();  
         //socketInteractorManager = socketInteractor.GetComponentInChildren<SocketInteractorManager>();
-
-        //SFRMap = GameObject.FindGameObjectWithTag("SFR");
   
     }
 
@@ -87,13 +85,12 @@ public class ResetRefine : MonoBehaviour
 
     public void CreateResultsScene()
     {
+        SFRMap = GameObject.FindGameObjectWithTag("SFR");
+
         GameObject birdsEyeInstance = InstantiatePrefab(birdsEye);
         resultsSceneObjects.Add(birdsEye);
 
-        GameObject SFRMap = InstantiatePrefab(SFRMap);
-        resultsSceneObjects.Add(SFRMap);
-
-        
+        SFRMap.SetActive(true);
         reRef.SetActive(true);
         zoomObject.SetActive(true);
 
@@ -111,8 +108,9 @@ public class ResetRefine : MonoBehaviour
             }
         }
         resultsSceneObjects.Clear();
-        Debug.Log("Should have destroyed");
+        Debug.Log("Should have destroyed resultssceneobj");
 
+        SFRMap.SetActive(false);
         reRef.SetActive(false);
         zoomObject.SetActive(false);
     }
@@ -141,20 +139,12 @@ public class ResetRefine : MonoBehaviour
             
         }
 
-        SFRMap = GameObject.FindGameObjectWithTag("SFR");
-        
-        //Destroy instantiated items from results Q
+
+        //Destroy instantiated items from results Q from sqlite controller script
         DestroyInstantiatedObjects();
         m_databaseController.ResetQuery();
         
-
-        if (SFRMap != null) {
-        SFRMap.SetActive(false);}
-        else {
-            Debug.LogError("SFRMap not found!");
-        }
-
-        DestroyResultsScene();
+        
         CreateInitialScene();
 
 

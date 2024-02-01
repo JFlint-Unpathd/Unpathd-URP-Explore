@@ -6795,7 +6795,7 @@ PrefabInstance:
     - target: {fileID: 6993440660067623317, guid: fc11ec33d77f3674ba3273bde44af139,
         type: 3}
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: ResetScene
+      value: DestroyInitialScene
       objectReference: {fileID: 0}
     - target: {fileID: 6993440660067623317, guid: fc11ec33d77f3674ba3273bde44af139,
         type: 3}
@@ -7682,7 +7682,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad563c8c01071f34ea6029bc754e7b07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instantiatedObjects: []
+  refiningSceneObjects: []
+  resultsSceneObjects: []
   SFRMap: {fileID: 7482115700434674249, guid: 8a6b602d68d186e42b17284bf6f8bc9d, type: 3}
   bathymetricMap: {fileID: 5115434697869544099, guid: aac775b6df7bf0a40a9a7925f202ba23,
     type: 3}
@@ -15310,12 +15311,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8176804071202853451, guid: 4b61120ab365b6149bf0f09a9ec197f2,
         type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8176804071202853451, guid: 4b61120ab365b6149bf0f09a9ec197f2,
+        type: 3}
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1388354268}
     - target: {fileID: 8176804071202853451, guid: 4b61120ab365b6149bf0f09a9ec197f2,
         type: 3}
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1388354268}
+    - target: {fileID: 8176804071202853451, guid: 4b61120ab365b6149bf0f09a9ec197f2,
+        type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 1388354268}
     - target: {fileID: 8176804071202853451, guid: 4b61120ab365b6149bf0f09a9ec197f2,
@@ -15330,13 +15341,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8176804071202853451, guid: 4b61120ab365b6149bf0f09a9ec197f2,
         type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8176804071202853451, guid: 4b61120ab365b6149bf0f09a9ec197f2,
+        type: 3}
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: DestroyResultsScene
       objectReference: {fileID: 0}
     - target: {fileID: 8176804071202853451, guid: 4b61120ab365b6149bf0f09a9ec197f2,
         type: 3}
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: ResetScene
+      value: ResetRefineSearch
+      objectReference: {fileID: 0}
+    - target: {fileID: 8176804071202853451, guid: 4b61120ab365b6149bf0f09a9ec197f2,
+        type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: CreateInitialScene
       objectReference: {fileID: 0}
     - target: {fileID: 8176804071202853451, guid: 4b61120ab365b6149bf0f09a9ec197f2,
         type: 3}
@@ -15350,12 +15371,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8176804071202853451, guid: 4b61120ab365b6149bf0f09a9ec197f2,
         type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: ResetRefine, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8176804071202853451, guid: 4b61120ab365b6149bf0f09a9ec197f2,
+        type: 3}
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8176804071202853451, guid: 4b61120ab365b6149bf0f09a9ec197f2,
         type: 3}
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8176804071202853451, guid: 4b61120ab365b6149bf0f09a9ec197f2,
+        type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
