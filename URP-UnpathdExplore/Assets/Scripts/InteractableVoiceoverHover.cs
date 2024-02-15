@@ -2,21 +2,36 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-[RequireComponent(typeof(XRGrabInteractable))]
+
 public class InteractableVoiceoverHover : MonoBehaviour
 {
     public AudioClip voiceoverClip;
-    private XRGrabInteractable interactable;
+    private XRBaseInteractable interactable;
 
     private bool isHovering = false;
     private float hoverTime = 0f;
     private const float requiredHoverTime = 1f;
 
+    void Awake()
+    {
+        
+        interactable = GetComponent<XRBaseInteractable>();
+    }
+
     void Start()
     {
-        interactable = GetComponent<XRGrabInteractable>();
+        
+
+       if (interactable == null)
+       {
+            Debug.LogError("The XRInteractable component is missing.");
+            return;
+        }
+
         interactable.onHoverEntered.AddListener(OnHoverEntered);
         interactable.onHoverExited.AddListener(OnHoverExited);
+
+        
     }
 
     private void OnHoverEntered(XRBaseInteractor interactor)

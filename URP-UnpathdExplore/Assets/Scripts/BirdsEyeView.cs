@@ -8,11 +8,18 @@ public class BirdsEyeView : MonoBehaviour
     //[SerializeField]
     private Rigidbody xrOriginRigidbody;    
 
-    private XRGrabInteractable grabInteractable;
+    private XRBaseInteractable interactable;
 
     private bool isSelected = false;
     private float originalYPosition;
 
+    private GameObject birdPlane;
+
+    void Awake()
+    {
+        
+        interactable = GetComponent<XRBaseInteractable>();
+    }
 
     private void Start()
     {
@@ -39,32 +46,38 @@ public class BirdsEyeView : MonoBehaviour
             return;
         }
 
-        // Automatically assign XRGrabInteractable on the same GameObject
-        grabInteractable = GetComponent<XRGrabInteractable>();
+
         xrOriginRigidbody.isKinematic = true;
         
-        if (grabInteractable == null)
+
+        if (interactable == null)
         {
             Debug.LogError("XRGrabInteractable component not found on the birdsEye object. Make sure it is attached.");
             return;
         }
 
-        // Subscribe to the selection event
-        grabInteractable.onSelectEntered.AddListener(OnSelected);
+    
+        interactable.onSelectEntered.AddListener(OnSelected);
+
+        birdPlane = GameObject.FindWithTag("BirdPlane");
+        birdPlane.SetActive(false);
     }
 
     private void OnSelected(XRBaseInteractor interactor)
     {
+        Vector3 offset = new Vector3(1f, 3f, 1f);  // Replace with your desired offset
         
         if (!isSelected) // For the first selection
         {
-            xrOrigin.transform.position = transform.position;
+            xrOrigin.transform.position = transform.position - offset;
             isSelected = true; // Switch the state to true after first selection
+            birdPlane.SetActive(true);
         }
         else // For the second selection
         {
             xrOrigin.transform.position = new Vector3(xrOrigin.transform.position.x, originalYPosition, xrOrigin.transform.position.z);
             isSelected = false; // Switch the state back to false after second selection
+            birdPlane.SetActive(false);
         }
     }
 }
