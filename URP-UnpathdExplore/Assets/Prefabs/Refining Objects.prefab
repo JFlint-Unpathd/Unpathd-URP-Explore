@@ -9427,7 +9427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Title: Sea/Shore
-  m_QueryTerm: GSA_Themes LIKE '%Sea%, %Shore%'
+  m_QueryTerm: 'GSA_Themes LIKE ''%Sea% OR GSA_Themes LIKE ''%Shore%'' '
 --- !u!114 &4795920582961505417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9854,7 +9854,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec001b58b744d954bad1ffbe293a9965, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  socketInteractorManager: {fileID: 0}
 --- !u!1 &2586621826392024863
 GameObject:
   m_ObjectHideFlags: 0
@@ -18275,7 +18274,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Title: People
-  m_QueryTerm: 'GSA_Themes LIKE ''%People%''  '
+  m_QueryTerm: 'GSA_Themes LIKE ''%People%'' OR GSA_Themes LIKE ''%Migration%'' OR
+    GSA_Themes LIKE ''%Slavery%'' OR GSA_Themes LIKE ''%Crew%'' '
 --- !u!114 &751956290177308724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19096,7 +19096,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Title: Warfare
-  m_QueryTerm: GSA_Themes LIKE '%Warfare%'
+  m_QueryTerm: GSA_Themes LIKE '%WW1 Warfare%'
 --- !u!114 &8677386609624419193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20933,7 +20933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Title: Cargo Ship
-  m_QueryTerm: GSA_GrossSubject LIKE '%Cargo Ship%'
+  m_QueryTerm: 'description LIKE ''%Cargo Ship%'' '
 --- !u!114 &3757155011776107394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30335,7 +30335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Title: Destinations
-  m_QueryTerm: GSA_Themes LIKE '%Destination%'
+  m_QueryTerm: 'GSA_Themes LIKE ''%Destination% '
 --- !u!114 &1869601412474279626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32595,7 +32595,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Title: Materials
-  m_QueryTerm: GSA_Themes LIKE '%Materials%'
+  m_QueryTerm: 'GSA_Themes LIKE ''%Technology% OR GSA_Themes LIKE ''%Cargo%'' '
 --- !u!114 &1945300215068942884
 MonoBehaviour:
   m_ObjectHideFlags: 0
