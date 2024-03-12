@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
@@ -6,7 +7,6 @@ public class HoverFloat : MonoBehaviour
     private XRBaseInteractable xrInteractable;
     private Rigidbody rb;
     private Vector3 originalPosition;
-    private bool isHovering = false;
 
     // Height for the object to float up
     public float floatHeight = 1f;
@@ -17,32 +17,31 @@ public class HoverFloat : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         originalPosition = transform.position;
 
-        xrInteractable.hoverEntered.AddListener(HoverEnter);
-        xrInteractable.hoverExited.AddListener(HoverExit);
+        // Lock rotation along all axes
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
+
+        // Add listener for XRBaseInteractable events
+        xrInteractable.onHoverEntered.AddListener(OnHoverEnter);
     }
 
-    void HoverEnter(HoverEnterEventArgs arg)
+    private void OnHoverEnter(XRBaseInteractor interactor)
     {
-        isHovering = true;
+        StartCoroutine(HandleFloating());
+    }
+
+    IEnumerator HandleFloating()
+    {
+        // Start floating
         StartFloating();
-    }
 
-    void HoverExit(HoverExitEventArgs arg)
-    {
-        isHovering = false;
+        // Wait for 3 seconds
+        yield return new WaitForSeconds(1f);
+
+        // Then return to original position
         StopFloating();
     }
 
-    void FixedUpdate()
-    {
-        if (!isHovering && !xrInteractable.isSelected)
-        {
-            rb.useGravity = true;
-            rb.isKinematic = false;
-        }
-    }
-
-    void StartFloating()
+    public void StartFloating()
     {
         rb.useGravity = false;
         rb.isKinematic = true;
@@ -50,9 +49,35 @@ public class HoverFloat : MonoBehaviour
         rb.MovePosition(targetPosition);
     }
 
-    void StopFloating()
+    // public void StopFloating()
+    // {
+    //     rb.useGravity = true;
+    //     rb.isKinematic = false;
+    //     rb.MovePosition(originalPosition);
+    // }
+
+  
+
+    public float returnSpeed = 0.1f; // Speed at which the object returns to its original position
+
+    public void StopFloating()
     {
+        StartCoroutine(InterpolatePosition(originalPosition));
+    }
+
+    IEnumerator InterpolatePosition(Vector3 targetPosition)
+    {
+        while (Vector3.Distance(transform.position, targetPosition) > 0.05f) // 0.05f is a small value to decide when to stop interpolation
+        {
+            transform.position = Vector3.Lerp(transform.position, targetPosition, returnSpeed);
+            yield return null; // Wait until next frame
+        }
+
+        // When the object is close enough, make sure it's exactly at the target
+        transform.position = targetPosition;
+
         rb.useGravity = true;
         rb.isKinematic = false;
     }
+
 }
