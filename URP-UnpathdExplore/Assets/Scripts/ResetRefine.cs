@@ -15,7 +15,7 @@ public class ResetRefine : MonoBehaviour
 
     [Header("Maps")]
     public GameObject SFRMap;
-    public GameObject bathymetricMap;
+    public GameObject startingEnv;
 
     [Header("Prefabs")]
     public GameObject refiningObjects;
@@ -40,8 +40,8 @@ public class ResetRefine : MonoBehaviour
     public void CreateInitialScene()
     {
         // Instantiate all prefabs and store references
-        GameObject bathymetricMapInstance = InstantiatePrefab(bathymetricMap);
-        refiningSceneObjects.Add(bathymetricMapInstance);
+        GameObject startingEnvInstance = InstantiatePrefab(startingEnv);
+        refiningSceneObjects.Add(startingEnvInstance);
 
         GameObject refiningObjectsInstance = InstantiatePrefab(refiningObjects);
         refiningSceneObjects.Add(refiningObjectsInstance);
