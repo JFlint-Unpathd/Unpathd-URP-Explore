@@ -60,8 +60,12 @@ public class SpawnAndToggle : MonoBehaviour
         {
             float angle = i * (360f / objectsToSpawn.Length);
             float spawnX = transform.position.x + spawnRadius * Mathf.Cos(Mathf.Deg2Rad * angle);
-            float spawnZ = transform.position.z + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
-            Vector3 newPosition = new Vector3(spawnX, transform.position.y, spawnZ);
+            float spawnY = transform.position.y + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
+            Vector3 newPosition = new Vector3(spawnX, spawnY, transform.position.z);
+
+            //original orientation
+            //float spawnZ = transform.position.z + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
+            //Vector3 newPosition = new Vector3(spawnX, transform.position.y, spawnZ);
 
             spawnedObjects[i].transform.position = newPosition;
         }
@@ -77,6 +81,11 @@ public class SpawnAndToggle : MonoBehaviour
         }
         else if (!isParentBeingMoved)  // Check if the parent is not currently being moved
         {
+            // Reset rotations
+            foreach (var spawnedObject in spawnedObjects)
+            {
+                spawnedObject.transform.rotation = Quaternion.identity;
+            }
             ToggleSpawnedObjectsVisibility();
         }
     }
@@ -90,9 +99,11 @@ public class SpawnAndToggle : MonoBehaviour
         {
             float angle = i * (360f / objectsToSpawn.Length);
             float spawnX = originalObjectPosition.x + spawnRadius * Mathf.Cos(Mathf.Deg2Rad * angle);
-            float spawnZ = originalObjectPosition.z + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
+            //float spawnZ = originalObjectPosition.z + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle); //original rotation
+            float spawnY = originalObjectPosition.y + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
 
-            Vector3 spawnPosition = new Vector3(spawnX, originalObjectPosition.y, spawnZ);
+            //Vector3 spawnPosition = new Vector3(spawnX, originalObjectPosition.y, spawnZ); //original rotation
+            Vector3 spawnPosition = new Vector3(spawnX, spawnY, originalObjectPosition.z);
             GameObject spawnedObject = Instantiate(objectsToSpawn[i], spawnPosition, Quaternion.identity);
             originalPositions.Add(spawnPosition);
 
@@ -100,6 +111,13 @@ public class SpawnAndToggle : MonoBehaviour
             spawnedObject.transform.parent = transform;
             spawnedObject.SetActive(true);
             spawnedObjects.Add(spawnedObject);
+
+            // After spawning the object, lock its position and rotation
+            Rigidbody rb = spawnedObject.GetComponent<Rigidbody>();
+            if(rb != null)
+            {
+                rb.constraints = RigidbodyConstraints.FreezeAll;
+            }
         }
     }
 
