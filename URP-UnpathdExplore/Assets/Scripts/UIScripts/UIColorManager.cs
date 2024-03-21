@@ -10,6 +10,10 @@ public struct UIColorPair
 {
     public Color textColor;
     public Color panelColor;
+    public Color sliderColor;
+    public Color handleColor;
+    public Color lineColor;
+    public Color outerColor;
 }
 
 
@@ -36,7 +40,7 @@ public class UIColorManager : MonoBehaviour
             return;
         }
         
-        // Set a default color pair, do it here
+        // Set a default color pair
         // Use the first color pair by default
         CurrentColors = colorPairs[2];
     }

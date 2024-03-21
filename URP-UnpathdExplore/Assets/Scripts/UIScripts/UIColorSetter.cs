@@ -8,11 +8,14 @@ public class UIColorSetter : MonoBehaviour
 {
     private TextMeshProUGUI textComponent;
     private Image imageComponent;
+    
+    
 
     private void Awake()
     {
         textComponent = GetComponent<TextMeshProUGUI>();
         imageComponent = GetComponent<Image>();
+        
     }
 
     private void OnEnable()
@@ -38,7 +41,30 @@ public class UIColorSetter : MonoBehaviour
                 imageComponent.color = UIColorManager.Instance.CurrentColors.panelColor;
                 //Debug.Log("color set");
             }
-        }
+
+            var slider = GetComponent<Slider>();
+            if (slider != null)
+            {
+                slider.targetGraphic.color = UIColorManager.Instance.CurrentColors.sliderColor;
+                var handleSprite = slider.handleRect.GetComponent<Image>();
+                if (handleSprite != null)
+                {
+                    handleSprite.color = UIColorManager.Instance.CurrentColors.handleColor;
+                }
+            }
+
+            var image = GetComponent<Image>();
+            if (image != null && gameObject.tag == "Line")
+            {
+                image.color = UIColorManager.Instance.CurrentColors.lineColor;
+            }
+            
+            if (image != null && gameObject.tag == "Outer")
+            {
+                image.color = UIColorManager.Instance.CurrentColors.outerColor;
+            }
+            
     }
 
+}
 }
