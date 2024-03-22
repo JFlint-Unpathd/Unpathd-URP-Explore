@@ -12,7 +12,7 @@ public class ColorAdjustmentsManagerURP : MonoBehaviour
 
     [Header("UI Values")]
     [SerializeField] private TMP_Text postExposureValueText;
-    [SerializeField] private TMP_Text contrastValueText;
+    //[SerializeField] private TMP_Text contrastValueText;
     [SerializeField] private TMP_Text saturationValueText;
     [SerializeField] private TMP_Text hueShiftValueText;
 
@@ -50,7 +50,7 @@ public class ColorAdjustmentsManagerURP : MonoBehaviour
     public void SetContrast(float sliderValue)
     {
         colorAdjustments.postExposure.value = sliderValue;
-        contrastValueText.text = sliderValue.ToString("0");
+        //contrastValueText.text = sliderValue.ToString("0");
     }
     
     public void SetSaturation(float sliderValue)
