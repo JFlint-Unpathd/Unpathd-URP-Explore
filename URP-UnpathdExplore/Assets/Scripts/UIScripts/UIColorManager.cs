@@ -14,6 +14,10 @@ public struct UIColorPair
     public Color handleColor;
     public Color lineColor;
     public Color outerColor;
+    public Color checkBoxColor;
+    public Color checkMarkColor;
+    public Color dropDownColor;
+    
 }
 
 
