@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class SpawnAndToggle : MonoBehaviour
@@ -9,7 +10,6 @@ public class SpawnAndToggle : MonoBehaviour
     [SerializeField] float spawnRadius = 0.3f;
 
     private List<GameObject> spawnedObjects = new List<GameObject>();
-    private List<Vector3> originalPositions = new List<Vector3>();
     
     // To be able to acess the variable from the socketinteractormanger script
     public List<GameObject> GetSpawnedObjects() 
@@ -20,14 +20,14 @@ public class SpawnAndToggle : MonoBehaviour
     private XRBaseInteractable interactable;
 
     private bool hasSpawned = false;
+    
     public bool isParentBeingMoved = false;
+    public bool isChildGrabbedOrSnapped = false;
 
-    private bool CheckIfParentIsSnapped() 
-    {
-        return SocketInteractorManager.CurrentSnappedObject == this.gameObject;
-    }
-    
-    
+    public UnityEvent childGrabbed;
+    public UnityEvent childReleased;
+
+ 
     private void Start()
     {
         interactable = GetComponent<XRBaseInteractable>();
@@ -35,13 +35,17 @@ public class SpawnAndToggle : MonoBehaviour
         interactable.onHoverEntered.AddListener(OnHoverEnter);
         interactable.onSelectEntered.AddListener(OnSelectEnter);
         interactable.onSelectExited.AddListener(OnSelectExit);
+
+        childGrabbed.AddListener(HandleChildGrabbed);
+        childReleased.AddListener(HandleChildReleased);
     }
 
     private void Update()
     {
-        bool isParentSnapped = CheckIfParentIsSnapped(); // Implement this method to check if parent is snapped to the socket interactor
+        if (isParentBeingMoved)
+            return;
 
-        if (isParentSnapped)
+        if (CheckIfParentIsSnapped())
         {
             foreach (var spawnedObject in spawnedObjects)
             {
@@ -50,7 +54,7 @@ public class SpawnAndToggle : MonoBehaviour
         }
         else
         {
-            UpdateChildPositions(); // Call this method every frame to update the position of the child objects
+            UpdateChildPositions(); //update the position of the child objects
         }
     }
 
@@ -104,9 +108,9 @@ public class SpawnAndToggle : MonoBehaviour
 
             //Vector3 spawnPosition = new Vector3(spawnX, originalObjectPosition.y, spawnZ); //original rotation
             Vector3 spawnPosition = new Vector3(spawnX, spawnY, originalObjectPosition.z);
-            GameObject spawnedObject = Instantiate(objectsToSpawn[i], spawnPosition, Quaternion.identity);
-            originalPositions.Add(spawnPosition);
 
+            GameObject spawnedObject = Instantiate(objectsToSpawn[i], spawnPosition, Quaternion.identity);
+            
             // Set the parent of the spawned object to be this script's transform
             spawnedObject.transform.parent = transform;
             spawnedObject.SetActive(true);
@@ -118,18 +122,41 @@ public class SpawnAndToggle : MonoBehaviour
             {
                 rb.constraints = RigidbodyConstraints.FreezeAll;
             }
+
+            // Add the listeners to the child's events
+            var childScript = spawnedObject.GetComponent<SpawnChild>();
+            if (childScript != null)
+            {
+                childScript.childGrabbed.AddListener(HandleChildGrabbed);
+                childScript.childReleased.AddListener(HandleChildReleased);
+            }
         }
+    }
+
+    public void HandleChildGrabbed()
+    {
+        isChildGrabbedOrSnapped = true;
+    }
+
+    public void HandleChildReleased()
+    {
+        isChildGrabbedOrSnapped = false;
     }
 
     public void ToggleSpawnedObjectsVisibility()
     {
         foreach (var spawnedObject in spawnedObjects)
         {
-            if (spawnedObject != SocketInteractorManager.CurrentChildSnappedObject)
+            if (spawnedObject != SocketInteractorManager.CurrentChildSnappedObject && !isChildGrabbedOrSnapped)
             {
                 spawnedObject.SetActive(!spawnedObject.activeSelf);
             }
         }
+    }
+
+    private bool CheckIfParentIsSnapped()
+    {
+        return SocketInteractorManager.CurrentSnappedObject == this.gameObject;
     }
 
 
@@ -153,13 +180,24 @@ public class SpawnAndToggle : MonoBehaviour
     private void OnSelectExit(XRBaseInteractor interactor)
     {
         StartCoroutine(DelayedOnSelectExit());
-        //isParentBeingMoved = false;
+
     }
 
     private IEnumerator DelayedOnSelectExit()
     {
         yield return null; // Wait for next frame
         isParentBeingMoved = false;
+
+        foreach (var spawnedObject in spawnedObjects)
+        {
+            if (!spawnedObject.activeSelf) continue;
+
+            // Notify listeners that a child object is released
+            childReleased.Invoke();
+        }
+
+        spawnedObjects.Clear();
+
     }
 
     public void DisableSpawnedObjects()
@@ -178,4 +216,6 @@ public class SpawnAndToggle : MonoBehaviour
             spawnedObject.SetActive(true);
         }
     }
+
+
 }

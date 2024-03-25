@@ -80,7 +80,7 @@ public class HoverFloat : MonoBehaviour
 
     IEnumerator InterpolatePosition(Vector3 targetPosition, float speed)
     {
-        while (Vector3.Distance(transform.position, targetPosition) > 0.05f) // 0.05f is a small value to decide when to stop interpolation
+        while (Vector3.Distance(transform.position, targetPosition) > 0.005f) // 0.05f is a small value to decide when to stop interpolation
         {
             transform.position = Vector3.Lerp(transform.position, targetPosition, speed * Time.deltaTime);
             yield return null; 
