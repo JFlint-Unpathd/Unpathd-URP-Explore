@@ -3162,6 +3162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floatHeight: 0.5
+  returnSpeed: 3
 --- !u!1 &1228534398014483421
 GameObject:
   m_ObjectHideFlags: 0
@@ -4506,7 +4507,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2136412998090512942}
   - component: {fileID: 2740458337163613103}
-  - component: {fileID: 1574724489825144719}
   m_Layer: 0
   m_Name: Shipping Forecast
   m_TagString: Filters
@@ -4542,19 +4542,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2d16ecc62242014ab0a13f3807876d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1574724489825144719
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1652188714908385428}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bcffda48267a724386d81eb9b8db3f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  floatHeight: 0.5
 --- !u!1 &1809569034218046636
 GameObject:
   m_ObjectHideFlags: 0
@@ -6400,6 +6387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floatHeight: 0.5
+  returnSpeed: 3
 --- !u!1 &2509040215993287767
 GameObject:
   m_ObjectHideFlags: 0
@@ -6415,6 +6403,7 @@ GameObject:
   - component: {fileID: 1962660859462676128}
   - component: {fileID: 2079724134503804633}
   - component: {fileID: 2741313383997002608}
+  - component: {fileID: 695452496109355212}
   m_Layer: 0
   m_Name: Land
   m_TagString: Filters
@@ -6663,11 +6652,25 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2509040215993287767}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec001b58b744d954bad1ffbe293a9965, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &695452496109355212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2509040215993287767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bcffda48267a724386d81eb9b8db3f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floatHeight: 0.5
+  returnSpeed: 3
 --- !u!1 &2586621826392024863
 GameObject:
   m_ObjectHideFlags: 0
@@ -8225,7 +8228,7 @@ GameObject:
   - component: {fileID: 2221625527071708563}
   - component: {fileID: 1406419294169810087}
   - component: {fileID: 5786343450563333489}
-  - component: {fileID: 2459962470997502489}
+  - component: {fileID: 174099551059513557}
   m_Layer: 0
   m_Name: Visuals
   m_TagString: Untagged
@@ -8298,7 +8301,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2459962470997502489
+--- !u!64 &174099551059513557
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8317,7 +8320,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5216581434543980006, guid: 74b1861b2db8c114dabe103272ed042a, type: 3}
 --- !u!1 &3343121378914102351
@@ -11390,6 +11393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floatHeight: 0.5
+  returnSpeed: 3
 --- !u!1 &4994473278528157321
 GameObject:
   m_ObjectHideFlags: 0
@@ -11946,6 +11950,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floatHeight: 0.5
+  returnSpeed: 3
 --- !u!1 &5079346969201971858
 GameObject:
   m_ObjectHideFlags: 0
@@ -13247,6 +13252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floatHeight: 0.5
+  returnSpeed: 3
 --- !u!1 &5437982834574040198
 GameObject:
   m_ObjectHideFlags: 0
@@ -13519,6 +13525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floatHeight: 0.5
+  returnSpeed: 3
 --- !u!1 &5596438315240335100
 GameObject:
   m_ObjectHideFlags: 0
@@ -18272,6 +18279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floatHeight: 0.5
+  returnSpeed: 3
 --- !u!1 &7206396320844207355
 GameObject:
   m_ObjectHideFlags: 0
@@ -18996,6 +19004,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floatHeight: 0.5
+  returnSpeed: 3
 --- !u!1 &7372053493105493904
 GameObject:
   m_ObjectHideFlags: 0
@@ -20575,6 +20584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floatHeight: 0.5
+  returnSpeed: 3
 --- !u!1 &8276295899152472385
 GameObject:
   m_ObjectHideFlags: 0
@@ -20847,6 +20857,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floatHeight: 0.5
+  returnSpeed: 3
 --- !u!1 &8288587590721348449
 GameObject:
   m_ObjectHideFlags: 0
@@ -22330,6 +22341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floatHeight: 0.5
+  returnSpeed: 3
 --- !u!1 &8778960145922120599
 GameObject:
   m_ObjectHideFlags: 0

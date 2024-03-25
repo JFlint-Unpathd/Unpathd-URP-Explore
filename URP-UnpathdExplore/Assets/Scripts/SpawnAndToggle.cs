@@ -121,12 +121,10 @@ public class SpawnAndToggle : MonoBehaviour
         }
     }
 
-    private void ToggleSpawnedObjectsVisibility()
+    public void ToggleSpawnedObjectsVisibility()
     {
         foreach (var spawnedObject in spawnedObjects)
         {
-            //spawnedObject.SetActive(!spawnedObject.activeSelf);
-            // Check if the object is not the one currently snapped to the socket interactor
             if (spawnedObject != SocketInteractorManager.CurrentChildSnappedObject)
             {
                 spawnedObject.SetActive(!spawnedObject.activeSelf);

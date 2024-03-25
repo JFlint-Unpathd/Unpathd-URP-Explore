@@ -8,9 +8,15 @@ public class HoverFloat : MonoBehaviour
     private Rigidbody rb;
     private Vector3 originalPosition;
     private Quaternion originalRotation;
+    
+    private bool hasBeenHoveredOver = false;
 
-    // Height for the object to float up
-    public float floatHeight = 1f;
+    // Reference to the script holding the spawned objects
+    private SpawnAndToggle SpawnAndToggle;
+
+    
+    public float floatHeight = 0.5f; 
+    public float returnSpeed = 3f; 
 
     void Start()
     {
@@ -22,27 +28,33 @@ public class HoverFloat : MonoBehaviour
         // Lock rotation along all axes
         rb.constraints = RigidbodyConstraints.FreezeRotation;
 
-        // Add listener for XRBaseInteractable events
+        SpawnAndToggle = GetComponent<SpawnAndToggle>();
+        if (SpawnAndToggle == null)
+        {
+            // Log a debug message if the script is not found
+            Debug.Log("SpawnAndToggle not found on GameObject: " + gameObject.name);
+        }
+
+        // Listners 
         xrInteractable.onHoverEntered.AddListener(OnHoverEnter);
+        
     }
 
     private void OnHoverEnter(XRBaseInteractor interactor)
     {
-        //StartCoroutine(HandleFloating());
-         StartFloating();
+        if (!hasBeenHoveredOver)
+        {
+            hasBeenHoveredOver = true;
+            StartCoroutine(HandleFloating());
+        }
     }
 
-    // IEnumerator HandleFloating()
-    // {
-    //     // Start floating
-    //     StartFloating();
-
-    //     // Wait for 3 seconds
-    //     //yield return new WaitForSeconds(1f);
-
-    //     // Then return to original position
-    //     //StopFloating();
-    // }
+    IEnumerator HandleFloating()
+    {
+        StartFloating();
+        yield return new WaitForSeconds(3f);
+        StopFloating();
+    }
 
     public void StartFloating()
     {
@@ -51,38 +63,36 @@ public class HoverFloat : MonoBehaviour
         transform.rotation = originalRotation;
         Vector3 targetPosition = originalPosition + Vector3.up * floatHeight;
         rb.MovePosition(targetPosition);
-        
+
     }
 
-    // public void StopFloating()
-    // {
-    //     rb.useGravity = true;
-    //     rb.isKinematic = false;
-    //     rb.MovePosition(originalPosition);
-    // }
 
-  
+    public void StopFloating()
+    {
+        // Only call ToggleSpawnedObjectsVisibility if SpawnAndToggle is not null
+        if (SpawnAndToggle != null)
+        {
+            SpawnAndToggle.ToggleSpawnedObjectsVisibility();
+        }
 
-    //public float returnSpeed = 0.1f; // Speed at which the object returns to its original position
+        StartCoroutine(InterpolatePosition(originalPosition, returnSpeed));
+    }
 
-    // public void StopFloating()
-    // {
-    //     StartCoroutine(InterpolatePosition(originalPosition));
-    // }
+    IEnumerator InterpolatePosition(Vector3 targetPosition, float speed)
+    {
+        while (Vector3.Distance(transform.position, targetPosition) > 0.05f) // 0.05f is a small value to decide when to stop interpolation
+        {
+            transform.position = Vector3.Lerp(transform.position, targetPosition, speed * Time.deltaTime);
+            yield return null; 
+        }
 
-    // IEnumerator InterpolatePosition(Vector3 targetPosition)
-    // {
-    //     while (Vector3.Distance(transform.position, targetPosition) > 0.05f) // 0.05f is a small value to decide when to stop interpolation
-    //     {
-    //         transform.position = Vector3.Lerp(transform.position, targetPosition, returnSpeed);
-    //         yield return null; // Wait until next frame
-    //     }
+        // When the object is close enough, make sure it's exactly at the target
+        transform.position = targetPosition;
 
-    //     // When the object is close enough, make sure it's exactly at the target
-    //     transform.position = targetPosition;
+        rb.useGravity = true;
+        rb.isKinematic = false;
 
-    //     rb.useGravity = true;
-    //     rb.isKinematic = false;
-    // }
+        hasBeenHoveredOver = false; // resetting the boolean variable
+    }
 
 }
