@@ -75,10 +75,12 @@ public class SpawnAndToggle : MonoBehaviour
         }
     }
 
+
+
     private void OnHoverEnter(XRBaseInteractor interactor)
     {
-        
-        if (!hasSpawned)
+        // Check if the parent is snapped, and only spawn objects if it's not
+        if (!CheckIfParentIsSnapped() && !hasSpawned)
         {
             SpawnObjects();
             hasSpawned = true;
@@ -93,6 +95,7 @@ public class SpawnAndToggle : MonoBehaviour
             ToggleSpawnedObjectsVisibility();
         }
     }
+
 
     private void SpawnObjects()
     {
@@ -147,12 +150,13 @@ public class SpawnAndToggle : MonoBehaviour
     {
         foreach (var spawnedObject in spawnedObjects)
         {
-            if (spawnedObject != SocketInteractorManager.CurrentChildSnappedObject && !isChildGrabbedOrSnapped)
+            if ((spawnedObject != SocketInteractorManager.CurrentChildSnappedObject || !isChildGrabbedOrSnapped) && !isParentBeingMoved)
             {
                 spawnedObject.SetActive(!spawnedObject.activeSelf);
             }
         }
     }
+
 
     private bool CheckIfParentIsSnapped()
     {

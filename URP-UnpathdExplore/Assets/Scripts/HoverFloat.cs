@@ -69,13 +69,13 @@ public class HoverFloat : MonoBehaviour
 
     public void StopFloating()
     {
-        // Only call ToggleSpawnedObjectsVisibility if SpawnAndToggle is not null
+        
+        StartCoroutine(InterpolatePosition(originalPosition, returnSpeed));
+        // Toggle the visibility of spawned objects if the SpawnAndToggle script is available
         if (SpawnAndToggle != null)
         {
             SpawnAndToggle.ToggleSpawnedObjectsVisibility();
         }
-
-        StartCoroutine(InterpolatePosition(originalPosition, returnSpeed));
     }
 
     IEnumerator InterpolatePosition(Vector3 targetPosition, float speed)
