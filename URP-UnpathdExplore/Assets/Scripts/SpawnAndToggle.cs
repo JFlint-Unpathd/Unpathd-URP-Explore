@@ -6,6 +6,11 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class SpawnAndToggle : MonoBehaviour
 {
+    private PrefabInstantiator prefabInstantiator;
+
+    private Vector3 originalPosition;
+    private Quaternion originalRotation;
+
     [SerializeField] GameObject[] objectsToSpawn;
     [SerializeField] float spawnRadius = 0.3f;
 
@@ -30,6 +35,20 @@ public class SpawnAndToggle : MonoBehaviour
  
     private void Start()
     {
+        PrefabInstantiator prefabInstantiator = gameObject.GetComponent<PrefabInstantiator>();
+        if (prefabInstantiator != null)
+        {
+            Vector3 originalPosition = prefabInstantiator.GetOriginalPosition();
+            Quaternion originalRotation = prefabInstantiator.GetOriginalRotation();
+
+            // Use originalPosition and originalRotation here.
+        }
+        else
+        {
+            Debug.LogError("PrefabInstantiator not found on GameObject.");
+        }
+
+        
         interactable = GetComponent<XRBaseInteractable>();
 
         interactable.onHoverEntered.AddListener(OnHoverEnter);
@@ -220,6 +239,27 @@ public class SpawnAndToggle : MonoBehaviour
             spawnedObject.SetActive(true);
         }
     }
+
+
+    public void ResetParentAndSpawnedObjects()
+    {
+        if (prefabInstantiator != null)
+        {
+            Vector3 originalPosition = prefabInstantiator.GetOriginalPosition();
+            Quaternion originalRotation = prefabInstantiator.GetOriginalRotation();
+
+            // Resetting parent position, rotation
+            transform.position = originalPosition;
+            transform.rotation = originalRotation;
+        }
+        else
+        {
+            Debug.LogError("PrefabInstantiator is null. Cannot reset to the original position and rotation.");
+        }
+        
+        UpdateChildPositions();
+    }
+
 
 
 }

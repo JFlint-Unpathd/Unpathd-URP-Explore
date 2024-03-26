@@ -1,9 +1,12 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class HoverFloat : MonoBehaviour
 {
+ 
     private XRBaseInteractable xrInteractable;
     private Rigidbody rb;
     private Vector3 originalPosition;
@@ -14,7 +17,6 @@ public class HoverFloat : MonoBehaviour
     // Reference to the script holding the spawned objects
     private SpawnAndToggle SpawnAndToggle;
 
-    
     public float floatHeight = 0.5f; 
     public float returnSpeed = 3f; 
 
@@ -22,8 +24,22 @@ public class HoverFloat : MonoBehaviour
     {
         xrInteractable = GetComponent<XRBaseInteractable>();
         rb = GetComponent<Rigidbody>();
-        originalPosition = transform.position;
-        originalRotation = transform.rotation;
+        
+        // Retrieve original position and rotation from PrefabInstantiator
+        PrefabInstantiator prefabInstantiator = gameObject.GetComponent<PrefabInstantiator>();
+        if (prefabInstantiator != null)
+        {
+            Vector3 originalPosition = prefabInstantiator.GetOriginalPosition();
+            Quaternion originalRotation = prefabInstantiator.GetOriginalRotation();
+
+            // Add debug logs
+            Debug.Log("Original Position in Start: " + originalPosition);
+            Debug.Log("Original Rotation in Start: " + originalRotation);
+        }
+        else
+        {
+            Debug.LogError("PrefabInstantiator not found on GameObject.");
+        }
 
         // Lock rotation along all axes
         rb.constraints = RigidbodyConstraints.FreezeRotation;
@@ -58,6 +74,10 @@ public class HoverFloat : MonoBehaviour
 
     public void StartFloating()
     {
+        // Add debug logs
+        Debug.Log("Original Position before floating: " + originalPosition);
+        Debug.Log("Original Rotation before floating: " + originalRotation);
+
         rb.useGravity = false;
         rb.isKinematic = true;
         transform.rotation = originalRotation;
@@ -69,12 +89,17 @@ public class HoverFloat : MonoBehaviour
 
     public void StopFloating()
     {
-        
+        // Add debug logs
+        Debug.Log("Original Position before stop floating: " + originalPosition);
+        Debug.Log("Original Rotation before stop floating: " + originalRotation);
+
         StartCoroutine(InterpolatePosition(originalPosition, returnSpeed));
         // Toggle the visibility of spawned objects if the SpawnAndToggle script is available
         if (SpawnAndToggle != null)
         {
             SpawnAndToggle.ToggleSpawnedObjectsVisibility();
+
+            //SpawnAndToggle.ResetParentAndSpawnedObjects();
         }
     }
 
