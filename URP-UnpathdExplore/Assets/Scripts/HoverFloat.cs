@@ -68,7 +68,7 @@ public class HoverFloat : MonoBehaviour
     IEnumerator HandleFloating()
     {
         StartFloating();
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(3f);
         StopFloating();
     }
 
