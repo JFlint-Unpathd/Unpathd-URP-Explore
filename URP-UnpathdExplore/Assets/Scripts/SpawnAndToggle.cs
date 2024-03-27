@@ -7,6 +7,8 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class SpawnAndToggle : MonoBehaviour
 {
     private PrefabInstantiator prefabInstantiator;
+    private ParentObjectController parentController;
+    private XRBaseInteractable interactable;
 
     private Vector3 originalPosition;
     private Quaternion originalRotation;
@@ -22,26 +24,19 @@ public class SpawnAndToggle : MonoBehaviour
         return spawnedObjects;
     }
 
-    private XRBaseInteractable interactable;
-
-    private bool hasSpawned = false;
-    
-    public bool isParentBeingMoved = false;
     public bool isChildGrabbedOrSnapped = false;
 
-    public UnityEvent childGrabbed;
-    public UnityEvent childReleased;
-
+   
  
     private void Start()
     {
-        PrefabInstantiator prefabInstantiator = gameObject.GetComponent<PrefabInstantiator>();
+        parentController = GetComponent<ParentObjectController>();
+
+        prefabInstantiator = GetComponent<PrefabInstantiator>();
         if (prefabInstantiator != null)
         {
             Vector3 originalPosition = prefabInstantiator.GetOriginalPosition();
             Quaternion originalRotation = prefabInstantiator.GetOriginalRotation();
-
-            // Use originalPosition and originalRotation here.
         }
         else
         {
@@ -55,29 +50,30 @@ public class SpawnAndToggle : MonoBehaviour
         interactable.onSelectEntered.AddListener(OnSelectEnter);
         interactable.onSelectExited.AddListener(OnSelectExit);
 
-        childGrabbed.AddListener(HandleChildGrabbed);
-        childReleased.AddListener(HandleChildReleased);
     }
+
 
     private void Update()
     {
-        if (isParentBeingMoved)
-            return;
-
-        if (CheckIfParentIsSnapped())
+        if (parentController != null && (parentController.isGrabbed || parentController.isSnapped))
         {
             foreach (var spawnedObject in spawnedObjects)
             {
-                spawnedObject.SetActive(false); // Set children inactive if parent is snapped
+                ChildObjectController childController = spawnedObject.GetComponent<ChildObjectController>();
+                if(childController != null && !childController.isSnapped)
+                {
+                    spawnedObject.SetActive(false);
+                }
             }
         }
         else
         {
-            UpdateChildPositions(); //update the position of the child objects
+            UpdateChildPositions();
         }
     }
 
-        private void UpdateChildPositions()
+
+    private void UpdateChildPositions()
     {
         for (int i = 0; i < spawnedObjects.Count; i++)
         {
@@ -94,32 +90,94 @@ public class SpawnAndToggle : MonoBehaviour
         }
     }
 
+
     private void OnHoverEnter(XRBaseInteractor interactor)
     {
-        
-        if (!hasSpawned)
+        if (spawnedObjects.Count == 0)
         {
             SpawnObjects();
-            hasSpawned = true;
         }
-        else if (!isParentBeingMoved)  // Check if the parent is not currently being moved
+
+        else if (parentController != null && !parentController.isGrabbed && !parentController.isSnapped)
         {
             // Reset rotations
             foreach (var spawnedObject in spawnedObjects)
             {
-                spawnedObject.transform.rotation = Quaternion.identity;
+                ChildObjectController childController = spawnedObject.GetComponent<ChildObjectController>();
+                if(childController != null && !childController.isSnapped)
+                {
+                    spawnedObject.transform.rotation = Quaternion.identity;
+                }
             }
+
             ToggleSpawnedObjectsVisibility();
+        }
+    }
+
+
+    private void OnSelectEnter(XRBaseInteractor interactor)
+    {
+        if (parentController != null)
+        {
+            parentController.isGrabbed = true;
+
+            // Hide nonsnapped spawned objects
+            foreach (var spawnedObject in spawnedObjects)
+            {
+                ChildObjectController childController = spawnedObject.GetComponent<ChildObjectController>();
+                if(childController != null && !childController.isSnapped)
+                {
+                    spawnedObject.transform.parent = null;
+                    spawnedObject.SetActive(false);
+                }
+            }
+        }
+    }
+
+    private void OnSelectExit(XRBaseInteractor interactor)
+    {
+        StartCoroutine(DelayedOnSelectExit());
+
+    }
+
+    private IEnumerator DelayedOnSelectExit()
+    {
+        yield return null; // Wait for next frame
+
+        if (parentController != null)
+        {
+            parentController.isGrabbed = false;
+
+            // Clear nonsnapped spawned objects
+            foreach (var spawnedObject in spawnedObjects)
+            {
+                ChildObjectController childController = spawnedObject.GetComponent<ChildObjectController>();
+                if(childController != null && !childController.isSnapped)
+                {
+                    //reparent objects
+                    spawnedObject.transform.parent = transform;
+                    Destroy(spawnedObject);
+                }
+            }
+
+            // Clear the list of spawned objects
+            spawnedObjects.Clear();
         }
     }
 
     private void SpawnObjects()
     {
-        //Debug.Log("Spawning objects...");
+    
         Vector3 originalObjectPosition = transform.position;
 
         for (int i = 0; i < objectsToSpawn.Length; i++)
         {
+            // Skip this iteration if the object already exists
+            if(spawnedObjects.Exists(spawnedObject => spawnedObject.name == objectsToSpawn[i].name))
+            {
+                continue; 
+            }
+
             float angle = i * (360f / objectsToSpawn.Length);
             float spawnX = originalObjectPosition.x + spawnRadius * Mathf.Cos(Mathf.Deg2Rad * angle);
             //float spawnZ = originalObjectPosition.z + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle); //original rotation
@@ -142,89 +200,42 @@ public class SpawnAndToggle : MonoBehaviour
                 rb.constraints = RigidbodyConstraints.FreezeAll;
             }
 
-            // Add the listeners to the child's events
-            var childScript = spawnedObject.GetComponent<SpawnChild>();
-            if (childScript != null)
-            {
-                childScript.childGrabbed.AddListener(HandleChildGrabbed);
-                childScript.childReleased.AddListener(HandleChildReleased);
-            }
         }
     }
 
-    public void HandleChildGrabbed()
-    {
-        isChildGrabbedOrSnapped = true;
-    }
-
-    public void HandleChildReleased()
-    {
-        isChildGrabbedOrSnapped = false;
-    }
 
     public void ToggleSpawnedObjectsVisibility()
     {
         foreach (var spawnedObject in spawnedObjects)
         {
-            if (spawnedObject != SocketInteractorManager.CurrentChildSnappedObject && !isChildGrabbedOrSnapped)
+            ChildObjectController childController = spawnedObject.GetComponent<ChildObjectController>();
+            if(childController != null)
             {
-                spawnedObject.SetActive(!spawnedObject.activeSelf);
+                // If the child is not snapped, toggle its visibility
+                if(!childController.isSnapped)
+                {
+                    spawnedObject.SetActive(!spawnedObject.activeSelf);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("ChildObjectController not found on spawned object.");
             }
         }
     }
 
-    private bool CheckIfParentIsSnapped()
-    {
-        return SocketInteractorManager.CurrentSnappedObject == this.gameObject;
-    }
 
-
-     private void OnSelectEnter(XRBaseInteractor interactor)
-    {
-        isParentBeingMoved = true;
-
-        // Check if any spawned object is currently visible before toggling
-        if (spawnedObjects.Exists(obj => obj.activeSelf))
-        {
-            ToggleSpawnedObjectsVisibility();
-        }
-
-        // Unparent the spawned objects when the parent object is picked up
-        foreach (var spawnedObject in spawnedObjects)
-        {
-            spawnedObject.transform.parent = null;
-        }
-    }
-
-    private void OnSelectExit(XRBaseInteractor interactor)
-    {
-        StartCoroutine(DelayedOnSelectExit());
-
-    }
-
-    private IEnumerator DelayedOnSelectExit()
-    {
-        yield return null; // Wait for next frame
-        isParentBeingMoved = false;
-
-        foreach (var spawnedObject in spawnedObjects)
-        {
-            if (!spawnedObject.activeSelf) continue;
-
-            // Notify listeners that a child object is released
-            childReleased.Invoke();
-        }
-
-        spawnedObjects.Clear();
-
-    }
-
-    public void DisableSpawnedObjects()
+    private bool CheckIfAnyChildSnapped()
     {
         foreach (var spawnedObject in spawnedObjects)
         {
-            spawnedObject.SetActive(false);
+            ChildObjectController childController = spawnedObject.GetComponent<ChildObjectController>();
+            if(childController != null && childController.isSnapped)
+            {
+                return true;
+            }
         }
+        return false;
     }
 
     public void EnableSpawnedObjects()
@@ -236,6 +247,13 @@ public class SpawnAndToggle : MonoBehaviour
         }
     }
 
+    public void DisableSpawnedObjects()
+    {
+        foreach (var spawnedObject in spawnedObjects)
+        {
+            spawnedObject.SetActive(false);
+        }
+    }
 
     public void ResetParentAndSpawnedObjects()
     {
@@ -255,7 +273,5 @@ public class SpawnAndToggle : MonoBehaviour
         
         UpdateChildPositions();
     }
-
-
 
 }

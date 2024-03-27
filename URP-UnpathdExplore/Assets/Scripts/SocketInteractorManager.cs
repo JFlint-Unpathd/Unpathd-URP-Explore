@@ -10,11 +10,8 @@ public class SocketInteractorManager : MonoBehaviour
     private XRSocketInteractor socketInteractor;
     private List<GameObject> snappedObjects = new List<GameObject>();
 
-    // A static variable to keep track of the currently snapped object
-    public static GameObject CurrentSnappedObject;
-    public static GameObject CurrentChildSnappedObject;
-
-
+    public GameObject CurrentSnappedObject;
+    
     public List<GameObject> GetSnappedObjects()
     {
         return snappedObjects;
@@ -29,83 +26,75 @@ public class SocketInteractorManager : MonoBehaviour
 
     }
 
-
-
     public void AddAndHandleSelection(XRBaseInteractable interactable)
     {
         GameObject snappedObject = interactable.gameObject;
 
         UnpathSelector unpathSelector = snappedObject.GetComponent<UnpathSelector>();
-        SpawnAndToggle spawnAndToggle = snappedObject.GetComponent<SpawnAndToggle>();
-        MapSpawnAndToggle mapSpawnAndToggle = snappedObject.GetComponent<MapSpawnAndToggle>();
+
+        ParentObjectController parentController = snappedObject.GetComponent<ParentObjectController>();
+        ChildObjectController childController = snappedObject.GetComponent<ChildObjectController>();
+
 
         if (unpathSelector != null)
         {
             CurrentSnappedObject = snappedObject;
-            CurrentChildSnappedObject = snappedObject;
 
-            snappedObjects.Add(snappedObject); // Add snapped object to snappedobj list
-            unpathSelector.HandleSelection();  // Call the HandleSelection method
-            snappedObject.transform.parent = transform; // Make the snapped object a child of the socket interactor
+            // Add snapped object to snappedobj list
+            snappedObjects.Add(snappedObject);
+            // Call the HandleSelection method
+            unpathSelector.HandleSelection();  
+            // Make the snapped object a child of the socket interactor
+            snappedObject.transform.parent = transform; 
 
         }
 
-        else if (spawnAndToggle != null)
+        if (parentController != null)
         {
-            CurrentSnappedObject = snappedObject;
-            spawnAndToggle.DisableSpawnedObjects();  // Disable spawned child objects
+
+            // Record the snap and send it back to the parent controller
+            parentController.OnSnapped();
+            
         }
 
-        else if (mapSpawnAndToggle != null)
+        else if (childController != null)
         {
-            CurrentChildSnappedObject = snappedObject;
+            
+            // Record the snap and send it back to the child controller
+            childController.OnSnapped(); 
         }
 
         else
         {
-            Debug.Log("The snapped object does not have an UnpathSelector or SpawnAndToggle script attached.");
+            Debug.Log("The snapped object does not have an UnpathSelector or an object controller script.");
         }
     }
-
-
 
     private void RemoveAndHandleDeselection(XRBaseInteractable interactable)
     {
 
         GameObject unsnappedObject = interactable.gameObject;
-        SpawnAndToggle spawnAndToggle = unsnappedObject.GetComponent<SpawnAndToggle>();
-        MapSpawnAndToggle mapSpawnAndToggle = unsnappedObject.transform.parent?.GetComponent<MapSpawnAndToggle>();
+        ParentObjectController parentController = unsnappedObject.GetComponent<ParentObjectController>();
+        ChildObjectController childController = unsnappedObject.GetComponent<ChildObjectController>();
         
         // Remove from snappedObjects list when an object is unsnapped
         snappedObjects.Remove(unsnappedObject);
 
-        if (unsnappedObject == CurrentChildSnappedObject)
+        if (unsnappedObject == CurrentSnappedObject)
         {
-            CurrentChildSnappedObject = null;
-            
+            CurrentSnappedObject = null;
+     
         }
         
-        else if (spawnAndToggle != null)  // Check if the unsnapped object is the main parent object
+        if (parentController != null)
         {
-            CurrentSnappedObject = null;
-            Debug.Log("Enabling spawned objects"); // Debug statement
-            spawnAndToggle.EnableSpawnedObjects();  // Re-enable spawned child objects
+            parentController.OnUnsnapped();
         }
-
-        if (mapSpawnAndToggle != null)  // Handle deselection for MapSpawnAndToggle
+        else if (childController != null)
         {
-            
-            CurrentSnappedObject = null;
-            CurrentChildSnappedObject = null;
-            mapSpawnAndToggle.ResetUnsnappedObjectPositions();
-            
+            childController.OnUnsnapped();
         }
-
-    
     }
-
-        
-
 
     private void OnDestroy()
     {
@@ -113,26 +102,6 @@ public class SocketInteractorManager : MonoBehaviour
         socketInteractor.onSelectEntered.RemoveListener(AddAndHandleSelection);
         socketInteractor.onSelectExited.RemoveListener(RemoveAndHandleDeselection);
     }
-
-
-    public void ClearSnappedObjects()
-    {
-        for (int i = 0; i < snappedObjects.Count; i++)
-        {
-            snappedObjects[i] = null;
-        }
-
-        snappedObjects.Clear();
-    }
-
-
-    public void ClearCurrentSnappedObjects()
-    {
-        CurrentSnappedObject = null;
-        CurrentChildSnappedObject = null;
-    }
-
-
 
 
     public void ResetSocketInteractor()
@@ -148,13 +117,18 @@ public class SocketInteractorManager : MonoBehaviour
             }
         }
 
-        ClearSnappedObjects();
+        snappedObjects.Clear();
         ClearCurrentSnappedObjects();
         
 
         Debug.Log("Snapped object count after reset: " + snappedObjects.Count);
     }
 
+      public void ClearCurrentSnappedObjects()
+    {
+        CurrentSnappedObject = null;
     
+    }
+
 }
 

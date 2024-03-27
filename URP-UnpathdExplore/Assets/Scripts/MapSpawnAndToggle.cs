@@ -1,118 +1,118 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
+// using System.Collections;
+// using System.Collections.Generic;
+// using UnityEngine;
+// using UnityEngine.XR.Interaction.Toolkit;
 
-public class MapSpawnAndToggle : MonoBehaviour
-{
+// public class MapSpawnAndToggle : MonoBehaviour
+// {
     
 
-    private List<GameObject> shippingForecastRegions = new List<GameObject>();
-    private Dictionary<GameObject, Vector3> originalPositions = new Dictionary<GameObject, Vector3>();
-    private Dictionary<GameObject, Quaternion> originalRotations = new Dictionary<GameObject, Quaternion>();
+//     private List<GameObject> shippingForecastRegions = new List<GameObject>();
+//     private Dictionary<GameObject, Vector3> originalPositions = new Dictionary<GameObject, Vector3>();
+//     private Dictionary<GameObject, Quaternion> originalRotations = new Dictionary<GameObject, Quaternion>();
     
 
 
-    // To be able to acess the variable from the socketinteractormanger script
-    public List<GameObject> GetShippingForecastRegions() 
-    {
-        return shippingForecastRegions;
-    }
+//     // To be able to acess the variable from the socketinteractormanger script
+//     public List<GameObject> GetShippingForecastRegions() 
+//     {
+//         return shippingForecastRegions;
+//     }
 
 
-    private bool regionsVisible = false;
+//     private bool regionsVisible = false;
 
-    private XRBaseInteractable interactable;
-    private SocketInteractorManager socketInteractorManager;
+//     private XRBaseInteractable interactable;
+//     private SocketInteractorManager socketInteractorManager;
 
-    void Awake()
-    {
-        foreach (Transform child in gameObject.transform)
-        {
-            GameObject childObject = child.gameObject;
-            originalPositions[childObject] = childObject.transform.position;
-            originalRotations[childObject] = childObject.transform.rotation;
-        }
-    }
+//     void Awake()
+//     {
+//         foreach (Transform child in gameObject.transform)
+//         {
+//             GameObject childObject = child.gameObject;
+//             originalPositions[childObject] = childObject.transform.position;
+//             originalRotations[childObject] = childObject.transform.rotation;
+//         }
+//     }
 
 
-    void Start()
-    {
-        interactable = GetComponent<XRBaseInteractable>();
-        interactable.onHoverEntered.AddListener(OnHoverEnter);
-        interactable.onHoverEntered.AddListener(OnSelectExited);
+//     void Start()
+//     {
+//         interactable = GetComponent<XRBaseInteractable>();
+//         interactable.onHoverEntered.AddListener(OnHoverEnter);
+//         interactable.onHoverEntered.AddListener(OnSelectExited);
 
-        foreach (Transform child in gameObject.transform)
-        {
-            GameObject childObject = child.gameObject;
+//         foreach (Transform child in gameObject.transform)
+//         {
+//             GameObject childObject = child.gameObject;
 
-            // Add the child object to the list
-            shippingForecastRegions.Add(childObject);
-        }
+//             // Add the child object to the list
+//             shippingForecastRegions.Add(childObject);
+//         }
 
-        // Find the SocketInteractorManager in the scene
-        socketInteractorManager = FindObjectOfType<SocketInteractorManager>();
-        if (socketInteractorManager == null)
-        {
-            Debug.LogError("SocketInteractorManager not found in the scene.");
-        }
-    }
+//         // Find the SocketInteractorManager in the scene
+//         socketInteractorManager = FindObjectOfType<SocketInteractorManager>();
+//         if (socketInteractorManager == null)
+//         {
+//             Debug.LogError("SocketInteractorManager not found in the scene.");
+//         }
+//     }
 
-    public void ResetUnsnappedObjectPositions()
-    {
-        foreach (var childObject in shippingForecastRegions)
-        {
+//     public void ResetUnsnappedObjectPositions()
+//     {
+//         foreach (var childObject in shippingForecastRegions)
+//         {
            
-            if (childObject != SocketInteractorManager.CurrentSnappedObject && childObject != SocketInteractorManager.CurrentChildSnappedObject)
-            {
-                Vector3 originalPosition = originalPositions[childObject];
-                Quaternion originalRotation = originalRotations[childObject];
-                childObject.transform.SetPositionAndRotation(originalPosition, originalRotation);
-            }
-        }
-    }
+//             if (childObject != SocketInteractorManager.CurrentSnappedObject && childObject != SocketInteractorManager.CurrentChildSnappedObject)
+//             {
+//                 Vector3 originalPosition = originalPositions[childObject];
+//                 Quaternion originalRotation = originalRotations[childObject];
+//                 childObject.transform.SetPositionAndRotation(originalPosition, originalRotation);
+//             }
+//         }
+//     }
 
 
 
-    // Handle hover enter for the entire parent object
-    private void OnHoverEnter(XRBaseInteractor interactor)
-    {
-        // Toggle the visibility state of all child objects
-        regionsVisible = !regionsVisible;
-        SetChildObjectsActive(regionsVisible);
+//     // Handle hover enter for the entire parent object
+//     private void OnHoverEnter(XRBaseInteractor interactor)
+//     {
+//         // Toggle the visibility state of all child objects
+//         regionsVisible = !regionsVisible;
+//         SetChildObjectsActive(regionsVisible);
 
-    }
-    private void OnSelectExited(XRBaseInteractor interactor)
-    {
-        ResetUnsnappedObjectPositions();
-    }
+//     }
+//     private void OnSelectExited(XRBaseInteractor interactor)
+//     {
+//         ResetUnsnappedObjectPositions();
+//     }
 
-    private void SetChildObjectsActive(bool active)
-    {
-        List<GameObject> snappedObjects = socketInteractorManager.GetSnappedObjects();
-        foreach (var childObject in shippingForecastRegions)
-        {
-            // Check if the childObject is currently snapped
-            if (!snappedObjects.Contains(childObject))
-            {
-                childObject.SetActive(active);
-            }
+//     private void SetChildObjectsActive(bool active)
+//     {
+//         List<GameObject> snappedObjects = socketInteractorManager.GetSnappedObjects();
+//         foreach (var childObject in shippingForecastRegions)
+//         {
+//             // Check if the childObject is currently snapped
+//             if (!snappedObjects.Contains(childObject))
+//             {
+//                 childObject.SetActive(active);
+//             }
 
-            else
-            {
-                Debug.Log("Not sure why fired");
-            }
-        }
+//             else
+//             {
+//                 Debug.Log("Not sure why fired");
+//             }
+//         }
 
         
-    }
+//     }
 
-    public void ClearListsAndDictionaries()
-    {
-        ResetUnsnappedObjectPositions();
-        shippingForecastRegions.Clear();
+//     public void ClearListsAndDictionaries()
+//     {
+//         ResetUnsnappedObjectPositions();
+//         shippingForecastRegions.Clear();
         
 
-    }
+//     }
 
-}
+// }

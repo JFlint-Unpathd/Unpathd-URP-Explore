@@ -6,7 +6,7 @@ public class ResetRefine : MonoBehaviour
 {
     private SqliteController m_databaseController;
     private SocketInteractorManager socketInteractorManager;
-    private MapSpawnAndToggle mapSpawnAndToggle;
+    //private MapSpawnAndToggle mapSpawnAndToggle;
 
     [Header("Instantiated Objects")]
     public List<GameObject> refiningSceneObjects = new List<GameObject>();
@@ -165,10 +165,10 @@ public class ResetRefine : MonoBehaviour
         m_databaseController.ClearResourceDictandLists();
 
         // Clear lists and dictionaries in MapSpawnAndToggle
-        if (mapSpawnAndToggle != null)
-        {
-            mapSpawnAndToggle.ClearListsAndDictionaries();
-        }
+        // if (mapSpawnAndToggle != null)
+        // {
+        //     mapSpawnAndToggle.ClearListsAndDictionaries();
+        // }
 
         // Access SocketInteractorManager and clear snapped objects lists
         if (socketInteractorManager != null)
