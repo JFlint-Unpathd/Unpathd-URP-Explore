@@ -89,18 +89,15 @@ public class HoverFloat : MonoBehaviour
 
     public void StopFloating()
     {
-        // Add debug logs
-        Debug.Log("Original Position before stop floating: " + originalPosition);
-        Debug.Log("Original Rotation before stop floating: " + originalRotation);
-
-        StartCoroutine(InterpolatePosition(originalPosition, returnSpeed));
-        // Toggle the visibility of spawned objects if the SpawnAndToggle script is available
+        // Only call ToggleSpawnedObjectsVisibility if SpawnAndToggle is not null
         if (SpawnAndToggle != null)
         {
             SpawnAndToggle.ToggleSpawnedObjectsVisibility();
 
             //SpawnAndToggle.ResetParentAndSpawnedObjects();
         }
+
+        StartCoroutine(InterpolatePosition(originalPosition, returnSpeed));
     }
 
     IEnumerator InterpolatePosition(Vector3 targetPosition, float speed)
