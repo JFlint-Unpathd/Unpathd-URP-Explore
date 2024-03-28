@@ -3148,8 +3148,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bcffda48267a724386d81eb9b8db3f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floatHeight: 0.5
-  returnSpeed: 3
+  hoverHeight: 0.5
+  waitDuration: 10
+  returnDelay: 5
+  floatSpeed: 3
 --- !u!1 &1228534398014483421
 GameObject:
   m_ObjectHideFlags: 0
@@ -6335,14 +6337,7 @@ MonoBehaviour:
   - {fileID: 8158223429432812722, guid: b9b78717c000e5645aca1ab5eeb29ad7, type: 3}
   - {fileID: 7039491006646405701, guid: 9bd445619383d42408eaaaab9df4a57a, type: 3}
   spawnRadius: 0.5
-  isParentBeingMoved: 0
   isChildGrabbedOrSnapped: 0
-  childGrabbed:
-    m_PersistentCalls:
-      m_Calls: []
-  childReleased:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &2582355861547344521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6380,8 +6375,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bcffda48267a724386d81eb9b8db3f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floatHeight: 0.5
-  returnSpeed: 3
+  hoverHeight: 0.5
+  waitDuration: 10
+  returnDelay: 5
+  floatSpeed: 3
 --- !u!1 &2509040215993287767
 GameObject:
   m_ObjectHideFlags: 0
@@ -6396,7 +6393,6 @@ GameObject:
   - component: {fileID: 7848606558704620525}
   - component: {fileID: 1962660859462676128}
   - component: {fileID: 2079724134503804633}
-  - component: {fileID: 2741313383997002608}
   - component: {fileID: 695452496109355212}
   m_Layer: 0
   m_Name: Land
@@ -6639,18 +6635,6 @@ MonoBehaviour:
   m_OnDeactivate:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2741313383997002608
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2509040215993287767}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec001b58b744d954bad1ffbe293a9965, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &695452496109355212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6663,8 +6647,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bcffda48267a724386d81eb9b8db3f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floatHeight: 0.5
-  returnSpeed: 3
+  hoverHeight: 0.5
+  waitDuration: 10
+  returnDelay: 5
+  floatSpeed: 3
 --- !u!1 &2586621826392024863
 GameObject:
   m_ObjectHideFlags: 0
@@ -9351,7 +9337,7 @@ Transform:
   m_GameObject: {fileID: 3862494053675431758}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 1.05}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11110,6 +11096,7 @@ GameObject:
   - component: {fileID: 5378538524214491943}
   - component: {fileID: 3277507277587114528}
   - component: {fileID: 5097703769217427685}
+  - component: {fileID: 29043540095624686}
   m_Layer: 0
   m_Name: People
   m_TagString: Filters
@@ -11126,7 +11113,7 @@ Transform:
   m_GameObject: {fileID: 4800611042380703444}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.13, y: 0, z: 5.43}
+  m_LocalPosition: {x: 0, y: 0.5, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11348,14 +11335,7 @@ MonoBehaviour:
   - {fileID: 8206471592420708462, guid: 2c8e7c47c90570c4fa089f4760556223, type: 3}
   - {fileID: 3085638338074315918, guid: 51ebfdc0db9854542b94fb3b51170e8f, type: 3}
   spawnRadius: 0.5
-  isParentBeingMoved: 0
   isChildGrabbedOrSnapped: 0
-  childGrabbed:
-    m_PersistentCalls:
-      m_Calls: []
-  childReleased:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &5378538524214491943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11393,8 +11373,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bcffda48267a724386d81eb9b8db3f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floatHeight: 0.5
-  returnSpeed: 3
+  hoverHeight: 0.5
+  waitDuration: 5
+  returnDelay: 10
+  floatSpeed: 3
+--- !u!114 &29043540095624686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4800611042380703444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30ed2eb1cad6e9e49ae477596a62e496, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isParent: 1
+  isHovered: 0
+  isGrabbed: 0
+  isReleased: 1
+  isSnapped: 0
+  isKinematic: 1
 --- !u!1 &4994473278528157321
 GameObject:
   m_ObjectHideFlags: 0
@@ -11912,14 +11912,7 @@ MonoBehaviour:
   objectsToSpawn:
   - {fileID: 6096758858290865702, guid: 72f979a4edc288647acfde12308d4464, type: 3}
   spawnRadius: 0.5
-  isParentBeingMoved: 0
   isChildGrabbedOrSnapped: 0
-  childGrabbed:
-    m_PersistentCalls:
-      m_Calls: []
-  childReleased:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &6182704035787366112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11957,8 +11950,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bcffda48267a724386d81eb9b8db3f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floatHeight: 0.5
-  returnSpeed: 3
+  hoverHeight: 0.5
+  waitDuration: 10
+  returnDelay: 5
+  floatSpeed: 3
 --- !u!1 &5079346969201971858
 GameObject:
   m_ObjectHideFlags: 0
@@ -13259,8 +13254,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bcffda48267a724386d81eb9b8db3f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floatHeight: 0.5
-  returnSpeed: 3
+  hoverHeight: 0.5
+  waitDuration: 10
+  returnDelay: 5
+  floatSpeed: 3
 --- !u!1 &5437982834574040198
 GameObject:
   m_ObjectHideFlags: 0
@@ -13532,8 +13529,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bcffda48267a724386d81eb9b8db3f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floatHeight: 0.5
-  returnSpeed: 3
+  hoverHeight: 0.5
+  waitDuration: 10
+  returnDelay: 5
+  floatSpeed: 3
 --- !u!1 &5596438315240335100
 GameObject:
   m_ObjectHideFlags: 0
@@ -18286,8 +18285,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bcffda48267a724386d81eb9b8db3f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floatHeight: 0.5
-  returnSpeed: 3
+  hoverHeight: 0.5
+  waitDuration: 10
+  returnDelay: 5
+  floatSpeed: 3
 --- !u!1 &7206396320844207355
 GameObject:
   m_ObjectHideFlags: 0
@@ -19011,8 +19012,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bcffda48267a724386d81eb9b8db3f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floatHeight: 0.5
-  returnSpeed: 3
+  hoverHeight: 0.5
+  waitDuration: 10
+  returnDelay: 5
+  floatSpeed: 3
 --- !u!1 &7372053493105493904
 GameObject:
   m_ObjectHideFlags: 0
@@ -20553,14 +20556,7 @@ MonoBehaviour:
   - {fileID: 475580190550870997, guid: fbeb667df67a50a4cb892d692e35dfe8, type: 3}
   - {fileID: 2678154515085966419, guid: 055b550d15d34fb498d68857f488dcb3, type: 3}
   spawnRadius: 0.5
-  isParentBeingMoved: 0
   isChildGrabbedOrSnapped: 0
-  childGrabbed:
-    m_PersistentCalls:
-      m_Calls: []
-  childReleased:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &8967595779801084272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20598,8 +20594,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bcffda48267a724386d81eb9b8db3f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floatHeight: 0.5
-  returnSpeed: 3
+  hoverHeight: 0.5
+  waitDuration: 10
+  returnDelay: 5
+  floatSpeed: 3
 --- !u!1 &8276295899152472385
 GameObject:
   m_ObjectHideFlags: 0
@@ -20871,8 +20869,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bcffda48267a724386d81eb9b8db3f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floatHeight: 0.5
-  returnSpeed: 3
+  hoverHeight: 0.5
+  waitDuration: 10
+  returnDelay: 5
+  floatSpeed: 3
 --- !u!1 &8288587590721348449
 GameObject:
   m_ObjectHideFlags: 0
@@ -22355,8 +22355,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bcffda48267a724386d81eb9b8db3f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floatHeight: 0.5
-  returnSpeed: 3
+  hoverHeight: 0.5
+  waitDuration: 10
+  returnDelay: 5
+  floatSpeed: 3
 --- !u!1 &8778960145922120599
 GameObject:
   m_ObjectHideFlags: 0

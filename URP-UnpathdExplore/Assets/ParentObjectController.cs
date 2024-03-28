@@ -8,12 +8,17 @@ public class ParentObjectController : MonoBehaviour
     public bool isGrabbed = false;
     public bool isReleased = true;
     public bool isSnapped = false;
+    public bool isKinematic = true;
 
     private XRGrabInteractable grabInteractable;
+
+    private Rigidbody rb;
 
     private void Start()
     {
         grabInteractable = GetComponent<XRGrabInteractable>();
+
+        rb = GetComponent<Rigidbody>();
 
         grabInteractable.hoverEntered.AddListener(OnHover);
         grabInteractable.selectEntered.AddListener(OnGrab);
@@ -50,5 +55,24 @@ public class ParentObjectController : MonoBehaviour
     {
         isSnapped = false;
         //Debug.Log(gameObject.name + " is unsnapped.");
+    }
+
+     public void SetKinematic(bool value)
+    {
+        isKinematic = value;
+        rb.isKinematic = value;
+        
+        // Toggle gravity opposite to kinematic state
+        rb.useGravity = !value; 
+    }
+
+    public void FreezeRotation()
+    {
+        rb.freezeRotation = true;
+    }
+
+    public void UnfreezeRotation()
+    {
+        rb.freezeRotation = false;
     }
 }

@@ -288,7 +288,6 @@ GameObject:
   - component: {fileID: 5455043466955648163}
   - component: {fileID: 5459823680930421882}
   - component: {fileID: 4797392627105299311}
-  - component: {fileID: 2329115197756137206}
   - component: {fileID: 8060089821285232337}
   m_Layer: 0
   m_Name: Migration
@@ -522,24 +521,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   voiceoverClip: {fileID: 8300000, guid: b2750fb4478afb645b1e87f6862d021b, type: 3}
---- !u!114 &2329115197756137206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8012537163934399684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ce03a1e708c51b4c9fa316ac65fc502, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  childGrabbed:
-    m_PersistentCalls:
-      m_Calls: []
-  childReleased:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &8060089821285232337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -552,6 +533,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa9c604d8b9b3204a837f427e18d0b6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isChild: 1
+  isHovered: 0
+  isGrabbed: 0
+  isReleased: 1
+  isSnapped: 0
 --- !u!1001 &3859399964692779403
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -23,32 +23,32 @@ public class ChildObjectController : MonoBehaviour
     private void OnHover(XRBaseInteractor interactor)
     {
         isHovered = true;
-        Debug.Log(gameObject.name + " is hovered.");
+        //Debug.Log(gameObject.name + " is hovered.");
     }
 
     private void OnGrab(XRBaseInteractor interactor)
     {
         isGrabbed = true;
         isReleased = false;
-        Debug.Log(gameObject.name + " is grabbed.");
+        //Debug.Log(gameObject.name + " is grabbed.");
     }
 
     private void OnRelease(XRBaseInteractor interactor)
     {
         isGrabbed = false;
         isReleased = true;
-        Debug.Log(gameObject.name + " is released.");
+        //Debug.Log(gameObject.name + " is released.");
     }
 
     public void OnSnapped()
     {
         isSnapped = true;
-        Debug.Log(gameObject.name + " is snapped.");
+        //Debug.Log(gameObject.name + " is snapped.");
     }
 
     public void OnUnsnapped()
     {
         isSnapped = false;
-        Debug.Log(gameObject.name + " is unsnapped.");
+        //Debug.Log(gameObject.name + " is unsnapped.");
     }
 }

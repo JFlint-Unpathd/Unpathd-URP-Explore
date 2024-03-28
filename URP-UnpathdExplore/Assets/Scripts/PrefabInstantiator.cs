@@ -1,5 +1,3 @@
-
-
 using UnityEngine;
 
 public class PrefabInstantiator : MonoBehaviour
@@ -32,14 +30,19 @@ public class PrefabInstantiator : MonoBehaviour
 
     public Quaternion GetOriginalRotation()
     {
-        Debug.Log(gameObject.name + " GetOriginalRotation in ObjectTransformManager: " + originalRotation);
+        //Debug.Log(gameObject.name + " GetOriginalRotation in ObjectTransformManager: " + originalRotation);
         return originalRotation;
     }
 
     public Vector3 GetOriginalScale()
     {
-        Debug.Log(gameObject.name + " GetOriginalScale in ObjectTransformManager: " + originalScale);
+        //Debug.Log(gameObject.name + " GetOriginalScale in ObjectTransformManager: " + originalScale);
         return originalScale;
+    }
+
+    public void ResetRotation()
+    {
+        transform.rotation = originalRotation;
     }
 
 }

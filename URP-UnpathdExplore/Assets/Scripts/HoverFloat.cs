@@ -8,113 +8,139 @@ public class HoverFloat : MonoBehaviour
 {
  
     private XRBaseInteractable xrInteractable;
-    private Rigidbody rb;
-    private Vector3 originalPosition;
-    private Quaternion originalRotation;
-    
-    private bool hasBeenHoveredOver = false;
 
-    // Reference to the script holding the spawned objects
-    private SpawnAndToggle SpawnAndToggle;
+    private PrefabInstantiator prefabInstantiator;
+    private ParentObjectController parentObjectController; 
+    private SpawnAndToggle spawnAndToggle;
 
-    public float floatHeight = 0.5f; 
-    public float returnSpeed = 3f; 
+    public float hoverHeight = 0.5f;
+    public float waitDuration = 10f;
+    public float returnDelay = 5f;
+    public float floatSpeed = 3f;
+
+    private bool isCoroutineRunning = false;
 
     void Start()
     {
+
         xrInteractable = GetComponent<XRBaseInteractable>();
-        rb = GetComponent<Rigidbody>();
-        
-        // Retrieve original position and rotation from PrefabInstantiator
-        PrefabInstantiator prefabInstantiator = gameObject.GetComponent<PrefabInstantiator>();
-        if (prefabInstantiator != null)
-        {
-            Vector3 originalPosition = prefabInstantiator.GetOriginalPosition();
-            Quaternion originalRotation = prefabInstantiator.GetOriginalRotation();
 
-            // Add debug logs
-            Debug.Log("Original Position in Start: " + originalPosition);
-            Debug.Log("Original Rotation in Start: " + originalRotation);
-        }
-        else
-        {
-            Debug.LogError("PrefabInstantiator not found on GameObject.");
-        }
-
-        // Lock rotation along all axes
-        rb.constraints = RigidbodyConstraints.FreezeRotation;
-
-        SpawnAndToggle = GetComponent<SpawnAndToggle>();
-        if (SpawnAndToggle == null)
-        {
-            // Log a debug message if the script is not found
-            Debug.Log("SpawnAndToggle not found on GameObject: " + gameObject.name);
-        }
+        prefabInstantiator = GetComponent<PrefabInstantiator>();
+        parentObjectController = GetComponent<ParentObjectController>();
+        spawnAndToggle = GetComponent<SpawnAndToggle>();
 
         // Listners 
-        xrInteractable.onHoverEntered.AddListener(OnHoverEnter);
+        xrInteractable.hoverEntered.AddListener(StartHover);
+        xrInteractable.hoverExited.AddListener(StopHover);
+        xrInteractable.selectEntered.AddListener(StartGrab);
+        xrInteractable.selectExited.AddListener(StopGrab);
         
     }
 
-    private void OnHoverEnter(XRBaseInteractor interactor)
+    void StartHover(HoverEnterEventArgs args)
+    {  
+            parentObjectController.isHovered = true;
+
+            prefabInstantiator.ResetRotation();
+            parentObjectController.FreezeRotation();
+            
+            if (!isCoroutineRunning)
+            {
+                StartCoroutine(HoverRoutine());
+            }
+   
+    }
+
+
+    IEnumerator HoverRoutine()
     {
-        if (!hasBeenHoveredOver)
+        isCoroutineRunning = true;
+
+        //Debug.Log("HoverRoutine started");
+        parentObjectController.SetKinematic(true);
+
+        Vector3 targetPosition = prefabInstantiator.GetOriginalPosition() + Vector3.up * hoverHeight;
+        while (Vector3.Distance(transform.position, targetPosition) > 0.01f)
         {
-            hasBeenHoveredOver = true;
-            StartCoroutine(HandleFloating());
+            //Debug.Log("Current position: " + transform.position + " Target position: " + targetPosition);
+            transform.position = Vector3.Lerp(transform.position, targetPosition, floatSpeed * Time.deltaTime);
+            
+            yield return null;
+        }
+
+        //Debug.Log("Hover height reached, waiting for " + waitDuration + " seconds");
+        yield return new WaitForSeconds(waitDuration);
+        Debug.Log("Wait duration finished"); 
+
+        if (!parentObjectController.isGrabbed && !parentObjectController.isSnapped)
+        {
+            Debug.Log("Starting ReturnRoutine");
+            StartCoroutine(ReturnRoutine());
+        }
+
+        isCoroutineRunning = false;
+    }
+
+    void StopHover(HoverExitEventArgs args)
+    {
+        parentObjectController.isHovered = false;
+    }
+
+    IEnumerator ReturnRoutine()
+    {
+        isCoroutineRunning = true;
+
+        spawnAndToggle.DisableSpawnedObjects();
+
+        yield return new WaitForSeconds(returnDelay);
+
+        Vector3 targetPosition = prefabInstantiator.GetOriginalPosition();
+        
+        Debug.Log("Target position at start of ReturnRoutine: " + targetPosition);
+
+        while (Vector3.Distance(transform.position, targetPosition) > 0.0001f)
+        {
+            transform.position = Vector3.Lerp(transform.position, targetPosition, floatSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        prefabInstantiator.ResetRotation();
+        parentObjectController.FreezeRotation();
+
+        isCoroutineRunning = false;
+
+        Debug.Log("Finished Return Routine");
+
+    }
+
+    void StartGrab(SelectEnterEventArgs args)
+    {
+        parentObjectController.SetKinematic(false);
+        //Debug.Log("Gravity enabled at StartGrab");
+    }
+
+    void StopGrab(SelectExitEventArgs args)
+    {
+        parentObjectController.isGrabbed = false;
+
+        if (!parentObjectController.isGrabbed && !parentObjectController.isSnapped)
+        {
+        
+            parentObjectController.SetKinematic(false);
+            StartCoroutine(EndGrabRoutine());
         }
     }
 
-    IEnumerator HandleFloating()
+    IEnumerator EndGrabRoutine()
     {
-        StartFloating();
-        yield return new WaitForSeconds(3f);
-        StopFloating();
-    }
+        //allow for object to be tossed before returning to orinal pos
+        yield return new WaitForSeconds(returnDelay);
 
-    public void StartFloating()
-    {
-        // Add debug logs
-        Debug.Log("Original Position before floating: " + originalPosition);
-        Debug.Log("Original Rotation before floating: " + originalRotation);
-
-        rb.useGravity = false;
-        rb.isKinematic = true;
-        transform.rotation = originalRotation;
-        Vector3 targetPosition = originalPosition + Vector3.up * floatHeight;
-        rb.MovePosition(targetPosition);
-
-    }
-
-
-    public void StopFloating()
-    {
-        // Only call ToggleSpawnedObjectsVisibility if SpawnAndToggle is not null
-        if (SpawnAndToggle != null)
+        parentObjectController.SetKinematic(true);
+        Debug.Log("Gravity disabled at EndGrabRoutine");
+        if (!parentObjectController.isGrabbed && !parentObjectController.isSnapped && !isCoroutineRunning)
         {
-            SpawnAndToggle.ToggleSpawnedObjectsVisibility();
-
-            //SpawnAndToggle.ResetParentAndSpawnedObjects();
+            StartCoroutine(ReturnRoutine());
         }
-
-        StartCoroutine(InterpolatePosition(originalPosition, returnSpeed));
     }
-
-    IEnumerator InterpolatePosition(Vector3 targetPosition, float speed)
-    {
-        while (Vector3.Distance(transform.position, targetPosition) > 0.005f) // 0.05f is a small value to decide when to stop interpolation
-        {
-            transform.position = Vector3.Lerp(transform.position, targetPosition, speed * Time.deltaTime);
-            yield return null; 
-        }
-
-        // When the object is close enough, make sure it's exactly at the target
-        transform.position = targetPosition;
-
-        rb.useGravity = true;
-        rb.isKinematic = false;
-
-        hasBeenHoveredOver = false; // resetting the boolean variable
-    }
-
 }
