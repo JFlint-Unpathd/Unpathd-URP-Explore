@@ -39,15 +39,19 @@ public class HoverFloat : MonoBehaviour
 
     void StartHover(HoverEnterEventArgs args)
     {  
+        if (parentObjectController != null) {
+
             parentObjectController.isHovered = true;
 
             prefabInstantiator.ResetRotation();
             parentObjectController.FreezeRotation();
+    
+        }
             
-            if (!isCoroutineRunning)
-            {
-                StartCoroutine(HoverRoutine());
-            }
+        if (!isCoroutineRunning)
+        {
+            StartCoroutine(HoverRoutine());
+        }
    
     }
 
@@ -56,8 +60,13 @@ public class HoverFloat : MonoBehaviour
     {
         isCoroutineRunning = true;
 
-        //Debug.Log("HoverRoutine started");
-        parentObjectController.SetKinematic(true);
+        if (parentObjectController != null) {
+
+          //Debug.Log("HoverRoutine started");
+            parentObjectController.SetKinematic(true);
+    
+        }
+
 
         Vector3 targetPosition = prefabInstantiator.GetOriginalPosition() + Vector3.up * hoverHeight;
         while (Vector3.Distance(transform.position, targetPosition) > 0.01f)
@@ -72,18 +81,29 @@ public class HoverFloat : MonoBehaviour
         yield return new WaitForSeconds(waitDuration);
         Debug.Log("Wait duration finished"); 
 
-        if (!parentObjectController.isGrabbed && !parentObjectController.isSnapped)
-        {
-            Debug.Log("Starting ReturnRoutine");
-            StartCoroutine(ReturnRoutine());
+        if (parentObjectController != null) {
+
+            if (!parentObjectController.isGrabbed && !parentObjectController.isSnapped)
+            {
+                Debug.Log("Starting ReturnRoutine");
+                StartCoroutine(ReturnRoutine());
+            }
+    
         }
+
+       
 
         isCoroutineRunning = false;
     }
 
     void StopHover(HoverExitEventArgs args)
     {
-        parentObjectController.isHovered = false;
+         if (parentObjectController != null) {
+
+          parentObjectController.isHovered = false;
+    
+        }
+          
     }
 
     IEnumerator ReturnRoutine()
@@ -110,8 +130,13 @@ public class HoverFloat : MonoBehaviour
         }
 
         prefabInstantiator.ResetRotation();
-        parentObjectController.FreezeRotation();
 
+        if (parentObjectController != null) {
+
+          parentObjectController.FreezeRotation();
+    
+        }
+          
         isCoroutineRunning = false;
 
         Debug.Log("Finished Return Routine");
@@ -120,12 +145,20 @@ public class HoverFloat : MonoBehaviour
 
     void StartGrab(SelectEnterEventArgs args)
     {
+        
+        
+        if (parentObjectController != null) {
+
         parentObjectController.SetKinematic(false);
         //Debug.Log("Gravity enabled at StartGrab");
+        }
+    
     }
 
     void StopGrab(SelectExitEventArgs args)
     {
+        if (parentObjectController != null) {
+
         parentObjectController.isGrabbed = false;
 
         if (!parentObjectController.isGrabbed && !parentObjectController.isSnapped)
@@ -134,6 +167,9 @@ public class HoverFloat : MonoBehaviour
             parentObjectController.SetKinematic(false);
             StartCoroutine(EndGrabRoutine());
         }
+
+        }
+     
     }
 
     IEnumerator EndGrabRoutine()
@@ -141,11 +177,13 @@ public class HoverFloat : MonoBehaviour
         //allow for object to be tossed before returning to orinal pos
         yield return new WaitForSeconds(returnDelay);
 
-       
-        Debug.Log("Gravity disabled at EndGrabRoutine");
-        if (!parentObjectController.isGrabbed && !parentObjectController.isSnapped && !isCoroutineRunning)
-        {
-            StartCoroutine(ReturnRoutine());
+       if (parentObjectController != null) {
+
+            Debug.Log("Gravity disabled at EndGrabRoutine");
+            if (!parentObjectController.isGrabbed && !parentObjectController.isSnapped && !isCoroutineRunning)
+            {
+                StartCoroutine(ReturnRoutine());
+            }
         }
     }
 }

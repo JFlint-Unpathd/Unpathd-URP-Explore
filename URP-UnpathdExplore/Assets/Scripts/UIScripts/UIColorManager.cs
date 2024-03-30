@@ -30,7 +30,6 @@ public class UIColorManager : MonoBehaviour
 
     private void Awake()
     {
-        //Debug.Log("UIColorManager Initialized");
 
         // Setup singleton instance
         if (Instance == null)

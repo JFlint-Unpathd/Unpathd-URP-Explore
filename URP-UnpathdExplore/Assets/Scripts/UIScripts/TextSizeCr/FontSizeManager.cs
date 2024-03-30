@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 
 // script from tutorial https://www.youtube.com/watch?v=PXbyZhR8fGc&ab_channel=ChristinaCreatesGames
-public class FontSizeCustomizer : MonoBehaviour
+public class FontSizeManager : MonoBehaviour
 {
     private TMP_StyleSheet _styleSheet => TMP_Settings.defaultStyleSheet;
 
@@ -16,7 +16,11 @@ public class FontSizeCustomizer : MonoBehaviour
 
     public static Action<string> UpdatedTheTextStyle;
     
-    
+    // Ensure that the FontSizeCustomizer object persists across scene changes
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
     public void ChangeFontSize(float fontSize)
     {
         //retrieves the stylename set

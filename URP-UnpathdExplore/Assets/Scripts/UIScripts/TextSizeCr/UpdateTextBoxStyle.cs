@@ -15,13 +15,13 @@ public class UpdateTextBoxStyle : MonoBehaviour
     }
     private void OnEnable()
     {
-        FontSizeCustomizer.UpdatedTheTextStyle += UpdateTextStyle;
+        FontSizeManager.UpdatedTheTextStyle += UpdateTextStyle;
         
     }
     
     private void OnDisable()
     {
-        FontSizeCustomizer.UpdatedTheTextStyle -= UpdateTextStyle;
+        FontSizeManager.UpdatedTheTextStyle -= UpdateTextStyle;
     }
 
     private void UpdateTextStyle(string styleName)
@@ -33,7 +33,7 @@ public class UpdateTextBoxStyle : MonoBehaviour
         Debug.Log("StyleNameError");
         
         _textBox.textStyle = TMP_Settings.defaultStyleSheet.GetStyle(styleName);
-        Debug.Log("Updated the text style from FontSizeCustomizer script");
+        Debug.Log("Updated the text style from FontSizeManager script");
         
         int lastPage = _textBox.textInfo.pageCount - 1;
         
