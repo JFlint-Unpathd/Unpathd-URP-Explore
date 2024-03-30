@@ -3,9 +3,8 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class BirdsEyeView : MonoBehaviour
 {
-    //[SerializeField]
+ 
     private GameObject xrOrigin;
-    //[SerializeField]
     private Rigidbody xrOriginRigidbody;    
 
     private XRBaseInteractable interactable;
@@ -49,11 +48,11 @@ public class BirdsEyeView : MonoBehaviour
 
         xrOriginRigidbody.isKinematic = true;
         
-        interactable.onSelectEntered.AddListener(OnSelected);
+        interactable.selectEntered.AddListener(OnSelected);
 
     }
 
-    private void OnSelected(XRBaseInteractor interactor)
+    private void OnSelected(SelectEnterEventArgs args)
     {
         Vector3 offset = new Vector3(1f, 1f, 1f);  // Replace with your desired offset
         

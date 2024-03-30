@@ -11,29 +11,30 @@ public class ChildObjectController : MonoBehaviour
 
     private XRGrabInteractable grabInteractable;
 
+
     private void Start()
     {
         grabInteractable = GetComponent<XRGrabInteractable>();
 
-        grabInteractable.onHoverEntered.AddListener(OnHover);
-        grabInteractable.onSelectEntered.AddListener(OnGrab);
-        grabInteractable.onSelectExited.AddListener(OnRelease);
+        grabInteractable.hoverEntered.AddListener(OnHover);
+        grabInteractable.selectEntered.AddListener(OnGrab);
+        grabInteractable.selectExited.AddListener(OnRelease);
     }
 
-    private void OnHover(XRBaseInteractor interactor)
+    private void OnHover(HoverEnterEventArgs args)
     {
         isHovered = true;
         //Debug.Log(gameObject.name + " is hovered.");
     }
 
-    private void OnGrab(XRBaseInteractor interactor)
+    private void OnGrab(SelectEnterEventArgs args)
     {
         isGrabbed = true;
         isReleased = false;
         //Debug.Log(gameObject.name + " is grabbed.");
     }
 
-    private void OnRelease(XRBaseInteractor interactor)
+    private void OnRelease(SelectExitEventArgs args)
     {
         isGrabbed = false;
         isReleased = true;

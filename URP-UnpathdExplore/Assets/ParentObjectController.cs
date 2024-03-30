@@ -8,8 +8,7 @@ public class ParentObjectController : MonoBehaviour
     public bool isGrabbed = false;
     public bool isReleased = true;
     public bool isSnapped = false;
-    public bool isKinematic = true;
-
+    
     private XRGrabInteractable grabInteractable;
 
     private Rigidbody rb;
@@ -59,11 +58,7 @@ public class ParentObjectController : MonoBehaviour
 
      public void SetKinematic(bool value)
     {
-        isKinematic = value;
-        rb.isKinematic = value;
-        
-        // Toggle gravity opposite to kinematic state
-        rb.useGravity = !value; 
+        rb.isKinematic = true;
     }
 
     public void FreezeRotation()

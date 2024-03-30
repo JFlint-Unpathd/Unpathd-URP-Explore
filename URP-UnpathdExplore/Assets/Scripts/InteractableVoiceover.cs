@@ -10,11 +10,11 @@ public class InteractableVoiceover : MonoBehaviour
     void Start()
     {
         interactable = GetComponent<XRGrabInteractable>();
-        interactable.onSelectEntered.AddListener(OnSelectEntered);
+        interactable.selectEntered.AddListener(OnSelectEntered);
 
     }
 
-    private void OnSelectEntered(XRBaseInteractor interactor)
+    private void OnSelectEntered(SelectEnterEventArgs args)
     {
         AudioManager.instance.PlayClip(voiceoverClip);
     }

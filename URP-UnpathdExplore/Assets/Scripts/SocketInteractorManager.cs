@@ -9,7 +9,6 @@ public class SocketInteractorManager : MonoBehaviour
 {
     private XRSocketInteractor socketInteractor;
     private List<GameObject> snappedObjects = new List<GameObject>();
-
     public GameObject CurrentSnappedObject;
     
     public List<GameObject> GetSnappedObjects()
@@ -44,8 +43,7 @@ public class SocketInteractorManager : MonoBehaviour
             snappedObjects.Add(snappedObject);
             // Call the HandleSelection method
             unpathSelector.HandleSelection();  
-            // Make the snapped object a child of the socket interactor
-            snappedObject.transform.parent = transform; 
+            
 
         }
 

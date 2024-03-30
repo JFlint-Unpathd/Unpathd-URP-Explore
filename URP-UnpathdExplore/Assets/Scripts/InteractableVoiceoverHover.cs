@@ -18,6 +18,7 @@ public class InteractableVoiceoverHover : MonoBehaviour
         interactable = GetComponent<XRBaseInteractable>();
     }
 
+
     void Start()
     {
         
@@ -28,19 +29,19 @@ public class InteractableVoiceoverHover : MonoBehaviour
             return;
         }
 
-        interactable.onHoverEntered.AddListener(OnHoverEntered);
-        interactable.onHoverExited.AddListener(OnHoverExited);
+        interactable.hoverEntered.AddListener(OnHoverEntered);
+        interactable.hoverExited.AddListener(OnHoverExited);
 
         
     }
 
-    private void OnHoverEntered(XRBaseInteractor interactor)
+    private void OnHoverEntered(HoverEnterEventArgs args)
     {
         isHovering = true;
         hoverTime = 0f;
     }
 
-    private void OnHoverExited(XRBaseInteractor interactor)
+    private void OnHoverExited(HoverExitEventArgs args)
     {
         isHovering = false;
     }

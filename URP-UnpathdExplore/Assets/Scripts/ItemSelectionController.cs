@@ -35,31 +35,28 @@ public class ItemSelectionController : MonoBehaviour
         
     }
 
-        void Start()
+
+    void Start()
     {
-    // Get the XRBaseInteractable component
-    interactable = GetComponent<XRBaseInteractable>();
 
-    // Find the SqliteController in the scene
-    sqliteController = FindObjectOfType<SqliteController>();
+        interactable = GetComponent<XRBaseInteractable>();
+        sqliteController = FindObjectOfType<SqliteController>();
+        thisResource = GetComponent<UnpathResource>();
 
-    // Get the UnpathResource component associated with this item
-    thisResource = GetComponent<UnpathResource>();
+        if (sqliteController == null)
+        {
+            Debug.LogError("SqliteController not found in the scene.");
+            return;
+        }
 
-    if (sqliteController == null)
-    {
-        Debug.LogError("SqliteController not found in the scene.");
-        return;
-    }
-
-    if (thisResource == null)
-    {
-        Debug.LogError("UnpathResource not found in the current object.");
-        return;
-    }
+        if (thisResource == null)
+        {
+            Debug.LogError("UnpathResource not found in the current object.");
+            return;
+        }
 
         // Add listeners for the hover events
-        interactable.onSelectEntered.AddListener(OnSelectEntered);
+        interactable.selectEntered.AddListener(OnSelectEntered);
         interactable.hoverEntered.AddListener(EnlargeLayout);
         interactable.hoverExited.AddListener(ShrinkLayout);
         
@@ -81,7 +78,7 @@ public class ItemSelectionController : MonoBehaviour
     }
 
 
-        private void OnSelectEntered(XRBaseInteractor interactor)
+        private void OnSelectEntered(SelectEnterEventArgs args)
     {
         resultSelected = !resultSelected;
         // Get the list of all Q results

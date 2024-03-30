@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,8 @@ public class SpawnAndToggle : MonoBehaviour
     private Quaternion originalRotation;
 
     [SerializeField] GameObject[] objectsToSpawn;
-    [SerializeField] float spawnRadius = 0.3f;
+    //[SerializeField] float spawnRadius = 1f;
+    float spawnRadius = 1f;
 
     private List<GameObject> spawnedObjects = new List<GameObject>();
     
@@ -24,10 +26,7 @@ public class SpawnAndToggle : MonoBehaviour
         return spawnedObjects;
     }
 
-    public bool isChildGrabbedOrSnapped = false;
 
-   
- 
     private void Start()
     {
         parentController = GetComponent<ParentObjectController>();
@@ -46,9 +45,9 @@ public class SpawnAndToggle : MonoBehaviour
         
         interactable = GetComponent<XRBaseInteractable>();
 
-        interactable.onHoverEntered.AddListener(OnHoverEnter);
-        interactable.onSelectEntered.AddListener(OnSelectEnter);
-        interactable.onSelectExited.AddListener(OnSelectExit);
+        interactable.hoverEntered.AddListener(OnHoverEnter);
+        interactable.selectEntered.AddListener(OnSelectEnter);
+        interactable.selectExited.AddListener(OnSelectExit);
 
     }
 
@@ -91,7 +90,7 @@ public class SpawnAndToggle : MonoBehaviour
     }
 
 
-    private void OnHoverEnter(XRBaseInteractor interactor)
+    private void OnHoverEnter(HoverEnterEventArgs args)
     {
         if (spawnedObjects.Count == 0)
         {
@@ -115,7 +114,7 @@ public class SpawnAndToggle : MonoBehaviour
     }
 
 
-    private void OnSelectEnter(XRBaseInteractor interactor)
+    private void OnSelectEnter(SelectEnterEventArgs args)
     {
         if (parentController != null)
         {
@@ -134,7 +133,7 @@ public class SpawnAndToggle : MonoBehaviour
         }
     }
 
-    private void OnSelectExit(XRBaseInteractor interactor)
+    private void OnSelectExit(SelectExitEventArgs args)
     {
         StartCoroutine(DelayedOnSelectExit());
 
@@ -147,6 +146,12 @@ public class SpawnAndToggle : MonoBehaviour
         if (parentController != null)
         {
             parentController.isGrabbed = false;
+
+            // Determine the desired visibility state for unsnapped objects
+            bool unsnappedVisibility = GetUnsnappedVisibility();
+
+            // Set visibility for unsnapped objects
+            SetUnsnappedVisibility(unsnappedVisibility);
 
             // Clear nonsnapped spawned objects
             foreach (var spawnedObject in spawnedObjects)
@@ -165,25 +170,62 @@ public class SpawnAndToggle : MonoBehaviour
         }
     }
 
+     private bool GetUnsnappedVisibility()
+    {
+       // Get the visibility state of the first unsnapped child
+        foreach (var spawnedObject in spawnedObjects)
+        {
+            ChildObjectController childController = spawnedObject.GetComponent<ChildObjectController>();
+            if (childController != null && !childController.isSnapped)
+            {
+                return spawnedObject.activeSelf;
+            }
+        }
+
+        // If no unsnapped child is found, return true by default
+        return true;
+
+    }
+
+        private void SetUnsnappedVisibility(bool visibility)
+    {
+        // Set the visibility state for all unsnapped children
+        foreach (var spawnedObject in spawnedObjects)
+        {
+            ChildObjectController childController = spawnedObject.GetComponent<ChildObjectController>();
+            if (childController != null && !childController.isSnapped)
+            {
+                spawnedObject.SetActive(visibility);
+            }
+        }
+    }
+
     private void SpawnObjects()
     {
     
         Vector3 originalObjectPosition = transform.position;
 
+        // Create a HashSet to store the spawned objects
+        HashSet<GameObject> spawnedPrefabSet  = new HashSet<GameObject>(spawnedObjects);
+
+        foreach (GameObject spawnedObject in spawnedObjects)
+        {
+            // Add the prefab of the spawned object to the HashSet
+            spawnedPrefabSet.Add(spawnedObject);
+        }
+
         for (int i = 0; i < objectsToSpawn.Length; i++)
         {
-            // Skip this iteration if the object already exists
-            if(spawnedObjects.Exists(spawnedObject => spawnedObject.name == objectsToSpawn[i].name))
+
+            if (spawnedPrefabSet.Contains(objectsToSpawn[i]))
             {
-                continue; 
+                continue; // Skip spawning this object
             }
 
             float angle = i * (360f / objectsToSpawn.Length);
             float spawnX = originalObjectPosition.x + spawnRadius * Mathf.Cos(Mathf.Deg2Rad * angle);
-            //float spawnZ = originalObjectPosition.z + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle); //original rotation
             float spawnY = originalObjectPosition.y + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
 
-            //Vector3 spawnPosition = new Vector3(spawnX, originalObjectPosition.y, spawnZ); //original rotation
             Vector3 spawnPosition = new Vector3(spawnX, spawnY, originalObjectPosition.z);
 
             GameObject spawnedObject = Instantiate(objectsToSpawn[i], spawnPosition, Quaternion.identity);
@@ -200,11 +242,14 @@ public class SpawnAndToggle : MonoBehaviour
                 rb.constraints = RigidbodyConstraints.FreezeAll;
             }
 
+            // Add the prefab of the spawned object to the HashSet
+            spawnedPrefabSet.Add(objectsToSpawn[i]);
+
         }
     }
 
 
-    public void ToggleSpawnedObjectsVisibility()
+   public void ToggleSpawnedObjectsVisibility()
     {
         foreach (var spawnedObject in spawnedObjects)
         {
@@ -224,19 +269,6 @@ public class SpawnAndToggle : MonoBehaviour
         }
     }
 
-
-    private bool CheckIfAnyChildSnapped()
-    {
-        foreach (var spawnedObject in spawnedObjects)
-        {
-            ChildObjectController childController = spawnedObject.GetComponent<ChildObjectController>();
-            if(childController != null && childController.isSnapped)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public void EnableSpawnedObjects()
     {

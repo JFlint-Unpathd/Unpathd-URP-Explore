@@ -7,34 +7,28 @@ public class Handle : MonoBehaviour
 {
     private XRBaseInteractable interactable;
 
-
     private void Start()
     {
         interactable = GetComponent<XRBaseInteractable>();
 
-        interactable.onHoverEntered.AddListener(SliderHover);
-        interactable.onSelectEntered.AddListener(StartGrabbing);
-        interactable.onSelectExited.AddListener(StopGrabbing);
+        interactable.hoverEntered.AddListener(SliderHover);
+        interactable.selectEntered.AddListener(StartGrabbing);
+        interactable.selectExited.AddListener(StopGrabbing);
     }
 
 
 
 
-    private void SliderHover(XRBaseInteractor interactor)
+    private void SliderHover(HoverEnterEventArgs args)
     {
         
     }
-    private void StartGrabbing(XRBaseInteractor interactor)
+    private void StartGrabbing(SelectEnterEventArgs args)
     {
     }
-    private void StopGrabbing(XRBaseInteractor interactor)
+    private void StopGrabbing(SelectExitEventArgs args)
     {
 
     }
-
-
-
-
-
 
 }

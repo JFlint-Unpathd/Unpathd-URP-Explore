@@ -13,7 +13,7 @@ public class HoverFloat : MonoBehaviour
     private ParentObjectController parentObjectController; 
     private SpawnAndToggle spawnAndToggle;
 
-    public float hoverHeight = 0.5f;
+    private float hoverHeight = 1f;
     public float waitDuration = 10f;
     public float returnDelay = 5f;
     public float floatSpeed = 3f;
@@ -90,7 +90,12 @@ public class HoverFloat : MonoBehaviour
     {
         isCoroutineRunning = true;
 
-        spawnAndToggle.DisableSpawnedObjects();
+        if (spawnAndToggle != null) {
+
+            //spawnAndToggle.DisableSpawnedObjects();
+            spawnAndToggle.ToggleSpawnedObjectsVisibility();
+    
+        }
 
         yield return new WaitForSeconds(returnDelay);
 
@@ -136,7 +141,7 @@ public class HoverFloat : MonoBehaviour
         //allow for object to be tossed before returning to orinal pos
         yield return new WaitForSeconds(returnDelay);
 
-        parentObjectController.SetKinematic(true);
+       
         Debug.Log("Gravity disabled at EndGrabRoutine");
         if (!parentObjectController.isGrabbed && !parentObjectController.isSnapped && !isCoroutineRunning)
         {
