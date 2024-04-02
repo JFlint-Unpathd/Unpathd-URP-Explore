@@ -10,7 +10,7 @@ public class InteractableVoiceoverHover : MonoBehaviour
 
     private bool isHovering = false;
     private float hoverTime = 0f;
-    private const float requiredHoverTime = 1f;
+    private const float requiredHoverTime = .5f;
 
     void Awake()
     {

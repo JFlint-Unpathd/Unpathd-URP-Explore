@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 
 // script from tutorial https://www.youtube.com/watch?v=PXbyZhR8fGc&ab_channel=ChristinaCreatesGames
 public class FontSizeManager : MonoBehaviour
+
 {
     private TMP_StyleSheet _styleSheet => TMP_Settings.defaultStyleSheet;
 

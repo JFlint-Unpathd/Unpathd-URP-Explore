@@ -46,7 +46,7 @@ public class ButtonHoverAudio : MonoBehaviour
 
     private IEnumerator HoverAction()
     {
-         yield return new WaitForSecondsRealtime(2f);
+         yield return new WaitForSecondsRealtime(1f);
         AudioManager.instance.PlayClip(hoverClip);
 
         // Wait for the first clip to finish playing
