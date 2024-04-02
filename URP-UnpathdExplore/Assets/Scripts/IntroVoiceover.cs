@@ -15,7 +15,10 @@ public class IntroVoiceover : MonoBehaviour
 
     void Start()
     {
-        settingsMenu.SetActive(false);
+        if (settingsMenu != null)
+        {
+            settingsMenu.SetActive(false);
+        }
 
         if(AudioManager.instance == null)
         {
@@ -36,7 +39,11 @@ public class IntroVoiceover : MonoBehaviour
 
         if (settingsMenu != null)
         {
-            UnpathText.SetActive(false);
+            if (UnpathText != null)
+            {
+                UnpathText.SetActive(false);
+            }
+            
             settingsMenu.SetActive(true);
 
             yield return new WaitForSecondsRealtime(settingsDelay);

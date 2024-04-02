@@ -81,10 +81,6 @@ public class SpawnAndToggle : MonoBehaviour
             float spawnY = transform.position.y + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
             Vector3 newPosition = new Vector3(spawnX, spawnY, transform.position.z);
 
-            //original orientation
-            //float spawnZ = transform.position.z + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
-            //Vector3 newPosition = new Vector3(spawnX, transform.position.y, spawnZ);
-
             spawnedObjects[i].transform.position = newPosition;
         }
     }
@@ -152,6 +148,9 @@ public class SpawnAndToggle : MonoBehaviour
 
             // Set visibility for unsnapped objects
             SetUnsnappedVisibility(unsnappedVisibility);
+
+            //added a 2 second delay so hopefully children do not snap to socket
+            yield return new WaitForSeconds(2);
 
             // Clear nonsnapped spawned objects
             foreach (var spawnedObject in spawnedObjects)
