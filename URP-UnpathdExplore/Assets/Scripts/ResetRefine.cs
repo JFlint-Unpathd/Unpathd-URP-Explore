@@ -6,6 +6,7 @@ public class ResetRefine : MonoBehaviour
 {
     private SqliteController m_databaseController;
     private SocketInteractorManager socketInteractorManager;
+   
     //private MapSpawnAndToggle mapSpawnAndToggle;
 
     [Header("Instantiated Objects")]
@@ -50,6 +51,13 @@ public class ResetRefine : MonoBehaviour
         refiningSceneObjects.Add(socketInteractorInstance);
 
         execQ.SetActive(true);
+
+          // Get the CircleObjectPlacer component from the refiningObjectsInstance and call ArrangeObjectsInCircle
+        CircleObjectPlacer circleObjectPlacer = refiningObjectsInstance.GetComponent<CircleObjectPlacer>();
+        if (circleObjectPlacer != null)
+        {
+            circleObjectPlacer.ArrangeObjectsInCircle();
+        }
     }
 
 

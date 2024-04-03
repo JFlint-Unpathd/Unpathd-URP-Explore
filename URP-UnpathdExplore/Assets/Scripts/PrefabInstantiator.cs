@@ -6,7 +6,13 @@ public class PrefabInstantiator : MonoBehaviour
     private Quaternion originalRotation;
     private Vector3 originalScale;
 
-    void Awake()
+
+    public Vector3 OriginalPosition { get { return originalPosition; } set { originalPosition = value; } }
+    public Quaternion OriginalRotation { get { return originalRotation; } set { originalRotation = value; } }
+    public Vector3 OriginalScale { get { return originalScale; } set { originalScale = value; } }
+
+
+    void Start()
     {
         originalPosition = transform.position;
         originalRotation = transform.rotation;
