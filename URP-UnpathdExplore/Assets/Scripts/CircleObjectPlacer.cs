@@ -36,9 +36,11 @@ public class CircleObjectPlacer : MonoBehaviour
             if (prefabInstantiator != null)
             {
                 // Set the original position, rotation, and scale in the PrefabInstantiator
-                prefabInstantiator.OriginalPosition = newPos;
-                prefabInstantiator.OriginalRotation = childTransform.rotation;
-                prefabInstantiator.OriginalScale = childTransform.localScale;
+                // prefabInstantiator.OriginalPosition = newPos;
+                // prefabInstantiator.OriginalRotation = childTransform.rotation;
+                // prefabInstantiator.OriginalScale = childTransform.localScale;
+
+                prefabInstantiator.SaveOriginalTransform();
             }
         }
     }

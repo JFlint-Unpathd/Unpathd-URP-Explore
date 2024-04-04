@@ -47,17 +47,28 @@ public class ResetRefine : MonoBehaviour
         GameObject refiningObjectsInstance = InstantiatePrefab(refiningObjects);
         refiningSceneObjects.Add(refiningObjectsInstance);
 
+        // Get stored transform from PrefabInstantiator component
+        PrefabInstantiator prefabInstantiator = refiningObjectsInstance.GetComponentInChildren<PrefabInstantiator>();
+        if (prefabInstantiator != null)
+        {
+            Vector3 storedPosition = prefabInstantiator.GetStoredPosition();
+            Quaternion storedRotation = prefabInstantiator.GetStoredRotation();
+
+            // Instantiate refiningObjects prefab at the stored position and rotation
+            refiningObjectsInstance.transform.position = storedPosition;
+            refiningObjectsInstance.transform.rotation = storedRotation;
+        }
+        else
+        {
+            Debug.LogError("PrefabInstantiator component not found on refiningObjectsInstance or its children.");
+        }
+
         GameObject socketInteractorInstance = InstantiatePrefab(socketInteractor);
         refiningSceneObjects.Add(socketInteractorInstance);
 
         execQ.SetActive(true);
 
-          // Get the CircleObjectPlacer component from the refiningObjectsInstance and call ArrangeObjectsInCircle
-        CircleObjectPlacer circleObjectPlacer = refiningObjectsInstance.GetComponent<CircleObjectPlacer>();
-        if (circleObjectPlacer != null)
-        {
-            circleObjectPlacer.ArrangeObjectsInCircle();
-        }
+
     }
 
 
@@ -91,6 +102,7 @@ public class ResetRefine : MonoBehaviour
         }
     }
 
+
     public void CreateResultsScene()
     {
         if (resultsSceneObjects.Count == 0)
@@ -110,10 +122,6 @@ public class ResetRefine : MonoBehaviour
             }
         }
 
-        //SFRMap = GameObject.FindGameObjectWithTag("SFR");
-
-        //GameObject birdsEyeInstance = InstantiatePrefab(birdsEye);
-        //resultsSceneObjects.Add(birdsEye);
 
         SFRMap.SetActive(true);
         reRef.SetActive(true);
@@ -156,9 +164,6 @@ public class ResetRefine : MonoBehaviour
             zoomObject.SetActive(false);
         }
 
-        // SFRMap.SetActive(false);
-        // reRef.SetActive(false);
-        // zoomObject.SetActive(false);
     }
 
     

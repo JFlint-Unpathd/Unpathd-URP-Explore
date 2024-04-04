@@ -44,6 +44,7 @@ public class HoverFloat : MonoBehaviour
             parentObjectController.isHovered = true;
 
             prefabInstantiator.ResetRotation();
+            Debug.Log("isthis what is putting it in the correct loc?");
             parentObjectController.FreezeRotation();
     
         }
@@ -79,13 +80,13 @@ public class HoverFloat : MonoBehaviour
 
         //Debug.Log("Hover height reached, waiting for " + waitDuration + " seconds");
         yield return new WaitForSeconds(waitDuration);
-        Debug.Log("Wait duration finished"); 
+        //Debug.Log("Wait duration finished"); 
 
         if (parentObjectController != null) {
 
             if (!parentObjectController.isGrabbed && !parentObjectController.isSnapped)
             {
-                Debug.Log("Starting ReturnRoutine");
+                //Debug.Log("Starting ReturnRoutine");
                 StartCoroutine(ReturnRoutine());
             }
     
@@ -121,7 +122,7 @@ public class HoverFloat : MonoBehaviour
 
         Vector3 targetPosition = prefabInstantiator.GetOriginalPosition();
         
-        Debug.Log("Target position at start of ReturnRoutine: " + targetPosition);
+        //Debug.Log("Target position at start of ReturnRoutine: " + targetPosition);
 
         while (Vector3.Distance(transform.position, targetPosition) > 0.0001f)
         {
@@ -139,7 +140,7 @@ public class HoverFloat : MonoBehaviour
           
         isCoroutineRunning = false;
 
-        Debug.Log("Finished Return Routine");
+        //Debug.Log("Finished Return Routine");
 
     }
 
@@ -179,7 +180,8 @@ public class HoverFloat : MonoBehaviour
 
        if (parentObjectController != null) {
 
-            Debug.Log("Gravity disabled at EndGrabRoutine");
+            //Debug.Log("Gravity disabled at EndGrabRoutine");
+
             if (!parentObjectController.isGrabbed && !parentObjectController.isSnapped && !isCoroutineRunning)
             {
                 StartCoroutine(ReturnRoutine());
