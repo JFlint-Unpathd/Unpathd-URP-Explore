@@ -17,11 +17,11 @@ public class FontSizeManager : MonoBehaviour
 
     public static Action<string> UpdatedTheTextStyle;
     
-    // Ensure that the FontSizeCustomizer object persists across scene changes
-    private void Awake()
-    {
-        DontDestroyOnLoad(gameObject);
-    }
+    // // Ensure that the FontSizeCustomizer object persists across scene changes
+    // private void Awake()
+    // {
+    //     DontDestroyOnLoad(gameObject);
+    // }
     public void ChangeFontSize(float fontSize)
     {
         //retrieves the stylename set

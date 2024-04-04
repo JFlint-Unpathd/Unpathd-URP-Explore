@@ -16,7 +16,7 @@ public class SpawnAndToggle : MonoBehaviour
 
     [SerializeField] GameObject[] objectsToSpawn;
     //[SerializeField] float spawnRadius = 1f;
-    float spawnRadius = 1f;
+    float spawnRadius = 1.5f;
 
     private List<GameObject> spawnedObjects = new List<GameObject>();
     
@@ -72,14 +72,40 @@ public class SpawnAndToggle : MonoBehaviour
     }
 
 
+    // private void UpdateChildPositions()
+    // {
+    //     for (int i = 0; i < spawnedObjects.Count; i++)
+    //     {
+    //         float angle = i * (360f / objectsToSpawn.Length);
+    //         float spawnX = transform.position.x + spawnRadius * Mathf.Cos(Mathf.Deg2Rad * angle);
+    //         float spawnY = transform.position.y + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
+    //         Vector3 newPosition = new Vector3(spawnX, spawnY, transform.position.z);
+
+    //         spawnedObjects[i].transform.position = newPosition;
+    //     }
+    // }
+
+    // private void UpdateChildPositions()
+    // {
+    //     for (int i = 0; i < spawnedObjects.Count; i++)
+    //     {
+    //         float angle = i * (360f / objectsToSpawn.Length);
+    //         float spawnX = transform.position.x + spawnRadius * Mathf.Cos(Mathf.Deg2Rad * angle);
+    //         float spawnZ = transform.position.z + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle); // Adjusted to spawn along Z-axis
+    //         Vector3 newPosition = new Vector3(spawnX, transform.position.y, spawnZ); // Keep the Y position of the parent
+
+    //         spawnedObjects[i].transform.position = newPosition;
+    //     }
+    // }
+
     private void UpdateChildPositions()
     {
         for (int i = 0; i < spawnedObjects.Count; i++)
         {
             float angle = i * (360f / objectsToSpawn.Length);
-            float spawnX = transform.position.x + spawnRadius * Mathf.Cos(Mathf.Deg2Rad * angle);
-            float spawnY = transform.position.y + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
-            Vector3 newPosition = new Vector3(spawnX, spawnY, transform.position.z);
+            float spawnY = transform.position.y + spawnRadius * Mathf.Cos(Mathf.Deg2Rad * angle); // Adjusted to spawn along Y-axis
+            float spawnZ = transform.position.z + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
+            Vector3 newPosition = new Vector3(transform.position.x, spawnY, spawnZ); // Keep the X position of the parent
 
             spawnedObjects[i].transform.position = newPosition;
         }

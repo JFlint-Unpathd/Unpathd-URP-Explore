@@ -44,7 +44,7 @@ public class HoverFloat : MonoBehaviour
             parentObjectController.isHovered = true;
 
             prefabInstantiator.ResetRotation();
-            Debug.Log("isthis what is putting it in the correct loc?");
+            
             parentObjectController.FreezeRotation();
     
         }

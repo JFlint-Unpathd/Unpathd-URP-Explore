@@ -20,7 +20,6 @@ public class PrefabInstantiator : MonoBehaviour
 
     }
 
-    
 
     // Add methods to retrieve the original position, rotation, and scale.
     public Vector3 GetOriginalPosition()
@@ -41,20 +40,26 @@ public class PrefabInstantiator : MonoBehaviour
         return originalScale;
     }
 
-        public Vector3 GetStoredPosition()
-    {
-        return originalPosition;
-    }
-
-    public Quaternion GetStoredRotation()
-    {
-        return originalRotation;
-    }
 
     public void ResetRotation()
     {
         transform.rotation = originalRotation;
-        Debug.Log("Resetting rotation of GameObject " + gameObject.name + " to: " + originalRotation);
+        //Debug.Log("Resetting rotation of GameObject " + gameObject.name + " to: " + originalRotation);
+    }
+
+      public void ResetAllTransform()
+    {
+        // Log original transform values
+        Debug.Log("Original Position: " + originalPosition);
+        Debug.Log("Original Rotation: " + originalRotation);
+        Debug.Log("Original Scale: " + originalScale);
+
+        // Reset transforms
+        transform.position = originalPosition;
+        transform.rotation = originalRotation;
+        //transform.localScale = originalScale;
+
+        Debug.Log("Transforms reset successfully.");
     }
 
 }

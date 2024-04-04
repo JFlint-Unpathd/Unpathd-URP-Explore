@@ -4,13 +4,15 @@ public class CircleObjectPlacer : MonoBehaviour
 {
     public float radius = 5f;
 
-    void Awake()
+    void Start()
     {
         ArrangeObjectsInCircle();
     }
 
     public void ArrangeObjectsInCircle()
     {
+        //Debug.Log("Doing the circle thing once");
+
         int numberOfObjects = transform.childCount;
 
         float angleIncrement = 360f / numberOfObjects;
@@ -18,7 +20,7 @@ public class CircleObjectPlacer : MonoBehaviour
         for (int i = 0; i < numberOfObjects; i++)
         {
             float angle = i * angleIncrement * Mathf.Deg2Rad;
-            Vector3 newPos = transform.position + new Vector3(Mathf.Cos(angle) * radius, 0, Mathf.Sin(angle) * radius);
+            Vector3 newPos = transform.position + new Vector3(Mathf.Cos(angle) * radius, 0.5f, Mathf.Sin(angle) * radius);
 
             // Set the position of the child object
             Transform childTransform = transform.GetChild(i);
@@ -30,17 +32,17 @@ public class CircleObjectPlacer : MonoBehaviour
             // Rotate the object to face towards the center
             childTransform.rotation = Quaternion.LookRotation(direction, Vector3.up);
 
+            //Debug.Log("Doing the circle thing twice");
+
             // Get the PrefabInstantiator script attached to the child prefab
             PrefabInstantiator prefabInstantiator = childTransform.GetComponent<PrefabInstantiator>();
 
             if (prefabInstantiator != null)
             {
-                // Set the original position, rotation, and scale in the PrefabInstantiator
-                // prefabInstantiator.OriginalPosition = newPos;
-                // prefabInstantiator.OriginalRotation = childTransform.rotation;
-                // prefabInstantiator.OriginalScale = childTransform.localScale;
-
+                // Save the original transform after arranging the objects in the circle
                 prefabInstantiator.SaveOriginalTransform();
+                //Debug.Log("Doing the circle thing thirce");
+
             }
         }
     }

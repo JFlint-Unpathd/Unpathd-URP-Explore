@@ -13,7 +13,7 @@ public class AudioManager : MonoBehaviour
             instance = this;
             audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.playOnAwake = false;
-            DontDestroyOnLoad(this.gameObject);
+            //DontDestroyOnLoad(this.gameObject);
         }
         else
         {

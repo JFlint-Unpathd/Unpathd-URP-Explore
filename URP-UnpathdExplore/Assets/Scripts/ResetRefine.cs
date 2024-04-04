@@ -6,6 +6,7 @@ public class ResetRefine : MonoBehaviour
 {
     private SqliteController m_databaseController;
     private SocketInteractorManager socketInteractorManager;
+    private PrefabInstantiator prefabInstantiator;
    
     //private MapSpawnAndToggle mapSpawnAndToggle;
 
@@ -34,12 +35,13 @@ public class ResetRefine : MonoBehaviour
     private void Awake() {
         m_databaseController = GameObject.FindWithTag( "DB" ).GetComponent<SqliteController>();  
         //socketInteractorManager = socketInteractor.GetComponentInChildren<SocketInteractorManager>();
-  
+        
     }
 
-    
+
     public void CreateInitialScene()
     {
+
         // Instantiate all prefabs and store references
         GameObject startingEnvInstance = InstantiatePrefab(startingEnv);
         refiningSceneObjects.Add(startingEnvInstance);
@@ -47,27 +49,31 @@ public class ResetRefine : MonoBehaviour
         GameObject refiningObjectsInstance = InstantiatePrefab(refiningObjects);
         refiningSceneObjects.Add(refiningObjectsInstance);
 
-        // Get stored transform from PrefabInstantiator component
-        PrefabInstantiator prefabInstantiator = refiningObjectsInstance.GetComponentInChildren<PrefabInstantiator>();
-        if (prefabInstantiator != null)
-        {
-            Vector3 storedPosition = prefabInstantiator.GetStoredPosition();
-            Quaternion storedRotation = prefabInstantiator.GetStoredRotation();
-
-            // Instantiate refiningObjects prefab at the stored position and rotation
-            refiningObjectsInstance.transform.position = storedPosition;
-            refiningObjectsInstance.transform.rotation = storedRotation;
-        }
-        else
-        {
-            Debug.LogError("PrefabInstantiator component not found on refiningObjectsInstance or its children.");
-        }
-
         GameObject socketInteractorInstance = InstantiatePrefab(socketInteractor);
         refiningSceneObjects.Add(socketInteractorInstance);
 
         execQ.SetActive(true);
 
+        CircleObjectPlacer circleObjectPlacer = refiningObjectsInstance.GetComponent<CircleObjectPlacer>();
+        if (circleObjectPlacer != null)
+        {
+            circleObjectPlacer.ArrangeObjectsInCircle();
+        }
+
+        foreach (Transform child in refiningObjectsInstance.transform)
+        {
+            PrefabInstantiator instantiator = child.GetComponent<PrefabInstantiator>();
+            if (instantiator != null)
+            {
+                instantiator.SaveOriginalTransform();
+                instantiator.ResetAllTransform();
+            }
+
+            else
+            {
+                Debug.Log("cannot find instant");
+            }
+        }
 
     }
 

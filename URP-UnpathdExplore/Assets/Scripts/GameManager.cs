@@ -3,6 +3,16 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public AudioManager audioManager;
+    public FontSizeManager fontSizeManager;
+    public UIColorManager uiColorManager;
+
+    void Awake()
+    {
+        DontDestroyOnLoad(audioManager.gameObject);
+        DontDestroyOnLoad(fontSizeManager.gameObject);
+        DontDestroyOnLoad(uiColorManager.gameObject);
+    }
     
     public void QuitGame()
     {
