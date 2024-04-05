@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class PrefabInstantiator : MonoBehaviour
 {
-    public UnityEvent OnTransformSaved;
+    //public UnityEvent OnTransformSaved;
 
     private Vector3 originalPosition;
     private Quaternion originalRotation;
@@ -15,6 +15,10 @@ public class PrefabInstantiator : MonoBehaviour
     public Quaternion OriginalRotation { get { return originalRotation; } set { originalRotation = value; } }
     public Vector3 OriginalScale { get { return originalScale; } set { originalScale = value; } }
 
+    void Start()
+    {
+        
+    }
 
     public void SaveOriginalTransform()
     {

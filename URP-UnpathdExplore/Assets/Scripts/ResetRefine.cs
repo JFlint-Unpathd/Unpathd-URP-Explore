@@ -8,7 +8,7 @@ public class ResetRefine : MonoBehaviour
     private SqliteController m_databaseController;
     private SocketInteractorManager socketInteractorManager;
     private PrefabInstantiator prefabInstantiator;
-   
+
     //private MapSpawnAndToggle mapSpawnAndToggle;
 
     [Header("Instantiated Objects")]
@@ -31,31 +31,82 @@ public class ResetRefine : MonoBehaviour
     [Header("Other Prefabs")]
     public GameObject zoomObject;
     public GameObject birdsEye;
+
+     public float radius = 2f;
     
 
     private void Awake() {
         m_databaseController = GameObject.FindWithTag( "DB" ).GetComponent<SqliteController>();  
         //socketInteractorManager = socketInteractor.GetComponentInChildren<SocketInteractorManager>();
-        
     }
 
     public void CreateInitialScene()
     {
 
         // Instantiate all prefabs and store references
-        GameObject startingEnvInstance = InstantiatePrefab(startingEnv);
-        refiningSceneObjects.Add(startingEnvInstance);
+        // GameObject startingEnvInstance = InstantiatePrefab(startingEnv);
+        // refiningSceneObjects.Add(startingEnvInstance);
 
         GameObject refiningObjectsInstance = InstantiatePrefab(refiningObjects);
         refiningSceneObjects.Add(refiningObjectsInstance);
 
-        GameObject socketInteractorInstance = InstantiatePrefab(socketInteractor);
-        refiningSceneObjects.Add(socketInteractorInstance);
+        // GameObject socketInteractorInstance = InstantiatePrefab(socketInteractor);
+        // refiningSceneObjects.Add(socketInteractorInstance);
 
         execQ.SetActive(true);
-
-        ApplySavedOriginalTransforms();
         
+
+        // refiningObjectsInstance.GetComponent<CircleObjectPlacer>().ArrangeObjectsInCircle();
+    
+        //ApplySavedOriginalTransforms();
+
+        ArrangeObjectsInCircle(refiningObjectsInstance.transform);
+        
+        
+    }
+
+        public void ArrangeObjectsInCircle(Transform transform)
+
+    {
+        //yield return new WaitForSeconds(1);
+        //Debug.Log("Doing the circle thing once");
+        //yield return 0;
+        // yield return 0;
+        // yield return 0;
+        // yield return 0;
+
+        int numberOfObjects = transform.childCount;
+
+        float angleIncrement = 360f / numberOfObjects;
+
+        for (int i = 0; i < numberOfObjects; i++)
+        {
+            float angle = i * angleIncrement * Mathf.Deg2Rad;
+            Vector3 newPos = transform.position + new Vector3(Mathf.Cos(angle) * radius, 0.5f, Mathf.Sin(angle) * radius);
+
+            // Set the position of the child object
+            Transform childTransform = transform.GetChild(i);
+            childTransform.position = newPos;
+
+            // Calculate the direction vector towards the center
+            Vector3 direction = Vector3.Normalize(Vector3.zero - newPos);
+
+            // Rotate the object to face towards the center
+            childTransform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+
+            // Get the PrefabInstantiator script attached to the child prefab
+            // PrefabInstantiator prefabInstantiator = childTransform.GetComponent<PrefabInstantiator>();
+
+            // if (prefabInstantiator != null)
+            // {
+            //     // Save the original transform after arranging the objects in the circle
+            //     prefabInstantiator.SaveOriginalTransform();
+            //     Debug.Log("Saved CIRCLEtransform for child " + i + ": Position - " + prefabInstantiator.OriginalPosition + ", Rotation - " + prefabInstantiator.OriginalRotation);
+
+            // }
+
+           // Debug.Log($"Setting position of child {i} to {newPos}");
+        }
     }
 
 

@@ -6,6 +6,7 @@ public class AudioDelayManager : MonoBehaviour
 {
     public static AudioDelayManager instance;
 
+
     private void Awake()
     {
         // Singleton pattern to ensure there's only one instance of this manager
@@ -17,6 +18,11 @@ public class AudioDelayManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    void Start()
+    {
+        
     }
 
     public void StartExplanatoryAudioDelay(AudioClip audioClip, float delay)

@@ -6,6 +6,10 @@ public class AudioManager : MonoBehaviour
 
     private AudioSource audioSource;
 
+    void Start()
+    {
+        
+    }
     void Awake()
     {
         if (instance == null)
