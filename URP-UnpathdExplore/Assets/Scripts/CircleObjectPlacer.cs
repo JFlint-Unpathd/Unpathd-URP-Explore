@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CircleObjectPlacer : MonoBehaviour
 {
+
     public float radius = 5f;
 
-    void Start()
+    public void Awake()
     {
         ArrangeObjectsInCircle();
     }
@@ -32,8 +34,6 @@ public class CircleObjectPlacer : MonoBehaviour
             // Rotate the object to face towards the center
             childTransform.rotation = Quaternion.LookRotation(direction, Vector3.up);
 
-            //Debug.Log("Doing the circle thing twice");
-
             // Get the PrefabInstantiator script attached to the child prefab
             PrefabInstantiator prefabInstantiator = childTransform.GetComponent<PrefabInstantiator>();
 
@@ -41,9 +41,11 @@ public class CircleObjectPlacer : MonoBehaviour
             {
                 // Save the original transform after arranging the objects in the circle
                 prefabInstantiator.SaveOriginalTransform();
-                //Debug.Log("Doing the circle thing thirce");
+                Debug.Log("Saved CIRCLEtransform for child " + i + ": Position - " + prefabInstantiator.OriginalPosition + ", Rotation - " + prefabInstantiator.OriginalRotation);
 
             }
+
+           // Debug.Log($"Setting position of child {i} to {newPos}");
         }
     }
 }

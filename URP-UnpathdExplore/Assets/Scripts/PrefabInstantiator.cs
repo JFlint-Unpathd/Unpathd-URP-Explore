@@ -1,11 +1,15 @@
 using UnityEngine;
+using System;
+using System.Collections.Generic;
+using UnityEngine.Events;
 
 public class PrefabInstantiator : MonoBehaviour
 {
+    public UnityEvent OnTransformSaved;
+
     private Vector3 originalPosition;
     private Quaternion originalRotation;
     private Vector3 originalScale;
-
 
     public Vector3 OriginalPosition { get { return originalPosition; } set { originalPosition = value; } }
     public Quaternion OriginalRotation { get { return originalRotation; } set { originalRotation = value; } }
@@ -18,8 +22,9 @@ public class PrefabInstantiator : MonoBehaviour
         originalRotation = transform.rotation;
         originalScale = transform.localScale;
 
+        //Debug.Log($"Saving transform for {gameObject.name}: position {originalPosition}, rotation {originalRotation}, scale {originalScale}");
+         Debug.Log("Transform saved for " + gameObject.name + ": Position - " + originalPosition + ", Rotation - " + originalRotation);
     }
-
 
     // Add methods to retrieve the original position, rotation, and scale.
     public Vector3 GetOriginalPosition()
@@ -39,7 +44,6 @@ public class PrefabInstantiator : MonoBehaviour
         //Debug.Log(gameObject.name + " GetOriginalScale in ObjectTransformManager: " + originalScale);
         return originalScale;
     }
-
 
     public void ResetRotation()
     {

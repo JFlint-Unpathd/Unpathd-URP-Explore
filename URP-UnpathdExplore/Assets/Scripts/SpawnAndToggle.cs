@@ -16,7 +16,7 @@ public class SpawnAndToggle : MonoBehaviour
 
     [SerializeField] GameObject[] objectsToSpawn;
     //[SerializeField] float spawnRadius = 1f;
-    float spawnRadius = 1.5f;
+    float spawnRadius = 1f;
 
     private List<GameObject> spawnedObjects = new List<GameObject>();
     
@@ -225,53 +225,97 @@ public class SpawnAndToggle : MonoBehaviour
         }
     }
 
+    // private void SpawnObjects()
+    // {
+    
+    //     Vector3 originalObjectPosition = transform.position;
+
+    //     // Create a HashSet to store the spawned objects
+    //     HashSet<GameObject> spawnedPrefabSet  = new HashSet<GameObject>(spawnedObjects);
+
+    //     foreach (GameObject spawnedObject in spawnedObjects)
+    //     {
+    //         // Add the prefab of the spawned object to the HashSet
+    //         spawnedPrefabSet.Add(spawnedObject);
+    //     }
+
+    //     for (int i = 0; i < objectsToSpawn.Length; i++)
+    //     {
+
+    //         if (spawnedPrefabSet.Contains(objectsToSpawn[i]))
+    //         {
+    //             continue; // Skip spawning this object
+    //         }
+
+    //         float angle = i * (360f / objectsToSpawn.Length);
+    //         float spawnX = originalObjectPosition.x + spawnRadius * Mathf.Cos(Mathf.Deg2Rad * angle);
+    //         float spawnY = originalObjectPosition.y + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
+
+    //         Vector3 spawnPosition = new Vector3(spawnX, spawnY, originalObjectPosition.z);
+
+    //         GameObject spawnedObject = Instantiate(objectsToSpawn[i], spawnPosition, Quaternion.identity);
+            
+    //         // Set the parent of the spawned object to be this script's transform
+    //         spawnedObject.transform.parent = transform;
+    //         spawnedObject.SetActive(true);
+    //         spawnedObjects.Add(spawnedObject);
+
+    //         // After spawning the object, lock its position and rotation
+    //         Rigidbody rb = spawnedObject.GetComponent<Rigidbody>();
+    //         if(rb != null)
+    //         {
+    //             rb.constraints = RigidbodyConstraints.FreezeAll;
+    //         }
+
+    //         // Add the prefab of the spawned object to the HashSet
+    //         spawnedPrefabSet.Add(objectsToSpawn[i]);
+
+    //     }
+    // }
+
     private void SpawnObjects()
     {
-    
         Vector3 originalObjectPosition = transform.position;
 
         // Create a HashSet to store the spawned objects
-        HashSet<GameObject> spawnedPrefabSet  = new HashSet<GameObject>(spawnedObjects);
-
-        foreach (GameObject spawnedObject in spawnedObjects)
-        {
-            // Add the prefab of the spawned object to the HashSet
-            spawnedPrefabSet.Add(spawnedObject);
-        }
+        HashSet<GameObject> spawnedPrefabSet = new HashSet<GameObject>(spawnedObjects);
 
         for (int i = 0; i < objectsToSpawn.Length; i++)
         {
-
             if (spawnedPrefabSet.Contains(objectsToSpawn[i]))
             {
-                continue; // Skip spawning this object
+                continue; // Skip spawning this object if it's already spawned
             }
 
             float angle = i * (360f / objectsToSpawn.Length);
             float spawnX = originalObjectPosition.x + spawnRadius * Mathf.Cos(Mathf.Deg2Rad * angle);
-            float spawnY = originalObjectPosition.y + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
+            float spawnY = originalObjectPosition.y;
+            float spawnZ = originalObjectPosition.z + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
 
-            Vector3 spawnPosition = new Vector3(spawnX, spawnY, originalObjectPosition.z);
+            Vector3 spawnPosition = new Vector3(spawnX, spawnY, spawnZ);
 
             GameObject spawnedObject = Instantiate(objectsToSpawn[i], spawnPosition, Quaternion.identity);
-            
+
             // Set the parent of the spawned object to be this script's transform
             spawnedObject.transform.parent = transform;
+            spawnedObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
             spawnedObject.SetActive(true);
             spawnedObjects.Add(spawnedObject);
 
+
+
             // After spawning the object, lock its position and rotation
             Rigidbody rb = spawnedObject.GetComponent<Rigidbody>();
-            if(rb != null)
+            if (rb != null)
             {
                 rb.constraints = RigidbodyConstraints.FreezeAll;
             }
 
             // Add the prefab of the spawned object to the HashSet
             spawnedPrefabSet.Add(objectsToSpawn[i]);
-
         }
     }
+
 
 
    public void ToggleSpawnedObjectsVisibility()

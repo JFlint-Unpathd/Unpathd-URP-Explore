@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,7 +39,6 @@ public class ResetRefine : MonoBehaviour
         
     }
 
-
     public void CreateInitialScene()
     {
 
@@ -54,28 +54,42 @@ public class ResetRefine : MonoBehaviour
 
         execQ.SetActive(true);
 
-        CircleObjectPlacer circleObjectPlacer = refiningObjectsInstance.GetComponent<CircleObjectPlacer>();
-        if (circleObjectPlacer != null)
-        {
-            circleObjectPlacer.ArrangeObjectsInCircle();
-        }
-
-        foreach (Transform child in refiningObjectsInstance.transform)
-        {
-            PrefabInstantiator instantiator = child.GetComponent<PrefabInstantiator>();
-            if (instantiator != null)
-            {
-                instantiator.SaveOriginalTransform();
-                instantiator.ResetAllTransform();
-            }
-
-            else
-            {
-                Debug.Log("cannot find instant");
-            }
-        }
-
+        ApplySavedOriginalTransforms();
+        
     }
+
+
+    private void ApplySavedOriginalTransforms()
+    {
+        foreach (GameObject parentObj in refiningSceneObjects)
+        {
+            if (parentObj != null)
+            {
+                foreach (Transform child in parentObj.transform)
+                {
+                    PrefabInstantiator prefabInstantiator = child.GetComponent<PrefabInstantiator>();
+                    if (prefabInstantiator != null)
+                    {
+                        // Retrieve saved original transform
+                        Vector3 originalPosition = prefabInstantiator.OriginalPosition;
+                        Quaternion originalRotation = prefabInstantiator.OriginalRotation;
+                        Vector3 originalScale = prefabInstantiator.OriginalScale;
+
+                        // Apply the saved original transform
+                        child.position = originalPosition;
+                        child.rotation = originalRotation;
+                        child.localScale = originalScale;
+
+                        Debug.Log("Applied transform for " + child.gameObject.name +
+                                ": Position - " + child.position + 
+                                ", Rotation - " + child.rotation);
+                    }
+                }
+            }
+        }
+    }
+
+    
 
 
     public void DestroyInitialScene()
@@ -107,7 +121,6 @@ public class ResetRefine : MonoBehaviour
             return null;
         }
     }
-
 
     public void CreateResultsScene()
     {
@@ -196,14 +209,11 @@ public class ResetRefine : MonoBehaviour
             
         }
 
-
         //Destroy instantiated items from results Q from sqlite controller script
         DestroyInstantiatedObjects();
         m_databaseController.ResetQuery();
         
-        
         CreateInitialScene();
-
 
     }
 
