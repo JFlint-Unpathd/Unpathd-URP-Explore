@@ -32,7 +32,7 @@ public class ResetRefine : MonoBehaviour
     public GameObject zoomObject;
     public GameObject birdsEye;
 
-    [Header("Placement Circle Radius")]
+    [Header("PlacementCircle Radius")]
     public float radius = 5f;
     
 
@@ -61,7 +61,7 @@ public class ResetRefine : MonoBehaviour
     
         //ApplySavedOriginalTransforms();
 
-        ArrangeObjectsInCircle(refiningObjectsInstance.transform);
+       // ArrangeObjectsInCircle(refiningObjectsInstance.transform);
         
         
     }

@@ -72,42 +72,24 @@ public class SpawnAndToggle : MonoBehaviour
     }
 
 
-    // private void UpdateChildPositions()
-    // {
-    //     for (int i = 0; i < spawnedObjects.Count; i++)
-    //     {
-    //         float angle = i * (360f / objectsToSpawn.Length);
-    //         float spawnX = transform.position.x + spawnRadius * Mathf.Cos(Mathf.Deg2Rad * angle);
-    //         float spawnY = transform.position.y + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
-    //         Vector3 newPosition = new Vector3(spawnX, spawnY, transform.position.z);
-
-    //         spawnedObjects[i].transform.position = newPosition;
-    //     }
-    // }
-
-    // private void UpdateChildPositions()
-    // {
-    //     for (int i = 0; i < spawnedObjects.Count; i++)
-    //     {
-    //         float angle = i * (360f / objectsToSpawn.Length);
-    //         float spawnX = transform.position.x + spawnRadius * Mathf.Cos(Mathf.Deg2Rad * angle);
-    //         float spawnZ = transform.position.z + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle); // Adjusted to spawn along Z-axis
-    //         Vector3 newPosition = new Vector3(spawnX, transform.position.y, spawnZ); // Keep the Y position of the parent
-
-    //         spawnedObjects[i].transform.position = newPosition;
-    //     }
-    // }
 
     private void UpdateChildPositions()
     {
         for (int i = 0; i < spawnedObjects.Count; i++)
         {
             float angle = i * (360f / objectsToSpawn.Length);
-            float spawnY = transform.position.y + spawnRadius * Mathf.Cos(Mathf.Deg2Rad * angle); // Adjusted to spawn along Y-axis
-            float spawnZ = transform.position.z + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
-            Vector3 newPosition = new Vector3(transform.position.x, spawnY, spawnZ); // Keep the X position of the parent
+            float spawnX = transform.position.x + spawnRadius * Mathf.Cos(Mathf.Deg2Rad * angle);
+            float spawnY = transform.position.y + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
+            //float spawnZ = transform.position.z + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
+
+            
+            //Vector3 newPosition = new Vector3(transform.position.x, spawnY, spawnZ); // Keep the X position of the parent
+            //Vector3 newPosition = new Vector3(spawnX, transform.position.y, spawnZ); // Keep the Y position of the parent
+            Vector3 newPosition = new Vector3(spawnX, spawnY, transform.position.z); // Keep the Z position of the parent
 
             spawnedObjects[i].transform.position = newPosition;
+            spawnedObjects[i].transform.rotation = transform.rotation;
+
         }
     }
 
@@ -225,58 +207,13 @@ public class SpawnAndToggle : MonoBehaviour
         }
     }
 
-    // private void SpawnObjects()
-    // {
-    
-    //     Vector3 originalObjectPosition = transform.position;
-
-    //     // Create a HashSet to store the spawned objects
-    //     HashSet<GameObject> spawnedPrefabSet  = new HashSet<GameObject>(spawnedObjects);
-
-    //     foreach (GameObject spawnedObject in spawnedObjects)
-    //     {
-    //         // Add the prefab of the spawned object to the HashSet
-    //         spawnedPrefabSet.Add(spawnedObject);
-    //     }
-
-    //     for (int i = 0; i < objectsToSpawn.Length; i++)
-    //     {
-
-    //         if (spawnedPrefabSet.Contains(objectsToSpawn[i]))
-    //         {
-    //             continue; // Skip spawning this object
-    //         }
-
-    //         float angle = i * (360f / objectsToSpawn.Length);
-    //         float spawnX = originalObjectPosition.x + spawnRadius * Mathf.Cos(Mathf.Deg2Rad * angle);
-    //         float spawnY = originalObjectPosition.y + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
-
-    //         Vector3 spawnPosition = new Vector3(spawnX, spawnY, originalObjectPosition.z);
-
-    //         GameObject spawnedObject = Instantiate(objectsToSpawn[i], spawnPosition, Quaternion.identity);
-            
-    //         // Set the parent of the spawned object to be this script's transform
-    //         spawnedObject.transform.parent = transform;
-    //         spawnedObject.SetActive(true);
-    //         spawnedObjects.Add(spawnedObject);
-
-    //         // After spawning the object, lock its position and rotation
-    //         Rigidbody rb = spawnedObject.GetComponent<Rigidbody>();
-    //         if(rb != null)
-    //         {
-    //             rb.constraints = RigidbodyConstraints.FreezeAll;
-    //         }
-
-    //         // Add the prefab of the spawned object to the HashSet
-    //         spawnedPrefabSet.Add(objectsToSpawn[i]);
-
-    //     }
-    // }
+ 
 
     private void SpawnObjects()
     {
-        Vector3 originalObjectPosition = transform.position;
-
+        
+         Vector3 originalObjectPosition = transform.position;
+        
         // Create a HashSet to store the spawned objects
         HashSet<GameObject> spawnedPrefabSet = new HashSet<GameObject>(spawnedObjects);
 
@@ -289,20 +226,25 @@ public class SpawnAndToggle : MonoBehaviour
 
             float angle = i * (360f / objectsToSpawn.Length);
             float spawnX = originalObjectPosition.x + spawnRadius * Mathf.Cos(Mathf.Deg2Rad * angle);
-            float spawnY = originalObjectPosition.y;
-            float spawnZ = originalObjectPosition.z + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
+            float spawnY = originalObjectPosition.y + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
+            //float spawnZ = originalObjectPosition.z + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
+
+            //float spawnX = originalObjectPosition.x; // Keep the 'x' value the same as the parent's
+            //float spawnY = originalObjectPosition.y; // Keep the 'y' value the same as the parent's
+            float spawnZ = originalObjectPosition.z; // Keep the 'z' value the same as the parent's
 
             Vector3 spawnPosition = new Vector3(spawnX, spawnY, spawnZ);
+
+            
+            // Calculate rotation to face the center of the parent object
+            Quaternion spawnRotation = Quaternion.LookRotation(originalObjectPosition - spawnPosition);
 
             GameObject spawnedObject = Instantiate(objectsToSpawn[i], spawnPosition, Quaternion.identity);
 
             // Set the parent of the spawned object to be this script's transform
             spawnedObject.transform.parent = transform;
-            spawnedObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
             spawnedObject.SetActive(true);
             spawnedObjects.Add(spawnedObject);
-
-
 
             // After spawning the object, lock its position and rotation
             Rigidbody rb = spawnedObject.GetComponent<Rigidbody>();
@@ -313,6 +255,7 @@ public class SpawnAndToggle : MonoBehaviour
 
             // Add the prefab of the spawned object to the HashSet
             spawnedPrefabSet.Add(objectsToSpawn[i]);
+         
         }
     }
 
@@ -356,23 +299,23 @@ public class SpawnAndToggle : MonoBehaviour
         }
     }
 
-    public void ResetParentAndSpawnedObjects()
-    {
-        if (prefabInstantiator != null)
-        {
-            Vector3 originalPosition = prefabInstantiator.GetOriginalPosition();
-            Quaternion originalRotation = prefabInstantiator.GetOriginalRotation();
+    // public void ResetParentAndSpawnedObjects()
+    // {
+    //     if (prefabInstantiator != null)
+    //     {
+    //         Vector3 originalPosition = prefabInstantiator.GetOriginalPosition();
+    //         Quaternion originalRotation = prefabInstantiator.GetOriginalRotation();
 
-            // Resetting parent position, rotation
-            transform.position = originalPosition;
-            transform.rotation = originalRotation;
-        }
-        else
-        {
-            Debug.LogError("PrefabInstantiator is null. Cannot reset to the original position and rotation.");
-        }
+    //         // Resetting parent position, rotation
+    //         transform.position = originalPosition;
+    //         transform.rotation = originalRotation;
+    //     }
+    //     else
+    //     {
+    //         Debug.LogError("PrefabInstantiator is null. Cannot reset to the original position and rotation.");
+    //     }
         
-        UpdateChildPositions();
-    }
+    //     UpdateChildPositions();
+    // }
 
 }
