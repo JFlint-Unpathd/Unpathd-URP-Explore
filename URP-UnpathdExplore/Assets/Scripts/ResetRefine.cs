@@ -32,7 +32,8 @@ public class ResetRefine : MonoBehaviour
     public GameObject zoomObject;
     public GameObject birdsEye;
 
-     public float radius = 2f;
+    [Header("Placement Circle Radius")]
+    public float radius = 5f;
     
 
     private void Awake() {
@@ -56,7 +57,7 @@ public class ResetRefine : MonoBehaviour
         execQ.SetActive(true);
         
 
-        // refiningObjectsInstance.GetComponent<CircleObjectPlacer>().ArrangeObjectsInCircle();
+        //refiningObjectsInstance.GetComponent<CircleObjectPlacer>().ArrangeObjectsInCircle();
     
         //ApplySavedOriginalTransforms();
 
@@ -65,15 +66,9 @@ public class ResetRefine : MonoBehaviour
         
     }
 
-        public void ArrangeObjectsInCircle(Transform transform)
 
+    public void ArrangeObjectsInCircle(Transform transform)
     {
-        //yield return new WaitForSeconds(1);
-        //Debug.Log("Doing the circle thing once");
-        //yield return 0;
-        // yield return 0;
-        // yield return 0;
-        // yield return 0;
 
         int numberOfObjects = transform.childCount;
 
@@ -94,53 +89,22 @@ public class ResetRefine : MonoBehaviour
             // Rotate the object to face towards the center
             childTransform.rotation = Quaternion.LookRotation(direction, Vector3.up);
 
-            // Get the PrefabInstantiator script attached to the child prefab
-            // PrefabInstantiator prefabInstantiator = childTransform.GetComponent<PrefabInstantiator>();
+            //Get the PrefabInstantiator script attached to the child prefab
+            PrefabInstantiator prefabInstantiator = childTransform.GetComponent<PrefabInstantiator>();
 
-            // if (prefabInstantiator != null)
-            // {
-            //     // Save the original transform after arranging the objects in the circle
-            //     prefabInstantiator.SaveOriginalTransform();
-            //     Debug.Log("Saved CIRCLEtransform for child " + i + ": Position - " + prefabInstantiator.OriginalPosition + ", Rotation - " + prefabInstantiator.OriginalRotation);
-
-            // }
-
-           // Debug.Log($"Setting position of child {i} to {newPos}");
-        }
-    }
-
-
-    private void ApplySavedOriginalTransforms()
-    {
-        foreach (GameObject parentObj in refiningSceneObjects)
-        {
-            if (parentObj != null)
+            if (prefabInstantiator != null)
             {
-                foreach (Transform child in parentObj.transform)
-                {
-                    PrefabInstantiator prefabInstantiator = child.GetComponent<PrefabInstantiator>();
-                    if (prefabInstantiator != null)
-                    {
-                        // Retrieve saved original transform
-                        Vector3 originalPosition = prefabInstantiator.OriginalPosition;
-                        Quaternion originalRotation = prefabInstantiator.OriginalRotation;
-                        Vector3 originalScale = prefabInstantiator.OriginalScale;
+                // Save the original transform after arranging the objects in the circle
+                prefabInstantiator.SaveOriginalTransform();
+                Debug.Log("Saved CIRCLEtransform for child " + i + ": Position - " + prefabInstantiator.OriginalPosition + ", Rotation - " + prefabInstantiator.OriginalRotation);
 
-                        // Apply the saved original transform
-                        child.position = originalPosition;
-                        child.rotation = originalRotation;
-                        child.localScale = originalScale;
-
-                        Debug.Log("Applied transform for " + child.gameObject.name +
-                                ": Position - " + child.position + 
-                                ", Rotation - " + child.rotation);
-                    }
-                }
             }
+
+           Debug.Log($"Setting position of child {i} to {newPos}");
+
         }
     }
 
-    
 
 
     public void DestroyInitialScene()
