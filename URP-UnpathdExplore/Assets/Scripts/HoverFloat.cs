@@ -9,7 +9,7 @@ public class HoverFloat : MonoBehaviour
  
     private XRBaseInteractable xrInteractable;
 
-    private PrefabInstantiator prefabInstantiator;
+    private TransformKeeper transformKeeper;
     private ParentObjectController parentObjectController; 
     private SpawnAndToggle spawnAndToggle;
 
@@ -25,7 +25,7 @@ public class HoverFloat : MonoBehaviour
 
         xrInteractable = GetComponent<XRBaseInteractable>();
 
-        prefabInstantiator = GetComponent<PrefabInstantiator>();
+        transformKeeper = GetComponent<TransformKeeper>();
         parentObjectController = GetComponent<ParentObjectController>();
         spawnAndToggle = GetComponent<SpawnAndToggle>();
 
@@ -43,7 +43,7 @@ public class HoverFloat : MonoBehaviour
 
             parentObjectController.isHovered = true;
 
-            prefabInstantiator.ResetRotation();
+            transformKeeper.ResetRotation();
             
             parentObjectController.FreezeRotation();
     
@@ -69,7 +69,7 @@ public class HoverFloat : MonoBehaviour
         }
 
 
-        Vector3 targetPosition = prefabInstantiator.GetOriginalPosition() + Vector3.up * hoverHeight;
+        Vector3 targetPosition = transformKeeper.GetOriginalPosition() + Vector3.up * hoverHeight;
         while (Vector3.Distance(transform.position, targetPosition) > 0.01f)
         {
             //Debug.Log("Current position: " + transform.position + " Target position: " + targetPosition);
@@ -120,7 +120,7 @@ public class HoverFloat : MonoBehaviour
 
         yield return new WaitForSeconds(returnDelay);
 
-        Vector3 targetPosition = prefabInstantiator.GetOriginalPosition();
+        Vector3 targetPosition = transformKeeper.GetOriginalPosition();
         
         //Debug.Log("Target position at start of ReturnRoutine: " + targetPosition);
 
@@ -130,7 +130,7 @@ public class HoverFloat : MonoBehaviour
             yield return null;
         }
 
-        prefabInstantiator.ResetRotation();
+        transformKeeper.ResetRotation();
 
         if (parentObjectController != null) {
 

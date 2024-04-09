@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.Events;
 
-public class PrefabInstantiator : MonoBehaviour
+public class TransformKeeper : MonoBehaviour
 {
     //public UnityEvent OnTransformSaved;
 
@@ -27,7 +27,7 @@ public class PrefabInstantiator : MonoBehaviour
         originalScale = transform.localScale;
 
         //Debug.Log($"Saving transform for {gameObject.name}: position {originalPosition}, rotation {originalRotation}, scale {originalScale}");
-         Debug.Log("Transform saved for " + gameObject.name + ": Position - " + originalPosition + ", Rotation - " + originalRotation);
+        // Debug.Log("Transform saved for " + gameObject.name + ": Position - " + originalPosition + ", Rotation - " + originalRotation);
     }
 
     // Add methods to retrieve the original position, rotation, and scale.

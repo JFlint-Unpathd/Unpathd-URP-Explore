@@ -7,7 +7,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class SpawnAndToggle : MonoBehaviour
 {
-    private PrefabInstantiator prefabInstantiator;
+    private TransformKeeper transformKeeper;
     private ParentObjectController parentController;
     private XRBaseInteractable interactable;
 
@@ -31,15 +31,15 @@ public class SpawnAndToggle : MonoBehaviour
     {
         parentController = GetComponent<ParentObjectController>();
 
-        prefabInstantiator = GetComponent<PrefabInstantiator>();
-        if (prefabInstantiator != null)
+        transformKeeper = GetComponent<TransformKeeper>();
+        if (transformKeeper != null)
         {
-            Vector3 originalPosition = prefabInstantiator.GetOriginalPosition();
-            Quaternion originalRotation = prefabInstantiator.GetOriginalRotation();
+            Vector3 originalPosition = transformKeeper.GetOriginalPosition();
+            Quaternion originalRotation = transformKeeper.GetOriginalRotation();
         }
         else
         {
-            Debug.LogError("PrefabInstantiator not found on GameObject.");
+            Debug.LogError("TransformKeeper not found on GameObject.");
         }
 
         
@@ -65,6 +65,7 @@ public class SpawnAndToggle : MonoBehaviour
                 }
             }
         }
+
         else
         {
             UpdateChildPositions();
@@ -72,24 +73,36 @@ public class SpawnAndToggle : MonoBehaviour
     }
 
 
-
     private void UpdateChildPositions()
     {
-        for (int i = 0; i < spawnedObjects.Count; i++)
+        // Get the current parent position and rotation
+        Vector3 parentPosition = transform.position;
+        Quaternion parentRotation = transform.rotation;
+
+        int numberOfObjects = spawnedObjects.Count;
+        float angleIncrement = 360f / numberOfObjects;
+
+        for (int i = 0; i < numberOfObjects; i++)
         {
-            float angle = i * (360f / objectsToSpawn.Length);
-            float spawnX = transform.position.x + spawnRadius * Mathf.Cos(Mathf.Deg2Rad * angle);
-            float spawnY = transform.position.y + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
-            //float spawnZ = transform.position.z + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
+            float angle = i * angleIncrement * Mathf.Deg2Rad;
 
-            
-            //Vector3 newPosition = new Vector3(transform.position.x, spawnY, spawnZ); // Keep the X position of the parent
-            //Vector3 newPosition = new Vector3(spawnX, transform.position.y, spawnZ); // Keep the Y position of the parent
-            Vector3 newPosition = new Vector3(spawnX, spawnY, transform.position.z); // Keep the Z position of the parent
+            // Calculate the new local position relative to the parent's local coordinates
+            float spawnX = spawnRadius * Mathf.Cos(angle);
+            float spawnY = spawnRadius * Mathf.Sin(angle);
+            //Vector3 localSpawnPosition = new Vector3(spawnX, 0f, spawnY); // Assuming XY plane as desired
+            Vector3 localSpawnPosition = new Vector3(spawnX, spawnY, 0f);
 
-            spawnedObjects[i].transform.position = newPosition;
-            spawnedObjects[i].transform.rotation = transform.rotation;
+            // Transform the local position to world space based on the parent's position and rotation
+            Vector3 worldSpawnPosition = parentPosition + parentRotation * localSpawnPosition;
 
+            // Set the position of the spawned object to the calculated world position
+            spawnedObjects[i].transform.position = worldSpawnPosition;
+
+            // Calculate rotation to face along the parent's local up direction (e.g., XY plane)
+            Quaternion spawnRotation = Quaternion.LookRotation(parentRotation * Vector3.forward, parentRotation * Vector3.up);
+
+            // Set the rotation of the spawned object to face towards the parent's local up direction
+            spawnedObjects[i].transform.rotation = spawnRotation;
         }
     }
 
@@ -207,61 +220,41 @@ public class SpawnAndToggle : MonoBehaviour
         }
     }
 
- 
-
     private void SpawnObjects()
     {
-        
-         Vector3 originalObjectPosition = transform.position;
-        
-        // Create a HashSet to store the spawned objects
-        HashSet<GameObject> spawnedPrefabSet = new HashSet<GameObject>(spawnedObjects);
+        Debug.Log("Spawning Child spawms");
 
-        for (int i = 0; i < objectsToSpawn.Length; i++)
+        int numberOfObjects = objectsToSpawn.Length;
+        float angleIncrement = 360f / numberOfObjects;
+
+        Vector3 parentPosition = transformKeeper.OriginalPosition; 
+        Quaternion parentRotation = transformKeeper.OriginalRotation; 
+
+        for (int i = 0; i < numberOfObjects; i++)
         {
-            if (spawnedPrefabSet.Contains(objectsToSpawn[i]))
-            {
-                continue; // Skip spawning this object if it's already spawned
-            }
+            float angle = i * angleIncrement * Mathf.Deg2Rad;
 
-            float angle = i * (360f / objectsToSpawn.Length);
-            float spawnX = originalObjectPosition.x + spawnRadius * Mathf.Cos(Mathf.Deg2Rad * angle);
-            float spawnY = originalObjectPosition.y + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
-            //float spawnZ = originalObjectPosition.z + spawnRadius * Mathf.Sin(Mathf.Deg2Rad * angle);
+            float spawnX = spawnRadius * Mathf.Cos(angle);
+            float spawnY = spawnRadius * Mathf.Sin(angle);
+            Vector3 localPosition = new Vector3(spawnX, spawnY, 0f);
 
-            //float spawnX = originalObjectPosition.x; // Keep the 'x' value the same as the parent's
-            //float spawnY = originalObjectPosition.y; // Keep the 'y' value the same as the parent's
-            float spawnZ = originalObjectPosition.z; // Keep the 'z' value the same as the parent's
+            Vector3 newPosition = parentPosition + parentRotation * localPosition;
 
-            Vector3 spawnPosition = new Vector3(spawnX, spawnY, spawnZ);
+            Quaternion newRotation = parentRotation; // Use parent's original rotation
 
-            
-            // Calculate rotation to face the center of the parent object
-            Quaternion spawnRotation = Quaternion.LookRotation(originalObjectPosition - spawnPosition);
-
-            GameObject spawnedObject = Instantiate(objectsToSpawn[i], spawnPosition, Quaternion.identity);
-
-            // Set the parent of the spawned object to be this script's transform
-            spawnedObject.transform.parent = transform;
+            GameObject spawnedObject = Instantiate(objectsToSpawn[i], newPosition, newRotation, transform);
             spawnedObject.SetActive(true);
             spawnedObjects.Add(spawnedObject);
 
-            // After spawning the object, lock its position and rotation
             Rigidbody rb = spawnedObject.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.constraints = RigidbodyConstraints.FreezeAll;
+                rb.constraints = RigidbodyConstraints.FreezeAll; // Freeze all constraints for 2D behavior
             }
-
-            // Add the prefab of the spawned object to the HashSet
-            spawnedPrefabSet.Add(objectsToSpawn[i]);
-         
         }
     }
 
-
-
-   public void ToggleSpawnedObjectsVisibility()
+    public void ToggleSpawnedObjectsVisibility()
     {
         foreach (var spawnedObject in spawnedObjects)
         {
@@ -301,10 +294,10 @@ public class SpawnAndToggle : MonoBehaviour
 
     // public void ResetParentAndSpawnedObjects()
     // {
-    //     if (prefabInstantiator != null)
+    //     if (transformKeeper != null)
     //     {
-    //         Vector3 originalPosition = prefabInstantiator.GetOriginalPosition();
-    //         Quaternion originalRotation = prefabInstantiator.GetOriginalRotation();
+    //         Vector3 originalPosition = transformKeeper.GetOriginalPosition();
+    //         Quaternion originalRotation = transformKeeper.GetOriginalRotation();
 
     //         // Resetting parent position, rotation
     //         transform.position = originalPosition;
@@ -312,7 +305,7 @@ public class SpawnAndToggle : MonoBehaviour
     //     }
     //     else
     //     {
-    //         Debug.LogError("PrefabInstantiator is null. Cannot reset to the original position and rotation.");
+    //         Debug.LogError("TransformKeeper is null. Cannot reset to the original position and rotation.");
     //     }
         
     //     UpdateChildPositions();

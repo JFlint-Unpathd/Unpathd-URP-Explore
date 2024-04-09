@@ -7,7 +7,7 @@ public class ResetRefine : MonoBehaviour
 {
     private SqliteController m_databaseController;
     private SocketInteractorManager socketInteractorManager;
-    private PrefabInstantiator prefabInstantiator;
+    private TransformKeeper transformKeeper;
 
     //private MapSpawnAndToggle mapSpawnAndToggle;
 
@@ -45,31 +45,28 @@ public class ResetRefine : MonoBehaviour
     {
 
         // Instantiate all prefabs and store references
-        // GameObject startingEnvInstance = InstantiatePrefab(startingEnv);
-        // refiningSceneObjects.Add(startingEnvInstance);
+        GameObject startingEnvInstance = InstantiatePrefab(startingEnv);
+        refiningSceneObjects.Add(startingEnvInstance);
 
         GameObject refiningObjectsInstance = InstantiatePrefab(refiningObjects);
         refiningSceneObjects.Add(refiningObjectsInstance);
 
-        // GameObject socketInteractorInstance = InstantiatePrefab(socketInteractor);
-        // refiningSceneObjects.Add(socketInteractorInstance);
+        GameObject socketInteractorInstance = InstantiatePrefab(socketInteractor);
+        refiningSceneObjects.Add(socketInteractorInstance);
 
         execQ.SetActive(true);
         
 
         //refiningObjectsInstance.GetComponent<CircleObjectPlacer>().ArrangeObjectsInCircle();
-    
-        //ApplySavedOriginalTransforms();
 
-       // ArrangeObjectsInCircle(refiningObjectsInstance.transform);
-        
+        ArrangeObjectsInCircle(refiningObjectsInstance.transform);
         
     }
 
 
     public void ArrangeObjectsInCircle(Transform transform)
     {
-
+        Debug.Log("Arrangin in circle RR");
         int numberOfObjects = transform.childCount;
 
         float angleIncrement = 360f / numberOfObjects;
@@ -89,18 +86,18 @@ public class ResetRefine : MonoBehaviour
             // Rotate the object to face towards the center
             childTransform.rotation = Quaternion.LookRotation(direction, Vector3.up);
 
-            //Get the PrefabInstantiator script attached to the child prefab
-            PrefabInstantiator prefabInstantiator = childTransform.GetComponent<PrefabInstantiator>();
+            //Get the TransformKeeper script attached to the child prefab
+            TransformKeeper transformKeeper = childTransform.GetComponent<TransformKeeper>();
 
-            if (prefabInstantiator != null)
+            if (transformKeeper != null)
             {
                 // Save the original transform after arranging the objects in the circle
-                prefabInstantiator.SaveOriginalTransform();
-                Debug.Log("Saved CIRCLEtransform for child " + i + ": Position - " + prefabInstantiator.OriginalPosition + ", Rotation - " + prefabInstantiator.OriginalRotation);
+                transformKeeper.SaveOriginalTransform();
+                //Debug.Log("Saved CIRCLEtransform for child " + i + ": Position - " + transformKeeper.OriginalPosition + ", Rotation - " + transformKeeper.OriginalRotation);
 
             }
 
-           Debug.Log($"Setting position of child {i} to {newPos}");
+           //Debug.Log($"Setting position of child {i} to {newPos}");
 
         }
     }
