@@ -10,12 +10,15 @@ public class SocketInteractorManager : MonoBehaviour
     private XRSocketInteractor socketInteractor;
     private List<GameObject> snappedObjects = new List<GameObject>();
     public GameObject CurrentSnappedObject;
+
+    public Vector3 desiredScale = new Vector3(.5f, .5f, .5f);
     
     public List<GameObject> GetSnappedObjects()
     {
         return snappedObjects;
     }
 
+    [Obsolete]
     private void Awake()
     {
         socketInteractor = GetComponent<XRSocketInteractor>();
@@ -28,6 +31,12 @@ public class SocketInteractorManager : MonoBehaviour
     public void AddAndHandleSelection(XRBaseInteractable interactable)
     {
         GameObject snappedObject = interactable.gameObject;
+
+        // Check and adjust the scale of the snapped object
+        if (snappedObject.transform.localScale != desiredScale)
+        {
+            snappedObject.transform.localScale = desiredScale;
+        }
 
         UnpathSelector unpathSelector = snappedObject.GetComponent<UnpathSelector>();
 
@@ -94,6 +103,7 @@ public class SocketInteractorManager : MonoBehaviour
         }
     }
 
+    [Obsolete]
     private void OnDestroy()
     {
         //remove listeners when they're no longer needed

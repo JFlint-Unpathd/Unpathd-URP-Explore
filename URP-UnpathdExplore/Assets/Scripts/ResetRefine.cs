@@ -51,13 +51,25 @@ public class ResetRefine : MonoBehaviour
         GameObject refiningObjectsInstance = InstantiatePrefab(refiningObjects);
         refiningSceneObjects.Add(refiningObjectsInstance);
 
-        GameObject socketInteractorInstance = InstantiatePrefab(socketInteractor);
-        refiningSceneObjects.Add(socketInteractorInstance);
+        // GameObject socketInteractorInstance = InstantiatePrefab(socketInteractor);
+        // refiningSceneObjects.Add(socketInteractorInstance);
 
-        execQ.SetActive(true);
-        
+        // Find the XRRig GameObject
+        GameObject xrRig = GameObject.FindWithTag("XRRig");
 
-        //refiningObjectsInstance.GetComponent<CircleObjectPlacer>().ArrangeObjectsInCircle();
+        if (xrRig != null)
+        {
+            // Instantiate socketInteractor as a child of XRRig
+            GameObject socketInteractorInstance = InstantiatePrefab(socketInteractor);
+            socketInteractorInstance.transform.parent = xrRig.transform; // Set XRRig as the parent
+            refiningSceneObjects.Add(socketInteractorInstance);
+        }
+        else
+        {
+            Debug.LogError("XRRig not found. Unable to instantiate socketInteractor.");
+        }
+
+        //execQ.SetActive(true);
 
         ArrangeObjectsInCircle(refiningObjectsInstance.transform);
         

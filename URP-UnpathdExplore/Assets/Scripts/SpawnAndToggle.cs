@@ -78,6 +78,7 @@ public class SpawnAndToggle : MonoBehaviour
         // Get the current parent position and rotation
         Vector3 parentPosition = transform.position;
         Quaternion parentRotation = transform.rotation;
+        Vector3 parentScale = transform.lossyScale;
 
         int numberOfObjects = spawnedObjects.Count;
         float angleIncrement = 360f / numberOfObjects;
@@ -103,6 +104,8 @@ public class SpawnAndToggle : MonoBehaviour
 
             // Set the rotation of the spawned object to face towards the parent's local up direction
             spawnedObjects[i].transform.rotation = spawnRotation;
+
+
         }
     }
 
@@ -120,9 +123,20 @@ public class SpawnAndToggle : MonoBehaviour
             foreach (var spawnedObject in spawnedObjects)
             {
                 ChildObjectController childController = spawnedObject.GetComponent<ChildObjectController>();
-                if(childController != null && !childController.isSnapped)
+                if (childController != null && !childController.isSnapped)
                 {
                     spawnedObject.transform.rotation = Quaternion.identity;
+                }
+            }
+
+            // Update scale of the spawned objects if not snapped or grabbed
+            foreach (var spawnedObject in spawnedObjects)
+            {
+                ChildObjectController childController = spawnedObject.GetComponent<ChildObjectController>();
+                if (childController != null && !childController.isSnapped && !childController.isGrabbed)
+                {
+                    // Reset the scale to the original scale of the parent
+                    //spawnedObject.transform.localScale = transform.lossyScale;
                 }
             }
 
@@ -171,7 +185,7 @@ public class SpawnAndToggle : MonoBehaviour
             SetUnsnappedVisibility(unsnappedVisibility);
 
             //added a 2 second delay so hopefully children do not snap to socket
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(10);
 
             // Clear nonsnapped spawned objects
             foreach (var spawnedObject in spawnedObjects)
@@ -181,7 +195,7 @@ public class SpawnAndToggle : MonoBehaviour
                 {
                     //reparent objects
                     spawnedObject.transform.parent = transform;
-                    Destroy(spawnedObject);
+                    //Destroy(spawnedObject);
                 }
             }
 
@@ -242,14 +256,27 @@ public class SpawnAndToggle : MonoBehaviour
 
             Quaternion newRotation = parentRotation; // Use parent's original rotation
 
-            GameObject spawnedObject = Instantiate(objectsToSpawn[i], newPosition, newRotation, transform);
-            spawnedObject.SetActive(true);
-            spawnedObjects.Add(spawnedObject);
-
-            Rigidbody rb = spawnedObject.GetComponent<Rigidbody>();
-            if (rb != null)
+            // Check if the object is already spawned
+            bool alreadySpawned = false;
+            foreach (var obj in spawnedObjects)
             {
-                rb.constraints = RigidbodyConstraints.FreezeAll; // Freeze all constraints for 2D behavior
+                if (obj.name == objectsToSpawn[i].name)
+                {
+                    alreadySpawned = true;
+                    break;
+                }
+            }
+
+            if (!alreadySpawned){
+                GameObject spawnedObject = Instantiate(objectsToSpawn[i], newPosition, newRotation, transform);
+                spawnedObject.SetActive(true);
+                spawnedObjects.Add(spawnedObject);
+    
+                Rigidbody rb = spawnedObject.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.constraints = RigidbodyConstraints.FreezeAll; // Freeze all constraints for 2D behavior
+                }
             }
         }
     }
