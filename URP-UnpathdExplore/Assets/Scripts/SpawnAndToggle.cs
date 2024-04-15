@@ -19,6 +19,7 @@ public class SpawnAndToggle : MonoBehaviour
     float spawnRadius = 1f;
 
     private List<GameObject> spawnedObjects = new List<GameObject>();
+     private Dictionary<Transform, bool> parentSpawnStates = new Dictionary<Transform, bool>();
     
     // To be able to acess the variable from the socketinteractormanger script
     public List<GameObject> GetSpawnedObjects() 
@@ -107,38 +108,35 @@ public class SpawnAndToggle : MonoBehaviour
 
 
         }
+
     }
 
 
     private void OnHoverEnter(HoverEnterEventArgs args)
     {
-        if (spawnedObjects.Count == 0)
-        {
-            SpawnObjects();
-        }
+        Transform parentTransform = transform;
 
+        // Check if the parent transform is already in the dictionary
+        if (!parentSpawnStates.ContainsKey(parentTransform) || !parentSpawnStates[parentTransform])
+        {
+            // Spawn objects for this parent if not already spawned
+            SpawnObjects(parentTransform);
+            parentSpawnStates[parentTransform] = true; // Update spawn state to true
+        }
+     
         else if (parentController != null && !parentController.isGrabbed && !parentController.isSnapped)
         {
             // Reset rotations
             foreach (var spawnedObject in spawnedObjects)
             {
                 ChildObjectController childController = spawnedObject.GetComponent<ChildObjectController>();
-                if (childController != null && !childController.isSnapped)
+                if (childController != null && !childController.isSnapped && !childController.isGrabbed)
                 {
                     spawnedObject.transform.rotation = Quaternion.identity;
+                    spawnedObject.transform.localScale = transform.lossyScale;
                 }
             }
 
-            // Update scale of the spawned objects if not snapped or grabbed
-            foreach (var spawnedObject in spawnedObjects)
-            {
-                ChildObjectController childController = spawnedObject.GetComponent<ChildObjectController>();
-                if (childController != null && !childController.isSnapped && !childController.isGrabbed)
-                {
-                    // Reset the scale to the original scale of the parent
-                    //spawnedObject.transform.localScale = transform.lossyScale;
-                }
-            }
 
             ToggleSpawnedObjectsVisibility();
         }
@@ -185,7 +183,7 @@ public class SpawnAndToggle : MonoBehaviour
             SetUnsnappedVisibility(unsnappedVisibility);
 
             //added a 2 second delay so hopefully children do not snap to socket
-            yield return new WaitForSeconds(10);
+            yield return new WaitForSeconds(3);
 
             // Clear nonsnapped spawned objects
             foreach (var spawnedObject in spawnedObjects)
@@ -200,7 +198,7 @@ public class SpawnAndToggle : MonoBehaviour
             }
 
             // Clear the list of spawned objects
-            spawnedObjects.Clear();
+            //spawnedObjects.Clear();
         }
     }
 
@@ -234,7 +232,7 @@ public class SpawnAndToggle : MonoBehaviour
         }
     }
 
-    private void SpawnObjects()
+    private void SpawnObjects(Transform parentTransform)
     {
         Debug.Log("Spawning Child spawms");
 
@@ -256,28 +254,11 @@ public class SpawnAndToggle : MonoBehaviour
 
             Quaternion newRotation = parentRotation; // Use parent's original rotation
 
-            // Check if the object is already spawned
-            bool alreadySpawned = false;
-            foreach (var obj in spawnedObjects)
-            {
-                if (obj.name == objectsToSpawn[i].name)
-                {
-                    alreadySpawned = true;
-                    break;
-                }
-            }
-
-            if (!alreadySpawned){
-                GameObject spawnedObject = Instantiate(objectsToSpawn[i], newPosition, newRotation, transform);
-                spawnedObject.SetActive(true);
-                spawnedObjects.Add(spawnedObject);
-    
-                Rigidbody rb = spawnedObject.GetComponent<Rigidbody>();
-                if (rb != null)
-                {
-                    rb.constraints = RigidbodyConstraints.FreezeAll; // Freeze all constraints for 2D behavior
-                }
-            }
+          
+            GameObject spawnedObject = Instantiate(objectsToSpawn[i], newPosition, newRotation, transform);
+            spawnedObject.SetActive(true);
+            spawnedObjects.Add(spawnedObject);
+        
         }
     }
 
