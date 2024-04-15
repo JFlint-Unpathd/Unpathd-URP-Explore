@@ -55,7 +55,14 @@ public class ChildObjectController : MonoBehaviour
     {
         isSnapped = false;
         //Debug.Log(gameObject.name + " is unsnapped.");
+        ResetScale();
 
+    }
+
+      private void ResetScale()
+    {
+        gameObject.transform.localScale = Vector3.one;
+       // Debug.Log(gameObject.name + " scale has been reset.");
     }
 
 

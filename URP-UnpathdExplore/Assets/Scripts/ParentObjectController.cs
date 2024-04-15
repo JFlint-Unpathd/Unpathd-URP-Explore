@@ -49,6 +49,7 @@ public class ParentObjectController : MonoBehaviour
     public void OnSnapped()
     {
         isSnapped = true;
+  
         //Debug.Log(gameObject.name + " is snapped.");
         
     }
@@ -56,7 +57,8 @@ public class ParentObjectController : MonoBehaviour
     public void OnUnsnapped()
     {
         isSnapped = false;
-        //Debug.Log(gameObject.name + " is unsnapped.");
+        //Debug.Log(gameObject.name + " is unsnapped.");      
+        ResetScale();
    
     }
 
@@ -74,6 +76,14 @@ public class ParentObjectController : MonoBehaviour
     {
         rb.freezeRotation = false;
     }
+
+
+    private void ResetScale()
+    {
+        gameObject.transform.localScale = Vector3.one;
+        //Debug.Log(gameObject.name + " scale has been reset.");
+    }
+
 
 
 }

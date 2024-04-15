@@ -32,12 +32,6 @@ public class SocketInteractorManager : MonoBehaviour
     {
         GameObject snappedObject = interactable.gameObject;
 
-        // Check and adjust the scale of the snapped object
-        if (snappedObject.transform.localScale != desiredScale)
-        {
-            snappedObject.transform.localScale = desiredScale;
-        }
-
         UnpathSelector unpathSelector = snappedObject.GetComponent<UnpathSelector>();
 
         ParentObjectController parentController = snappedObject.GetComponent<ParentObjectController>();
