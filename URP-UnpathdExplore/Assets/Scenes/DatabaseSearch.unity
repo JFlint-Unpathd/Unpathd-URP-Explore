@@ -1094,7 +1094,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 66
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -1547,6 +1547,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ground Fog
+      objectReference: {fileID: 0}
+    - target: {fileID: 2943904140560786230, guid: 77279bcf000de9d478312c5ec2f11d5d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2943904140560786232, guid: 77279bcf000de9d478312c5ec2f11d5d,
         type: 3}
@@ -3328,6 +3333,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1144983593}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &510101899
 MonoBehaviour:
@@ -8636,6 +8653,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1123336403}
   m_CullTransparentMesh: 1
+--- !u!1 &1144983593 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2943904140560786230, guid: 77279bcf000de9d478312c5ec2f11d5d,
+    type: 3}
+  m_PrefabInstance: {fileID: 217378267}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1152842170
 GameObject:
   m_ObjectHideFlags: 0

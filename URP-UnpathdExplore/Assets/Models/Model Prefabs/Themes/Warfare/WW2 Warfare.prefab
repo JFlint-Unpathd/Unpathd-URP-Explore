@@ -89,7 +89,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 66
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -775,11 +775,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6969353010893998250}
-  - component: {fileID: 3878797322078905422}
-  - component: {fileID: 4236400365171105732}
   - component: {fileID: 6563072299097667011}
   - component: {fileID: 5869486081464060523}
   - component: {fileID: 4436610813646568027}
+  - component: {fileID: 4787520900036302069}
+  - component: {fileID: 5375917176955277348}
   m_Layer: 6
   m_Name: WW2 Warfare
   m_TagString: Filters
@@ -806,7 +806,51 @@ Transform:
   - {fileID: 3339777740653879913}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &3878797322078905422
+--- !u!114 &6563072299097667011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7590692402319070990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4700c0e3e0d41984eb13354fa86f4490, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Title: WW1
+  m_QueryTerm: GSA_Themes LIKE '%WW2%'
+--- !u!114 &5869486081464060523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7590692402319070990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 885ddb8af8e470e4f8a029fca80a0390, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  voiceoverClip: {fileID: 8300000, guid: 405afb202d59c10459db7c3bde2455fc, type: 3}
+--- !u!114 &4436610813646568027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7590692402319070990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa9c604d8b9b3204a837f427e18d0b6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isChild: 1
+  isHovered: 0
+  isGrabbed: 0
+  isReleased: 1
+  isSnapped: 0
+--- !u!54 &4787520900036302069
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -833,7 +877,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &4236400365171105732
+--- !u!114 &5375917176955277348
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -846,8 +890,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 0}
-  m_Colliders:
-  - {fileID: 6055017236493484435}
+  m_Colliders: []
   m_InteractionLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -936,7 +979,7 @@ MonoBehaviour:
   m_OnDeactivate:
     m_PersistentCalls:
       m_Calls: []
-  m_AttachTransform: {fileID: 4689831811524367399}
+  m_AttachTransform: {fileID: 0}
   m_SecondaryAttachTransform: {fileID: 0}
   m_UseDynamicAttach: 0
   m_MatchAttachPosition: 1
@@ -986,50 +1029,6 @@ MonoBehaviour:
   m_StartingSingleGrabTransformers: []
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
---- !u!114 &6563072299097667011
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7590692402319070990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4700c0e3e0d41984eb13354fa86f4490, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Title: WW1
-  m_QueryTerm: GSA_Themes LIKE '%WW2%'
---- !u!114 &5869486081464060523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7590692402319070990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 885ddb8af8e470e4f8a029fca80a0390, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  voiceoverClip: {fileID: 8300000, guid: 405afb202d59c10459db7c3bde2455fc, type: 3}
---- !u!114 &4436610813646568027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7590692402319070990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa9c604d8b9b3204a837f427e18d0b6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isChild: 1
-  isHovered: 0
-  isGrabbed: 0
-  isReleased: 1
-  isSnapped: 0
 --- !u!1 &8046983162068662843
 GameObject:
   m_ObjectHideFlags: 0
@@ -1198,7 +1197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransitionDuration: 0.125
-  m_InteractableSource: {fileID: 4236400365171105732}
+  m_InteractableSource: {fileID: 0}
   m_IgnoreHoverEvents: 0
   m_IgnoreHoverPriorityEvents: 1
   m_IgnoreFocusEvents: 0

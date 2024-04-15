@@ -12,6 +12,7 @@ public class ChildObjectController : MonoBehaviour
     private XRGrabInteractable grabInteractable;
 
 
+
     private void Start()
     {
         grabInteractable = GetComponent<XRGrabInteractable>();
@@ -39,17 +40,23 @@ public class ChildObjectController : MonoBehaviour
         isGrabbed = false;
         isReleased = true;
         //Debug.Log(gameObject.name + " is released.");
+       
+        
     }
 
     public void OnSnapped()
     {
         isSnapped = true;
         //Debug.Log(gameObject.name + " is snapped.");
+        
     }
 
     public void OnUnsnapped()
     {
         isSnapped = false;
         //Debug.Log(gameObject.name + " is unsnapped.");
+
     }
+
+
 }
