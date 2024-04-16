@@ -69,7 +69,7 @@ public class ResetRefine : MonoBehaviour
             Debug.LogError("XRRig not found. Unable to instantiate socketInteractor.");
         }
 
-        //execQ.SetActive(true);
+        execQ.SetActive(true);
 
         ArrangeObjectsInCircle(refiningObjectsInstance.transform);
         
