@@ -9,14 +9,14 @@ public class ParentObjectController : MonoBehaviour
     public bool isReleased = true;
     public bool isSnapped = false;
     
-    private XRGrabInteractable grabInteractable;
+    private XRBaseInteractable grabInteractable;
 
     private Rigidbody rb;
 
 
     private void Start()
     {
-        grabInteractable = GetComponent<XRGrabInteractable>();
+        grabInteractable = GetComponent<XRBaseInteractable>();
 
         rb = GetComponent<Rigidbody>();
 
