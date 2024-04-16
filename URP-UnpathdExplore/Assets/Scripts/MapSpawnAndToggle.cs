@@ -24,6 +24,11 @@ public class MapSpawnAndToggle : MonoBehaviour
 
     void Awake()
     {
+
+    }
+
+    void Start()
+    {
         foreach (Transform child in transform)
         {
             GameObject childObject = child.gameObject;
@@ -35,21 +40,17 @@ public class MapSpawnAndToggle : MonoBehaviour
             // Add child object to the list of shipping forecast regions
             shippingForecastRegions.Add(childObject);
         }
-    }
 
-    void Start()
-    {
+        interactable = GetComponent<XRBaseInteractable>();
+        interactable.onHoverEntered.AddListener(OnHoverEnter);
+        interactable.onHoverEntered.AddListener(OnSelectExited);
 
-            interactable = GetComponent<XRBaseInteractable>();
-            interactable.onHoverEntered.AddListener(OnHoverEnter);
-            interactable.onHoverEntered.AddListener(OnSelectExited);
-
-            // Find the SocketInteractorManager in the scene
-            socketInteractorManager = FindObjectOfType<SocketInteractorManager>();
-            if (socketInteractorManager == null)
-            {
-                Debug.LogError("SocketInteractorManager not found in the scene.");
-            }
+        // Find the SocketInteractorManager in the scene
+        socketInteractorManager = FindObjectOfType<SocketInteractorManager>();
+        if (socketInteractorManager == null)
+        {
+            Debug.LogError("SocketInteractorManager not found in the scene.");
+        }
 
     }
 
