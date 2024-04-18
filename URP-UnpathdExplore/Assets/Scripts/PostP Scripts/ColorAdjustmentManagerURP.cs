@@ -14,7 +14,7 @@ public class ColorAdjustmentsManagerURP : MonoBehaviour
     [SerializeField] private TMP_Text postExposureValueText;
     //[SerializeField] private TMP_Text contrastValueText;
     [SerializeField] private TMP_Text saturationValueText;
-    [SerializeField] private TMP_Text hueShiftValueText;
+   // [SerializeField] private TMP_Text hueShiftValueText;
 
     [Header("UI Dropdown")]
     [SerializeField] private TMP_Dropdown colorDropdown;
@@ -62,7 +62,7 @@ public class ColorAdjustmentsManagerURP : MonoBehaviour
     public void SetHueShift(float sliderValue)
     {
         colorAdjustments.hueShift.value = sliderValue;
-        hueShiftValueText.text = sliderValue.ToString("0");
+        //hueShiftValueText.text = sliderValue.ToString("0");
         
     }
 

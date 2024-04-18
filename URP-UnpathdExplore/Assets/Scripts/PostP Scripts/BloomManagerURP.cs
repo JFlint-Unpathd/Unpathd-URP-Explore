@@ -16,7 +16,7 @@ public class BloomManagerURP : MonoBehaviour
 
     [Header("UI Values")]
     [SerializeField] private TMP_Text bloomIntensityValueText;
-    [SerializeField] private TMP_Text bloomThresholdValueText;
+    //[SerializeField] private TMP_Text bloomThresholdValueText;
     
 
     private void Start()
@@ -47,7 +47,7 @@ public class BloomManagerURP : MonoBehaviour
     public void SetThreshold(float sliderValue)
     {
        _bloom.threshold.value = sliderValue;
-        bloomThresholdValueText.text = sliderValue.ToString("0");
+        //bloomThresholdValueText.text = sliderValue.ToString("0");
     }
 
     public void SetColor(int index)

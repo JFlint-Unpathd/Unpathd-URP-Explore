@@ -14,6 +14,15 @@ public class MenuPopup : MonoBehaviour
     private void Awake()
     {
         toggleReference.action.started += Toggle;
+
+        // Dynamically find the GameObject with the specified tag
+        settingsMenu = GameObject.FindGameObjectWithTag("InGameMenu");
+        if (settingsMenu == null)
+        {
+            Debug.LogError("No GameObject with tag 'InGameMenu' found.");
+            return;
+        }
+
         originalPosition = settingsMenu.transform.position;
         originalRotation = settingsMenu.transform.rotation;
     }

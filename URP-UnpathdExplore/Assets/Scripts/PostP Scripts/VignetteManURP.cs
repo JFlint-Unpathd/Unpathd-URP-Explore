@@ -17,7 +17,7 @@ public class VignetteManURP : MonoBehaviour
 
     [Header("UI Values")]
     [SerializeField] private TMP_Text vignetteIntensityValueText;
-    [SerializeField] private TMP_Text vignetteSmoothnessValueText;
+    //[SerializeField] private TMP_Text vignetteSmoothnessValueText;
 
 
 
@@ -53,7 +53,7 @@ public class VignetteManURP : MonoBehaviour
     public void Smoothness(float sliderValue) // (Default: 1)
     {
         _vignette.smoothness.value = sliderValue;
-        vignetteSmoothnessValueText.text = sliderValue.ToString("0");
+        //vignetteSmoothnessValueText.text = sliderValue.ToString("0");
     }
 
     public void SetColor(int index) // (Default: White)
