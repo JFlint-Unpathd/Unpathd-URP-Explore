@@ -15,12 +15,10 @@ public class MenuPopup : MonoBehaviour
     {
         toggleReference.action.started += Toggle;
 
-        // Dynamically find the GameObject with the specified tag
         settingsMenu = GameObject.FindGameObjectWithTag("InGameMenu");
         if (settingsMenu == null)
         {
-            Debug.LogError("No GameObject with tag 'InGameMenu' found.");
-            return;
+            Debug.Log("No GameObject with tag 'InGameMenu' found.");
         }
 
         originalPosition = settingsMenu.transform.position;
