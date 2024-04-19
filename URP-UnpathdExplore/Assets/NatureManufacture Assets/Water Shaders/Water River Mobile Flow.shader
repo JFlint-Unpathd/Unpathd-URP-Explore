@@ -4402,7 +4402,7 @@ Shader "NatureManufacture Shaders/Water/Water River Mobile Flow"
         // Render State
         Cull [_Cull]
         ZTest LEqual
-        ZWrite On
+        ZWrite Off
         ColorMask 0
         
         // Debug
@@ -5104,7 +5104,7 @@ Shader "NatureManufacture Shaders/Water/Water River Mobile Flow"
         // Render State
         Cull [_Cull]
         ZTest LEqual
-        ZWrite On
+        ZWrite Off
         ColorMask R
         
         // Debug
@@ -5793,7 +5793,7 @@ Shader "NatureManufacture Shaders/Water/Water River Mobile Flow"
         // Render State
         Cull [_Cull]
         ZTest LEqual
-        ZWrite On
+        ZWrite Off
         
         // Debug
         // <None>
@@ -14631,7 +14631,7 @@ Shader "NatureManufacture Shaders/Water/Water River Mobile Flow"
         // Render State
         Cull [_Cull]
         ZTest LEqual
-        ZWrite On
+        ZWrite Off
         ColorMask 0
         
         // Debug
@@ -15334,7 +15334,7 @@ Shader "NatureManufacture Shaders/Water/Water River Mobile Flow"
         // Render State
         Cull [_Cull]
         ZTest LEqual
-        ZWrite On
+        ZWrite Off
         ColorMask R
         
         // Debug
@@ -16024,7 +16024,7 @@ Shader "NatureManufacture Shaders/Water/Water River Mobile Flow"
         // Render State
         Cull [_Cull]
         ZTest LEqual
-        ZWrite On
+        ZWrite Off
         
         // Debug
         // <None>
