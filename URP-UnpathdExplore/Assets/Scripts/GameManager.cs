@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
     }
+
+
     
     public void QuitGame()
     {
@@ -40,11 +42,11 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown("1"))
+        if (Input.GetKeyDown("2"))
         {
             SceneManager.LoadScene("Voyages");
         }
-        else if (Input.GetKeyDown("2"))
+        else if (Input.GetKeyDown("1"))
         {
             SceneManager.LoadScene("DatabaseSearch");
         }
