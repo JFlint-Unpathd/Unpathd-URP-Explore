@@ -3,15 +3,19 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public AudioManager audioManager;
-    public FontSizeManager fontSizeManager;
-    public UIColorManager uiColorManager;
+    static GameManager instance;
 
     void Awake()
     {
-        DontDestroyOnLoad(audioManager.gameObject);
-        DontDestroyOnLoad(fontSizeManager.gameObject);
-        DontDestroyOnLoad(uiColorManager.gameObject);
+        if(instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
     }
     
     public void QuitGame()
@@ -32,5 +36,17 @@ public class GameManager : MonoBehaviour
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex + 1);
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown("1"))
+        {
+            SceneManager.LoadScene("Voyages");
+        }
+        else if (Input.GetKeyDown("2"))
+        {
+            SceneManager.LoadScene("DatabaseSearch");
+        }
     }
 }

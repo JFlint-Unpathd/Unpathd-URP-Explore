@@ -15,14 +15,24 @@ public class MenuPopup : MonoBehaviour
     {
         toggleReference.action.started += Toggle;
 
+        originalPosition = settingsMenu.transform.position;
+        originalRotation = settingsMenu.transform.rotation;
+
         settingsMenu = GameObject.FindGameObjectWithTag("InGameMenu");
         if (settingsMenu == null)
         {
             Debug.Log("No GameObject with tag 'InGameMenu' found.");
         }
+        else
+        {
+            settingsMenu.SetActive(false);
+        }
+    }
 
-        originalPosition = settingsMenu.transform.position;
-        originalRotation = settingsMenu.transform.rotation;
+    private void Start()
+    {
+
+
     }
 
     private void OnDestroy()
