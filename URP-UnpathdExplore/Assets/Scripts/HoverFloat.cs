@@ -111,13 +111,6 @@ public class HoverFloat : MonoBehaviour
     {
         isCoroutineRunning = true;
 
-        if (spawnAndToggle != null) {
-
-            //spawnAndToggle.DisableSpawnedObjects();
-            spawnAndToggle.ToggleSpawnedObjectsVisibility();
-    
-        }
-
         yield return new WaitForSeconds(returnDelay);
 
         Vector3 targetPosition = transformKeeper.GetOriginalPosition();
@@ -135,6 +128,13 @@ public class HoverFloat : MonoBehaviour
         if (parentObjectController != null) {
 
           parentObjectController.FreezeRotation();
+    
+        }
+
+               if (spawnAndToggle != null) {
+
+            //spawnAndToggle.DisableSpawnedObjects();
+            spawnAndToggle.ToggleSpawnedObjectsVisibility();
     
         }
           
@@ -166,7 +166,12 @@ public class HoverFloat : MonoBehaviour
         {
         
             parentObjectController.SetKinematic(false);
-            StartCoroutine(EndGrabRoutine());
+            //StartCoroutine(EndGrabRoutine());
+
+            if (!parentObjectController.isGrabbed && !parentObjectController.isSnapped && !isCoroutineRunning)
+            {
+                StartCoroutine(ReturnRoutine());
+            }
         }
 
         }

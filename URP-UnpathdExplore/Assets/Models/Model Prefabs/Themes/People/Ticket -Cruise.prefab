@@ -1066,9 +1066,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4521892648289873768}
   - component: {fileID: 917076300509570239}
-  - component: {fileID: 7664986258230267304}
-  - component: {fileID: 5050435926481091670}
-  - component: {fileID: 7533483460031001214}
+  - component: {fileID: 5725047192503233513}
+  - component: {fileID: 5945043623585857475}
+  - component: {fileID: 6729009141608494286}
+  - component: {fileID: 5618394464258642596}
+  - component: {fileID: 2771889421964387066}
+  - component: {fileID: 3013978179606395225}
   m_Layer: 0
   m_Name: Ticket -Cruise
   m_TagString: Untagged
@@ -1122,7 +1125,63 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7664986258230267304
+--- !u!114 &5725047192503233513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8112450054853738976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfc2f8e0232115a45ae6fe60f6a1d93e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5945043623585857475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8112450054853738976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30ed2eb1cad6e9e49ae477596a62e496, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isParent: 1
+  isHovered: 0
+  isGrabbed: 0
+  isReleased: 1
+  isSnapped: 0
+--- !u!114 &6729009141608494286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8112450054853738976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bcffda48267a724386d81eb9b8db3f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waitDuration: 10
+  returnDelay: 5
+  floatSpeed: 3
+--- !u!114 &5618394464258642596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8112450054853738976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfc2f8e0232115a45ae6fe60f6a1d93e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2771889421964387066
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1172,7 +1231,19 @@ MonoBehaviour:
       m_Calls: []
   m_SelectEntered:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5618394464258642596}
+        m_TargetAssemblyTypeName: NextScene, Assembly-CSharp
+        m_MethodName: LoadNextScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_SelectExited:
     m_PersistentCalls:
       m_Calls: []
@@ -1224,7 +1295,7 @@ MonoBehaviour:
   m_OnDeactivate:
     m_PersistentCalls:
       m_Calls: []
-  m_AttachTransform: {fileID: 5216106011254629253}
+  m_AttachTransform: {fileID: 0}
   m_SecondaryAttachTransform: {fileID: 0}
   m_UseDynamicAttach: 0
   m_MatchAttachPosition: 1
@@ -1274,7 +1345,7 @@ MonoBehaviour:
   m_StartingSingleGrabTransformers: []
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
---- !u!114 &5050435926481091670
+--- !u!114 &3013978179606395225
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1283,28 +1354,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8112450054853738976}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4700c0e3e0d41984eb13354fa86f4490, type: 3}
+  m_Script: {fileID: 11500000, guid: a2d16ecc62242014ab0a13f3807876d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Title: Cruise
-  m_QueryTerm: GSA_Themes LIKE '%cruise%'
---- !u!114 &7533483460031001214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8112450054853738976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa9c604d8b9b3204a837f427e18d0b6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isChild: 1
-  isHovered: 0
-  isGrabbed: 0
-  isReleased: 1
-  isSnapped: 0
 --- !u!1 &8233646186973387212
 GameObject:
   m_ObjectHideFlags: 0
@@ -1353,7 +1405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransitionDuration: 0.125
-  m_InteractableSource: {fileID: 7664986258230267304}
+  m_InteractableSource: {fileID: 0}
   m_IgnoreHoverEvents: 0
   m_IgnoreHoverPriorityEvents: 1
   m_IgnoreFocusEvents: 0
