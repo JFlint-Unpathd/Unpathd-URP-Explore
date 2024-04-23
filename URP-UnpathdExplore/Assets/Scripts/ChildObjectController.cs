@@ -39,14 +39,39 @@ public class ChildObjectController : MonoBehaviour
         //Debug.Log(gameObject.name + " is grabbed.");
     }
 
+    // private void OnRelease(SelectExitEventArgs args)
+    // {
+    //     isGrabbed = false;
+    //     isReleased = true;
+    //     //Debug.Log(gameObject.name + " is released.");
+       
+        
+    // }
+
     private void OnRelease(SelectExitEventArgs args)
     {
         isGrabbed = false;
         isReleased = true;
-        //Debug.Log(gameObject.name + " is released.");
-       
-        
+
+        if (!isSnapped)
+        {
+            // Get the TransformKeeper script attached to the object
+            TransformKeeper transformKeeper = GetComponent<TransformKeeper>();
+
+            if (transformKeeper != null)
+            {
+                // Reset the transform of the object
+                transformKeeper.ResetAllTransform();
+            }
+            else
+            {
+                Debug.LogError("TransformKeeper script not found.");
+            }
+        }
+
+        Debug.Log(gameObject.name + " is released.");
     }
+
 
     public void OnSnapped()
     {

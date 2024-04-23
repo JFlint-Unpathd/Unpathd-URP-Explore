@@ -67,49 +67,22 @@ public class MapSpawnAndToggle : MonoBehaviour
 
     }
 
+
     public void ResetUnsnappedObjectPositions()
     {
         foreach (var childObject in shippingForecastRegions)
         {
-           
             ChildObjectController childController = childObject.GetComponent<ChildObjectController>();
             if (childController != null && !childController.isSnapped && !childController.isGrabbed)
             {
                 // Restore original position and rotation
-                Vector3 originalPosition = originalPositions[childObject];
-                Quaternion originalRotation = originalRotations[childObject];
-                childObject.transform.SetPositionAndRotation(originalPosition, originalRotation);
-
+                Vector3 originalLocalPosition = originalPositions[childObject];
+                Quaternion originalLocalRotation = originalRotations[childObject];
+                childObject.transform.localPosition = originalLocalPosition;
+                childObject.transform.localRotation = originalLocalRotation;
             }
         }
     }
-
-
-
-    // public void ResetUnsnappedObjectPositions()
-    // {
-    //     // Get the TransformKeeper script from the parent object
-    //     TransformKeeper transformKeeper = GetComponent<TransformKeeper>();
-
-    //     // Get the original position and rotation of the parent object
-    //     Vector3 parentOriginalPosition = transformKeeper.GetOriginalPosition();
-    //     Quaternion parentOriginalRotation = transformKeeper.GetOriginalRotation();
-
-    //     foreach (var childObject in shippingForecastRegions)
-    //     {
-    //         ChildObjectController childController = childObject.GetComponent<ChildObjectController>();
-    //         if (childController != null && !childController.isSnapped && !childController.isGrabbed)
-    //         {
-    //             // Calculate the original local position and rotation of the child relative to the original position and rotation of the parent
-    //             Vector3 originalLocalPosition = parentOriginalPosition + transform.InverseTransformPoint(originalPositions[childObject]);
-    //             Quaternion originalLocalRotation = parentOriginalRotation * Quaternion.Inverse(transform.rotation) * originalRotations[childObject];
-                
-    //             // Reset the position and rotation of the child
-    //             childObject.transform.localPosition = originalLocalPosition;
-    //             childObject.transform.localRotation = originalLocalRotation;
-    //         }
-    //     }
-    // }
 
 
 
@@ -142,7 +115,7 @@ public class MapSpawnAndToggle : MonoBehaviour
 
     private void ClearListsAndDictionaries()
     {
-        ResetUnsnappedObjectPositions();
+        //ResetUnsnappedObjectPositions();
         shippingForecastRegions.Clear();
         
 
