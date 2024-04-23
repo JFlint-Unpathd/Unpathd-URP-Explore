@@ -15,9 +15,8 @@ public class ManagePanels : MonoBehaviour
 
     IEnumerator DisablePanelsCoroutine()
     {
-        // Wait for 3 frames
+
         yield return null;
- 
 
         panel2.SetActive(false);
         panel3.SetActive(false);

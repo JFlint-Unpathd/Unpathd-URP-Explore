@@ -18,6 +18,19 @@ public class MenuPopup : MonoBehaviour
         originalPosition = settingsMenu.transform.position;
         originalRotation = settingsMenu.transform.rotation;
 
+
+    }
+
+    private void Start()
+    {
+        StartCoroutine(DisableInGameMenuCoroutine());
+    }
+
+    IEnumerator DisableInGameMenuCoroutine()
+    {
+        yield return null;
+        yield return null;
+
         settingsMenu = GameObject.FindGameObjectWithTag("InGameMenu");
         if (settingsMenu == null)
         {
@@ -27,12 +40,6 @@ public class MenuPopup : MonoBehaviour
         {
             settingsMenu.SetActive(false);
         }
-    }
-
-    private void Start()
-    {
-
-
     }
 
     private void OnDestroy()
