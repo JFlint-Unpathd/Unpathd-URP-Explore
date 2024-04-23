@@ -31,11 +31,6 @@ public class MapSpawnAndToggle : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
-            // GameObject childObject = child.gameObject;
-
-            // // Store original position and rotation of each child object
-            // originalPositions[childObject] = childObject.transform.position;
-            // originalRotations[childObject] = childObject.transform.rotation;
 
             GameObject childObject = child.gameObject;
 
@@ -52,6 +47,9 @@ public class MapSpawnAndToggle : MonoBehaviour
             {
                 childController.KinematicChild(true);
             }
+
+            // Make the child object inactive at the start
+            childObject.SetActive(false);
         }
 
         interactable = GetComponent<XRBaseInteractable>();
