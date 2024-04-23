@@ -31,19 +31,32 @@ public class MapSpawnAndToggle : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
+            // GameObject childObject = child.gameObject;
+
+            // // Store original position and rotation of each child object
+            // originalPositions[childObject] = childObject.transform.position;
+            // originalRotations[childObject] = childObject.transform.rotation;
+
             GameObject childObject = child.gameObject;
 
-            // Store original position and rotation of each child object
-            originalPositions[childObject] = childObject.transform.position;
-            originalRotations[childObject] = childObject.transform.rotation;
+            // Store original local position and local rotation of each child object
+            originalPositions[childObject] = childObject.transform.localPosition;
+            originalRotations[childObject] = childObject.transform.localRotation;
             
             // Add child object to the list of shipping forecast regions
             shippingForecastRegions.Add(childObject);
+
+            // Access ChildObjectController script and set the object to kinematic
+            ChildObjectController childController = childObject.GetComponent<ChildObjectController>();
+            if (childController != null)
+            {
+                childController.KinematicChild(true);
+            }
         }
 
         interactable = GetComponent<XRBaseInteractable>();
         interactable.onHoverEntered.AddListener(OnHoverEnter);
-        interactable.onHoverEntered.AddListener(OnSelectExited);
+        interactable.onHoverEntered.AddListener(OnHoverExited);
 
         // Find the SocketInteractorManager in the scene
         socketInteractorManager = FindObjectOfType<SocketInteractorManager>();
@@ -73,16 +86,43 @@ public class MapSpawnAndToggle : MonoBehaviour
 
 
 
+    // public void ResetUnsnappedObjectPositions()
+    // {
+    //     // Get the TransformKeeper script from the parent object
+    //     TransformKeeper transformKeeper = GetComponent<TransformKeeper>();
+
+    //     // Get the original position and rotation of the parent object
+    //     Vector3 parentOriginalPosition = transformKeeper.GetOriginalPosition();
+    //     Quaternion parentOriginalRotation = transformKeeper.GetOriginalRotation();
+
+    //     foreach (var childObject in shippingForecastRegions)
+    //     {
+    //         ChildObjectController childController = childObject.GetComponent<ChildObjectController>();
+    //         if (childController != null && !childController.isSnapped && !childController.isGrabbed)
+    //         {
+    //             // Calculate the original local position and rotation of the child relative to the original position and rotation of the parent
+    //             Vector3 originalLocalPosition = parentOriginalPosition + transform.InverseTransformPoint(originalPositions[childObject]);
+    //             Quaternion originalLocalRotation = parentOriginalRotation * Quaternion.Inverse(transform.rotation) * originalRotations[childObject];
+                
+    //             // Reset the position and rotation of the child
+    //             childObject.transform.localPosition = originalLocalPosition;
+    //             childObject.transform.localRotation = originalLocalRotation;
+    //         }
+    //     }
+    // }
+
+
+
     // Handle hover enter for the entire parent object
     private void OnHoverEnter(XRBaseInteractor interactor)
     {
-        ResetUnsnappedObjectPositions();
+        //ResetUnsnappedObjectPositions();
         // Toggle the visibility state of all child objects
         regionsVisible = !regionsVisible;
         SetChildObjectsActive(regionsVisible);
 
     }
-    private void OnSelectExited(XRBaseInteractor interactor)
+    private void OnHoverExited(XRBaseInteractor interactor)
     {
         ResetUnsnappedObjectPositions();
     }

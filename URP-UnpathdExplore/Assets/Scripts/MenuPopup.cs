@@ -28,7 +28,7 @@ public class MenuPopup : MonoBehaviour
 
     IEnumerator DisableInGameMenuCoroutine()
     {
-        yield return null;
+        
         yield return null;
 
         settingsMenu = GameObject.FindGameObjectWithTag("InGameMenu");

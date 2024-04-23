@@ -10,8 +10,12 @@ public class ChildObjectController : MonoBehaviour
     public bool isSnapped = false;
 
     private XRGrabInteractable grabInteractable;
+    private Rigidbody rb;
 
-
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 
     private void Start()
     {
@@ -64,6 +68,20 @@ public class ChildObjectController : MonoBehaviour
         gameObject.transform.localScale = Vector3.one;
        // Debug.Log(gameObject.name + " scale has been reset.");
     }
+
+
+    public void KinematicChild(bool value)
+    {
+        if(rb != null)
+        {
+            rb.isKinematic = value;
+        }
+        else
+        {
+            Debug.LogError("Rigidbody is null.");
+        }
+    }
+
 
 
 }

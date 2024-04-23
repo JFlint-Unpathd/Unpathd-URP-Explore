@@ -15,10 +15,6 @@ public class IntroVoiceover : MonoBehaviour
 
     void Start()
     {
-        // if (settingsMenu != null)
-        // {
-        //     settingsMenu.SetActive(false);
-        // }
 
         if(AudioManager.instance == null)
         {
@@ -33,7 +29,7 @@ public class IntroVoiceover : MonoBehaviour
     private IEnumerator PlayClipsWithDelay(float introDelay, float settingsDelay)
     {
         //wait for volume sliders to be populated
-        yield return null;
+        
         yield return null;
 
         if (settingsMenu != null)
