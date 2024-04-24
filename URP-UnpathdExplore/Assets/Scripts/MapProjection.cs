@@ -20,8 +20,8 @@ public class MapProjection : MonoBehaviour
         //GameObject instantiatedPrefab = Instantiate(prefabToInstantiate, Vector3.zero, Quaternion.identity);
         GameObject instantiatedPrefab = Instantiate(prefabToInstantiate, new Vector3(0f, -1f, 0f), Quaternion.identity);
 
-        // Find the reference object within the instantiated prefab by name
-        Transform referenceObject = instantiatedPrefab.transform.Find(referenceObjectName);
+        // Find the reference object within the instantiated prefab by tag
+        GameObject referenceObject = GameObject.FindWithTag("Plymouth");
 
         if (referenceObject == null)
         {
@@ -30,8 +30,8 @@ public class MapProjection : MonoBehaviour
         }
 
         // Calculate the offset based on the difference in latitude and longitude
-        float latitudeOffset = referenceLatitude - referenceObject.position.z;
-        float longitudeOffset = referenceLongitude - referenceObject.position.x;
+        float latitudeOffset = referenceLatitude - referenceObject.transform.position.z;
+        float longitudeOffset = referenceLongitude - referenceObject.transform.position.x;
 
         
 

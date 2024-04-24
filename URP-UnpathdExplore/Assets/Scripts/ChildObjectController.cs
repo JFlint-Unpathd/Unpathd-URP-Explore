@@ -65,7 +65,7 @@ public class ChildObjectController : MonoBehaviour
             }
             else
             {
-                Debug.LogError("TransformKeeper script not found.");
+                Debug.LogError("TransformKeeper script not found on object: " + gameObject.name);
             }
         }
 
