@@ -9,10 +9,19 @@ public class SoundVolume : MonoBehaviour
     [SerializeField] List<Slider> volumeSliders = new List<Slider>();
 
     private AudioSource audioSource;
+    public AudioManager audioManager;
     
 
     void Start()
     {
+        audioManager = GetComponent<AudioManager>();
+        audioSource = GetComponent<AudioSource>();
+
+        volumeSliders.Clear();
+
+        FindOnOffSliders();
+        FindVolumeSliders();
+
         if(!PlayerPrefs.HasKey("musicVolume"))
         {
             PlayerPrefs.SetFloat("musicVolume", 1);
@@ -23,13 +32,32 @@ public class SoundVolume : MonoBehaviour
         {
             Load();
         }
-
-        audioSource = GetComponent<AudioSource>();
-
-        // Find the volume slider dynamically
-        FindVolumeSliders();
-        
     }
+
+
+    private void FindOnOffSliders()
+    {
+        // Search for all on/off sliders by tag
+        GameObject[] sliderObjects = GameObject.FindGameObjectsWithTag("SoundOnOffSlider");
+
+        // Loop through all found GameObjects
+        foreach (GameObject sliderObject in sliderObjects)
+        {
+            Slider slider = sliderObject.GetComponent<Slider>();
+            if (slider != null)
+            {
+                // Add the found slider to the list
+                volumeSliders.Add(slider);
+            }
+        }
+
+        // If no on/off sliders are found
+        if (volumeSliders.Count == 0)
+        {
+            Debug.LogWarning("No on/off sliders found in the scene.");
+        }
+    }
+
 
     private void FindVolumeSliders()
     {
@@ -101,15 +129,47 @@ public class SoundVolume : MonoBehaviour
 
 
 
+    // public void PlayPauseSoundEffects()
+    // {
+    //     if (audioSource.isPlaying)
+    //     {
+    //         audioSource.Pause();
+    //     }
+    //     else
+    //     {
+    //         audioSource.Play();
+    //     }
+    // }
+
     public void PlayPauseSoundEffects()
     {
         if (audioSource.isPlaying)
         {
             audioSource.Pause();
+            // If audio is paused, set color to red
+            SetSlidersColor(Color.red);
         }
         else
         {
             audioSource.Play();
+            // If audio is playing, set color to green
+            SetSlidersColor(Color.green);
+        }
+
+        Save();
+    }
+
+    private void SetSlidersColor(Color color)
+    {
+        foreach (Slider slider in volumeSliders)
+        {
+            // Get the VolumeHandleColorChange component from the handle of the slider
+            var handleColorChangeComponent = slider.handleRect.GetComponent<VolumeHandleColorChange>();
+            if (handleColorChangeComponent != null)
+            {
+                // Set the color
+                handleColorChangeComponent.SetColor(color);
+            }
         }
     }
 }

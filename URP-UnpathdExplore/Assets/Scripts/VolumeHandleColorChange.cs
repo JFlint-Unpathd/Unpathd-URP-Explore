@@ -20,18 +20,10 @@ public class VolumeHandleColorChange : MonoBehaviour
         imageComponent.color = greenColor;
     }
 
-    public void FlipColor()
+    public void SetColor(Color color)
     {
-        if (isGreen)
-            {
-                imageComponent.color = redColor;
-            }
-            else
-            {
-                imageComponent.color = greenColor;
-            }
-            // Flip the value of isGreen
-            isGreen = !isGreen;
+        imageComponent.color = color;
     }
+    
     
 }
