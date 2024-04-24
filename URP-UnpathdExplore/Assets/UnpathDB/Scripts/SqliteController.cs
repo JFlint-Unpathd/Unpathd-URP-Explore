@@ -47,18 +47,22 @@ public class SqliteController : MonoBehaviour {
 
     //added for isolate logic
     private List<UnpathResource> allQResults = new List<UnpathResource>();
+
     // Add a public getter for allQResults
     public List<UnpathResource> GetAllQResults()
     {
         return allQResults;
     }
-    //
 
     // added for Map Projection
-
     public MapProjection mapProjectionController;
-    //public GameObject birdsEye;
-    
+
+    //added for ExecuteQ Script to allow list to be acessed 
+    public List<string> GetCurrentQueryList() 
+    {
+        return m_currentQueryList;
+    }
+
 
     public enum QueryType {
         None,
@@ -189,6 +193,7 @@ public class SqliteController : MonoBehaviour {
     public void ResetQuery() {
         m_currentQueryList.Clear();
     }
+
 
     public void RunQuery() {
 
