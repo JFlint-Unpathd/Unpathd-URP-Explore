@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class SoundVolume : MonoBehaviour
 {
     [SerializeField] List<Slider> volumeSliders = new List<Slider>();
+    [SerializeField] private List<Slider> onOffSliders = new List<Slider>();
 
     private AudioSource audioSource;
     public AudioManager audioManager;
@@ -21,6 +22,12 @@ public class SoundVolume : MonoBehaviour
 
         FindOnOffSliders();
         FindVolumeSliders();
+
+        // Set the on/off sliders to the "on" state
+        foreach (Slider slider in onOffSliders)
+        {
+            slider.value = 1f; // Set to the maximum value, assuming 1 represents the "on" state
+        }
 
         if(!PlayerPrefs.HasKey("musicVolume"))
         {
@@ -47,12 +54,12 @@ public class SoundVolume : MonoBehaviour
             if (slider != null)
             {
                 // Add the found slider to the list
-                volumeSliders.Add(slider);
+                onOffSliders.Add(slider);
             }
         }
 
         // If no on/off sliders are found
-        if (volumeSliders.Count == 0)
+        if ( onOffSliders.Count == 0)
         {
             Debug.LogWarning("No on/off sliders found in the scene.");
         }
@@ -82,18 +89,43 @@ public class SoundVolume : MonoBehaviour
         }
     }
 
+
     public void ChangeVolume()
     {
-
         foreach (Slider slider in volumeSliders)
         {
-            // Set the volume for each found slider
-            AudioListener.volume = slider.value;
+            // Check if the slider is currently being interacted with
+            if (slider.gameObject == UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject)
+            {
+                // Set the volume based on the value of the active slider
+                AudioListener.volume = slider.value;
+                break; // Exit the loop once the active slider is found
+            }
         }
 
+        SynchronizeVolumeSliders();
         Save();
-
     }
+
+    private void SynchronizeVolumeSliders()
+    {
+        // Check if there are multiple volume sliders
+        if (volumeSliders.Count > 1)
+        {
+            // Get the value of the active volume slider
+            float activeVolume = AudioListener.volume;
+
+            // Update the value of all other volume sliders
+            foreach (Slider slider in volumeSliders)
+            {
+                if (slider.gameObject != UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject)
+                {
+                    slider.value = activeVolume;
+                }
+            }
+        }
+    }
+
 
     private void Load()
     {
@@ -119,6 +151,7 @@ public class SoundVolume : MonoBehaviour
         }
         else
         {
+            Debug.Log("making it 1");
             // If there are no sliders in the list, default to full volume
             volumeToSave = 1f;
         }
@@ -128,40 +161,27 @@ public class SoundVolume : MonoBehaviour
     }
 
 
-
-    // public void PlayPauseSoundEffects()
-    // {
-    //     if (audioSource.isPlaying)
-    //     {
-    //         audioSource.Pause();
-    //     }
-    //     else
-    //     {
-    //         audioSource.Play();
-    //     }
-    // }
-
     public void PlayPauseSoundEffects()
     {
-        if (audioSource.isPlaying)
+        if (AudioListener.volume > 0)
         {
-            audioSource.Pause();
-            // If audio is paused, set color to red
+            AudioListener.volume = 0;
+            // If audio is muted, set color to red
             SetSlidersColor(Color.red);
         }
         else
         {
-            audioSource.Play();
-            // If audio is playing, set color to green
+            AudioListener.volume = 1;
+            // If audio is unmuted, set color to green
             SetSlidersColor(Color.green);
         }
 
         Save();
     }
-
+    
     private void SetSlidersColor(Color color)
     {
-        foreach (Slider slider in volumeSliders)
+        foreach (Slider slider in onOffSliders)
         {
             // Get the VolumeHandleColorChange component from the handle of the slider
             var handleColorChangeComponent = slider.handleRect.GetComponent<VolumeHandleColorChange>();
@@ -172,4 +192,7 @@ public class SoundVolume : MonoBehaviour
             }
         }
     }
+
+
+
 }
