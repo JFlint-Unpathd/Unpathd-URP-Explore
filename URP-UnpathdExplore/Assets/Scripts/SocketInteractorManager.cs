@@ -132,5 +132,19 @@ public class SocketInteractorManager : MonoBehaviour
     
     }
 
+    public void ClearSnappedObjects()
+    {
+        Debug.Log("ClearSnappedObjects is called");
+        foreach (GameObject obj in snappedObjects)
+        {
+            if (obj != null)
+            {
+                Destroy(obj);
+            }
+        }
+        snappedObjects.Clear();
+    }
+
+
 }
 

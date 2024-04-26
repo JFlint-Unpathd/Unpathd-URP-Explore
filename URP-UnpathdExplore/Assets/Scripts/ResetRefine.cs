@@ -15,6 +15,7 @@ public class ResetRefine : MonoBehaviour
     public List<GameObject> refiningSceneObjects = new List<GameObject>();
     [Header("Results Scene Obj")]
     public List<GameObject> resultsSceneObjects = new List<GameObject>();
+    private List<SocketInteractorManager> socketInteractorManagers = new List<SocketInteractorManager>();
 
     [Header("Maps")]
     public GameObject SFRMap;
@@ -38,7 +39,16 @@ public class ResetRefine : MonoBehaviour
 
     private void Awake() {
         m_databaseController = GameObject.FindWithTag( "DB" ).GetComponent<SqliteController>();  
-        //socketInteractorManager = socketInteractor.GetComponentInChildren<SocketInteractorManager>();
+
+        GameObject[] socketInteractors = GameObject.FindGameObjectsWithTag("SocketInteractor");
+        foreach(GameObject interactor in socketInteractors)
+        {
+            SocketInteractorManager manager = interactor.GetComponent<SocketInteractorManager>();
+            if(manager != null)
+            {
+                socketInteractorManagers.Add(manager);
+            }
+        }
     }
 
     public void CreateInitialScene()
@@ -76,56 +86,22 @@ public class ResetRefine : MonoBehaviour
     }
 
 
-    public void ArrangeObjectsInCircle(Transform transform)
-    {
-        Debug.Log("Arrangin in circle RR");
-        int numberOfObjects = transform.childCount;
-
-        float angleIncrement = 360f / numberOfObjects;
-
-        for (int i = 0; i < numberOfObjects; i++)
-        {
-            float angle = i * angleIncrement * Mathf.Deg2Rad;
-            Vector3 newPos = transform.position + new Vector3(Mathf.Cos(angle) * radius, 0.5f, Mathf.Sin(angle) * radius);
-
-            // Set the position of the child object
-            Transform childTransform = transform.GetChild(i);
-            childTransform.position = newPos;
-
-            // Calculate the direction vector towards the center
-            Vector3 direction = Vector3.Normalize(Vector3.zero - newPos);
-
-            // Rotate the object to face towards the center
-            childTransform.rotation = Quaternion.LookRotation(direction, Vector3.up);
-
-            //Get the TransformKeeper script attached to the child prefab
-            TransformKeeper transformKeeper = childTransform.GetComponent<TransformKeeper>();
-
-            if (transformKeeper != null)
-            {
-                // Save the original transform after arranging the objects in the circle
-                transformKeeper.SaveOriginalTransform();
-                //Debug.Log("Saved CIRCLEtransform for child " + i + ": Position - " + transformKeeper.OriginalPosition + ", Rotation - " + transformKeeper.OriginalRotation);
-
-            }
-
-           //Debug.Log($"Setting position of child {i} to {newPos}");
-
-        }
-    }
-
-
-
     public void DestroyInitialScene()
     {
-        // Destroy or deactivate all instantiated objects
-        foreach (GameObject obj in refiningSceneObjects)
+
+         foreach (GameObject obj in refiningSceneObjects)
         {
             if (obj != null)
             {
-                Destroy(obj);
+                DestroyImmediate(obj);
             }
         }
+
+        foreach (SocketInteractorManager manager in socketInteractorManagers)
+        {
+            manager.ClearSnappedObjects();
+        }
+
         refiningSceneObjects.Clear();
         Debug.Log("Should have destroyed");
 
@@ -207,6 +183,8 @@ public class ResetRefine : MonoBehaviour
             zoomObject.SetActive(false);
         }
 
+        DestroyInstantiatedObjects();
+
     }
 
     
@@ -252,5 +230,46 @@ public class ResetRefine : MonoBehaviour
             Destroy(obj.gameObject);
         }
     }
+
+    
+    public void ArrangeObjectsInCircle(Transform transform)
+    {
+        Debug.Log("Arrangin in circle RR");
+        int numberOfObjects = transform.childCount;
+
+        float angleIncrement = 360f / numberOfObjects;
+
+        for (int i = 0; i < numberOfObjects; i++)
+        {
+            float angle = i * angleIncrement * Mathf.Deg2Rad;
+            Vector3 newPos = transform.position + new Vector3(Mathf.Cos(angle) * radius, 0.5f, Mathf.Sin(angle) * radius);
+
+            // Set the position of the child object
+            Transform childTransform = transform.GetChild(i);
+            childTransform.position = newPos;
+
+            // Calculate the direction vector towards the center
+            Vector3 direction = Vector3.Normalize(Vector3.zero - newPos);
+
+            // Rotate the object to face towards the center
+            childTransform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+
+            //Get the TransformKeeper script attached to the child prefab
+            TransformKeeper transformKeeper = childTransform.GetComponent<TransformKeeper>();
+
+            if (transformKeeper != null)
+            {
+                // Save the original transform after arranging the objects in the circle
+                transformKeeper.SaveOriginalTransform();
+                //Debug.Log("Saved CIRCLEtransform for child " + i + ": Position - " + transformKeeper.OriginalPosition + ", Rotation - " + transformKeeper.OriginalRotation);
+
+            }
+
+           //Debug.Log($"Setting position of child {i} to {newPos}");
+
+        }
+    }
+
+
 
 }
