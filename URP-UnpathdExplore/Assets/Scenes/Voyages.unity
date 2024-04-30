@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 0.48
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.31132078, g: 0.31132078, b: 0.31132078, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: b2b205019c5065040915076ccd4c487f, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 5cd8bbf133b8a1240b8e7ce77cd97425, type: 2}
   m_HaloStrength: 0.621
   m_FlareStrength: 0.484
   m_FlareFadeSpeed: 5
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 534607638}
-  m_IndirectSpecularColor: {r: 0.17072584, g: 0.17072584, b: 0.17072584, a: 1}
+  m_IndirectSpecularColor: {r: 0.14557384, g: 0.14557384, b: 0.14557384, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -362,6 +362,7 @@ GameObject:
   - component: {fileID: 534607639}
   - component: {fileID: 534607638}
   - component: {fileID: 534607637}
+  - component: {fileID: 534607640}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -462,13 +463,25 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534607636}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.9321927, y: 0.33885384, z: -0.025082627, w: 0.124762826}
-  m_LocalPosition: {x: -7, y: 24.6, z: 63.3}
+  m_LocalRotation: {x: 0.90271217, y: 0.33119494, z: -0.07590237, w: 0.263931}
+  m_LocalPosition: {x: -7, y: 15.9, z: 80.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 165.546, y: -2.2359924, z: -40.235992}
+  m_LocalEulerAnglesHint: {x: 148.212, y: -2.5480042, z: -41.020996}
+--- !u!114 &534607640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534607636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0dcdaf90e4e06e47866f640c821714d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &534992296
 GameObject:
   m_ObjectHideFlags: 0
@@ -21489,7 +21502,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1698105867
 Transform:
   m_ObjectHideFlags: 0
