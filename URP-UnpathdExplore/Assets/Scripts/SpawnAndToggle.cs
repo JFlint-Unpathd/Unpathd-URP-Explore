@@ -234,7 +234,7 @@ public class SpawnAndToggle : MonoBehaviour
 
     private void SpawnObjects(Transform parentTransform)
     {
-        Debug.Log("Spawning Child spawms");
+       // Debug.Log("Spawning Child spawms");
 
         int numberOfObjects = objectsToSpawn.Length;
         float angleIncrement = 360f / numberOfObjects;
