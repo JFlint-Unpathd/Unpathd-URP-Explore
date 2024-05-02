@@ -17,6 +17,9 @@ public class ExecuteQuery : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        warningPanel.SetActive(false);
+        descriptionPanel.SetActive(true);
+
         XRGrabInteractable grabInteractable = GetComponent<XRGrabInteractable>();
 
         grabInteractable.selectEntered.AddListener(selectEntered);
@@ -46,10 +49,17 @@ public class ExecuteQuery : MonoBehaviour
             Debug.Log("DatabaseController: " + m_databaseController);
             Debug.Log("ResetRefineScript: " + resetRefineScript);
             
-            m_databaseController.RunQuery();
+            
             resetRefineScript.DestroyInitialScene();
-            resetRefineScript.CreateResultsScene();
+            StartCoroutine(ExecuteQueryAndCreateResultsSceneAfterDelay());
         }
+    }
+
+    private IEnumerator ExecuteQueryAndCreateResultsSceneAfterDelay()
+    {
+        yield return new WaitForSeconds(1); // Wait for 1 second
+        m_databaseController.RunQuery();
+        resetRefineScript.CreateResultsScene();
     }
 
     public void HandleWarning() {

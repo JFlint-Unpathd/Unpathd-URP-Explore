@@ -69,6 +69,11 @@ public class ResetRefine : MonoBehaviour
 
         if (xrRig != null)
         {
+            // Instantiate ExecuteQObj as a child of XRRig
+            GameObject execQInstance = InstantiatePrefab(execQ);
+            execQInstance.transform.parent = xrRig.transform;
+            refiningSceneObjects.Add(execQInstance);
+
             // Instantiate socketInteractor as a child of XRRig
             GameObject socketInteractorInstance = InstantiatePrefab(socketInteractor);
             socketInteractorInstance.transform.parent = xrRig.transform; // Set XRRig as the parent
@@ -79,7 +84,6 @@ public class ResetRefine : MonoBehaviour
             Debug.LogError("XRRig not found. Unable to instantiate socketInteractor.");
         }
 
-        execQ.SetActive(true);
 
         ArrangeObjectsInCircle(refiningObjectsInstance.transform);
         
@@ -105,7 +109,7 @@ public class ResetRefine : MonoBehaviour
         refiningSceneObjects.Clear();
         Debug.Log("Should have destroyed");
 
-        execQ.SetActive(false);
+        //execQ.SetActive(false);
 
     }
 
