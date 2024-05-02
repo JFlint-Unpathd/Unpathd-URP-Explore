@@ -76,7 +76,7 @@ public class ChildObjectController : MonoBehaviour
     public void OnSnapped()
     {
         isSnapped = true;
-        //Debug.Log(gameObject.name + " is snapped.");
+        Debug.Log(gameObject.name + " is snapped.");   
         
     }
 
