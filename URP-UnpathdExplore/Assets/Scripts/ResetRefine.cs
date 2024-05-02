@@ -51,9 +51,35 @@ public class ResetRefine : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        // Find the XRRig GameObject
+        GameObject xrRig = GameObject.FindWithTag("XRRig");
+        
+        if (xrRig != null)
+        {
+            // Instantiate ExecuteQObj as a child of XRRig
+            GameObject execQInstance = InstantiatePrefab(execQ);
+            execQInstance.transform.parent = xrRig.transform;
+            execQ.SetActive(true);
+            //refiningSceneObjects.Add(execQInstance);
+
+            GameObject reRefInstance = InstantiatePrefab(reRef);
+            reRefInstance.transform.parent = xrRig.transform;
+            reRef.SetActive(true);
+            //resultsSceneObjects.Add(reRefInstance);
+        }
+
+        else
+        {
+            Debug.LogError("XRRig not found. Unable to instantiate socketInteractor.");
+        }
+    }
+
     public void CreateInitialScene()
     {
-
+        execQ.SetActive(true);
+        
         // Instantiate all prefabs and store references
         GameObject startingEnvInstance = InstantiatePrefab(startingEnv);
         refiningSceneObjects.Add(startingEnvInstance);
@@ -69,11 +95,7 @@ public class ResetRefine : MonoBehaviour
 
         if (xrRig != null)
         {
-            // Instantiate ExecuteQObj as a child of XRRig
-            GameObject execQInstance = InstantiatePrefab(execQ);
-            execQInstance.transform.parent = xrRig.transform;
-            refiningSceneObjects.Add(execQInstance);
-
+            
             // Instantiate socketInteractor as a child of XRRig
             GameObject socketInteractorInstance = InstantiatePrefab(socketInteractor);
             socketInteractorInstance.transform.parent = xrRig.transform; // Set XRRig as the parent
@@ -109,8 +131,8 @@ public class ResetRefine : MonoBehaviour
         refiningSceneObjects.Clear();
         Debug.Log("Should have destroyed");
 
-        //execQ.SetActive(false);
-
+        execQ.SetActive(false);
+        
     }
 
     private GameObject InstantiatePrefab(GameObject prefab)
@@ -128,12 +150,16 @@ public class ResetRefine : MonoBehaviour
 
     public void CreateResultsScene()
     {
+        execQ.SetActive(false);
+        reRef.SetActive(true);
+
         if (resultsSceneObjects.Count == 0)
         {
             SFRMap = GameObject.FindGameObjectWithTag("SFR");
 
             GameObject birdsEyeInstance = InstantiatePrefab(birdsEye);
             resultsSceneObjects.Add(birdsEyeInstance);
+
         }
 
         // Activate scene objects if they exist
@@ -147,8 +173,7 @@ public class ResetRefine : MonoBehaviour
 
 
         SFRMap.SetActive(true);
-        reRef.SetActive(true);
-        zoomObject.SetActive(true);
+        //zoomObject.SetActive(false);
 
     }
 

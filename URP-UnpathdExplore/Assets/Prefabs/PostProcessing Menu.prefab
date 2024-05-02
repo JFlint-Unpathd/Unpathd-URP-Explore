@@ -2038,7 +2038,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 90, y: -22.3125}
-  m_SizeDelta: {x: 180, y: 10}
+  m_SizeDelta: {x: 130, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5544822226576103325
 CanvasRenderer:
@@ -2549,7 +2549,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8159417323540426659
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2687,7 +2687,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 65, y: 0}
-  m_SizeDelta: {x: 130, y: 10}
+  m_SizeDelta: {x: 128, y: 8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &723951806751378028
 CanvasRenderer:
@@ -4416,7 +4416,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0.15, y: 0}
-  m_SizeDelta: {x: 130, y: 10}
+  m_SizeDelta: {x: 128, y: 8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3441544000610523720
 CanvasRenderer:
@@ -6763,7 +6763,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 65, y: 0}
-  m_SizeDelta: {x: 130, y: 10}
+  m_SizeDelta: {x: 128, y: 8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1995190570094982766
 CanvasRenderer:
@@ -8074,6 +8074,7 @@ GameObject:
   - component: {fileID: 7540207805798373714}
   - component: {fileID: 7838147234829567059}
   - component: {fileID: 8381054508325100729}
+  - component: {fileID: 3817573443441795997}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -8197,6 +8198,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &3817573443441795997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6755571278171893055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd6422e6a9c28ae44bab776da771e433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6936782314038082601
 GameObject:
   m_ObjectHideFlags: 0
@@ -8478,7 +8491,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bloomColorDropdown: {fileID: 1900133066860642007}
   bloomIntensityValueText: {fileID: 2644303378146140140}
-  bloomThresholdValueText: {fileID: 0}
 --- !u!114 &796253442579320579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8493,7 +8505,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vignetteColorDropdown: {fileID: 9215434263225458445}
   vignetteIntensityValueText: {fileID: 5014273278496497530}
-  vignetteSmoothnessValueText: {fileID: 0}
 --- !u!114 &1341077373628785399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8508,7 +8519,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   postExposureValueText: {fileID: 2288687144939899767}
   saturationValueText: {fileID: 3233622494546505093}
-  hueShiftValueText: {fileID: 0}
   colorDropdown: {fileID: 1825654938346575442}
 --- !u!114 &8860369114974610894
 MonoBehaviour:
@@ -10817,7 +10827,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &795076411906220146
 RectTransform:
   m_ObjectHideFlags: 0

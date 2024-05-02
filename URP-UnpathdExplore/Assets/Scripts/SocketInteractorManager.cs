@@ -139,7 +139,7 @@ public class SocketInteractorManager : MonoBehaviour
         {
             if (obj != null)
             {
-                Destroy(obj);
+                DestroyImmediate(obj);
             }
         }
         snappedObjects.Clear();
