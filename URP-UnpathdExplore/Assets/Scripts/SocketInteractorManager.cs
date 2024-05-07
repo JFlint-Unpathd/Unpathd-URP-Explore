@@ -31,7 +31,7 @@ public class SocketInteractorManager : MonoBehaviour
     public void AddAndHandleSelection(XRBaseInteractable interactable)
     {
         GameObject snappedObject = interactable.gameObject;
-
+        
         UnpathSelector unpathSelector = snappedObject.GetComponent<UnpathSelector>();
 
         ParentObjectController parentController = snappedObject.GetComponent<ParentObjectController>();
@@ -44,10 +44,11 @@ public class SocketInteractorManager : MonoBehaviour
 
             // Add snapped object to snappedobj list
             snappedObjects.Add(snappedObject);
+
             // Call the HandleSelection method
+            // BRUCE NOTE: I'd probably do this only once, immediately before submitting the query
             unpathSelector.HandleSelection();  
             
-
         }
 
         if (parentController != null)
@@ -69,6 +70,9 @@ public class SocketInteractorManager : MonoBehaviour
         {
             Debug.Log("The snapped object does not have an UnpathSelector or an object controller script.");
         }
+
+        // force scale for all
+        snappedObject.transform.localScale = desiredScale;
     }
 
     private void RemoveAndHandleDeselection(XRBaseInteractable interactable)
@@ -95,6 +99,9 @@ public class SocketInteractorManager : MonoBehaviour
         {
             childController.OnUnsnapped();
         }
+
+        // reset scale
+        unsnappedObject.transform.localScale = Vector3.one;
     }
 
     [Obsolete]
@@ -106,43 +113,44 @@ public class SocketInteractorManager : MonoBehaviour
     }
 
 
-    public void ResetSocketInteractor()
-    {
-        Debug.Log("Snapped object count before reset: " + snappedObjects.Count);
+    //public void ResetSocketInteractor()
+    //{
+    //    Debug.Log("Snapped object count before reset: " + snappedObjects.Count);
 
-        foreach(GameObject go in snappedObjects)
-        {
-            XRBaseInteractable interactable = go.GetComponent<XRBaseInteractable>();
-            if(interactable != null)
-            {
-                RemoveAndHandleDeselection(interactable);
-            }
-        }
+    //    foreach(GameObject go in snappedObjects)
+    //    {
+    //        XRBaseInteractable interactable = go.GetComponent<XRBaseInteractable>();
+    //        if(interactable != null)
+    //        {
+    //            RemoveAndHandleDeselection(interactable);
+    //        }
+    //    }
 
-        snappedObjects.Clear();
-        ClearCurrentSnappedObjects();
-        
+    //    //Destroy all the snapped objects incl. current
+    //    ClearSnappedObjects();
 
-        Debug.Log("Snapped object count after reset: " + snappedObjects.Count);
-    }
+    //    Debug.Log("Snapped object count after reset: " + snappedObjects.Count);
+    //}
 
-      public void ClearCurrentSnappedObjects()
-    {
-        CurrentSnappedObject = null;
+    //  public void ClearCurrentSnappedObjects()
+    //{
+    //    CurrentSnappedObject = null;
     
-    }
+    //}
 
     public void ClearSnappedObjects()
     {
         Debug.Log("ClearSnappedObjects is called");
-        foreach (GameObject obj in snappedObjects)
+        for(int i=0,len=snappedObjects.Count; i<len; i++)
         {
+            GameObject obj = snappedObjects[i];
             if (obj != null)
             {
-                DestroyImmediate(obj);
+                Destroy(obj);
             }
         }
         snappedObjects.Clear();
+        CurrentSnappedObject = null;
     }
 
 

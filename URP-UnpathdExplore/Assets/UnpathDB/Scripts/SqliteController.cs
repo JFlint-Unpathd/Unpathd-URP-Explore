@@ -332,8 +332,17 @@ public class SqliteController : MonoBehaviour {
         public void ClearResourceDictandLists()
         {
             m_resourceDict.Clear();
+            DeleteResults();
             allQResults.Clear();
         }
+        public void DeleteResults() 
+        {
+            for( int i = 0, len = allQResults.Count; i < len; i++ ) 
+            {
+                Destroy(allQResults[i].gameObject);
+            }
+        }
+
 
 
 }

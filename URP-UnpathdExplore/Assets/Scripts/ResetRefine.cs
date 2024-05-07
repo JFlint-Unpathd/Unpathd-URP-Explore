@@ -40,46 +40,11 @@ public class ResetRefine : MonoBehaviour
     private void Awake() {
         m_databaseController = GameObject.FindWithTag( "DB" ).GetComponent<SqliteController>();  
 
-        GameObject[] socketInteractors = GameObject.FindGameObjectsWithTag("SocketInteractor");
-        foreach(GameObject interactor in socketInteractors)
-        {
-            SocketInteractorManager manager = interactor.GetComponent<SocketInteractorManager>();
-            if(manager != null)
-            {
-                socketInteractorManagers.Add(manager);
-            }
-        }
-    }
-
-    private void Start()
-    {
-        // Find the XRRig GameObject
-        GameObject xrRig = GameObject.FindWithTag("XRRig");
-        
-        if (xrRig != null)
-        {
-            // Instantiate ExecuteQObj as a child of XRRig
-            GameObject execQInstance = InstantiatePrefab(execQ);
-            execQInstance.transform.parent = xrRig.transform;
-            execQ.SetActive(true);
-            //refiningSceneObjects.Add(execQInstance);
-
-            GameObject reRefInstance = InstantiatePrefab(reRef);
-            reRefInstance.transform.parent = xrRig.transform;
-            reRef.SetActive(true);
-            //resultsSceneObjects.Add(reRefInstance);
-        }
-
-        else
-        {
-            Debug.LogError("XRRig not found. Unable to instantiate socketInteractor.");
-        }
     }
 
     public void CreateInitialScene()
     {
-        execQ.SetActive(true);
-        
+
         // Instantiate all prefabs and store references
         GameObject startingEnvInstance = InstantiatePrefab(startingEnv);
         refiningSceneObjects.Add(startingEnvInstance);
@@ -87,51 +52,59 @@ public class ResetRefine : MonoBehaviour
         GameObject refiningObjectsInstance = InstantiatePrefab(refiningObjects);
         refiningSceneObjects.Add(refiningObjectsInstance);
 
-        // GameObject socketInteractorInstance = InstantiatePrefab(socketInteractor);
-        // refiningSceneObjects.Add(socketInteractorInstance);
-
         // Find the XRRig GameObject
         GameObject xrRig = GameObject.FindWithTag("XRRig");
 
         if (xrRig != null)
         {
-            
             // Instantiate socketInteractor as a child of XRRig
             GameObject socketInteractorInstance = InstantiatePrefab(socketInteractor);
-            socketInteractorInstance.transform.parent = xrRig.transform; // Set XRRig as the parent
+            GameObject execQInstance = InstantiatePrefab(execQ);
+
+            // Get the managers from the instance here instead of Awake
+            foreach( SocketInteractorManager manager in socketInteractorInstance.GetComponentsInChildren<SocketInteractorManager>() ) 
+            {
+                socketInteractorManagers.Add( manager );
+            }
+            socketInteractorInstance.transform.SetParent( xrRig.transform, false );
+            execQInstance.transform.SetParent( xrRig.transform, false ); // use the method to keep the local transform
+            
             refiningSceneObjects.Add(socketInteractorInstance);
+
+            // To be in the center when restarting
+            xrRig.transform.position = Vector3.zero;
         }
         else
         {
             Debug.LogError("XRRig not found. Unable to instantiate socketInteractor.");
         }
 
+        execQ.SetActive(true);
 
         ArrangeObjectsInCircle(refiningObjectsInstance.transform);
-        
+
     }
+
 
 
     public void DestroyInitialScene()
     {
-
-         foreach (GameObject obj in refiningSceneObjects)
-        {
-            if (obj != null)
-            {
-                DestroyImmediate(obj);
-            }
-        }
-
         foreach (SocketInteractorManager manager in socketInteractorManagers)
         {
             manager.ClearSnappedObjects();
         }
 
-        refiningSceneObjects.Clear();
-        Debug.Log("Should have destroyed");
+        foreach (GameObject obj in refiningSceneObjects)
+        {
+            if (obj != null)
+            {
+                Destroy(obj);
+            }
+        }
 
         execQ.SetActive(false);
+
+        refiningSceneObjects.Clear();
         
     }
 
@@ -150,9 +123,7 @@ public class ResetRefine : MonoBehaviour
 
     public void CreateResultsScene()
     {
-        execQ.SetActive(false);
-        reRef.SetActive(true);
-
+    
         if (resultsSceneObjects.Count == 0)
         {
             SFRMap = GameObject.FindGameObjectWithTag("SFR");
@@ -174,21 +145,16 @@ public class ResetRefine : MonoBehaviour
 
         SFRMap.SetActive(true);
         //zoomObject.SetActive(false);
+        reRef.SetActive(true);
+        zoomObject.SetActive(true);
 
     }
 
     public void DestroyResultsScene()
     {
-        
         // Destroy or deactivate all results scene objects
         foreach (GameObject obj in resultsSceneObjects)
         {
-            // if (obj != null)
-            // {
-            //     //Destroy(obj);
-            //     DestroyImmediate(obj);
-            // }
-
              if (obj != null)
             {
                 obj.SetActive(false);
@@ -212,39 +178,12 @@ public class ResetRefine : MonoBehaviour
             zoomObject.SetActive(false);
         }
 
-        DestroyInstantiatedObjects();
-
-    }
-
-    
-    public void ResetRefineSearch()
-    {
-
-        // Clear results in the database controller
-        List<UnpathResource> allResults = m_databaseController.GetAllQResults();
-        allResults.Clear();
-
-        // Clear the dictionary in SqliteController
+        // We need to clear the db results and previous query, this also now deletes all the result objects in the scene
         m_databaseController.ClearResourceDictandLists();
-
-        // Clear lists and dictionaries in MapSpawnAndToggle
-        // if (mapSpawnAndToggle != null)
-        // {
-        //     mapSpawnAndToggle.ClearListsAndDictionaries();
-        // }
-
-        // Access SocketInteractorManager and clear snapped objects lists
-        if (socketInteractorManager != null)
-        {
-            socketInteractorManager.ResetSocketInteractor();
-            
-        }
-
-        //Destroy instantiated items from results Q from sqlite controller script
-        DestroyInstantiatedObjects();
         m_databaseController.ResetQuery();
-        
-        CreateInitialScene();
+
+        //DestroyInstantiatedObjects();
+
 
     }
 

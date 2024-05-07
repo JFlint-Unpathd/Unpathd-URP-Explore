@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     static GameManager instance;
+    private GameObject xrrig;
 
     void Awake()
     {
@@ -18,8 +19,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        xrrig = GameObject.Find("xrrig");
 
-    
+        // Check if the xrrig GameObject exists
+        if (xrrig != null)
+        {
+            // Reset the xrrig position to Vector3.0 when the scene starts
+            xrrig.transform.position = Vector3.zero;
+        }
+    }
+
     public void QuitGame()
     {
         
