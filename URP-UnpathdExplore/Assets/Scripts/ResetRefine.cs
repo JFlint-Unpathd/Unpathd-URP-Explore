@@ -42,6 +42,11 @@ public class ResetRefine : MonoBehaviour
 
     }
 
+    private void Start() 
+    {
+        CreateInitialScene();
+    }
+
     public void CreateInitialScene()
     {
 
