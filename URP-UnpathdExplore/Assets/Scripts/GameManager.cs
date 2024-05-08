@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -50,16 +52,12 @@ public class GameManager : MonoBehaviour
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex + 1);
     }
-
-    void Update()
+    
+    public void LoadPreviousScene()
     {
-        if (Input.GetKeyDown("2"))
-        {
-            SceneManager.LoadScene("Voyages");
-        }
-        else if (Input.GetKeyDown("1"))
-        {
-            SceneManager.LoadScene("DatabaseSearch");
-        }
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex - 1);
     }
+
+
 }

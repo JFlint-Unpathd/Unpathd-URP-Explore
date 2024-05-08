@@ -108,7 +108,6 @@ public class ResetRefine : MonoBehaviour
         }
 
         execQ.SetActive(false);
-
         refiningSceneObjects.Clear();
         
     }
@@ -128,7 +127,18 @@ public class ResetRefine : MonoBehaviour
 
     public void CreateResultsScene()
     {
-    
+        // Find the XRRig GameObject
+        GameObject xrRig = GameObject.FindWithTag("XRRig");
+        GameObject reRefInstance = InstantiatePrefab(reRef);
+
+        if (xrRig != null)
+        {
+            // To be in the center when restarting
+            xrRig.transform.position = Vector3.zero;
+            reRefInstance.transform.SetParent( xrRig.transform, false );
+
+        }
+
         if (resultsSceneObjects.Count == 0)
         {
             SFRMap = GameObject.FindGameObjectWithTag("SFR");
@@ -149,9 +159,8 @@ public class ResetRefine : MonoBehaviour
 
 
         SFRMap.SetActive(true);
-        //zoomObject.SetActive(false);
         reRef.SetActive(true);
-        zoomObject.SetActive(true);
+        //zoomObject.SetActive(true);
 
     }
 
@@ -186,8 +195,6 @@ public class ResetRefine : MonoBehaviour
         // We need to clear the db results and previous query, this also now deletes all the result objects in the scene
         m_databaseController.ClearResourceDictandLists();
         m_databaseController.ResetQuery();
-
-        //DestroyInstantiatedObjects();
 
 
     }

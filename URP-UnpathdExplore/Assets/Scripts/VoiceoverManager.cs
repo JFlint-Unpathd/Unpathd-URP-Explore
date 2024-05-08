@@ -1,8 +1,10 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
-public class IntroVoiceover : MonoBehaviour
+public class VoiceoverManager : MonoBehaviour
 {
+    public static VoiceoverManager instance;
     public GameObject UnpathText;
     public GameObject settingsMenu;
     
@@ -13,20 +15,49 @@ public class IntroVoiceover : MonoBehaviour
     
     private AudioSource audioSource;
 
-    void Start()
-    {
-
-        if(AudioManager.instance == null)
-        {
-            Debug.LogError("No AudioManager found in the scene. Please make sure you have the AudioManager in the scene and it is enabled.");
-            return;
-        }
-
     
-        StartCoroutine(PlayClipsWithDelay(3f, 2f));
+    void Awake()
+    {
+        // Ensure only one instance of SceneAudioManager exists
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            // If another instance exists, destroy this one
+            Destroy(gameObject);
+        }
     }
 
-    private IEnumerator PlayClipsWithDelay(float introDelay, float settingsDelay)
+    void Start()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        StartCoroutine(IntroAudio(3f, 2f));
+    }
+
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Check if this is the IntroScene
+        if (scene.name == "IntroMenu")
+        {
+            Debug.Log("detected");
+            StartCoroutine(IntroAudio(3f, 2f));
+        }
+        if (scene.name == "DatabaseSearch")
+        {
+            PlayExplanatoryAudio();
+        }
+    }
+
+
+    private IEnumerator IntroAudio(float introDelay, float settingsDelay)
     {
         //wait for volume sliders to be populated
         
