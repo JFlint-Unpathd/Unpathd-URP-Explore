@@ -80,7 +80,20 @@ public class VoiceoverManager : MonoBehaviour
                 UnpathText.SetActive(false);
             }
             
+            // Deactivate all children first
+            foreach (Transform child in settingsMenu.transform)
+            {
+                child.gameObject.SetActive(false);
+            }
+
             settingsMenu.SetActive(true);
+
+            // Then activate only the first child
+            if (settingsMenu.transform.childCount > 0)
+            {
+                Transform firstChild = settingsMenu.transform.GetChild(0);
+                firstChild.gameObject.SetActive(true);
+            }
 
             yield return new WaitForSecondsRealtime(settingsDelay);
 

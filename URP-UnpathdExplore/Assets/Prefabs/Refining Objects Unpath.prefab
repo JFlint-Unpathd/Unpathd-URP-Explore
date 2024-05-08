@@ -795,7 +795,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Title: Passenger ship
-  m_QueryTerm: GSA_GrossSubject LIKE '%Passenger Ship%'
+  m_QueryTerm: GSA_GrossSubject_PassengerShip LIKE '%Y%'
 --- !u!114 &1860048779972555608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1271,7 +1271,7 @@ GameObject:
   - component: {fileID: 8442287003828075572}
   - component: {fileID: 4993278574391122395}
   m_Layer: 0
-  m_Name: ' Material'
+  m_Name: Material
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1967,7 +1967,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Title: Submarine
-  m_QueryTerm: GSA_GrossSubject LIKE '%Submarine%'
+  m_QueryTerm: GSA_GrossSubject_Submarine LIKE '%Y%'
 --- !u!114 &1106001047125400220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2355,7 +2355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Title: Destinations
-  m_QueryTerm: 'GSA_Themes LIKE ''%Destination% '
+  m_QueryTerm: 'GSA_Themes_Destinations LIKE ''%Y% '
 --- !u!114 &8852288451381118343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3866,7 +3866,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Title: Artefact
-  m_QueryTerm: GSA_GrossSubject LIKE '%Artefact%'
+  m_QueryTerm: GSA_GrossSubject_Artefact LIKE '%Y%'
 --- !u!114 &3693818665324470255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6006,7 +6006,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Title: Cargo Ship
-  m_QueryTerm: 'description LIKE ''%Cargo Ship%'' '
+  m_QueryTerm: 'GSA_GrossSubject_CargoShip LIKE ''%Y Ship%'' '
 --- !u!114 &5658456182337096156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6650,7 +6650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Title: Plane
-  m_QueryTerm: GSA_GrossSubject LIKE '%Plane%'
+  m_QueryTerm: GSA_GrossSubject_Plane LIKE '%Y%'
 --- !u!114 &6508774078448352681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8599,7 +8599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Title: War Ship
-  m_QueryTerm: GSA_GrossSubject LIKE '%War Ship%'
+  m_QueryTerm: GSA_GrossSubject_WarShip LIKE '%Y Ship%'
 --- !u!114 &4185831258245341520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9712,6 +9712,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1357555245274114707, guid: 0060d95834bc9cd48ae833e313600ff4,
+        type: 3}
+      propertyPath: m_QueryTerm
+      value: GSA_SFA LIKE '%Rockall%'
+      objectReference: {fileID: 0}
     - target: {fileID: 1411394829112429709, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -9801,6 +9806,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2450455724342289065, guid: 0060d95834bc9cd48ae833e313600ff4,
+        type: 3}
+      propertyPath: m_QueryTerm
+      value: GSA_SFA LIKE '%Irish Sea%'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2502677673472925902, guid: 0060d95834bc9cd48ae833e313600ff4,
+        type: 3}
+      propertyPath: m_QueryTerm
+      value: GSA_SFA LIKE '%Dover%'
       objectReference: {fileID: 0}
     - target: {fileID: 2545564446072426500, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
@@ -9866,6 +9881,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2702434510318636717, guid: 0060d95834bc9cd48ae833e313600ff4,
+        type: 3}
+      propertyPath: m_QueryTerm
+      value: GSA_SFA LIKE '%Hebrides%'
       objectReference: {fileID: 0}
     - target: {fileID: 2725619435823014312, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
@@ -10042,6 +10062,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3229187620320122096, guid: 0060d95834bc9cd48ae833e313600ff4,
+        type: 3}
+      propertyPath: m_QueryTerm
+      value: GSA_SFA LIKE '%Plymouth%'
+      objectReference: {fileID: 0}
     - target: {fileID: 3331439845237386976, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
       propertyPath: m_Enabled
@@ -10096,6 +10121,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3800550149384896676, guid: 0060d95834bc9cd48ae833e313600ff4,
+        type: 3}
+      propertyPath: m_QueryTerm
+      value: GSA_SFA LIKE '%Portland%'
       objectReference: {fileID: 0}
     - target: {fileID: 3882685463814099066, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
@@ -10247,6 +10277,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4708521171605514307, guid: 0060d95834bc9cd48ae833e313600ff4,
+        type: 3}
+      propertyPath: m_QueryTerm
+      value: GSA_SFA LIKE '%Forth%'
+      objectReference: {fileID: 0}
     - target: {fileID: 4837336830574917658, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -10256,6 +10291,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4850840944499228809, guid: 0060d95834bc9cd48ae833e313600ff4,
+        type: 3}
+      propertyPath: m_QueryTerm
+      value: GSA_SFA LIKE '%Fastnet%'
       objectReference: {fileID: 0}
     - target: {fileID: 5250668329025329957, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
@@ -10286,6 +10326,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5301465363987798811, guid: 0060d95834bc9cd48ae833e313600ff4,
+        type: 3}
+      propertyPath: m_QueryTerm
+      value: GSA_SFA LIKE '%Cromarty%'
       objectReference: {fileID: 0}
     - target: {fileID: 5453870168752125479, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
@@ -10412,6 +10457,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6758942464207454412, guid: 0060d95834bc9cd48ae833e313600ff4,
+        type: 3}
+      propertyPath: m_QueryTerm
+      value: GSA_SFA LIKE '%Thames%'
+      objectReference: {fileID: 0}
     - target: {fileID: 6795919438426932873, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
       propertyPath: m_UseGravity
@@ -10422,6 +10472,11 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6799861944636984430, guid: 0060d95834bc9cd48ae833e313600ff4,
+        type: 3}
+      propertyPath: m_QueryTerm
+      value: GSA_SFA LIKE '%Shannon%'
+      objectReference: {fileID: 0}
     - target: {fileID: 7008029083342213204, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -10442,6 +10497,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7089133414895257253, guid: 0060d95834bc9cd48ae833e313600ff4,
+        type: 3}
+      propertyPath: m_QueryTerm
+      value: GSA_SFA LIKE '%Fair Isle%'
+      objectReference: {fileID: 0}
     - target: {fileID: 7162912787905539919, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -10451,6 +10511,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7339539659556399987, guid: 0060d95834bc9cd48ae833e313600ff4,
+        type: 3}
+      propertyPath: m_QueryTerm
+      value: GSA_SFA LIKE '%Malin%'
       objectReference: {fileID: 0}
     - target: {fileID: 7509427697883317472, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
@@ -10531,6 +10596,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8090246050844409855, guid: 0060d95834bc9cd48ae833e313600ff4,
+        type: 3}
+      propertyPath: m_QueryTerm
+      value: GSA_SFA LIKE '%Tyne%'
       objectReference: {fileID: 0}
     - target: {fileID: 8130499888279685811, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
@@ -10702,6 +10772,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8593180915929860509, guid: 0060d95834bc9cd48ae833e313600ff4,
+        type: 3}
+      propertyPath: m_QueryTerm
+      value: GSA_SFA LIKE '%Wight%'
+      objectReference: {fileID: 0}
     - target: {fileID: 8593245302933908651, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -10732,6 +10807,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8764210894976615836, guid: 0060d95834bc9cd48ae833e313600ff4,
+        type: 3}
+      propertyPath: m_QueryTerm
+      value: GSA_SFA LIKE '%Humber%'
+      objectReference: {fileID: 0}
     - target: {fileID: 8769379549397020180, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
       propertyPath: m_UseGravity
@@ -10741,6 +10821,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsKinematic
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8806842417602403497, guid: 0060d95834bc9cd48ae833e313600ff4,
+        type: 3}
+      propertyPath: m_QueryTerm
+      value: GSA_SFA LIKE '%Lundy%'
       objectReference: {fileID: 0}
     - target: {fileID: 9056725593120021194, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
