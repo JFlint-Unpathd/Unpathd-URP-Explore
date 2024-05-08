@@ -234,13 +234,14 @@ public class SqliteController : MonoBehaviour {
             string title = reader.GetString( reader.GetOrdinal( "title" ) ); // this could be optimized to just use the bare integer, once the table layout has been finalised.
             string id = reader.GetString( reader.GetOrdinal( "ids" ) );
             string desc = reader.GetString( reader.GetOrdinal( "description" ) );
-            string placename = reader.GetString( reader.GetOrdinal( "placename" ) );
+            //string placename = reader.GetString( reader.GetOrdinal( "placename" ) );
+            string placename = (reader.GetValue( reader.GetOrdinal( "placename" )) is System.DBNull )?"":reader.GetString( reader.GetOrdinal( "placename" ) );
 
 
             int latOrdinal = reader.GetOrdinal( "lat" );
             if( reader.GetValue( latOrdinal ).GetType() != typeof (System.DBNull)){
                 
-                Debug.Log($"lat: {latOrdinal}; type: {reader.GetValue( latOrdinal ).GetType()}" );
+                //Debug.Log($"lat: {latOrdinal}; type: {reader.GetValue( latOrdinal ).GetType()}" );
                 string latString = reader.GetString( latOrdinal );
                 string lngString = reader.GetString( reader.GetOrdinal( "lng" ) );
                 double lat = 0f;
@@ -257,7 +258,7 @@ public class SqliteController : MonoBehaviour {
                     res.m_Description = desc;
                     res.m_Placename = placename;
                     //FilterOff();
-                    Debug.Log($"id : {id}" );
+                    //Debug.Log($"id : {id}" );
                     m_resourceDict.Add( id, res );
                     ++count;
 

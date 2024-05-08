@@ -58,9 +58,9 @@ public class TransformKeeper : MonoBehaviour
       public void ResetAllTransform()
     {
         // Log original transform values
-        Debug.Log("Original Position: " + originalPosition);
-        Debug.Log("Original Rotation: " + originalRotation);
-        Debug.Log("Original Scale: " + originalScale);
+        //Debug.Log("Original Position: " + originalPosition);
+        //Debug.Log("Original Rotation: " + originalRotation);
+        //Debug.Log("Original Scale: " + originalScale);
 
         // Reset transforms
         transform.position = originalPosition;
