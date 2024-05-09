@@ -197,6 +197,7 @@ public class SqliteController : MonoBehaviour {
 
     public void RunQuery() {
 
+
         //added by M
         if (m_currentQueryList.Count == 0) {
         Debug.Log("Selection list is empty. Add query terms before running the query.");
@@ -212,6 +213,10 @@ public class SqliteController : MonoBehaviour {
         string selections = "*";
         string tableNames = "resource";
         int count = 0;
+        
+        // Append LIMIT 500 to the query string
+        builder.Append(" LIMIT 500");
+
         //SqliteDataReader reader = ExecuteCommand( selections, tableNames, builder.ToString() );
 
         //maria for join
@@ -230,11 +235,10 @@ public class SqliteController : MonoBehaviour {
             
         //Instantiate(birdsEye, new Vector3(3.5f, 5.0f, -6.5f), Quaternion.identity);
 
-        while( reader.Read() ) {
+        while( reader.Read() && count < 500 ) {
             string title = reader.GetString( reader.GetOrdinal( "title" ) ); // this could be optimized to just use the bare integer, once the table layout has been finalised.
             string id = reader.GetString( reader.GetOrdinal( "ids" ) );
             string desc = reader.GetString( reader.GetOrdinal( "description" ) );
-            //string placename = reader.GetString( reader.GetOrdinal( "placename" ) );
             string placename = (reader.GetValue( reader.GetOrdinal( "placename" )) is System.DBNull )?"":reader.GetString( reader.GetOrdinal( "placename" ) );
 
 
@@ -266,12 +270,16 @@ public class SqliteController : MonoBehaviour {
                     allQResults.Add(res);
                     
                     // Access the temporal column and set y-coordinate based on tags
-                    int temporalOrdinal = reader.GetOrdinal("temporal");
+                    int temporalOrdinal = reader.GetOrdinal("temporal_text");
                     if (!reader.IsDBNull(temporalOrdinal)) 
                     {
                         string temporalTag = reader.GetString(temporalOrdinal);
-                        float yCoordinate = GetYCoordinateFromTemporalTag(temporalTag);
+            
+                        float yCoordinate = (float)GetYCoordinateFromTemporalTag(temporalTag);
+                        //Debug.Log($"Y Coordinate for {title}: {yCoordinate}");
+
                         obj.transform.position = new Vector3(obj.transform.position.x, yCoordinate, obj.transform.position.z);
+                        //Debug.Log($"Object {title} Position: {obj.transform.position}");
                     }
 
                     // added for zoom logic
@@ -283,7 +291,7 @@ public class SqliteController : MonoBehaviour {
                         interactable = obj.AddComponent<XRSimpleInteractable>();
                     }
 
-                    interactable.hoverEntered.AddListener((interactor) => { zoomController.ZoomList(id); });
+                    //interactable.hoverEntered.AddListener((interactor) => { zoomController.ZoomList(id); });
                     
 
                     // Find and set the information to the TextMeshProUGUI components dynamically and add info for results
@@ -309,40 +317,215 @@ public class SqliteController : MonoBehaviour {
         Debug.Log( $"Object count: {count}" );
     }
 
-        //added  for y logic
-        private float GetYCoordinateFromTemporalTag(string temporalTag) {
-            // Extract the relevant information from the URL
-            string[] parts = temporalTag.Split('/');
-            string lastPart = parts[parts.Length - 1].ToLower().Replace("%20", " "); // Convert to lowercase and replace %20 with space
+    public double GetYCoordinateFromTemporalTag(string temporalTag)
+    {
+        switch (temporalTag)
+        {
+            case "NULL":
+            case "UNCERTAIN":
+            case "UNKNOWN":
+            case "PERIOD UNASSIGNED":
+            case "PERIOD UNKNOWN":
+            case "GENERAL":
+            case "MULTIPERIOD":
+                return 1.0;
 
-            // Check for specific keywords in the last part of the URL
-            if (lastPart.Contains("medieval")) {
-                return 1f;
-            } else if (lastPart.Contains("first world war")) {
-                return 2f;
-            } else if (lastPart.Contains("second world war")) {
-                return 3f;
-            } else if (lastPart.Contains("modern")) {
-                return 4f;
-            } else {
-                return 0f; // Default value if the tag is not recognized
-            }
+            case "PREHISTORIC":
+                return 1.1;
+            case "PREHISTORIC OR ROMAN":
+                return 1.2;
+            case "PALAEOLITHIC":
+                return 1.3;
+            case "UPPER PALAEOLITHIC":
+                return 1.4;
+            case "EARLY MESOLITHIC":
+                return 1.5;
+            case "MESOLITHIC":
+                return 1.6;
+            case "EARLY NEOLITHIC":
+                return 1.7;
+            case "NEOLITHIC":
+                return 1.8;
+            case "MIDDLE NEOLITHIC":
+                return 1.9;
+            case "LATER PREHISTORIC":
+                return 2.0;
+            case "BRONZE AGE":
+                return 2.1;
+            case "MIDDLE BRONZE AGE":
+                return 2.2;
+            case "LATE BRONZE AGE":
+                return 2.3;
+            case "IRON AGE":
+                return 2.4;
+            case "ROMAN":
+                return 2.5;
+            case "MEDIAEVAL":
+                return 2.6;
+            case "MEDIEVAL":
+                return 2.7;
+            case "EARLY MED. OR LATER":
+            case "VIKING":
+            case "EARLY MEDIEVAL":
+                return 2.8;
+            case "LATE MEDIEVAL":
+                return 2.9;
+            case "9TH CENTURY":
+                return 3.0;
+            case "10TH CENTURY":
+                return 3.1;
+            case "11TH CENTURY":
+                return 3.2;
+            case "12TH CENTURY":
+                return 3.3;
+            case "13TH CENTURY":
+                return 3.4;
+            case "POST MEDIAEVAL":
+            case "POST MEDIEVAL":
+            case "POST-MEDIAEVAL":
+            case "POST-MEDIEVAL":
+                return 3.5;
+            case "14TH CENTURY":
+                return 3.6;
+            case "15TH CENTURY":
+                return 3.7;
+            case "16TH CENTURY":
+                return 3.8;
+            case "TUDOR":
+                return 3.9;
+            case "ELIZABETHAN":
+                return 4.0;
+            case "Post-medieval 1540-1901":
+                return 4.1;
+            case "Post-medieval 1588-1588":
+                return 4.2;
+            case "STUART":
+                return 4.3;
+            case "17TH CENTURY":
+                return 4.4;
+            case "18TH CENTURY":
+                return 4.5;
+            case "HANOVERIAN":
+                return 4.6;
+            case "GEORGIAN":
+                return 4.7;
+            case "Post-medieval 1781-1781":
+                return 4.8;
+            case "Post-medieval 1782-1782":
+                return 4.9;
+            case "Post-medieval 1798-1798":
+                return 5.0;
+            case "19TH CENTURY":
+                return 5.1;
+            case "Post-medieval 1814-1814":
+                return 5.2;
+            case "Post-medieval 1815-1815":
+                return 5.3;
+            case "Post-medieval 1827-1827":
+                return 5.4;
+            case "VICTORIAN":
+                return 5.5;
+            case "Post-medieval 1847-1847":
+                return 5.6;
+            case "Post-medieval 1848-1848":
+                return 5.7;
+            case "Post-medieval 1849-1849":
+                return 5.8;
+            case "Post-medieval 1850-1850":
+                return 5.9;
+            case "Post-medieval 1852-1852":
+                return 6.0;
+            case "Post-medieval 1854-1854":
+                return 6.1;
+            case "Post-medieval 1856-1856":
+                return 6.2;
+            case "Post-medieval 1861-1861":
+                return 6.3;
+            case "Post-medieval 1864-1864":
+                return 6.4;
+            case "Post-medieval 1867-1867":
+                return 6.5;
+            case "Post-medieval 1876-1876":
+                return 6.6;
+            case "Post-medieval 1878-1878":
+                return 6.7;
+            case "Post-medieval 1879-1879":
+                return 6.8;
+            case "Post-medieval 1881-1881":
+                return 6.9;
+            case "Post-medieval 1882-1882":
+                return 7.0;
+            case "Post-medieval 1884-1884":
+                return 7.1;
+            case "Post-medieval 1890-1890":
+                return 7.2;
+            case "Post-medieval 1891-1891":
+                return 7.3;
+            case "Post-medieval 1892-1892":
+                return 7.4;
+            case "Post-medieval 1893-1893":
+                return 7.5;
+            case "Post-medieval 1897-1897":
+                return 7.6;
+            case "EARLY 20TH CENTURY":
+                return 7.7;
+            case "20TH CENTURY":
+                return 7.8;
+            case "MODERN":
+                return 7.9;
+            case "EDWARDIAN":
+                return 8.0;
+            case "20th century 1900-1900":
+                return 8.1;
+            case "20th century 1900-1999":
+                return 8.2;
+            case "20th century 1905-1905":
+                return 8.3;
+            case "20th century 1906-1906":
+                return 8.4;
+            case "20th century 1908-1908":
+                return 8.5;
+            case "20th century 1910-1910":
+                return 8.6;
+            case "20th century 1911-1911":
+                return 8.7;
+            case "FIRST WORLD WAR":
+                return 8.8;
+            case "First World War 1915-1915":
+                return 8.9;
+            case "First World War 1916-1916":
+                return 9.0;
+            case "First World War 1917-1917":
+                return 9.1;
+            case "First World War 1918-1918":
+                return 9.2;
+            case "20th century 1921-1921":
+                return 9.3;
+            case "20th century 1923-1923":
+                return 9.4;
+            case "20th century 1924-1924":
+                return 9.5;
+            // Add other cases as needed...
+            default:
+                return -1.0; // Handle unknown cases
         }
+    }
+
     
 
-        public void ClearResourceDictandLists()
+    public void ClearResourceDictandLists()
+    {
+        m_resourceDict.Clear();
+        DeleteResults();
+        allQResults.Clear();
+    }
+    public void DeleteResults() 
+    {
+        for( int i = 0, len = allQResults.Count; i < len; i++ ) 
         {
-            m_resourceDict.Clear();
-            DeleteResults();
-            allQResults.Clear();
+            Destroy(allQResults[i].gameObject);
         }
-        public void DeleteResults() 
-        {
-            for( int i = 0, len = allQResults.Count; i < len; i++ ) 
-            {
-                Destroy(allQResults[i].gameObject);
-            }
-        }
+    }
 
 
 

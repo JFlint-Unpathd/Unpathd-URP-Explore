@@ -39,14 +39,6 @@ public class ChildObjectController : MonoBehaviour
         //Debug.Log(gameObject.name + " is grabbed.");
     }
 
-    // private void OnRelease(SelectExitEventArgs args)
-    // {
-    //     isGrabbed = false;
-    //     isReleased = true;
-    //     //Debug.Log(gameObject.name + " is released.");
-       
-        
-    // }
 
     private void OnRelease(SelectExitEventArgs args)
     {

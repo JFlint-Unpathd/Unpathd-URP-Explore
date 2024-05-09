@@ -18,7 +18,7 @@ public class MapProjection : MonoBehaviour
 
         // Instantiate the prefab
         //GameObject instantiatedPrefab = Instantiate(prefabToInstantiate, Vector3.zero, Quaternion.identity);
-        GameObject instantiatedPrefab = Instantiate(prefabToInstantiate, new Vector3(0f, -1f, 0f), Quaternion.identity);
+        GameObject instantiatedPrefab = Instantiate(prefabToInstantiate, new Vector3(0f, -1.5f, 0f), Quaternion.identity);
 
         // Find the reference object within the instantiated prefab by tag
         GameObject referenceObject = GameObject.FindWithTag("Plymouth");

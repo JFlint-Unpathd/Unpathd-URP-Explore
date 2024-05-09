@@ -21,7 +21,8 @@ public class InputUpdate : MonoBehaviour {
 
         if( Physics.Raycast( ray, out hit ) ) {
             UnpathSelector clickedObject = hit.collider.GetComponent<UnpathSelector>();
-            m_databaseController.AddToQuery( clickedObject.m_QueryTerm, SqliteController.QueryType.Or );
+            //m_databaseController.AddToQuery( clickedObject.m_QueryTerm, SqliteController.QueryType.Or );
+            m_databaseController.AddToQuery( clickedObject.m_QueryTerm, SqliteController.QueryType.And );
             Debug.Log( $"Selected: {clickedObject.m_QueryTerm}" );
         }
     }
@@ -35,22 +36,8 @@ public class InputUpdate : MonoBehaviour {
 
     private void Update() {
         OVRInput.Update();
-
-        //if(Input.GetMouseButtonDown( 0 ) ) {
-        //    RaycastHit hit;
-        //    Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );
-
-        //    if( Physics.Raycast( ray, out hit ) ) {
-        //        UnpathSelector clickedObject = hit.collider.GetComponent<UnpathSelector>();
-        //        m_databaseController.AddToQuery( clickedObject.m_QueryTerm, SqliteController.QueryType.Or );
-        //        Debug.Log( $"Selected: {clickedObject.m_QueryTerm}" );
-        //    }
-        //}
-
-        //if( Input.GetKeyUp( KeyCode.Space ) ) {
-        //    m_databaseController.RunQuery();
-        //}
     }
+
     private void FixedUpdate() {
         OVRInput.FixedUpdate();
     }
@@ -58,8 +45,13 @@ public class InputUpdate : MonoBehaviour {
     // added by Maria
     public void HandleSelection(UnpathSelector selectedObject) 
     {
+        Debug.Log("Does this run?");
+
         if (selectedObject != null) {
-            m_databaseController.AddToQuery(selectedObject.m_QueryTerm, SqliteController.QueryType.Or);
+
+            Debug.Log("Does this run?");
+            //m_databaseController.AddToQuery(selectedObject.m_QueryTerm, SqliteController.QueryType.Or);
+            m_databaseController.AddToQuery(selectedObject.m_QueryTerm, SqliteController.QueryType.And);
             Debug.Log($"Selected: {selectedObject.m_QueryTerm}");
         }
     }

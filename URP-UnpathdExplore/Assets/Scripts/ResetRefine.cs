@@ -29,6 +29,9 @@ public class ResetRefine : MonoBehaviour
     public GameObject execQ;
     public GameObject reRef;
 
+    private GameObject execQInstance;
+    private GameObject reRefInstance;
+
     [Header("Other Prefabs")]
     public GameObject zoomObject;
     public GameObject birdsEye;
@@ -45,6 +48,7 @@ public class ResetRefine : MonoBehaviour
     private void Start() 
     {
         CreateInitialScene();
+        
     }
 
     public void CreateInitialScene()
@@ -57,6 +61,8 @@ public class ResetRefine : MonoBehaviour
         GameObject refiningObjectsInstance = InstantiatePrefab(refiningObjects);
         refiningSceneObjects.Add(refiningObjectsInstance);
 
+        
+
         // Find the XRRig GameObject
         GameObject xrRig = GameObject.FindWithTag("XRRig");
 
@@ -64,7 +70,11 @@ public class ResetRefine : MonoBehaviour
         {
             // Instantiate socketInteractor as a child of XRRig
             GameObject socketInteractorInstance = InstantiatePrefab(socketInteractor);
-            GameObject execQInstance = InstantiatePrefab(execQ);
+
+            if (execQInstance == null)
+            {
+                execQInstance = InstantiatePrefab(execQ);
+            }
 
             // Get the managers from the instance here instead of Awake
             foreach( SocketInteractorManager manager in socketInteractorInstance.GetComponentsInChildren<SocketInteractorManager>() ) 
@@ -84,9 +94,9 @@ public class ResetRefine : MonoBehaviour
             Debug.LogError("XRRig not found. Unable to instantiate socketInteractor.");
         }
 
-        execQ.SetActive(true);
-
+        execQInstance.SetActive(true);
         ArrangeObjectsInCircle(refiningObjectsInstance.transform);
+
 
     }
 
@@ -107,7 +117,6 @@ public class ResetRefine : MonoBehaviour
             }
         }
 
-        execQ.SetActive(false);
         refiningSceneObjects.Clear();
         
     }
@@ -127,9 +136,14 @@ public class ResetRefine : MonoBehaviour
 
     public void CreateResultsScene()
     {
+        execQInstance.SetActive(false);
         // Find the XRRig GameObject
         GameObject xrRig = GameObject.FindWithTag("XRRig");
-        GameObject reRefInstance = InstantiatePrefab(reRef);
+
+        if (reRefInstance == null)
+        {
+            reRefInstance = InstantiatePrefab(reRef);
+        }
 
         if (xrRig != null)
         {
@@ -159,7 +173,7 @@ public class ResetRefine : MonoBehaviour
 
 
         SFRMap.SetActive(true);
-        reRef.SetActive(true);
+        reRefInstance.SetActive(true);
         //zoomObject.SetActive(true);
 
     }
@@ -183,9 +197,9 @@ public class ResetRefine : MonoBehaviour
         {
             SFRMap.SetActive(false);
         }
-        if (reRef != null)
+        if (reRefInstance != null)
         {
-            reRef.SetActive(false);
+            reRefInstance.SetActive(false);
         }
         if (zoomObject != null)
         {
