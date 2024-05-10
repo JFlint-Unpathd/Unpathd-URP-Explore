@@ -648,8 +648,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2089419020}
   m_HandleRect: {fileID: 2089419019}
   m_Direction: 2
-  m_Value: 0.999996
-  m_Size: 0.45163855
+  m_Value: 0.9999735
+  m_Size: 0.847745
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2117,6 +2117,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd6422e6a9c28ae44bab776da771e433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &388885933 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4224636915255053766, guid: 895f6f3c2d334633b5800312285058d2,
+    type: 3}
+  m_PrefabInstance: {fileID: 990084291}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &420671852
 GameObject:
   m_ObjectHideFlags: 0
@@ -4257,6 +4263,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: XR Interaction Setup
+      objectReference: {fileID: 0}
+    - target: {fileID: 7712547942246075122, guid: 895f6f3c2d334633b5800312285058d2,
+        type: 3}
+      propertyPath: m_XROrigin
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7873184977108000993, guid: 895f6f3c2d334633b5800312285058d2,
         type: 3}
@@ -7213,6 +7224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f83e109597871b541b966a3233575400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LocomotionSystem: {fileID: 0}
 --- !u!1 &1575552140
 GameObject:
   m_ObjectHideFlags: 0
@@ -10791,17 +10803,17 @@ PrefabInstance:
     - target: {fileID: 3394838225857636415, guid: 58ac9370df7236b42b2f10dc965da516,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.573868
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3394838225857636415, guid: 58ac9370df7236b42b2f10dc965da516,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.9963608
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3394838225857636415, guid: 58ac9370df7236b42b2f10dc965da516,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 57.03637
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3394838225857636415, guid: 58ac9370df7236b42b2f10dc965da516,
         type: 3}
@@ -10838,6 +10850,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5387961649322764024, guid: 58ac9370df7236b42b2f10dc965da516,
+        type: 3}
+      propertyPath: LocomotionSystem
+      value: 
+      objectReference: {fileID: 388885933}
     - target: {fileID: 7949937431887275636, guid: 58ac9370df7236b42b2f10dc965da516,
         type: 3}
       propertyPath: m_Name

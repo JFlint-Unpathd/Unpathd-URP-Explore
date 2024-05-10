@@ -60,7 +60,7 @@ public class UnpathSelector : MonoBehaviour, IPointerClickHandler {
 
     public void OnPointerClick( PointerEventData eventData ) {
         if( eventData.button == 0 ) {
-            m_databaseController.AddToQuery( m_QueryTerm, SqliteController.QueryType.Or );
+            m_databaseController.AddToQuery( m_QueryTerm, SqliteController.QueryType.And);
             Debug.Log( $"Selected: {m_QueryTerm}" );
 
         } else {
@@ -73,7 +73,7 @@ public class UnpathSelector : MonoBehaviour, IPointerClickHandler {
     public void HandleSelection()
     {   
         if (m_databaseController != null) {
-            m_databaseController.AddToQuery(m_QueryTerm, SqliteController.QueryType.Or);
+            m_databaseController.AddToQuery(m_QueryTerm, SqliteController.QueryType.And);
 
             // Reference the GameObject this script is attached to
             GameObject thisGameObject = gameObject;

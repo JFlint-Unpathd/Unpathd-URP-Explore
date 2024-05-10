@@ -6,7 +6,9 @@ using System;
 public class GameManager : MonoBehaviour
 {
     static GameManager instance;
+
     private GameObject xrrig;
+    public GameObject LocomotionSystem;
 
     void Awake()
     {
@@ -23,6 +25,22 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        // Check if the current scene is the first scene
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            // Disable the LocomotionSystem in the first scene
+            GameObject locomotionSystem = GameObject.Find("Locomotion System");
+            if (locomotionSystem != null)
+            {
+                locomotionSystem.SetActive(false);
+            }
+        }
+        else
+        {
+            // Enable the LocomotionSystem in subsequent scenes
+            LocomotionSystem.SetActive(true);
+        }
+
         xrrig = GameObject.Find("xrrig");
 
         // Check if the xrrig GameObject exists

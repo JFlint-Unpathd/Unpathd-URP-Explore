@@ -113,31 +113,6 @@ public class SocketInteractorManager : MonoBehaviour
     }
 
 
-    //public void ResetSocketInteractor()
-    //{
-    //    Debug.Log("Snapped object count before reset: " + snappedObjects.Count);
-
-    //    foreach(GameObject go in snappedObjects)
-    //    {
-    //        XRBaseInteractable interactable = go.GetComponent<XRBaseInteractable>();
-    //        if(interactable != null)
-    //        {
-    //            RemoveAndHandleDeselection(interactable);
-    //        }
-    //    }
-
-    //    //Destroy all the snapped objects incl. current
-    //    ClearSnappedObjects();
-
-    //    Debug.Log("Snapped object count after reset: " + snappedObjects.Count);
-    //}
-
-    //  public void ClearCurrentSnappedObjects()
-    //{
-    //    CurrentSnappedObject = null;
-    
-    //}
-
     public void ClearSnappedObjects()
     {
         Debug.Log("ClearSnappedObjects is called");

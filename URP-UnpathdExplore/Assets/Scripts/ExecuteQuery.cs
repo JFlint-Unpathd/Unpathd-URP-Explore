@@ -31,6 +31,7 @@ public class ExecuteQuery : MonoBehaviour
 
     private void selectEntered(SelectEnterEventArgs args)
     {
+
         List<string> currentQueryList = m_databaseController.GetCurrentQueryList();
 
         if(currentQueryList.Count == 0) 
