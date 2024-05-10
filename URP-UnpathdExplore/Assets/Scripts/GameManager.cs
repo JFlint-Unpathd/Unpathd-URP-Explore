@@ -23,34 +23,51 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Start()
+    void OnEnable()
     {
-        // Check if the current scene is the first scene
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+     void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        //Debug.Log("Loaded" + scene.name);
+        SetupScene();
+    }
+
+      void SetupScene()
+    {
+        // Find the xrrig GameObject
+        xrrig = GameObject.Find("xrrig");
+
+        // Reset the xrrig position to Vector3.zero when the scene starts
+        if (xrrig != null)
+        {
+            xrrig.transform.position = Vector3.zero;
+        }
+
+        // Check if this is the first scene
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             // Disable the LocomotionSystem in the first scene
-            GameObject locomotionSystem = GameObject.Find("Locomotion System");
-            if (locomotionSystem != null)
+            if (LocomotionSystem != null)
             {
-                locomotionSystem.SetActive(false);
+                LocomotionSystem.SetActive(false);
             }
         }
         else
         {
             // Enable the LocomotionSystem in subsequent scenes
-            LocomotionSystem.SetActive(true);
-        }
-
-        xrrig = GameObject.Find("xrrig");
-
-        // Check if the xrrig GameObject exists
-        if (xrrig != null)
-        {
-            // Reset the xrrig position to Vector3.0 when the scene starts
-            xrrig.transform.position = Vector3.zero;
+            if (LocomotionSystem != null)
+            {
+                LocomotionSystem.SetActive(true);
+            }
         }
     }
-
     public void QuitGame()
     {
         

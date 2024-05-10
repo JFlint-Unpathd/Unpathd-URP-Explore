@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR.Interaction.Toolkit;
 
@@ -8,13 +9,16 @@ public class SceneChangeOnSnap : MonoBehaviour
     private string tag2 = "LandscapesMesolithic";
     private string tag3 = "UnpathDesign";
     private string tag4 = "WomenShipping";
+    private string tag5 = "ResetRefine";
+    private string tag6 = "RefineOrVoyage";
+    
 
-    private XRSocketInteractor socketInteractor;
+    private XRGrabInteractable grabInteractable;
 
     private void Awake()
     {
-        socketInteractor = GetComponent<XRSocketInteractor>();
-        socketInteractor.selectEntered.AddListener(OnSelectEnter);
+        grabInteractable = GetComponent<XRGrabInteractable>();
+        grabInteractable.selectEntered.AddListener(OnSelectEnter);
     }
 
     public void OnSelectEnter(SelectEnterEventArgs args)
@@ -40,9 +44,22 @@ public class SceneChangeOnSnap : MonoBehaviour
             SceneManager.LoadScene("Women and Shipping in the 20th Century");
             Debug.Log("Interacted item's tag: " + item.tag);
         }
+        
+        else if (item.tag == tag5)
+        {
+            SceneManager.LoadScene("Database Search");
+            Debug.Log("Interacted item's tag: " + item.tag);
+        }
+        else if (item.tag == tag6)
+        {
+            SceneManager.LoadScene("RefineOrVoyage");
+            Debug.Log("Interacted item's tag: " + item.tag);
+        }
+   
         else
         {
             Debug.Log("No matching tag found.");
         }
     }
+
 }

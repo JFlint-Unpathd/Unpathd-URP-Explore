@@ -46,7 +46,8 @@ public class VoyageShowcaseRotation : MonoBehaviour
         if (!args.isCanceled)
         {
             isGrabbed = false;
-            transform.position = originalPosition; // Return to original position on release
+            transform.position = originalPosition; 
+            transform.rotation = originalRotation;
         }
     }
 
