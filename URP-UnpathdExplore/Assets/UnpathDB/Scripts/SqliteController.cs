@@ -70,6 +70,9 @@ public class SqliteController : MonoBehaviour {
         Or
     }
 
+    public float m_xFactor = 1;
+    public float m_yFactor = 2f;
+
     private void Start() {
         string dbPath = Path.Combine( Application.persistentDataPath, "data", DBName );
         Debug.Log( $"DB path: {dbPath}" );
@@ -88,7 +91,8 @@ public class SqliteController : MonoBehaviour {
 
         //added for map projection
         mapProjectionController.GetComponent<MapProjection>();
-        
+
+   
     }
 
     private void OnDestroy() {
@@ -252,7 +256,8 @@ public class SqliteController : MonoBehaviour {
                 double lng = 0f;
                 if( double.TryParse( latString, out lat ) && double.TryParse( lngString, out lng ) ) {
                     GameObject obj;
-                    obj = Instantiate( m_ResourcePrefab, new Vector3( (float)lng, 0f, (float)(lat - 50.0) ), Quaternion.identity );
+                    //obj = Instantiate( m_ResourcePrefab, new Vector3( (float)lng, 0f, (float)(lat - 50.0) ), Quaternion.identity );
+                    obj = Instantiate( m_ResourcePrefab, new Vector3( (float)lng * m_xFactor, 0f, (float)(lat - 50.0)*m_yFactor ), Quaternion.identity );
                     obj.name = title + "__" + id;
                     obj.transform.SetParent( m_root.transform );
                     UnpathResource res = obj.AddComponent<UnpathResource>();
@@ -313,7 +318,9 @@ public class SqliteController : MonoBehaviour {
             }
         }
     }
-        StaticBatchingUtility.Combine( m_root );
+        //disabled for a bit as may take longer
+        //StaticBatchingUtility.Combine( m_root );
+
         Debug.Log( $"Object count: {count}" );
     }
 

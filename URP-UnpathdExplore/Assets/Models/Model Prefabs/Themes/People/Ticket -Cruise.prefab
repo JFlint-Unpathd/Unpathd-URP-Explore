@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 4980153663042010049}
   - component: {fileID: 3368464191926168610}
   - component: {fileID: 4876106810823964232}
-  - component: {fileID: 2120310068465182134}
-  - component: {fileID: 2192122884813137856}
+  - component: {fileID: 8991451212399998341}
   m_Layer: 0
   m_Name: Visuals
   m_TagString: Untagged
@@ -85,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2120310068465182134
+--- !u!64 &8991451212399998341
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,29 +105,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 2231124091193826694, guid: 74b1861b2db8c114dabe103272ed042a, type: 3}
---- !u!64 &2192122884813137856
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 328418884696797175}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2231124091193826694, guid: 74b1861b2db8c114dabe103272ed042a, type: 3}
+  m_Mesh: {fileID: -2757532678226015453, guid: 8b8311cf4c7c7aa46a719f1cb112f1c2, type: 3}
 --- !u!1 &1458066896513447930
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,10 +612,10 @@ GameObject:
   - component: {fileID: 3013978179606395225}
   - component: {fileID: -6556900266668684876}
   - component: {fileID: 4019792866838047983}
-  - component: {fileID: 5701211537015143634}
+  - component: {fileID: 1307984717313894275}
   m_Layer: 0
   m_Name: Ticket -Cruise
-  m_TagString: Untagged
+  m_TagString: RefineOrVoyage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -923,7 +900,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Title: Take me to Voyages
   m_QueryTerm: 
---- !u!114 &5701211537015143634
+--- !u!114 &1307984717313894275
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -932,7 +909,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8112450054853738976}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 518f829d9f3b11843ae3c9c0210cbfc0, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f48eec096cbb0c46a51443387c37c2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8233646186973387212
@@ -1191,6 +1168,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Interactable Label
+      objectReference: {fileID: 0}
+    - target: {fileID: 5183350869945310473, guid: 0ca5e1cafe7a0514b80382087175e331,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6242188838437835787, guid: 0ca5e1cafe7a0514b80382087175e331,
         type: 3}
