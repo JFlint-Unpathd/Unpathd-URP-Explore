@@ -9,7 +9,7 @@ public class ItemSelectionController : MonoBehaviour
 {
     public LayoutElement layoutElement; 
     public GameObject titlePanel;
-    public GameObject infoPanel; 
+    private GameObject infoPanel; 
 
     private bool resultSelected = false;
     private float originalWidth, originalHeight;
@@ -18,9 +18,9 @@ public class ItemSelectionController : MonoBehaviour
     private SqliteController sqliteController;
     private UnpathResource thisResource;
 
-        private void Awake()
+    private void Awake()
     {
-        infoPanel.SetActive(false);
+        //infoPanel.SetActive(false);
 
         if (layoutElement == null)
         {
@@ -31,7 +31,6 @@ public class ItemSelectionController : MonoBehaviour
         // Store the original preferredWidth and preferredHeight
         originalWidth = layoutElement.preferredWidth;
         originalHeight = layoutElement.preferredHeight;
-
         
     }
 
@@ -56,63 +55,85 @@ public class ItemSelectionController : MonoBehaviour
         }
 
         // Add listeners for the hover events
-        interactable.selectEntered.AddListener(OnSelectEntered);
+        //interactable.selectEntered.AddListener(OnSelectEntered);
         interactable.hoverEntered.AddListener(EnlargeLayout);
         interactable.hoverExited.AddListener(ShrinkLayout);
+        interactable.selectEntered.AddListener(OnShowInfo);
+        
+        GetComponentInChildren<TMPro.TMP_Text>().text = thisResource.m_Title;
         
 
     }
 
-        private void EnlargeLayout(HoverEnterEventArgs args)
+
+    private void EnlargeLayout(HoverEnterEventArgs args)
     {
         // Change the preferredWidth and preferredHeight to 50 and 30 respectively
         layoutElement.preferredWidth = 50;
         layoutElement.preferredHeight = 30;
     }
 
-        private void ShrinkLayout(HoverExitEventArgs args)
+    private void ShrinkLayout(HoverExitEventArgs args)
     {
         // Revert the preferredWidth and preferredHeight back to the original values
         layoutElement.preferredWidth = originalWidth;
         layoutElement.preferredHeight = originalHeight;
     }
 
-
-        private void OnSelectEntered(SelectEnterEventArgs args)
+    private void OnShowInfo( SelectEnterEventArgs args ) 
     {
-        resultSelected = !resultSelected;
-        // Get the list of all Q results
         List<UnpathResource> allQResults = sqliteController.GetAllQResults();
-
-        // Display the info panel associated with the selected item
-        infoPanel.SetActive(true);
-
-        if(!resultSelected)
-        {
-            // Loop through all the items in the list
-            foreach (UnpathResource item in allQResults)
-            {
+        if( InfoPanel.Show( transform, thisResource.m_Title, thisResource.m_Description, thisResource.m_Placename ) ) {
+            titlePanel.SetActive( false );
+            foreach( var item in allQResults ) {
                 // Disable all objects except the selected one
-                item.gameObject.SetActive(item == thisResource);
+                item.gameObject.SetActive( item == thisResource );
             }
-            
-            InfoPanelOn();
-            
-            
-        }
-
-        else
-        {
-            InfoPanelOff();
-            
-            foreach (var obj in allQResults)
-            {
-                obj.gameObject.SetActive(true);
+        } else {
+            titlePanel.SetActive( true );
+            foreach( var obj in allQResults ) {
+                obj.gameObject.SetActive( true );
             }
         }
     }
 
-        private void InfoPanelOn()
+
+
+    // private void OnSelectEntered(SelectEnterEventArgs args)
+    // {
+    //     resultSelected = !resultSelected;
+    //     // Get the list of all Q results
+    //     List<UnpathResource> allQResults = sqliteController.GetAllQResults();
+
+    //     // Display the info panel associated with the selected item
+    //     //infoPanel.SetActive(true);
+
+    //     if(!resultSelected)
+    //     {
+    //         // Loop through all the items in the list
+    //         foreach (UnpathResource item in allQResults)
+    //         {
+    //             // Disable all objects except the selected one
+    //             item.gameObject.SetActive(item == thisResource);
+    //         }
+            
+    //         InfoPanelOn();
+            
+            
+    //     }
+
+    //     else
+    //     {
+    //         InfoPanelOff();
+            
+    //         foreach (var obj in allQResults)
+    //         {
+    //             obj.gameObject.SetActive(true);
+    //         }
+    //     }
+    // }
+
+    private void InfoPanelOn()
     {
         Debug.Log("InfoPanelOn method called");  // Debug log for checking method call
 
@@ -121,12 +142,13 @@ public class ItemSelectionController : MonoBehaviour
         if (infoPanel != null)
         {
             infoPanel.SetActive(true);
+            
         }
 
     
     }
 
-        private void InfoPanelOff()
+    private void InfoPanelOff()
     {
         // Set the original panel active
         titlePanel.SetActive(true);
@@ -135,6 +157,7 @@ public class ItemSelectionController : MonoBehaviour
         if (infoPanel != null)
         {
             infoPanel.SetActive(false);
+        
         }
 
     }
