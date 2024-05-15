@@ -197,8 +197,6 @@ public class SpawnAndToggle : MonoBehaviour
                 }
             }
 
-            // Clear the list of spawned objects
-            //spawnedObjects.Clear();
         }
     }
 
@@ -300,23 +298,5 @@ public class SpawnAndToggle : MonoBehaviour
         }
     }
 
-    // public void ResetParentAndSpawnedObjects()
-    // {
-    //     if (transformKeeper != null)
-    //     {
-    //         Vector3 originalPosition = transformKeeper.GetOriginalPosition();
-    //         Quaternion originalRotation = transformKeeper.GetOriginalRotation();
-
-    //         // Resetting parent position, rotation
-    //         transform.position = originalPosition;
-    //         transform.rotation = originalRotation;
-    //     }
-    //     else
-    //     {
-    //         Debug.LogError("TransformKeeper is null. Cannot reset to the original position and rotation.");
-    //     }
-        
-    //     UpdateChildPositions();
-    // }
 
 }

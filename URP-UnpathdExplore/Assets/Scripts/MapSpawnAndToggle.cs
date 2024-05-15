@@ -88,12 +88,20 @@ public class MapSpawnAndToggle : MonoBehaviour
     private void OnHoverEnter(XRBaseInteractor interactor)
     {
         //ResetUnsnappedObjectPositions();
-        
         // Toggle the visibility state of all child objects
-        regionsVisible = !regionsVisible;
-        SetChildObjectsActive(regionsVisible);
+        // these are the controls for toggling children on/ off, rather than just on
+        //regionsVisible = !regionsVisible;
+        //SetChildObjectsActive(regionsVisible);
+
+        if (!regionsVisible)
+        {
+            SetChildObjectsActive(true);
+            regionsVisible = true;
+        }
 
     }
+
+    
     private void OnHoverExited(XRBaseInteractor interactor)
     {
         ResetUnsnappedObjectPositions();
@@ -119,6 +127,7 @@ public class MapSpawnAndToggle : MonoBehaviour
         
 
     }
+    
 
 }
 

@@ -10,8 +10,8 @@ public class ParentObjectController : MonoBehaviour
     public bool isSnapped = false;
     
     private XRBaseInteractable grabInteractable;
-
     private Rigidbody rb;
+    private Color originalColor;
 
 
     private void Start()
@@ -19,6 +19,17 @@ public class ParentObjectController : MonoBehaviour
         grabInteractable = GetComponent<XRBaseInteractable>();
 
         rb = GetComponent<Rigidbody>();
+
+        Renderer renderer = GetComponentInChildren<Renderer>();
+        if (renderer != null)
+        {
+            originalColor = renderer.material.color;
+        }
+        else
+        {
+            Debug.LogError("No Renderer on the object or its first child.");
+        }
+    
 
         grabInteractable.hoverEntered.AddListener(OnHover);
         grabInteractable.selectEntered.AddListener(OnGrab);
@@ -43,6 +54,25 @@ public class ParentObjectController : MonoBehaviour
         isGrabbed = false;
         isReleased = true;
         //Debug.Log(gameObject.name + " is released.");
+        if(isReleased)
+        {
+            ResetColor();
+        }
+        
+    }
+
+    private void ResetColor()
+    {
+        Renderer renderer = GetComponentInChildren<Renderer>();
+        if (renderer != null)
+        {
+            renderer.material.color = originalColor;  // set the color
+        }
+        else
+        {
+            Debug.LogError("No Renderer found so no color reset.");
+        }
+        
         
     }
 

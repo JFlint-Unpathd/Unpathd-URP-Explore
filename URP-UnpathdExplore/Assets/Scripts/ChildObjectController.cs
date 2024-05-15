@@ -11,6 +11,7 @@ public class ChildObjectController : MonoBehaviour
 
     private XRGrabInteractable grabInteractable;
     private Rigidbody rb;
+    private Color originalColor;
 
     private void Awake()
     {
@@ -20,6 +21,16 @@ public class ChildObjectController : MonoBehaviour
     private void Start()
     {
         grabInteractable = GetComponent<XRGrabInteractable>();
+
+        Renderer renderer = GetComponentInChildren<Renderer>();
+        if (renderer != null)
+        {
+            originalColor = renderer.material.color;
+        }
+        else
+        {
+            Debug.LogError("No Renderer on the object or its first child.");
+        }
 
         grabInteractable.hoverEntered.AddListener(OnHover);
         grabInteractable.selectEntered.AddListener(OnGrab);
@@ -61,7 +72,26 @@ public class ChildObjectController : MonoBehaviour
             }
         }
 
-        Debug.Log(gameObject.name + " is released.");
+        if(isReleased)
+        {
+            ResetColor();
+        }
+
+        //Debug.Log(gameObject.name + " is released.");
+    }
+
+    private void ResetColor()
+    {
+        Renderer renderer = GetComponentInChildren<Renderer>();
+        if (renderer != null)
+        {
+            renderer.material.color = originalColor;  // set the color
+        }
+        else
+        {
+            Debug.LogError("No Renderer found so no color reset.");
+        }
+        
     }
 
 

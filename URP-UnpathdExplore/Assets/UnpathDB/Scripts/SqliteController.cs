@@ -299,19 +299,19 @@ public class SqliteController : MonoBehaviour {
                     //interactable.hoverEntered.AddListener((interactor) => { zoomController.ZoomList(id); });
                     
 
-                    // Find and set the information to the TextMeshProUGUI components dynamically and add info for results
-                    TextMeshProUGUI[] textComponents = res.GetComponentsInChildren<TextMeshProUGUI>(true);
-                    foreach (TextMeshProUGUI textComponent in textComponents) {
-                    if (textComponent.name.Equals("Label")) {
-                        textComponent.text = title;
-                    } else if (textComponent.name.Equals("Title")) {
-                        textComponent.text = "Title: " + title; 
-                    } else if (textComponent.name.Equals("Description")) {
-                        textComponent.text = "Description: " + desc; 
-                    } else if (textComponent.name.Equals("Placename")) {
-                        textComponent.text = "Placename: " + placename;
-                    }
-                    }
+                    // // Find and set the information to the TextMeshProUGUI components dynamically and add info for results
+                    // TextMeshProUGUI[] textComponents = res.GetComponentsInChildren<TextMeshProUGUI>(true);
+                    // foreach (TextMeshProUGUI textComponent in textComponents) {
+                    // if (textComponent.name.Equals("Label")) {
+                    //     textComponent.text = title;
+                    // } else if (textComponent.name.Equals("Title")) {
+                    //     textComponent.text = "Title: " + title; 
+                    // } else if (textComponent.name.Equals("Description")) {
+                    //     textComponent.text = "Description: " + desc; 
+                    // } else if (textComponent.name.Equals("Placename")) {
+                    //     textComponent.text = "Placename: " + placename;
+                    // }
+                    // }
 
                  
                 }
