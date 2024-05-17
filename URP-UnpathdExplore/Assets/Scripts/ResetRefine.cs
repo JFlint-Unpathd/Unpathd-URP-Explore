@@ -32,6 +32,9 @@ public class ResetRefine : MonoBehaviour
     private GameObject execQInstance;
     private GameObject reRefInstance;
 
+    private Transform originalExecQTransform;
+    private Transform originalReRefTransform;
+
     [Header("Other Prefabs")]
     public GameObject zoomObject;
     public GameObject birdsEye;
@@ -74,7 +77,9 @@ public class ResetRefine : MonoBehaviour
             if (execQInstance == null)
             {
                 execQInstance = InstantiatePrefab(execQ);
+                originalExecQTransform = execQInstance.transform;
             }
+
 
             // Get the managers from the instance here instead of Awake
             foreach( SocketInteractorManager manager in socketInteractorInstance.GetComponentsInChildren<SocketInteractorManager>() ) 
@@ -126,6 +131,7 @@ public class ResetRefine : MonoBehaviour
         if (prefab != null)
         {
             return Instantiate(prefab);
+            
         }
         else
         {
@@ -143,7 +149,9 @@ public class ResetRefine : MonoBehaviour
         if (reRefInstance == null)
         {
             reRefInstance = InstantiatePrefab(reRef);
+            originalReRefTransform = reRefInstance.transform;
         }
+
 
         if (xrRig != null)
         {
@@ -180,6 +188,7 @@ public class ResetRefine : MonoBehaviour
 
     public void DestroyResultsScene()
     {
+        m_databaseController.StopQuery();
         // Destroy or deactivate all results scene objects
         foreach (GameObject obj in resultsSceneObjects)
         {

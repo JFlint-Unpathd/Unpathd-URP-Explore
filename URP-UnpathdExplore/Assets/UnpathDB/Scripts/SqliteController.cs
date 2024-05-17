@@ -27,6 +27,7 @@ public class SqliteController : MonoBehaviour {
 
     private SqliteConnection m_connection;
     private SqliteCommand m_command;
+    private SqliteDataReader m_reader;
 
     private Dictionary<string, UnpathResource> m_resourceDict = new Dictionary<string, UnpathResource>();
 
@@ -73,6 +74,9 @@ public class SqliteController : MonoBehaviour {
     public float m_xFactor = 1;
     public float m_yFactor = 2f;
 
+    private Coroutine queryCoroutine;
+    
+
     private void Start() {
         string dbPath = Path.Combine( Application.persistentDataPath, "data", DBName );
         Debug.Log( $"DB path: {dbPath}" );
@@ -110,9 +114,21 @@ public class SqliteController : MonoBehaviour {
 
     // ORIGINAL BY BRUCE
     public SqliteDataReader ExecuteCommand( string selections, string tableNames, string matches ) {
+        if (m_reader != null)
+        {
+            m_reader.Close();
+            m_reader.Dispose();
+        }
         m_command.CommandText = string.Format( SelectFromDBTemplate, selections, tableNames, matches );
         Debug.Log( m_command.CommandText );
-        return m_command.ExecuteReader();
+
+        //original
+        //return m_command.ExecuteReader();
+
+        //changed to this to allow for the m_reader to be a variable and accesible
+        //and be quit in the stopQ method
+        m_reader = m_command.ExecuteReader();
+        return m_reader;
     }
 
 
@@ -199,130 +215,124 @@ public class SqliteController : MonoBehaviour {
     }
 
 
-    public void RunQuery() {
 
-
+    public void RunQuery() 
+    {
         //added by M
-        if (m_currentQueryList.Count == 0) {
-        Debug.Log("Selection list is empty. Add query terms before running the query.");
-        return;
+        if( m_currentQueryList.Count == 0 ) {
+            Debug.Log( "Selection list is empty. Add query terms before running the query." );
+            return;
         }
-       
         StringBuilder builder = new StringBuilder();
         for( int i = 0, len = m_currentQueryList.Count; i < len; i++ ) {
             builder.Append( m_currentQueryList[i] );
         }
-        
         // Original by Bruce
         string selections = "*";
         string tableNames = "resource";
-        int count = 0;
+            
         
-        // Append LIMIT 500 to the query string
-        builder.Append(" LIMIT 500");
 
-        //SqliteDataReader reader = ExecuteCommand( selections, tableNames, builder.ToString() );
+        if (queryCoroutine != null)
+        {
+            StopCoroutine(queryCoroutine);
+        }
 
-        //maria for join
-        // string selections = "*";
-        // string tableNames = "resource";
-        // string joinTable = "extra";
-        // string joinCondition = "resource.PK=extra.PK";
-        // int count = 0;
-
-        //using (SqliteDataReader reader = ExecuteCommandWithJoin(selections, tableNames, joinTable, joinCondition, builder.ToString())){
-
-        using (SqliteDataReader reader = ExecuteCommand(selections, tableNames, builder.ToString())){
         
-        //added for map projection
+
         mapProjectionController.ProjectMap();
-            
-        //Instantiate(birdsEye, new Vector3(3.5f, 5.0f, -6.5f), Quaternion.identity);
+        SqliteDataReader reader = ExecuteCommand( selections, tableNames, builder.ToString() );
+        //StartCoroutine( CreateAll( reader ) );
 
-        while( reader.Read() && count < 500 ) {
-            string title = reader.GetString( reader.GetOrdinal( "title" ) ); // this could be optimized to just use the bare integer, once the table layout has been finalised.
-            string id = reader.GetString( reader.GetOrdinal( "ids" ) );
-            string desc = reader.GetString( reader.GetOrdinal( "description" ) );
-            string placename = (reader.GetValue( reader.GetOrdinal( "placename" )) is System.DBNull )?"":reader.GetString( reader.GetOrdinal( "placename" ) );
+        
+        queryCoroutine = StartCoroutine(CreateAll( reader ));
+    
+    }
+
+    private IEnumerator CreateAll( SqliteDataReader reader ) 
+    {
+        const int loadPerFrame = 10;  // Change this - or add as public variable to mess around with in Editor
+        int count = 0;
+
+        while( reader.Read() ) {
 
 
-            int latOrdinal = reader.GetOrdinal( "lat" );
-            if( reader.GetValue( latOrdinal ).GetType() != typeof (System.DBNull)){
-                
-                //Debug.Log($"lat: {latOrdinal}; type: {reader.GetValue( latOrdinal ).GetType()}" );
-                string latString = reader.GetString( latOrdinal );
-                string lngString = reader.GetString( reader.GetOrdinal( "lng" ) );
-                double lat = 0f;
-                double lng = 0f;
-                if( double.TryParse( latString, out lat ) && double.TryParse( lngString, out lng ) ) {
-                    GameObject obj;
-                    //obj = Instantiate( m_ResourcePrefab, new Vector3( (float)lng, 0f, (float)(lat - 50.0) ), Quaternion.identity );
-                    obj = Instantiate( m_ResourcePrefab, new Vector3( (float)lng * m_xFactor, 0f, (float)(lat - 50.0)*m_yFactor ), Quaternion.identity );
-                    obj.name = title + "__" + id;
-                    obj.transform.SetParent( m_root.transform );
-                    UnpathResource res = obj.AddComponent<UnpathResource>();
-                    res.m_LatLng = new LatLng( lat, lng );
-                    res.m_Label = title;
-                    res.m_Title = title;
-                    res.m_Description = desc;
-                    res.m_Placename = placename;
-                    //FilterOff();
-                    //Debug.Log($"id : {id}" );
-                    m_resourceDict.Add( id, res );
-                    ++count;
+        string title = reader.GetString( reader.GetOrdinal( "title" ) ); // this could be optimized to just use the bare integer, once the table layout has been finalised.
+        string id = reader.GetString( reader.GetOrdinal( "ids" ) );
+        string desc = reader.GetString( reader.GetOrdinal( "description" ) );
+        int ordinal = reader.GetOrdinal( "placename" );
+        string placename = (reader.GetValue( ordinal ) is System.DBNull) ? "" : reader.GetString( ordinal );
+        int latOrdinal = reader.GetOrdinal( "lat" );
 
-                    // Add the UnpathResource object to the allObjects list for the isolate logic
-                    allQResults.Add(res);
-                    
-                    // Access the temporal column and set y-coordinate based on tags
-                    int temporalOrdinal = reader.GetOrdinal("temporal_text");
-                    if (!reader.IsDBNull(temporalOrdinal)) 
-                    {
-                        string temporalTag = reader.GetString(temporalOrdinal);
-            
-                        float yCoordinate = (float)GetYCoordinateFromTemporalTag(temporalTag);
-                        //Debug.Log($"Y Coordinate for {title}: {yCoordinate}");
-
-                        obj.transform.position = new Vector3(obj.transform.position.x, yCoordinate, obj.transform.position.z);
-                        //Debug.Log($"Object {title} Position: {obj.transform.position}");
-                    }
-
-                    // added for zoom logic
-                    // interactable that has been instantiated is being added to zoom list when a hover is detected
-                    
-                    XRSimpleInteractable interactable = obj.GetComponent<XRSimpleInteractable>();
-                    if (interactable == null) 
-                    {
-                        interactable = obj.AddComponent<XRSimpleInteractable>();
-                    }
-
-                    //interactable.hoverEntered.AddListener((interactor) => { zoomController.ZoomList(id); });
-                    
-
-                    // Find and set the information to the TextMeshProUGUI components dynamically and add info for results
-                    // TextMeshProUGUI[] textComponents = res.GetComponentsInChildren<TextMeshProUGUI>(true);
-                    // foreach (TextMeshProUGUI textComponent in textComponents) {
-                    // if (textComponent.name.Equals("Label")) {
-                    //     textComponent.text = title;
-                    // } else if (textComponent.name.Equals("Title")) {
-                    //     textComponent.text = "Title: " + title; 
-                    // } else if (textComponent.name.Equals("Description")) {
-                    //     textComponent.text = "Description: " + desc; 
-                    // } else if (textComponent.name.Equals("Placename")) {
-                    //     textComponent.text = "Placename: " + placename;
-                    // }
-                    //}
-
-                 
+        if( reader.GetValue( latOrdinal ).GetType() != typeof( System.DBNull ) ) 
+        {
+            //Debug.Log( $"lat: {latOrdinal}; type: {reader.GetValue( latOrdinal ).GetType()}" );
+            string latString = reader.GetString( latOrdinal );
+            string lngString = reader.GetString( reader.GetOrdinal( "lng" ) );
+            double lat = 0f;
+            double lng = 0f;
+            if( double.TryParse( latString, out lat ) && double.TryParse( lngString, out lng ) ) {
+            GameObject obj;
+            obj = Instantiate( m_ResourcePrefab, new Vector3( (float)lng * m_xFactor, 0f, (float)(lat - 50.0) * m_yFactor ), Quaternion.identity );
+            obj.name = title + "__" + id;
+            obj.transform.SetParent( m_root.transform );
+            UnpathResource res = obj.AddComponent<UnpathResource>();
+            res.m_LatLng = new LatLng( lat, lng );
+            res.m_Label = title;
+            res.m_Title = title;
+            res.m_Description = desc;
+            res.m_Placename = placename;
+            //FilterOff();
+            //Debug.Log( $"id : {id}" );
+            m_resourceDict.Add( id, res );
+            ++count;
+            // Add the UnpathResource object to the allObjects list for the isolate logic
+            allQResults.Add( res );
+            // Access the temporal column and set y-coordinate based on tags
+            int temporalOrdinal = reader.GetOrdinal( "temporal" );
+            if( !reader.IsDBNull( temporalOrdinal ) ) {
+                string temporalTag = reader.GetString( temporalOrdinal );
+                float yCoordinate = (float)GetYCoordinateFromTemporalTag( temporalTag );
+                obj.transform.position = new Vector3( obj.transform.position.x, yCoordinate, obj.transform.position.z );
+            }
+            // added for zoom logic
+            // interactable that has been instantiated is being added to zoom list when a hover is detected
+            // XRSimpleInteractable interactable = obj.GetComponent<XRSimpleInteractable>();
+            // if( interactable == null ) {
+            //     interactable = obj.AddComponent<XRSimpleInteractable>();
+            // }
+            // interactable.hoverEntered.AddListener( ( interactor ) => { zoomController.ZoomList( id ); } );
+                if( count % loadPerFrame == 0 ) 
+                {
+                    yield return 0;
                 }
             }
         }
-    }
-        //disabled for a bit as may take longer
+            
+        }
+        reader.Close();
+        reader.Dispose();
+        
         //StaticBatchingUtility.Combine( m_root );
-
         Debug.Log( $"Object count: {count}" );
+}
+
+public void StopQuery()
+{
+    if(queryCoroutine != null)
+    {
+        StopCoroutine(queryCoroutine);
+        queryCoroutine = null;
     }
+
+    if (m_reader != null)
+    {
+        m_reader.Close();
+        m_reader.Dispose();
+        m_reader = null;
+    }
+}
+
 
     public double GetYCoordinateFromTemporalTag(string temporalTag)
     {
@@ -530,7 +540,5 @@ public class SqliteController : MonoBehaviour {
             Destroy(allQResults[i].gameObject);
         }
     }
-
-
 
 }
