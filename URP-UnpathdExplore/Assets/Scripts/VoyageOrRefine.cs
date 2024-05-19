@@ -7,8 +7,10 @@ public class VoyageOrRefine : MonoBehaviour
 {
     private string tag1 = "Voyages";
     public float spawnRadius = 1;
+    public float distanceBetweenObjects = 1.0f;
 
     [SerializeField] GameObject[] voyageOptions;
+    [SerializeField] private GameObject centerObject;
     public Transform anchorPoint; 
     private XRGrabInteractable grabInteractable;
 
@@ -37,7 +39,7 @@ public class VoyageOrRefine : MonoBehaviour
         if (item.tag == tag1 && !hasSpawned)
         {
             // Activate the four other voyage options
-            SpawnVoyageOptions();
+            SpawnVoyageOptionsInLine();
             hasSpawned = true; // Set to true to prevent spawning again
         }
     }
@@ -61,5 +63,52 @@ public class VoyageOrRefine : MonoBehaviour
             spawnedObject.SetActive(true);
         }
     }
+
+
+    private void SpawnVoyageOptionsInLine()
+    {
+        if (centerObject == null)
+        {
+            Debug.LogError("Center object is not assigned.");
+            return;
+        }
+
+        // Check if the first child exists
+        if (centerObject.transform.childCount == 0)
+        {
+            Debug.LogError("Center object has no child objects.");
+            return;
+        }
+
+        GameObject firstChild = centerObject.transform.GetChild(0).gameObject;
+        
+        Renderer centerRenderer = firstChild.GetComponent<Renderer>();
+
+        // Check if Renderer component is attached
+        if (centerRenderer == null)
+        {
+            Debug.LogError("No Renderer attached to the first child of Center object");
+            return;
+        }
+
+        // Set the renderer of firstChild to be invisible
+        centerRenderer.enabled = false;
+
+        float centerObjectHeight = centerRenderer.bounds.size.y;
+
+        int numberOfObjects = voyageOptions.Length;
+        int centerIndex = numberOfObjects / 2; // Center index for even distribution
+
+        for (int i = 0; i < numberOfObjects; i++)
+        {
+            float offset = (i - centerIndex) * (centerObjectHeight + distanceBetweenObjects);
+            Vector3 spawnPosition = anchorPoint.position + new Vector3(0, offset, 0);
+            GameObject spawnedObject = Instantiate(voyageOptions[i], spawnPosition, Quaternion.identity);
+            spawnedObject.SetActive(true);
+            spawnedObject.transform.parent = anchorPoint;
+        }
+    }
+
+
 
 }

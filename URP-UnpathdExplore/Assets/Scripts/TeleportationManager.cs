@@ -41,6 +41,28 @@ public class TeleportationManager : MonoBehaviour
         UpdatePodContentsVisibility();
     }
 
+    public void TeleportToPreviousPod()
+    {
+        // Decrement the current pod index (with wrap-around)
+        currentPodIndex = (currentPodIndex - 1 + teleportationPods.Length) % teleportationPods.Length;
+
+        // Get the previous pod's teleportation anchor
+        TeleportationAnchor previousPodTeleportationAnchor = teleportationPods[currentPodIndex].GetComponent<TeleportationAnchor>();
+
+        // Generate a new teleport request
+        TeleportRequest teleportRequest = new TeleportRequest
+        {
+            destinationPosition = previousPodTeleportationAnchor.teleportAnchorTransform.position,
+            destinationRotation = previousPodTeleportationAnchor.teleportAnchorTransform.rotation
+        };
+
+        // Queue the teleportation request
+        teleportationProvider.QueueTeleportRequest(teleportRequest);
+
+        // Update the visibility of pod contents
+        UpdatePodContentsVisibility();
+    }
+
 
     // Update the visibility of pod contents based on the current pod index
     void UpdatePodContentsVisibility()

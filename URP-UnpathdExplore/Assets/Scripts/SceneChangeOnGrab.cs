@@ -11,6 +11,7 @@ public class SceneChangeOnSnap : MonoBehaviour
     private string tag4 = "WomenShipping";
     private string tag5 = "ResetRefine";
     private string tag6 = "RefineOrVoyage";
+    private string tag7 = "Demo";
     
 
     private XRGrabInteractable grabInteractable;
@@ -36,7 +37,7 @@ public class SceneChangeOnSnap : MonoBehaviour
         }
         else if (item.tag == tag3)
         {
-            SceneManager.LoadScene("Unpath Co-Design Voyage");
+            SceneManager.LoadScene("Co-Design Voyage");
             Debug.Log("Interacted item's tag: " + item.tag);
         }
         else if (item.tag == tag4)
@@ -53,6 +54,11 @@ public class SceneChangeOnSnap : MonoBehaviour
         else if (item.tag == tag6)
         {
             SceneManager.LoadScene("RefineOrVoyage");
+            Debug.Log("Interacted item's tag: " + item.tag);
+        }
+        else if (item.tag == tag7)
+        {
+            SceneManager.LoadScene("Demo");
             Debug.Log("Interacted item's tag: " + item.tag);
         }
    
