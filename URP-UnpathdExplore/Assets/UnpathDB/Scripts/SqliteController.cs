@@ -231,14 +231,11 @@ public class SqliteController : MonoBehaviour {
         string selections = "*";
         string tableNames = "resource";
             
-        
 
         if (queryCoroutine != null)
         {
             StopCoroutine(queryCoroutine);
         }
-
-        
 
         mapProjectionController.ProjectMap();
         SqliteDataReader reader = ExecuteCommand( selections, tableNames, builder.ToString() );
@@ -288,13 +285,17 @@ public class SqliteController : MonoBehaviour {
             ++count;
             // Add the UnpathResource object to the allObjects list for the isolate logic
             allQResults.Add( res );
+
             // Access the temporal column and set y-coordinate based on tags
-            int temporalOrdinal = reader.GetOrdinal( "temporal" );
-            if( !reader.IsDBNull( temporalOrdinal ) ) {
-                string temporalTag = reader.GetString( temporalOrdinal );
-                float yCoordinate = (float)GetYCoordinateFromTemporalTag( temporalTag );
-                obj.transform.position = new Vector3( obj.transform.position.x, yCoordinate, obj.transform.position.z );
+
+            int temporalOrdinal = reader.GetOrdinal("temporal_text");
+            if (!reader.IsDBNull(temporalOrdinal)) 
+            {
+                string temporalTag = reader.GetString(temporalOrdinal);
+                float yCoordinate = (float)GetYCoordinateFromTemporalTag(temporalTag);
+                obj.transform.position = new Vector3(obj.transform.position.x, yCoordinate, obj.transform.position.z);
             }
+
             // added for zoom logic
             // interactable that has been instantiated is being added to zoom list when a hover is detected
             // XRSimpleInteractable interactable = obj.GetComponent<XRSimpleInteractable>();
@@ -332,7 +333,6 @@ public void StopQuery()
         m_reader = null;
     }
 }
-
 
     public double GetYCoordinateFromTemporalTag(string temporalTag)
     {

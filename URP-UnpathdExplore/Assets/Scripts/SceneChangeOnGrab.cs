@@ -14,12 +14,12 @@ public class SceneChangeOnSnap : MonoBehaviour
     private string tag7 = "Demo";
     
 
-    private XRGrabInteractable grabInteractable;
+    private XRBaseInteractable interactable;
 
     private void Awake()
     {
-        grabInteractable = GetComponent<XRGrabInteractable>();
-        grabInteractable.selectEntered.AddListener(OnSelectEnter);
+        interactable = GetComponent<XRBaseInteractable>();
+        interactable.selectEntered.AddListener(OnSelectEnter);
     }
 
     public void OnSelectEnter(SelectEnterEventArgs args)

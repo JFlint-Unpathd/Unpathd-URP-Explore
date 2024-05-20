@@ -1,15 +1,15 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-//[RequireComponent(typeof(XRGrabInteractable))]
+//[RequireComponent(typeof(XRBaseInteractable))]
 public class InteractableVoiceover : MonoBehaviour
 {
     public AudioClip voiceoverClip;
-    private XRGrabInteractable interactable;
+    private XRBaseInteractable interactable;
 
     void Start()
     {
-        interactable = GetComponent<XRGrabInteractable>();
+        interactable = GetComponent<XRBaseInteractable>();
         interactable.selectEntered.AddListener(OnSelectEntered);
 
     }

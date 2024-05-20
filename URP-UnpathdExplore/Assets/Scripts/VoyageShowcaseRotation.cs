@@ -9,7 +9,7 @@ public class VoyageShowcaseRotation : MonoBehaviour
     private bool isGrabbed = false;
     private Quaternion originalRotation;
     private Vector3 originalPosition;
-    private XRGrabInteractable grabInteractable;
+    private XRBaseInteractable interactable;
     public float rotationSpeed = 360f;
     public Transform anchorPoint;
 
@@ -18,12 +18,12 @@ public class VoyageShowcaseRotation : MonoBehaviour
         originalRotation = transform.rotation;
         originalPosition = transform.position;
 
-        grabInteractable = GetComponent<XRGrabInteractable>();
+        interactable = GetComponent<XRBaseInteractable>();
 
-        grabInteractable.hoverEntered.AddListener(OnHoverStart);
-        grabInteractable.hoverExited.AddListener(OnHoverEnd);
-        grabInteractable.selectEntered.AddListener(OnGrabStart);
-        grabInteractable.selectExited.AddListener(OnGrabEnd);
+        interactable.hoverEntered.AddListener(OnHoverStart);
+        interactable.hoverExited.AddListener(OnHoverEnd);
+        interactable.selectEntered.AddListener(OnGrabStart);
+        interactable.selectExited.AddListener(OnGrabEnd);
     }
 
     void OnHoverStart(HoverEnterEventArgs args)

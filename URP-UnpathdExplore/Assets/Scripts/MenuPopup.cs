@@ -44,7 +44,7 @@ public class MenuPopup : MonoBehaviour
 
     private void OnDestroy()
     {
-        toggleReference.action.started += Toggle;
+        toggleReference.action.started -= Toggle;
     }
 
     private void Toggle(InputAction.CallbackContext context)

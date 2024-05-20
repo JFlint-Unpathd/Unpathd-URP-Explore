@@ -26,7 +26,13 @@ public class TeleportationManager : MonoBehaviour
 
         // Get the next pod's teleportation anchor
         TeleportationAnchor nextPodTeleportationAnchor = teleportationPods[currentPodIndex].GetComponent<TeleportationAnchor>();
-        
+
+        // Calculate the direction from the pod to the content block
+        Vector3 directionToContentBlock = podContents[currentPodIndex].transform.position - nextPodTeleportationAnchor.teleportAnchorTransform.position;
+
+        // Create a rotation that looks towards the content block
+        Quaternion rotationToFaceContentBlock = Quaternion.LookRotation(directionToContentBlock);
+
         // Generate a new teleport request
         TeleportRequest teleportRequest = new TeleportRequest
         {
@@ -49,6 +55,12 @@ public class TeleportationManager : MonoBehaviour
         // Get the previous pod's teleportation anchor
         TeleportationAnchor previousPodTeleportationAnchor = teleportationPods[currentPodIndex].GetComponent<TeleportationAnchor>();
 
+        // Calculate the direction from the pod to the content block
+        Vector3 directionToContentBlock = podContents[currentPodIndex].transform.position - previousPodTeleportationAnchor.teleportAnchorTransform.position;
+        
+        // Create a rotation that looks towards the content block
+        Quaternion rotationToFaceContentBlock = Quaternion.LookRotation(directionToContentBlock);
+                                
         // Generate a new teleport request
         TeleportRequest teleportRequest = new TeleportRequest
         {
