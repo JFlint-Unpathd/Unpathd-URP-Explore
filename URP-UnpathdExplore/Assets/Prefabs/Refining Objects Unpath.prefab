@@ -33,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 1484286123902172}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.51, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -303,7 +303,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_ThrowVelocityScale: 1.5
   m_ThrowAngularVelocityScale: 1
-  m_ForceGravityOnDetach: 1
+  m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
   m_StartingSingleGrabTransformers: []
@@ -318,8 +318,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7767037352220658478}
-  - component: {fileID: 440670751076451952}
-  - component: {fileID: 2871671652849209609}
+  - component: {fileID: 8313994667710236759}
   m_Layer: 0
   m_Name: Color Affordance
   m_TagString: Untagged
@@ -342,7 +341,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4411800553829958614}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &440670751076451952
+--- !u!114 &8313994667710236759
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -351,85 +350,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 279424249511867334}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1410cbaaadf84a7aaa6459d37ad21b3a, type: 3}
+  m_Script: {fileID: 11500000, guid: e82466967e70535488080cd47145378c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Renderer: {fileID: 4173993856152225402}
-  m_MaterialIndex: 0
---- !u!114 &2871671652849209609
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 279424249511867334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f86d13fca2ec430d870c0f7765ad0dde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AffordanceStateProvider: {fileID: 8010535940076566000}
-  m_ReplaceIdleStateValueWithInitialValue: 1
-  m_AffordanceThemeDatum:
-    m_UseConstant: 0
-    m_ConstantValue:
-      m_StateAnimationCurve:
-        m_UseConstant: 1
-        m_ConstantValue:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 0
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_Variable: {fileID: 0}
-      m_List:
-      - stateName: disabled
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: idle
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: hovered
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: hoveredPriority
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: selected
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: activated
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: focused
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      m_ColorBlendMode: 0
-      m_BlendAmount: 1
-    m_Variable: {fileID: 11400000, guid: 67b4d224a933ad344864e4e34033df57, type: 2}
-  m_ValueUpdated:
-    m_PersistentCalls:
-      m_Calls: []
-  m_MaterialPropertyBlockHelper: {fileID: 440670751076451952}
-  m_ColorPropertyName: 
+  colorProperties: {fileID: 11400000, guid: 6020364cae388bf46836674de415ceca, type: 2}
+  ren: {fileID: 4173993856152225402}
+  interactable: {fileID: 8675648151137082131}
 --- !u!1 &309289323569117669
 GameObject:
   m_ObjectHideFlags: 0
@@ -584,8 +510,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 10015912053664817}
-  - component: {fileID: 796112732219520057}
-  - component: {fileID: 4686112220262557896}
+  - component: {fileID: 3023364650840281130}
   m_Layer: 0
   m_Name: Color Affordance
   m_TagString: Untagged
@@ -608,7 +533,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5707847075265116933}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &796112732219520057
+--- !u!114 &3023364650840281130
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -617,85 +542,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 794894194978811832}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1410cbaaadf84a7aaa6459d37ad21b3a, type: 3}
+  m_Script: {fileID: 11500000, guid: e82466967e70535488080cd47145378c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Renderer: {fileID: 4621212848909855044}
-  m_MaterialIndex: 0
---- !u!114 &4686112220262557896
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 794894194978811832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f86d13fca2ec430d870c0f7765ad0dde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AffordanceStateProvider: {fileID: 63541373802306907}
-  m_ReplaceIdleStateValueWithInitialValue: 1
-  m_AffordanceThemeDatum:
-    m_UseConstant: 0
-    m_ConstantValue:
-      m_StateAnimationCurve:
-        m_UseConstant: 1
-        m_ConstantValue:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 0
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_Variable: {fileID: 0}
-      m_List:
-      - stateName: disabled
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: idle
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: hovered
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: hoveredPriority
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: selected
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: activated
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: focused
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      m_ColorBlendMode: 0
-      m_BlendAmount: 1
-    m_Variable: {fileID: 11400000, guid: 67b4d224a933ad344864e4e34033df57, type: 2}
-  m_ValueUpdated:
-    m_PersistentCalls:
-      m_Calls: []
-  m_MaterialPropertyBlockHelper: {fileID: 796112732219520057}
-  m_ColorPropertyName: 
+  colorProperties: {fileID: 11400000, guid: 6020364cae388bf46836674de415ceca, type: 2}
+  ren: {fileID: 4621212848909855044}
+  interactable: {fileID: 6038208070862208081}
 --- !u!1 &947306239071045361
 GameObject:
   m_ObjectHideFlags: 0
@@ -996,7 +848,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_ThrowVelocityScale: 1.5
   m_ThrowAngularVelocityScale: 1
-  m_ForceGravityOnDetach: 1
+  m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
   m_StartingSingleGrabTransformers: []
@@ -1556,7 +1408,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_ThrowVelocityScale: 1.5
   m_ThrowAngularVelocityScale: 1
-  m_ForceGravityOnDetach: 1
+  m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
   m_StartingSingleGrabTransformers: []
@@ -2168,7 +2020,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_ThrowVelocityScale: 1.5
   m_ThrowAngularVelocityScale: 1
-  m_ForceGravityOnDetach: 1
+  m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
   m_StartingSingleGrabTransformers: []
@@ -2543,7 +2395,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_ThrowVelocityScale: 1.5
   m_ThrowAngularVelocityScale: 1
-  m_ForceGravityOnDetach: 1
+  m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
   m_StartingSingleGrabTransformers: []
@@ -2558,8 +2410,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2373168032492646109}
-  - component: {fileID: 8564928932562797138}
-  - component: {fileID: 7969042876072091343}
+  - component: {fileID: 3231517394711506371}
   m_Layer: 0
   m_Name: Color Affordance
   m_TagString: Untagged
@@ -2582,7 +2433,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1235841923895687627}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8564928932562797138
+--- !u!114 &3231517394711506371
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2591,85 +2442,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2084438618559927190}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1410cbaaadf84a7aaa6459d37ad21b3a, type: 3}
+  m_Script: {fileID: 11500000, guid: e82466967e70535488080cd47145378c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Renderer: {fileID: 2993974354178812750}
-  m_MaterialIndex: 0
---- !u!114 &7969042876072091343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2084438618559927190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f86d13fca2ec430d870c0f7765ad0dde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AffordanceStateProvider: {fileID: 4144952548258939538}
-  m_ReplaceIdleStateValueWithInitialValue: 1
-  m_AffordanceThemeDatum:
-    m_UseConstant: 0
-    m_ConstantValue:
-      m_StateAnimationCurve:
-        m_UseConstant: 1
-        m_ConstantValue:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 0
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_Variable: {fileID: 0}
-      m_List:
-      - stateName: disabled
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: idle
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: hovered
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: hoveredPriority
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: selected
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: activated
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: focused
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      m_ColorBlendMode: 0
-      m_BlendAmount: 1
-    m_Variable: {fileID: 11400000, guid: 67b4d224a933ad344864e4e34033df57, type: 2}
-  m_ValueUpdated:
-    m_PersistentCalls:
-      m_Calls: []
-  m_MaterialPropertyBlockHelper: {fileID: 8564928932562797138}
-  m_ColorPropertyName: 
+  colorProperties: {fileID: 11400000, guid: 6020364cae388bf46836674de415ceca, type: 2}
+  ren: {fileID: 2993974354178812750}
+  interactable: {fileID: 1862694739571390561}
 --- !u!1 &2160882294291278159
 GameObject:
   m_ObjectHideFlags: 0
@@ -2972,7 +2750,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_ThrowVelocityScale: 1.5
   m_ThrowAngularVelocityScale: 1
-  m_ForceGravityOnDetach: 1
+  m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
   m_StartingSingleGrabTransformers: []
@@ -3093,8 +2871,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1805701325231550108}
-  - component: {fileID: 8146625241706143097}
-  - component: {fileID: 4778727806505775431}
+  - component: {fileID: 8718813216496602851}
   m_Layer: 0
   m_Name: Color Affordance
   m_TagString: Untagged
@@ -3117,7 +2894,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8379268002930787287}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8146625241706143097
+--- !u!114 &8718813216496602851
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3126,85 +2903,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2266529945252142840}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1410cbaaadf84a7aaa6459d37ad21b3a, type: 3}
+  m_Script: {fileID: 11500000, guid: e82466967e70535488080cd47145378c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Renderer: {fileID: 2126878090299530}
-  m_MaterialIndex: 0
---- !u!114 &4778727806505775431
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2266529945252142840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f86d13fca2ec430d870c0f7765ad0dde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AffordanceStateProvider: {fileID: 6847919917730034816}
-  m_ReplaceIdleStateValueWithInitialValue: 1
-  m_AffordanceThemeDatum:
-    m_UseConstant: 0
-    m_ConstantValue:
-      m_StateAnimationCurve:
-        m_UseConstant: 1
-        m_ConstantValue:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 0
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_Variable: {fileID: 0}
-      m_List:
-      - stateName: disabled
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: idle
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: hovered
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: hoveredPriority
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: selected
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: activated
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: focused
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      m_ColorBlendMode: 0
-      m_BlendAmount: 1
-    m_Variable: {fileID: 11400000, guid: 67b4d224a933ad344864e4e34033df57, type: 2}
-  m_ValueUpdated:
-    m_PersistentCalls:
-      m_Calls: []
-  m_MaterialPropertyBlockHelper: {fileID: 8146625241706143097}
-  m_ColorPropertyName: 
+  colorProperties: {fileID: 11400000, guid: 6020364cae388bf46836674de415ceca, type: 2}
+  ren: {fileID: 2126878090299530}
+  interactable: {fileID: 5027734057941994492}
 --- !u!1 &2365984155348652890
 GameObject:
   m_ObjectHideFlags: 0
@@ -3245,8 +2949,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 988103557065858385}
-  - component: {fileID: 9199344137778848522}
-  - component: {fileID: 8430370507135591892}
+  - component: {fileID: 2133779450281415023}
   m_Layer: 0
   m_Name: Color Affordance
   m_TagString: Untagged
@@ -3269,7 +2972,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3593739134516253814}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9199344137778848522
+--- !u!114 &2133779450281415023
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3278,85 +2981,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2422331588549957791}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1410cbaaadf84a7aaa6459d37ad21b3a, type: 3}
+  m_Script: {fileID: 11500000, guid: e82466967e70535488080cd47145378c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Renderer: {fileID: 1751614929621510804}
-  m_MaterialIndex: 0
---- !u!114 &8430370507135591892
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2422331588549957791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f86d13fca2ec430d870c0f7765ad0dde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AffordanceStateProvider: {fileID: 7647121837062234260}
-  m_ReplaceIdleStateValueWithInitialValue: 1
-  m_AffordanceThemeDatum:
-    m_UseConstant: 0
-    m_ConstantValue:
-      m_StateAnimationCurve:
-        m_UseConstant: 1
-        m_ConstantValue:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 0
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_Variable: {fileID: 0}
-      m_List:
-      - stateName: disabled
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: idle
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: hovered
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: hoveredPriority
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: selected
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: activated
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: focused
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      m_ColorBlendMode: 0
-      m_BlendAmount: 1
-    m_Variable: {fileID: 11400000, guid: 67b4d224a933ad344864e4e34033df57, type: 2}
-  m_ValueUpdated:
-    m_PersistentCalls:
-      m_Calls: []
-  m_MaterialPropertyBlockHelper: {fileID: 9199344137778848522}
-  m_ColorPropertyName: 
+  colorProperties: {fileID: 11400000, guid: 6020364cae388bf46836674de415ceca, type: 2}
+  ren: {fileID: 1751614929621510804}
+  interactable: {fileID: 500452121493363271}
 --- !u!1 &2434331837997124391
 GameObject:
   m_ObjectHideFlags: 0
@@ -3535,8 +3165,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3519101119846317317}
-  - component: {fileID: 3522405228227313361}
-  - component: {fileID: 9078537935127170761}
+  - component: {fileID: 1208424330081240687}
   m_Layer: 0
   m_Name: Color Affordance
   m_TagString: Untagged
@@ -3559,7 +3188,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1980507609288449612}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3522405228227313361
+--- !u!114 &1208424330081240687
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3568,85 +3197,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2452318436584907347}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1410cbaaadf84a7aaa6459d37ad21b3a, type: 3}
+  m_Script: {fileID: 11500000, guid: e82466967e70535488080cd47145378c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Renderer: {fileID: 4837581229845103115}
-  m_MaterialIndex: 0
---- !u!114 &9078537935127170761
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2452318436584907347}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f86d13fca2ec430d870c0f7765ad0dde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AffordanceStateProvider: {fileID: 961146914913855940}
-  m_ReplaceIdleStateValueWithInitialValue: 1
-  m_AffordanceThemeDatum:
-    m_UseConstant: 0
-    m_ConstantValue:
-      m_StateAnimationCurve:
-        m_UseConstant: 1
-        m_ConstantValue:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 0
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_Variable: {fileID: 0}
-      m_List:
-      - stateName: disabled
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: idle
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: hovered
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: hoveredPriority
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: selected
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: activated
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: focused
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      m_ColorBlendMode: 0
-      m_BlendAmount: 1
-    m_Variable: {fileID: 11400000, guid: 67b4d224a933ad344864e4e34033df57, type: 2}
-  m_ValueUpdated:
-    m_PersistentCalls:
-      m_Calls: []
-  m_MaterialPropertyBlockHelper: {fileID: 3522405228227313361}
-  m_ColorPropertyName: 
+  colorProperties: {fileID: 11400000, guid: 6020364cae388bf46836674de415ceca, type: 2}
+  ren: {fileID: 4837581229845103115}
+  interactable: {fileID: 2578401601095860657}
 --- !u!1 &2493199103318953048
 GameObject:
   m_ObjectHideFlags: 0
@@ -3656,8 +3212,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 973883363668467253}
-  - component: {fileID: 437437466146578264}
-  - component: {fileID: 6873081015864935851}
+  - component: {fileID: 685220888566106410}
   m_Layer: 0
   m_Name: Color Affordance
   m_TagString: Untagged
@@ -3680,7 +3235,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1382022250003909045}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &437437466146578264
+--- !u!114 &685220888566106410
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3689,85 +3244,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2493199103318953048}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1410cbaaadf84a7aaa6459d37ad21b3a, type: 3}
+  m_Script: {fileID: 11500000, guid: e82466967e70535488080cd47145378c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Renderer: {fileID: 4728064567884598671}
-  m_MaterialIndex: 0
---- !u!114 &6873081015864935851
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2493199103318953048}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f86d13fca2ec430d870c0f7765ad0dde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AffordanceStateProvider: {fileID: 4321684620541656028}
-  m_ReplaceIdleStateValueWithInitialValue: 1
-  m_AffordanceThemeDatum:
-    m_UseConstant: 0
-    m_ConstantValue:
-      m_StateAnimationCurve:
-        m_UseConstant: 1
-        m_ConstantValue:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 0
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_Variable: {fileID: 0}
-      m_List:
-      - stateName: disabled
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: idle
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: hovered
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: hoveredPriority
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: selected
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: activated
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: focused
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      m_ColorBlendMode: 0
-      m_BlendAmount: 1
-    m_Variable: {fileID: 11400000, guid: 67b4d224a933ad344864e4e34033df57, type: 2}
-  m_ValueUpdated:
-    m_PersistentCalls:
-      m_Calls: []
-  m_MaterialPropertyBlockHelper: {fileID: 437437466146578264}
-  m_ColorPropertyName: 
+  colorProperties: {fileID: 11400000, guid: 6020364cae388bf46836674de415ceca, type: 2}
+  ren: {fileID: 4728064567884598671}
+  interactable: {fileID: 4993278574391122395}
 --- !u!1 &2523321959710141339
 GameObject:
   m_ObjectHideFlags: 0
@@ -4054,7 +3536,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_ThrowVelocityScale: 1.5
   m_ThrowAngularVelocityScale: 1
-  m_ForceGravityOnDetach: 1
+  m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
   m_StartingSingleGrabTransformers: []
@@ -4403,8 +3885,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8011959424148650426}
-  - component: {fileID: 8637282407345121703}
-  - component: {fileID: 4342275198219241106}
+  - component: {fileID: 6113246769563060350}
   m_Layer: 0
   m_Name: Color Affordance
   m_TagString: Untagged
@@ -4427,7 +3908,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5389225945581568721}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8637282407345121703
+--- !u!114 &6113246769563060350
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4436,85 +3917,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3507199206535293974}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1410cbaaadf84a7aaa6459d37ad21b3a, type: 3}
+  m_Script: {fileID: 11500000, guid: e82466967e70535488080cd47145378c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Renderer: {fileID: 8103470583417004847}
-  m_MaterialIndex: 0
---- !u!114 &4342275198219241106
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3507199206535293974}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f86d13fca2ec430d870c0f7765ad0dde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AffordanceStateProvider: {fileID: 1637897781311711150}
-  m_ReplaceIdleStateValueWithInitialValue: 1
-  m_AffordanceThemeDatum:
-    m_UseConstant: 0
-    m_ConstantValue:
-      m_StateAnimationCurve:
-        m_UseConstant: 1
-        m_ConstantValue:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 0
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_Variable: {fileID: 0}
-      m_List:
-      - stateName: disabled
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: idle
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: hovered
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: hoveredPriority
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: selected
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: activated
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: focused
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      m_ColorBlendMode: 0
-      m_BlendAmount: 1
-    m_Variable: {fileID: 11400000, guid: 67b4d224a933ad344864e4e34033df57, type: 2}
-  m_ValueUpdated:
-    m_PersistentCalls:
-      m_Calls: []
-  m_MaterialPropertyBlockHelper: {fileID: 8637282407345121703}
-  m_ColorPropertyName: 
+  colorProperties: {fileID: 11400000, guid: 6020364cae388bf46836674de415ceca, type: 2}
+  ren: {fileID: 8103470583417004847}
+  interactable: {fileID: 3139322252405213308}
 --- !u!1 &3554290762571062662
 GameObject:
   m_ObjectHideFlags: 0
@@ -4630,8 +4038,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4510145303593240751}
-  - component: {fileID: 5353086990226269661}
-  - component: {fileID: 8947076620731883218}
+  - component: {fileID: 7897401375182791367}
   m_Layer: 0
   m_Name: Color Affordance
   m_TagString: Untagged
@@ -4654,7 +4061,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8794219606803076677}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5353086990226269661
+--- !u!114 &7897401375182791367
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4663,85 +4070,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3706321257114525789}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1410cbaaadf84a7aaa6459d37ad21b3a, type: 3}
+  m_Script: {fileID: 11500000, guid: e82466967e70535488080cd47145378c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Renderer: {fileID: 1353854229098295126}
-  m_MaterialIndex: 0
---- !u!114 &8947076620731883218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3706321257114525789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f86d13fca2ec430d870c0f7765ad0dde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AffordanceStateProvider: {fileID: 3188117085557749640}
-  m_ReplaceIdleStateValueWithInitialValue: 1
-  m_AffordanceThemeDatum:
-    m_UseConstant: 0
-    m_ConstantValue:
-      m_StateAnimationCurve:
-        m_UseConstant: 1
-        m_ConstantValue:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 0
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_Variable: {fileID: 0}
-      m_List:
-      - stateName: disabled
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: idle
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: hovered
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: hoveredPriority
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: selected
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: activated
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: focused
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      m_ColorBlendMode: 0
-      m_BlendAmount: 1
-    m_Variable: {fileID: 11400000, guid: 67b4d224a933ad344864e4e34033df57, type: 2}
-  m_ValueUpdated:
-    m_PersistentCalls:
-      m_Calls: []
-  m_MaterialPropertyBlockHelper: {fileID: 5353086990226269661}
-  m_ColorPropertyName: 
+  colorProperties: {fileID: 11400000, guid: 6020364cae388bf46836674de415ceca, type: 2}
+  ren: {fileID: 1353854229098295126}
+  interactable: {fileID: 8740982313178616809}
 --- !u!1 &3964909757932005706
 GameObject:
   m_ObjectHideFlags: 0
@@ -5438,8 +4772,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 327579369082005479}
-  - component: {fileID: 9214284356286358845}
-  - component: {fileID: 2409337433601698420}
+  - component: {fileID: 4180356179419316541}
   m_Layer: 0
   m_Name: Color Affordance
   m_TagString: Untagged
@@ -5462,7 +4795,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2443305099090332240}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9214284356286358845
+--- !u!114 &4180356179419316541
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5471,85 +4804,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5119504899404324015}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1410cbaaadf84a7aaa6459d37ad21b3a, type: 3}
+  m_Script: {fileID: 11500000, guid: e82466967e70535488080cd47145378c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Renderer: {fileID: 5689798382279657119}
-  m_MaterialIndex: 0
---- !u!114 &2409337433601698420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5119504899404324015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f86d13fca2ec430d870c0f7765ad0dde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AffordanceStateProvider: {fileID: 1616540431429872414}
-  m_ReplaceIdleStateValueWithInitialValue: 1
-  m_AffordanceThemeDatum:
-    m_UseConstant: 0
-    m_ConstantValue:
-      m_StateAnimationCurve:
-        m_UseConstant: 1
-        m_ConstantValue:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 0
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_Variable: {fileID: 0}
-      m_List:
-      - stateName: disabled
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: idle
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: hovered
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: hoveredPriority
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: selected
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: activated
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: focused
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      m_ColorBlendMode: 0
-      m_BlendAmount: 1
-    m_Variable: {fileID: 11400000, guid: 67b4d224a933ad344864e4e34033df57, type: 2}
-  m_ValueUpdated:
-    m_PersistentCalls:
-      m_Calls: []
-  m_MaterialPropertyBlockHelper: {fileID: 9214284356286358845}
-  m_ColorPropertyName: 
+  colorProperties: {fileID: 11400000, guid: 6020364cae388bf46836674de415ceca, type: 2}
+  ren: {fileID: 5689798382279657119}
+  interactable: {fileID: 5028410583681814304}
 --- !u!1 &5460683979857703850
 GameObject:
   m_ObjectHideFlags: 0
@@ -6194,7 +5454,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_ThrowVelocityScale: 1.5
   m_ThrowAngularVelocityScale: 1
-  m_ForceGravityOnDetach: 1
+  m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
   m_StartingSingleGrabTransformers: []
@@ -6271,8 +5531,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 274801095271926891}
-  - component: {fileID: 505988343245298632}
-  - component: {fileID: 2494744373890121190}
+  - component: {fileID: 1530338687703467269}
   m_Layer: 0
   m_Name: Color Affordance
   m_TagString: Untagged
@@ -6295,7 +5554,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8322233410746046802}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &505988343245298632
+--- !u!114 &1530338687703467269
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6304,85 +5563,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6333858420052757579}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1410cbaaadf84a7aaa6459d37ad21b3a, type: 3}
+  m_Script: {fileID: 11500000, guid: e82466967e70535488080cd47145378c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Renderer: {fileID: 2284782018050206642}
-  m_MaterialIndex: 0
---- !u!114 &2494744373890121190
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6333858420052757579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f86d13fca2ec430d870c0f7765ad0dde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AffordanceStateProvider: {fileID: 7188872429098636438}
-  m_ReplaceIdleStateValueWithInitialValue: 1
-  m_AffordanceThemeDatum:
-    m_UseConstant: 0
-    m_ConstantValue:
-      m_StateAnimationCurve:
-        m_UseConstant: 1
-        m_ConstantValue:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 0
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        m_Variable: {fileID: 0}
-      m_List:
-      - stateName: disabled
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: idle
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: hovered
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: hoveredPriority
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: selected
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: activated
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      - stateName: focused
-        animationStateStartValue: {r: 0, g: 0, b: 0, a: 0}
-        animationStateEndValue: {r: 0, g: 0, b: 0, a: 0}
-      m_ColorBlendMode: 0
-      m_BlendAmount: 1
-    m_Variable: {fileID: 11400000, guid: 67b4d224a933ad344864e4e34033df57, type: 2}
-  m_ValueUpdated:
-    m_PersistentCalls:
-      m_Calls: []
-  m_MaterialPropertyBlockHelper: {fileID: 505988343245298632}
-  m_ColorPropertyName: 
+  colorProperties: {fileID: 11400000, guid: 6020364cae388bf46836674de415ceca, type: 2}
+  ren: {fileID: 2284782018050206642}
+  interactable: {fileID: 6641141058089842284}
 --- !u!1 &6422292641645503106
 GameObject:
   m_ObjectHideFlags: 0
@@ -6838,7 +6024,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_ThrowVelocityScale: 1.5
   m_ThrowAngularVelocityScale: 1
-  m_ForceGravityOnDetach: 1
+  m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
   m_StartingSingleGrabTransformers: []
@@ -7262,7 +6448,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_ThrowVelocityScale: 1.5
   m_ThrowAngularVelocityScale: 1
-  m_ForceGravityOnDetach: 1
+  m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
   m_StartingSingleGrabTransformers: []
@@ -8786,7 +7972,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_ThrowVelocityScale: 1.5
   m_ThrowAngularVelocityScale: 1
-  m_ForceGravityOnDetach: 1
+  m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
   m_StartingSingleGrabTransformers: []
@@ -9367,16 +8553,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2380451299511544296}
     m_Modifications:
-    - target: {fileID: 282059413016482675, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 282059413016482675, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 350546336211166436, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -9567,56 +8743,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1097831376124870475, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1097831376124870475, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1141550459830390676, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1141550459830390676, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1153725660127495723, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1153725660127495723, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1155415756139529241, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1155415756139529241, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1200468085148303562, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1200468085148303562, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1222829681732149647, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -9677,16 +8803,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1254340274422099771, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1254340274422099771, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1315122064207636134, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -9716,11 +8832,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1357555245274114707, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_QueryTerm
-      value: GSA_SFA LIKE '%Rockall%'
       objectReference: {fileID: 0}
     - target: {fileID: 1411394829112429709, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
@@ -9812,21 +8923,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2450455724342289065, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_QueryTerm
-      value: GSA_SFA LIKE '%Irish Sea%'
-      objectReference: {fileID: 0}
-    - target: {fileID: 2502677673472925902, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_QueryTerm
-      value: GSA_SFA LIKE '%Dover%'
-      objectReference: {fileID: 0}
-    - target: {fileID: 2545564446072426500, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: isHovered
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2637718517051093937, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -9886,11 +8982,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2702434510318636717, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_QueryTerm
-      value: GSA_SFA LIKE '%Hebrides%'
       objectReference: {fileID: 0}
     - target: {fileID: 2725619435823014312, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
@@ -9974,16 +9065,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2791472474490047658, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2791472474490047658, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2791472474490047658, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -9991,11 +9072,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2791472474490047658, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 2879236156173573811, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
@@ -10067,16 +9143,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3229187620320122096, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_QueryTerm
-      value: GSA_SFA LIKE '%Plymouth%'
-      objectReference: {fileID: 0}
-    - target: {fileID: 3331439845237386976, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3443583052598089758, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -10127,11 +9193,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3800550149384896676, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_QueryTerm
-      value: GSA_SFA LIKE '%Portland%'
-      objectReference: {fileID: 0}
     - target: {fileID: 3882685463814099066, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -10191,16 +9252,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3939633110297617049, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3939633110297617049, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3974882611816896077, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
@@ -10282,11 +9333,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4708521171605514307, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_QueryTerm
-      value: GSA_SFA LIKE '%Forth%'
-      objectReference: {fileID: 0}
     - target: {fileID: 4837336830574917658, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -10296,11 +9342,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4850840944499228809, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_QueryTerm
-      value: GSA_SFA LIKE '%Fastnet%'
       objectReference: {fileID: 0}
     - target: {fileID: 5250668329025329957, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
@@ -10332,11 +9373,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5301465363987798811, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_QueryTerm
-      value: GSA_SFA LIKE '%Cromarty%'
-      objectReference: {fileID: 0}
     - target: {fileID: 5453870168752125479, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -10367,16 +9403,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5488689308355248697, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5488689308355248697, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5584239583467939868, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -10386,26 +9412,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5706931301398273901, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5706931301398273901, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5820995119902546239, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5820995119902546239, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6082815122742136947, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
@@ -10432,26 +9438,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SFR New
       objectReference: {fileID: 0}
-    - target: {fileID: 6358199973922438443, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6493572503364849770, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6514356813267573446, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6514356813267573446, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6734753371533142724, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -10461,26 +9447,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6758942464207454412, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_QueryTerm
-      value: GSA_SFA LIKE '%Thames%'
-      objectReference: {fileID: 0}
-    - target: {fileID: 6795919438426932873, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6795919438426932873, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6799861944636984430, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_QueryTerm
-      value: GSA_SFA LIKE '%Shannon%'
       objectReference: {fileID: 0}
     - target: {fileID: 7008029083342213204, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
@@ -10502,11 +9468,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7089133414895257253, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_QueryTerm
-      value: GSA_SFA LIKE '%Fair Isle%'
-      objectReference: {fileID: 0}
     - target: {fileID: 7162912787905539919, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -10516,16 +9477,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7182898761337030412, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_PresetInfoIsWorld
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7339539659556399987, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_QueryTerm
-      value: GSA_SFA LIKE '%Malin%'
       objectReference: {fileID: 0}
     - target: {fileID: 7509427697883317472, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
@@ -10567,16 +9518,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7928834194010963376, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7928834194010963376, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7956309741696420420, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -10606,11 +9547,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8090246050844409855, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_QueryTerm
-      value: GSA_SFA LIKE '%Tyne%'
       objectReference: {fileID: 0}
     - target: {fileID: 8130499888279685811, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
@@ -10712,16 +9648,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8425411922575828445, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8425411922575828445, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8442441393949454647, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -10782,11 +9708,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8593180915929860509, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_QueryTerm
-      value: GSA_SFA LIKE '%Wight%'
-      objectReference: {fileID: 0}
     - target: {fileID: 8593245302933908651, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -10816,26 +9737,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8764210894976615836, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_QueryTerm
-      value: GSA_SFA LIKE '%Humber%'
-      objectReference: {fileID: 0}
-    - target: {fileID: 8769379549397020180, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8769379549397020180, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8806842417602403497, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_QueryTerm
-      value: GSA_SFA LIKE '%Lundy%'
       objectReference: {fileID: 0}
     - target: {fileID: 9056725593120021194, guid: 0060d95834bc9cd48ae833e313600ff4,
         type: 3}
@@ -10896,20 +9797,9 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9196836440685420969, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9196836440685420969, guid: 0060d95834bc9cd48ae833e313600ff4,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 1664548053336381960, guid: 0060d95834bc9cd48ae833e313600ff4, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0060d95834bc9cd48ae833e313600ff4, type: 3}
@@ -11196,16 +10086,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2771889421964387066, guid: bda23d9633731b148be8e46d2d6b6769,
-        type: 3}
-      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadVoyageMenuScene
-      objectReference: {fileID: 0}
-    - target: {fileID: 2771889421964387066, guid: bda23d9633731b148be8e46d2d6b6769,
-        type: 3}
-      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: VoyageMenuSceneLoader, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 4521892648289873768, guid: bda23d9633731b148be8e46d2d6b6769,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11256,16 +10136,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4876106810823964232, guid: bda23d9633731b148be8e46d2d6b6769,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: d7119574f08e9e6469d77a62d81f3d98, type: 2}
-    - target: {fileID: 4980153663042010049, guid: bda23d9633731b148be8e46d2d6b6769,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5683429746247284480, guid: bda23d9633731b148be8e46d2d6b6769,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -11281,56 +10151,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Voyages
       objectReference: {fileID: 0}
-    - target: {fileID: 8112450054853738976, guid: bda23d9633731b148be8e46d2d6b6769,
-        type: 3}
-      propertyPath: m_TagString
-      value: RefineOrVoyage
-      objectReference: {fileID: 0}
-    - target: {fileID: 8658906229724068262, guid: bda23d9633731b148be8e46d2d6b6769,
-        type: 3}
-      propertyPath: m_InteractableSource
-      value: 
-      objectReference: {fileID: 7564105025300405149}
-    m_RemovedComponents:
-    - {fileID: 5701211537015143634, guid: bda23d9633731b148be8e46d2d6b6769, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedComponents: []
+    m_RemovedGameObjects:
+    - {fileID: 1458066896513447930, guid: bda23d9633731b148be8e46d2d6b6769, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8112450054853738976, guid: bda23d9633731b148be8e46d2d6b6769,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4107066751476834965}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bda23d9633731b148be8e46d2d6b6769, type: 3}
---- !u!1 &4475335135154763911 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8112450054853738976, guid: bda23d9633731b148be8e46d2d6b6769,
-    type: 3}
-  m_PrefabInstance: {fileID: 5660641895200504167}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &4107066751476834965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4475335135154763911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f48eec096cbb0c46a51443387c37c2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7564105025300405149 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2771889421964387066, guid: bda23d9633731b148be8e46d2d6b6769,
-    type: 3}
-  m_PrefabInstance: {fileID: 5660641895200504167}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4475335135154763911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ad34abafad169848a38072baa96cdb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &8092509656646817295 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4521892648289873768, guid: bda23d9633731b148be8e46d2d6b6769,
