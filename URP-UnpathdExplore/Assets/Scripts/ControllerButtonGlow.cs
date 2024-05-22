@@ -20,6 +20,11 @@ public class ControllerButtonGlow : MonoBehaviour
     [SerializeField] private Material normalMaterial;
     [SerializeField] private Material glowMaterial;
 
+    [Header("Labels")]
+    [SerializeField] private GameObject triggerLabel;
+    [SerializeField] private GameObject primaryBtnLabel;
+    [SerializeField] private GameObject thumbStickLabel;
+
     private bool triggerPressed = false;
     private bool primaryPressed = false;
     private bool thumbStickPressed = false;
@@ -62,6 +67,7 @@ public class ControllerButtonGlow : MonoBehaviour
         if (!triggerPressed)
         {
             SetMaterial(triggerRenderer, normalMaterial);
+            triggerLabel.SetActive(false);
             triggerPressed = true;
         }
     }
@@ -79,6 +85,7 @@ public class ControllerButtonGlow : MonoBehaviour
         if (!primaryPressed)
         {
             SetMaterial(primaryBtnRenderer, normalMaterial);
+            primaryBtnLabel.SetActive(false);
             primaryPressed = true;
         }
     }
@@ -96,6 +103,7 @@ public class ControllerButtonGlow : MonoBehaviour
         if (!thumbStickPressed)
         {
             SetMaterial(thumbStickRenderer, normalMaterial);
+            thumbStickLabel.SetActive(false);
             thumbStickPressed = true;
         }
     }
