@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 
 // script from tutorial https://www.youtube.com/watch?v=PXbyZhR8fGc&ab_channel=ChristinaCreatesGames
+
 [RequireComponent(typeof(TMP_Text))]
 public class UpdateTextBoxStyle : MonoBehaviour
 {

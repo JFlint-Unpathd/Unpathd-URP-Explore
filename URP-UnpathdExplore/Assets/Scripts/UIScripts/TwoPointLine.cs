@@ -7,7 +7,7 @@ public class TwoPointLine : MonoBehaviour
 {
     public Transform pointA;
     public Transform pointB;
-    private LineRenderer line;
+    public LineRenderer line;
 
     // Start is called before the first frame update
     void Start()
