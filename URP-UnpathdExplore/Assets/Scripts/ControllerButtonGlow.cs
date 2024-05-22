@@ -16,11 +16,15 @@ public class ControllerButtonGlow : MonoBehaviour
     [SerializeField] private MeshRenderer primaryBtnRenderer;
     [SerializeField] private MeshRenderer thumbStickRenderer;
 
-     [Header("Materials")]
+    [Header("Materials")]
     [SerializeField] private Material normalMaterial;
     [SerializeField] private Material glowMaterial;
 
-     private void Start()
+    private bool triggerPressed = false;
+    private bool primaryPressed = false;
+    private bool thumbStickPressed = false;
+
+    private void Start()
     {
         // Set initial materials
         SetMaterial(triggerRenderer, glowMaterial);
@@ -35,66 +39,72 @@ public class ControllerButtonGlow : MonoBehaviour
 
     void Awake()
     {
-        //trigger
+        // trigger
         triggerButtonReference.action.performed += TriggerPressed;
         triggerButtonReference.action.canceled += TriggerCanceled;
 
-        //primary
+        // primary
         primaryBtnReference.action.performed += PrimaryPressed; 
-        thumbStickReference.action.canceled += PrimaryCancelled;
+        primaryBtnReference.action.canceled += PrimaryCancelled;
 
-        //thumbstick
+        // thumbstick
         thumbStickReference.action.performed += ThumbStickPressed;
-        thumbStickReference.action.performed += ThumbStickCancelled;
+        thumbStickReference.action.canceled += ThumbStickCancelled;
     }
 
-    // private void OnDisable()
-    // {
-   
-    //     //trigger
-    //     triggerButtonReference.action.performed -= TriggerPressed;
-    //     triggerButtonReference.action.canceled -= TriggerCanceled;
-
-    //     //primary
-    //     primaryBtnReference.action.performed -= PrimaryPressed; 
-    //     thumbStickReference.action.canceled -= PrimaryCancelled;
-
-    //     //thumbstick
-    //     thumbStickReference.action.performed -= ThumbStickPressed;
-    //     thumbStickReference.action.performed -= ThumbStickCancelled;
-    // }
-    
-     private void OnDisable()
+    private void OnDisable()
     {
-        // Reset materials on disable
-        SetMaterial(triggerRenderer, normalMaterial);
-        SetMaterial(primaryBtnRenderer, normalMaterial);
-        SetMaterial(thumbStickRenderer, normalMaterial);
+        // Do not reset materials on disable
     }
 
-    // #region Trigger
-    // private void TriggerPressed(InputAction.CallbackContext obj) => triggerRenderer.enabled = true;
-    // private void TriggerCanceled(InputAction.CallbackContext obj) => triggerRenderer.enabled = false;
-    // #endregion
+    private void TriggerPressed(InputAction.CallbackContext obj)
+    {
+        if (!triggerPressed)
+        {
+            SetMaterial(triggerRenderer, normalMaterial);
+            triggerPressed = true;
+        }
+    }
 
-    // #region PrimaryBtn
-    // private void PrimaryPressed(InputAction.CallbackContext obj) => primaryBtnRenderer.enabled = true;
-    // private void PrimaryCancelled(InputAction.CallbackContext obj) => primaryBtnRenderer.enabled = false;
-    // #endregion
+    private void TriggerCanceled(InputAction.CallbackContext obj)
+    {
+        if (!triggerPressed)
+        {
+            SetMaterial(triggerRenderer, glowMaterial);
+        }
+    }
 
-    // #region Thumbstick
-    // private void ThumbStickPressed(InputAction.CallbackContext obj) => thumbStickRenderer.enabled = true;
-    // private void ThumbStickCancelled(InputAction.CallbackContext obj) => thumbStickRenderer.enabled = false;
-    // #endregion
+    private void PrimaryPressed(InputAction.CallbackContext obj)
+    {
+        if (!primaryPressed)
+        {
+            SetMaterial(primaryBtnRenderer, normalMaterial);
+            primaryPressed = true;
+        }
+    }
 
-    private void TriggerPressed(InputAction.CallbackContext obj) => SetMaterial(triggerRenderer, normalMaterial);
-    private void TriggerCanceled(InputAction.CallbackContext obj) => SetMaterial(triggerRenderer, glowMaterial);
+    private void PrimaryCancelled(InputAction.CallbackContext obj)
+    {
+        if (!primaryPressed)
+        {
+            SetMaterial(primaryBtnRenderer, glowMaterial);
+        }
+    }
 
-    private void PrimaryPressed(InputAction.CallbackContext obj) => SetMaterial(primaryBtnRenderer, normalMaterial);
-    private void PrimaryCancelled(InputAction.CallbackContext obj) => SetMaterial(primaryBtnRenderer, glowMaterial);
+    private void ThumbStickPressed(InputAction.CallbackContext obj)
+    {
+        if (!thumbStickPressed)
+        {
+            SetMaterial(thumbStickRenderer, normalMaterial);
+            thumbStickPressed = true;
+        }
+    }
 
-    private void ThumbStickPressed(InputAction.CallbackContext obj) => SetMaterial(thumbStickRenderer, normalMaterial);
-    private void ThumbStickCancelled(InputAction.CallbackContext obj) => SetMaterial(thumbStickRenderer, glowMaterial);
-
-
+    private void ThumbStickCancelled(InputAction.CallbackContext obj)
+    {
+        if (!thumbStickPressed)
+        {
+            SetMaterial(thumbStickRenderer, glowMaterial);
+        }
+    }
 }
