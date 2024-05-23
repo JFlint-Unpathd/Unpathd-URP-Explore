@@ -38,6 +38,7 @@ public class ResetRefine : MonoBehaviour
     [Header("Other Prefabs")]
     public GameObject zoomObject;
     public GameObject birdsEye;
+    public GameObject groundFog;
 
     [Header("PlacementCircle Radius")]
     public float radius = 5f;
@@ -56,6 +57,7 @@ public class ResetRefine : MonoBehaviour
 
     public void CreateInitialScene()
     {
+        groundFog.SetActive(true);
 
         // Instantiate all prefabs and store references
         GameObject startingEnvInstance = InstantiatePrefab(startingEnv);
@@ -123,6 +125,7 @@ public class ResetRefine : MonoBehaviour
         }
 
         refiningSceneObjects.Clear();
+        groundFog.SetActive(false);
         
     }
 

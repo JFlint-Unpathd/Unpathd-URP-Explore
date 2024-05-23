@@ -637,7 +637,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -1.5, y: 1.5}
+  m_AnchoredPosition: {x: -1.5, y: 2.5}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3733620658524077226
@@ -651,6 +651,7 @@ GameObject:
   - component: {fileID: 7612569343824801065}
   - component: {fileID: 2176730788609897502}
   - component: {fileID: 5864425115717254514}
+  - component: {fileID: 1808267173420455845}
   m_Layer: 5
   m_Name: Handle
   m_TagString: Handle
@@ -715,6 +716,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1808267173420455845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3733620658524077226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd6422e6a9c28ae44bab776da771e433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4091799644011203815
 GameObject:
   m_ObjectHideFlags: 0
@@ -838,7 +851,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: TeleportationManager, Assembly-CSharp
-        m_MethodName: TeleportToNextPod
+        m_MethodName: TeleportToPreviousPod
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1222,6 +1235,7 @@ GameObject:
   - component: {fileID: 8368406629828828966}
   - component: {fileID: 5433763407944913326}
   - component: {fileID: 6646092819222241082}
+  - component: {fileID: 7437651132953526416}
   m_Layer: 5
   m_Name: Scrollbar Vertical
   m_TagString: Slider
@@ -1330,12 +1344,24 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5864425115717254514}
   m_HandleRect: {fileID: 7612569343824801065}
   m_Direction: 2
-  m_Value: 1.0000001
+  m_Value: 1
   m_Size: 0.18333334
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7437651132953526416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7896501582375743639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd6422e6a9c28ae44bab776da771e433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8067300823750358046
 GameObject:
   m_ObjectHideFlags: 0
@@ -1726,5 +1752,5 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: 6}
+  m_SizeDelta: {x: 20, y: 8}
   m_Pivot: {x: 0.5, y: 0.5}

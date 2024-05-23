@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,6 +29,56 @@ public class ControllerButtonGlow : MonoBehaviour
     private bool triggerPressed = false;
     private bool primaryPressed = false;
     private bool thumbStickPressed = false;
+    public bool isOnPod;
+    private bool disableTeleportationStarted = false;
+    private bool grabObjectInstantiated = false;
+
+    [Header("PromptPrefab")]
+    [SerializeField] private GameObject teleportationPodPrefab;
+    private GameObject teleportationPod;
+    [SerializeField] private GameObject grabObjectPrefab;
+    private GameObject grabObject;
+    [SerializeField] private GameObject promptMenuObject;
+    private GameObject promptMenu;
+
+    [SerializeField] private GameObject menuSceneObjectPrefab;
+    private GameObject menuSceneObject;
+    
+    // Tutorial Stage
+    private enum TutorialStage 
+    {
+        Teleport,
+        Select,
+        Menu
+    }
+
+    private TutorialStage currentTutorialStage = TutorialStage.Teleport;
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // Check if the XR Rig has collided with the teleportation pod
+        if (other.gameObject.CompareTag("TeleportationPod"))
+        {
+            isOnPod = true;
+            Debug.Log("OnTriggerEnter: " + other.gameObject.tag);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        // Check if the XR Rig has exited the teleportation pod
+        if (other.gameObject.CompareTag("TeleportationPod"))
+        {
+            isOnPod = false;
+            Debug.Log("OnTriggerExit: " + other.gameObject.tag);
+        }
+    }
+
+    private bool IsOnPod()
+    {
+        return isOnPod;
+    }
 
     private void Start()
     {
@@ -35,6 +86,10 @@ public class ControllerButtonGlow : MonoBehaviour
         SetMaterial(triggerRenderer, glowMaterial);
         SetMaterial(primaryBtnRenderer, glowMaterial);
         SetMaterial(thumbStickRenderer, glowMaterial);
+
+        // Instantiate teleportation pod
+        teleportationPod = Instantiate(teleportationPodPrefab, new Vector3(0, 0, 3), Quaternion.identity);
+        teleportationPod.SetActive(true);
     }
 
     private void SetMaterial(MeshRenderer renderer, Material material)
@@ -57,36 +112,120 @@ public class ControllerButtonGlow : MonoBehaviour
         thumbStickReference.action.canceled += ThumbStickCancelled;
     }
 
-    private void OnDisable()
+    private void ThumbStickPressed(InputAction.CallbackContext obj)
     {
-        // Do not reset materials on disable
+        switch (currentTutorialStage)
+        {
+            case TutorialStage.Teleport:
+                if (!thumbStickPressed && IsOnPod())
+                {
+                    disableTeleportationStarted = true;
+                    StartCoroutine(DisableTeleportationFeatures());
+                }
+                break;
+            case TutorialStage.Select:
+                // Ignore, not this stage's action
+                break;
+            case TutorialStage.Menu:
+                // Ignore, not this stage's action
+                break;
+        }
+    }
+
+    private IEnumerator DisableTeleportationFeatures()
+    {
+        yield return new WaitForSeconds(1f);
+        
+        SetMaterial(thumbStickRenderer, normalMaterial);
+        thumbStickLabel.SetActive(false);
+        thumbStickPressed = true;
+
+        // Deactivate teleport anchor after teleportation
+        teleportationPod.SetActive(false);
+
+        // Instantiate and activate grab object prefab
+        if (!grabObjectInstantiated)
+        {
+            grabObject = Instantiate(grabObjectPrefab, new Vector3(0, 0, 5), Quaternion.identity); // modify this line
+            grabObject.SetActive(true);
+            grabObjectInstantiated = true;
+        }
+
+        currentTutorialStage = TutorialStage.Select;
+
     }
 
     private void TriggerPressed(InputAction.CallbackContext obj)
     {
-        if (!triggerPressed)
+        switch (currentTutorialStage)
         {
-            SetMaterial(triggerRenderer, normalMaterial);
-            triggerLabel.SetActive(false);
-            triggerPressed = true;
+            case TutorialStage.Teleport:
+                // Ignore, not this stage's action
+                break;
+            case TutorialStage.Select:
+                if (!triggerPressed)
+                {
+        
+                    // Disable teleportation light and panel after delay
+                    SetMaterial(triggerRenderer, normalMaterial);
+                    triggerLabel.SetActive(false);
+                    currentTutorialStage = TutorialStage.Menu;
+
+                    // Deactivate the grabObject
+                    grabObject.SetActive(false);
+
+                    // Instantiate and activate promptMenuObject
+                    promptMenu = Instantiate(promptMenuObject, new Vector3(0, 1, 5), Quaternion.identity);
+                    promptMenu.SetActive(true);
+                    
+                }
+                break;
+         
+            case TutorialStage.Menu:
+                // Ignore as it's not this stage's action
+                break;
         }
+    }
+
+    private void PrimaryPressed(InputAction.CallbackContext obj)
+    {
+        switch (currentTutorialStage)
+        {
+            case TutorialStage.Teleport:
+                // Ignore, not this stage's action
+                break;
+            case TutorialStage.Select:
+                // Ignore, not this stage's action
+                break;
+            case TutorialStage.Menu:
+                if (!primaryPressed)
+                {
+                    if (promptMenu != null)
+                    {
+                        promptMenu.SetActive(false);
+                    }
+                    SetMaterial(primaryBtnRenderer, normalMaterial);
+                    primaryBtnLabel.SetActive(false);
+                    primaryPressed = true;
+                    StartCoroutine(DemoFinished());
+                }
+                break;
+        }
+    }
+
+    private IEnumerator DemoFinished()
+    {
+        yield return new WaitForSeconds(2f);
+        menuSceneObject = Instantiate(menuSceneObjectPrefab, new Vector3(0, 1, 7), Quaternion.identity);
+        menuSceneObject.SetActive(true);
+
     }
 
     private void TriggerCanceled(InputAction.CallbackContext obj)
     {
         if (!triggerPressed)
         {
-            SetMaterial(triggerRenderer, glowMaterial);
-        }
-    }
-
-    private void PrimaryPressed(InputAction.CallbackContext obj)
-    {
-        if (!primaryPressed)
-        {
-            SetMaterial(primaryBtnRenderer, normalMaterial);
-            primaryBtnLabel.SetActive(false);
-            primaryPressed = true;
+            //SetMaterial(triggerRenderer, glowMaterial);
         }
     }
 
@@ -98,16 +237,6 @@ public class ControllerButtonGlow : MonoBehaviour
         }
     }
 
-    private void ThumbStickPressed(InputAction.CallbackContext obj)
-    {
-        if (!thumbStickPressed)
-        {
-            SetMaterial(thumbStickRenderer, normalMaterial);
-            thumbStickLabel.SetActive(false);
-            thumbStickPressed = true;
-        }
-    }
-
     private void ThumbStickCancelled(InputAction.CallbackContext obj)
     {
         if (!thumbStickPressed)
@@ -115,4 +244,5 @@ public class ControllerButtonGlow : MonoBehaviour
             SetMaterial(thumbStickRenderer, glowMaterial);
         }
     }
+
 }

@@ -10,8 +10,7 @@ public class ItemSelectionController : MonoBehaviour
     public LayoutElement layoutElement; 
     public GameObject titlePanel;
     private GameObject infoPanel; 
-
-    private bool resultSelected = false;
+    
     private float originalWidth, originalHeight;
 
     private XRBaseInteractable interactable;
@@ -144,8 +143,6 @@ public class ItemSelectionController : MonoBehaviour
             infoPanel.SetActive(true);
             
         }
-
-    
     }
 
     private void InfoPanelOff()
@@ -159,6 +156,5 @@ public class ItemSelectionController : MonoBehaviour
             infoPanel.SetActive(false);
         
         }
-
     }
 }

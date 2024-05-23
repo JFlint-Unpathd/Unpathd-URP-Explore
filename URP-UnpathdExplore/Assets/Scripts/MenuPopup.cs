@@ -15,7 +15,8 @@ public class MenuPopup : MonoBehaviour
     {
         toggleReference.action.started += Toggle;
 
-        originalPosition = settingsMenu.transform.position;
+        //originalPosition = settingsMenu.transform.position;
+        originalPosition = settingsMenu.transform.position + new Vector3(0, 0.5f, 0);
         originalRotation = settingsMenu.transform.rotation;
 
 
@@ -59,9 +60,11 @@ public class MenuPopup : MonoBehaviour
             originalRotation = settingsMenu.transform.rotation;
 
             // Position the menu 3 units in front of the camera on the Z axis
-            settingsMenu.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 3;
+            //settingsMenu.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 3;       
+            settingsMenu.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 3 + new Vector3(0, 0.5f, 0);
 
-             // Calculate the rotation to face the camera (only rotating around the y-axis)
+
+            // Calculate the rotation to face the camera (only rotating around the y-axis)
             Vector3 toCameraDirection = Camera.main.transform.position - settingsMenu.transform.position;
             toCameraDirection.y = 0f; // Ignore vertical component
 
