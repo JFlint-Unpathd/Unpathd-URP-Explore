@@ -215,7 +215,17 @@ public class ControllerButtonGlow : MonoBehaviour
 
     private IEnumerator DemoFinished()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
+        GameObject inGameMenu = GameObject.FindWithTag("InGameMenu");
+        if (inGameMenu != null)
+        {
+            inGameMenu.SetActive(false);
+        }
+        else
+        {
+            Debug.LogWarning("myObject is not assigned.");
+        }
+
         menuSceneObject = Instantiate(menuSceneObjectPrefab, new Vector3(0, 1, 7), Quaternion.identity);
         menuSceneObject.SetActive(true);
 

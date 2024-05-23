@@ -12,7 +12,7 @@ public class VoyageOrRefine : MonoBehaviour
     [SerializeField] GameObject[] voyageOptions;
     [SerializeField] private GameObject centerObject;
     public Transform anchorPoint; 
-    private XRGrabInteractable grabInteractable;
+    private XRBaseInteractable interactable;
 
     private Vector3 parentPosition;
     private Quaternion parentRotation;
@@ -21,8 +21,8 @@ public class VoyageOrRefine : MonoBehaviour
 
     private void Awake()
     {
-        grabInteractable = GetComponent<XRGrabInteractable>();
-        grabInteractable.hoverEntered.AddListener(OnHoverEnter);
+        interactable = GetComponent<XRBaseInteractable>();
+        interactable.hoverEntered.AddListener(OnHoverEnter);
     }
 
     void Start()
