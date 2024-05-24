@@ -46,6 +46,9 @@ public class SqliteController : MonoBehaviour {
 
     //....
 
+    // Added for storing original positions
+    public Dictionary<UnpathResource, Vector3> originalPositions = new Dictionary<UnpathResource, Vector3>();
+
     //added for isolate logic
     private List<UnpathResource> allQResults = new List<UnpathResource>();
 
@@ -283,6 +286,9 @@ public class SqliteController : MonoBehaviour {
             //Debug.Log( $"id : {id}" );
             m_resourceDict.Add( id, res );
             ++count;
+
+            // Store the original position of the resource
+            originalPositions[res] = res.transform.position;
             // Add the UnpathResource object to the allObjects list for the isolate logic
             allQResults.Add( res );
 

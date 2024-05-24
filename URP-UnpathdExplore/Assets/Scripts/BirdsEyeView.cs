@@ -5,24 +5,38 @@ public class BirdsEyeView : MonoBehaviour
 {
  
     private GameObject xrOrigin;
-    private Rigidbody xrOriginRigidbody;    
+    private GameObject birdPlane;
 
+    private Rigidbody xrOriginRigidbody;    
     private XRBaseInteractable interactable;
 
     private bool isSelected = false;
     private float originalYPosition;
 
-    private GameObject birdPlane;
+    private SqliteController sqliteController;
+
+    float yOffset = 0.5f; 
 
     void Awake()
     {
         
         interactable = GetComponent<XRBaseInteractable>();
+        interactable.selectEntered.AddListener(OnSelected);
     }
 
     private void Start()
     {
-        
+        sqliteController = FindObjectOfType<SqliteController>();
+
+        if (sqliteController == null)
+        {
+            Debug.LogError("SqliteController not found in the scene.");
+        }
+        else
+        {
+            Debug.Log("SqliteController found.");
+        }
+
         // Find the XR Origin and its Rigidbody using the XRRig tag
         xrOrigin = GameObject.FindWithTag("XRRig");
 
@@ -45,22 +59,27 @@ public class BirdsEyeView : MonoBehaviour
             return;
         }
 
-
         xrOriginRigidbody.isKinematic = true;
         
-        interactable.selectEntered.AddListener(OnSelected);
-
     }
 
     private void OnSelected(SelectEnterEventArgs args)
     {
-        Vector3 offset = new Vector3(1f, 1f, 1f);  // Replace with your desired offset
+        Vector3 offset = new Vector3(1f, 1f, 1f);
         
         if (!isSelected) // For the first selection
         {
+
+            // Adjust the positions of all resources
+            foreach (var resource in sqliteController.GetAllQResults())
+            {
+                var position = resource.transform.position;
+                position.y += yOffset; // Adjust y position by adding the yOffset
+                resource.transform.position = position;
+            }
+
             xrOrigin.transform.position = transform.position - offset;
-            isSelected = true; // Switch the state to true after first selection
-            
+
             // Find the birdPlane GameObject using the BirdPlane tag even if it's inactive
             GameObject[] birdPlanes = GameObject.FindGameObjectsWithTag("BirdPlane");
             if (birdPlanes.Length > 0)
@@ -69,35 +88,34 @@ public class BirdsEyeView : MonoBehaviour
             }
             else
             {
-                Debug.LogError("BirdPlane not found with tag 'BirdPlane'. Make sure it exists in the scene.");
+                Debug.LogError("BirdPlane not found");
                 return;
             }
 
-            // Ensure birdPlane is not null before accessing it
             if (birdPlane != null)
             {
                 birdPlane.SetActive(true);
             }
             else
             {
-                Debug.LogError("BirdPlane GameObject is null. Make sure it's properly initialized.");
+                Debug.LogError("BirdPlane GameObject is null");
             }
+
+            isSelected = true;
         }
 
         else // For the second selection
         {
+            // Restore the original positions of all resources
+            foreach (var resource in sqliteController.GetAllQResults())
+            {
+                resource.transform.position = sqliteController.originalPositions[resource];
+            }
+
             xrOrigin.transform.position = new Vector3(xrOrigin.transform.position.x, originalYPosition, xrOrigin.transform.position.z);
-            isSelected = false; // Switch the state back to false after second selection
-            
-            // Ensure birdPlane is not null before accessing it
-            if (birdPlane != null)
-            {
-                //birdPlane.SetActive(false);
-            }
-            else
-            {
-                Debug.LogError("BirdPlane GameObject is null. Make sure it's properly initialized.");
-            }
+            isSelected = false; 
+        
+
         }
     }
 }
