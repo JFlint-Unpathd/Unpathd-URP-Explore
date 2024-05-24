@@ -92,7 +92,7 @@ public class BirdsEyeView : MonoBehaviour
             // Ensure birdPlane is not null before accessing it
             if (birdPlane != null)
             {
-                birdPlane.SetActive(false);
+                //birdPlane.SetActive(false);
             }
             else
             {

@@ -32,8 +32,11 @@ public class ResetRefine : MonoBehaviour
     private GameObject execQInstance;
     private GameObject reRefInstance;
 
-    private Transform originalExecQTransform;
-    private Transform originalReRefTransform;
+    private Vector3 originalExecQPosition;
+    private Quaternion originalExecQRotation;
+
+    private Vector3 originalReRefPosition;
+    private Quaternion originalReRefRotation;
 
     [Header("Other Prefabs")]
     public GameObject zoomObject;
@@ -47,6 +50,12 @@ public class ResetRefine : MonoBehaviour
     private void Awake() {
         m_databaseController = GameObject.FindWithTag( "DB" ).GetComponent<SqliteController>();  
 
+        originalExecQPosition = new Vector3(1, 0.15f, 2);
+        originalExecQRotation = Quaternion.Euler(0, 33, 0);
+
+        originalReRefPosition = new Vector3(1, 0.15f, 2);
+        originalReRefRotation = Quaternion.Euler(0, 33, 0);
+
     }
 
     private void Start() 
@@ -57,6 +66,8 @@ public class ResetRefine : MonoBehaviour
 
     public void CreateInitialScene()
     {
+        
+
         groundFog.SetActive(true);
 
         // Instantiate all prefabs and store references
@@ -79,7 +90,8 @@ public class ResetRefine : MonoBehaviour
             if (execQInstance == null)
             {
                 execQInstance = InstantiatePrefab(execQ);
-                originalExecQTransform = execQInstance.transform;
+                originalExecQPosition = execQInstance.transform.position;
+                originalExecQRotation = execQInstance.transform.rotation;
             }
 
 
@@ -103,6 +115,7 @@ public class ResetRefine : MonoBehaviour
 
         execQInstance.SetActive(true);
         ArrangeObjectsInCircle(refiningObjectsInstance.transform);
+        ResetTransform(execQInstance, originalExecQPosition, originalExecQRotation);
 
 
     }
@@ -145,6 +158,7 @@ public class ResetRefine : MonoBehaviour
 
     public void CreateResultsScene()
     {
+        
         execQInstance.SetActive(false);
         // Find the XRRig GameObject
         GameObject xrRig = GameObject.FindWithTag("XRRig");
@@ -152,7 +166,8 @@ public class ResetRefine : MonoBehaviour
         if (reRefInstance == null)
         {
             reRefInstance = InstantiatePrefab(reRef);
-            originalReRefTransform = reRefInstance.transform;
+            originalReRefPosition = reRefInstance.transform.position;
+            originalReRefRotation = reRefInstance.transform.rotation;
         }
 
 
@@ -185,6 +200,7 @@ public class ResetRefine : MonoBehaviour
 
         SFRMap.SetActive(true);
         reRefInstance.SetActive(true);
+        ResetTransform(reRefInstance, originalReRefPosition, originalReRefRotation);
         //zoomObject.SetActive(true);
 
     }
@@ -276,6 +292,18 @@ public class ResetRefine : MonoBehaviour
         }
     }
 
+    private void ResetTransform(GameObject gameObject, Vector3 originalPosition, Quaternion originalRotation)
+    {
+        if (gameObject != null)
+        {
+            gameObject.transform.position = originalPosition;
+            gameObject.transform.rotation = originalRotation;
+        }
+        else
+        {
+            Debug.LogError("GameObject is null. Cannot reset transform.");
+        }
+    }
 
 
 }
