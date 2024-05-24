@@ -8,10 +8,10 @@ public class VoiceoverManager : MonoBehaviour
     public GameObject UnpathText;
     public GameObject settingsMenu;
     
-    public AudioClip introClip;
-    public AudioClip settingsClip;
-    public AudioClip explanatoryClip;
-    public AudioClip resultsClip;
+    public AudioClip[] introClips;
+    public AudioClip[] settingsClips;
+    public AudioClip[] explanatoryClips;
+    public AudioClip[] resultsClips;
     
     private AudioSource audioSource;
 
@@ -34,7 +34,7 @@ public class VoiceoverManager : MonoBehaviour
     void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        StartCoroutine(IntroAudio(3f, 2f));
+        StartCoroutine(PlayAudioClipsSequentially(introClips, 3f));
     }
 
     void OnDestroy()
@@ -48,7 +48,7 @@ public class VoiceoverManager : MonoBehaviour
         if (scene.name == "IntroMenu")
         {
             Debug.Log("detected");
-            StartCoroutine(IntroAudio(3f, 2f));
+            StartCoroutine(PlayAudioClipsSequentially(introClips, 3f));
         }
         if (scene.name == "DatabaseSearch")
         {
@@ -56,30 +56,24 @@ public class VoiceoverManager : MonoBehaviour
         }
     }
 
-
-    private IEnumerator IntroAudio(float introDelay, float settingsDelay)
+    private IEnumerator PlayAudioClipsSequentially(AudioClip[] clips, float initialDelay)
     {
-        //wait for volume sliders to be populated
-        
-        yield return null;
+        // Initial delay
+        yield return new WaitForSecondsRealtime(initialDelay);
 
-        if (settingsMenu != null)
+        foreach (AudioClip clip in clips)
         {
-            settingsMenu.SetActive(false);
+            AudioManager.instance.PlayClip(clip);
+            yield return new WaitUntil(() => !AudioManager.instance.IsPlaying());
         }
-        
-        yield return new WaitForSecondsRealtime(introDelay);
-        AudioManager.instance.PlayClip(introClip);
 
-        yield return new WaitUntil(() => !AudioManager.instance.IsPlaying());
-
-        if (settingsMenu != null)
+        if (clips == introClips && settingsMenu != null)
         {
             if (UnpathText != null)
             {
                 UnpathText.SetActive(false);
             }
-            
+
             // Deactivate all children first
             foreach (Transform child in settingsMenu.transform)
             {
@@ -95,19 +89,20 @@ public class VoiceoverManager : MonoBehaviour
                 firstChild.gameObject.SetActive(true);
             }
 
-            yield return new WaitForSecondsRealtime(settingsDelay);
+            yield return new WaitForSecondsRealtime(initialDelay);
 
-            AudioManager.instance.PlayClip(settingsClip);
-
+            // Play settings audio clips
+            StartCoroutine(PlayAudioClipsSequentially(settingsClips, 2f));
         }
-        else
+        else if (clips == null)
         {
             Debug.Log("No GameObject assigned to 'settingsMenu'");
         }
     }
+
     public void PlayExplanatoryAudio()
     {
-        StartCoroutine(ExplanatoryAudioDelay(explanatoryClip, 2f));
+        StartCoroutine(PlayAudioClipsSequentially(explanatoryClips, 2f));
     }
 
     private IEnumerator ExplanatoryAudioDelay(AudioClip clip, float delay)
@@ -119,13 +114,8 @@ public class VoiceoverManager : MonoBehaviour
         
     public void PlayResultsAudio()
     {
-        StartCoroutine(ResultsAudioDelay(resultsClip, 2f));
+        StartCoroutine(PlayAudioClipsSequentially(resultsClips, 2f));
     }
 
-    private IEnumerator ResultsAudioDelay(AudioClip clip, float delay)
-    {
-        yield return new WaitForSecondsRealtime(delay);
-        AudioManager.instance.PlayClip(clip);
-    }
 
 }

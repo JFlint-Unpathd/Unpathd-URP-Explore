@@ -22,7 +22,7 @@ public class VoyageOrRefine : MonoBehaviour
     private void Awake()
     {
         interactable = GetComponent<XRBaseInteractable>();
-        interactable.hoverEntered.AddListener(OnHoverEnter);
+        interactable.selectEntered.AddListener(OnSelectEntered);
     }
 
     void Start()
@@ -32,7 +32,7 @@ public class VoyageOrRefine : MonoBehaviour
     }
 
 
-    public void OnHoverEnter(HoverEnterEventArgs args)
+    public void OnSelectEntered(SelectEnterEventArgs args)
     {
         GameObject item = args.interactable.gameObject;
         
