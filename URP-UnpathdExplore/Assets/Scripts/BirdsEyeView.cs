@@ -70,12 +70,10 @@ public class BirdsEyeView : MonoBehaviour
         if (!isSelected) // For the first selection
         {
 
-            // Adjust the positions of all resources
-            foreach (var resource in sqliteController.GetAllQResults())
+            //Adjust the positions of all resources
+            foreach (var resource in sqliteController.GetResourceDict().Values)
             {
-                var position = resource.transform.position;
-                position.y += yOffset; // Adjust y position by adding the yOffset
-                resource.transform.position = position;
+                resource.transform.position = new Vector3(resource.transform.position.x, 0.5f, resource.transform.position.z);
             }
 
             xrOrigin.transform.position = transform.position - offset;
@@ -107,9 +105,9 @@ public class BirdsEyeView : MonoBehaviour
         else // For the second selection
         {
             // Restore the original positions of all resources
-            foreach (var resource in sqliteController.GetAllQResults())
+            foreach (var entry in sqliteController.GetOriginalPositions())
             {
-                resource.transform.position = sqliteController.originalPositions[resource];
+                entry.Key.transform.position = entry.Value;
             }
 
             xrOrigin.transform.position = new Vector3(xrOrigin.transform.position.x, originalYPosition, xrOrigin.transform.position.z);

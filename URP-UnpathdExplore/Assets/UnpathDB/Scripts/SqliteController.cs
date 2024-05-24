@@ -48,7 +48,10 @@ public class SqliteController : MonoBehaviour {
 
     // Added for storing original positions
     public Dictionary<UnpathResource, Vector3> originalPositions = new Dictionary<UnpathResource, Vector3>();
-
+    public Dictionary<UnpathResource, Vector3> GetOriginalPositions()
+    {
+        return originalPositions;
+    }
     //added for isolate logic
     private List<UnpathResource> allQResults = new List<UnpathResource>();
 
@@ -287,8 +290,6 @@ public class SqliteController : MonoBehaviour {
             m_resourceDict.Add( id, res );
             ++count;
 
-            // Store the original position of the resource
-            originalPositions[res] = res.transform.position;
             // Add the UnpathResource object to the allObjects list for the isolate logic
             allQResults.Add( res );
 
@@ -300,6 +301,9 @@ public class SqliteController : MonoBehaviour {
                 string temporalTag = reader.GetString(temporalOrdinal);
                 float yCoordinate = (float)GetYCoordinateFromTemporalTag(temporalTag);
                 obj.transform.position = new Vector3(obj.transform.position.x, yCoordinate, obj.transform.position.z);
+
+                // Store the original position of the resource
+                originalPositions[res] = res.transform.position;
             }
 
             // added for zoom logic
@@ -315,6 +319,8 @@ public class SqliteController : MonoBehaviour {
                 }
             }
         }
+
+
             
         }
         reader.Close();
