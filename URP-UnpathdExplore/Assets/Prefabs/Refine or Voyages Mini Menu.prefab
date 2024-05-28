@@ -31,8 +31,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 920678457603728682}
   - {fileID: 1487174120701548586}
+  - {fileID: 920678457603728682}
   - {fileID: 3448581340698761501}
   m_Father: {fileID: 4827274157782940234}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -609,9 +609,9 @@ GameObject:
   - component: {fileID: 920678457603728682}
   - component: {fileID: 4887929781763278321}
   - component: {fileID: 2895518340005783756}
-  - component: {fileID: 3397350680540300019}
   - component: {fileID: 8389272924409119503}
   - component: {fileID: 4247093350707802442}
+  - component: {fileID: 910389868119682217}
   m_Layer: 0
   m_Name: Voyages
   m_TagString: Voyages
@@ -767,19 +767,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 14
   m_CollisionDetection: 0
---- !u!114 &3397350680540300019
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1033361506690919348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 885ddb8af8e470e4f8a029fca80a0390, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  voiceoverClip: {fileID: 8300000, guid: b6d5d9acd3b356e4fbb4802c5fee7caa, type: 3}
 --- !u!114 &8389272924409119503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -813,6 +800,19 @@ MonoBehaviour:
   - {fileID: 7304077476474439969, guid: 253b22632c204b045a162dd4e87c8a55, type: 3}
   centerObject: {fileID: 1033361506690919348}
   anchorPoint: {fileID: 5878055673875147425}
+--- !u!114 &910389868119682217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1033361506690919348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca573ab5caf07fb41806a6d0b28830c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  voiceoverClip: {fileID: 8300000, guid: b6d5d9acd3b356e4fbb4802c5fee7caa, type: 3}
 --- !u!1 &1459000501787520453
 GameObject:
   m_ObjectHideFlags: 0
@@ -1169,9 +1169,9 @@ GameObject:
   - component: {fileID: 3448581340698761501}
   - component: {fileID: 6597955486069736149}
   - component: {fileID: 6373129845324080881}
-  - component: {fileID: 3654692932647694993}
   - component: {fileID: 756773575388474049}
   - component: {fileID: 4394688205692530861}
+  - component: {fileID: 503256749438848778}
   m_Layer: 0
   m_Name: Demo
   m_TagString: Demo
@@ -1327,19 +1327,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 14
   m_CollisionDetection: 0
---- !u!114 &3654692932647694993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2208618213138450334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 885ddb8af8e470e4f8a029fca80a0390, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  voiceoverClip: {fileID: 8300000, guid: f737825fbd70fc64fbce4d08f579668d, type: 3}
 --- !u!114 &756773575388474049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1364,6 +1351,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f48eec096cbb0c46a51443387c37c2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &503256749438848778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2208618213138450334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca573ab5caf07fb41806a6d0b28830c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  voiceoverClip: {fileID: 8300000, guid: f737825fbd70fc64fbce4d08f579668d, type: 3}
 --- !u!1 &2502247750736629655
 GameObject:
   m_ObjectHideFlags: 0
@@ -1535,9 +1535,9 @@ GameObject:
   - component: {fileID: 1487174120701548586}
   - component: {fileID: 2544192567711446499}
   - component: {fileID: 7910823547351150849}
-  - component: {fileID: 3294745139086931105}
   - component: {fileID: 4790252858636137967}
   - component: {fileID: 8712323855407037928}
+  - component: {fileID: 3337339934734405826}
   m_Layer: 0
   m_Name: 'Refine '
   m_TagString: ResetRefine
@@ -1693,19 +1693,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 14
   m_CollisionDetection: 0
---- !u!114 &3294745139086931105
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2732893433165271624}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 885ddb8af8e470e4f8a029fca80a0390, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  voiceoverClip: {fileID: 8300000, guid: 006cbc5d8d4985c479b40bbd5ea0ae9b, type: 3}
 --- !u!114 &4790252858636137967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1730,6 +1717,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f48eec096cbb0c46a51443387c37c2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3337339934734405826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2732893433165271624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca573ab5caf07fb41806a6d0b28830c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  voiceoverClip: {fileID: 8300000, guid: 006cbc5d8d4985c479b40bbd5ea0ae9b, type: 3}
 --- !u!1 &3015977658497082316
 GameObject:
   m_ObjectHideFlags: 0

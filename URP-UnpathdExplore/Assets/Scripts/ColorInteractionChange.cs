@@ -24,7 +24,7 @@ public class ColorInteractionChange : MonoBehaviour
 
     void HoverEntered(HoverEnterEventArgs args)
     {
-        Debug.Log("Hover Entered");
+        //Debug.Log("Hover Entered");
 
         if (interactable.isSelected)
             return;
@@ -34,7 +34,7 @@ public class ColorInteractionChange : MonoBehaviour
 
     void HoverExited(HoverExitEventArgs args)
     {
-        Debug.Log("Hover Exited");
+        //Debug.Log("Hover Exited");
         if (interactable.isSelected)
         {
             ren.material.color = colorProperties.snappedColor;
@@ -50,14 +50,14 @@ public class ColorInteractionChange : MonoBehaviour
 
     void SelectEntered(SelectEnterEventArgs args)
     {
-        Debug.Log("Select Entered");
+        //Debug.Log("Select Entered");
         //ren.material = colorProperties.selectedMat;
         ren.material.color = colorProperties.selectedColor;
     }
 
     void SelectExited(SelectExitEventArgs args)
     {
-        Debug.Log("Select Exited");
+        //Debug.Log("Select Exited");
         //ren.material = colorProperties.normalMat;
         ren.material.color = colorProperties.normalColor;
     } 

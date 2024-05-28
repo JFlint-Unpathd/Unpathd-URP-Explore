@@ -8,14 +8,26 @@ public class VoiceoverManager : MonoBehaviour
     public GameObject UnpathText;
     public GameObject settingsMenu;
     
+    [Header("Scene Start VOs")]
     public AudioClip[] introClips;
     public AudioClip[] settingsClips;
-    public AudioClip[] explanatoryClips;
+    public AudioClip[] searchRoomClips;
     public AudioClip[] resultsClips;
-    
+    public AudioClip[] refineOrVoyageClips;
+    public AudioClip[] demoAudioClips;
+
+
+    [Header("Voyage Start VOs")]
+    public AudioClip[] napoleonicClips;
+    public AudioClip[] mesolithicClips;
+    public AudioClip[] coDesignClips;
+    public AudioClip[] shippingClips;
+
     private AudioSource audioSource;
 
-    
+    private bool introClipsFinished = false;
+     private bool settingsAudioPlayed = false;
+
     void Awake()
     {
         // Ensure only one instance of SceneAudioManager exists
@@ -29,11 +41,14 @@ public class VoiceoverManager : MonoBehaviour
             // If another instance exists, destroy this one
             Destroy(gameObject);
         }
+
     }
 
     void Start()
     {
+        
         SceneManager.sceneLoaded += OnSceneLoaded;
+        StartCoroutine(SettingsMenuDisable());
         StartCoroutine(PlayAudioClipsSequentially(introClips, 3f));
     }
 
@@ -52,8 +67,14 @@ public class VoiceoverManager : MonoBehaviour
         }
         if (scene.name == "DatabaseSearch")
         {
-            PlayExplanatoryAudio();
+            PlaySearchRoomAudio();
         }
+    }
+
+    private IEnumerator SettingsMenuDisable()
+    {
+        yield return null;
+        settingsMenu.SetActive(false);
     }
 
     private IEnumerator PlayAudioClipsSequentially(AudioClip[] clips, float initialDelay)
@@ -67,7 +88,13 @@ public class VoiceoverManager : MonoBehaviour
             yield return new WaitUntil(() => !AudioManager.instance.IsPlaying());
         }
 
-        if (clips == introClips && settingsMenu != null)
+        // Check if these are the intro clips
+        if (clips == introClips)
+        {
+            introClipsFinished = true;
+        }
+
+        if (introClipsFinished && settingsMenu != null)
         {
             if (UnpathText != null)
             {
@@ -91,8 +118,13 @@ public class VoiceoverManager : MonoBehaviour
 
             yield return new WaitForSecondsRealtime(initialDelay);
 
-            // Play settings audio clips
-            StartCoroutine(PlayAudioClipsSequentially(settingsClips, 2f));
+            if (!settingsAudioPlayed)
+            {
+            
+                StartCoroutine(PlayAudioClipsSequentially(settingsClips, 1f));
+                settingsAudioPlayed = true;
+            }
+
         }
         else if (clips == null)
         {
@@ -100,9 +132,9 @@ public class VoiceoverManager : MonoBehaviour
         }
     }
 
-    public void PlayExplanatoryAudio()
+    public void PlaySearchRoomAudio()
     {
-        StartCoroutine(PlayAudioClipsSequentially(explanatoryClips, 2f));
+        StartCoroutine(PlayAudioClipsSequentially(searchRoomClips, 2f));
     }
 
     private IEnumerator ExplanatoryAudioDelay(AudioClip clip, float delay)
@@ -110,12 +142,84 @@ public class VoiceoverManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(delay);
         AudioManager.instance.PlayClip(clip);
     }
-
         
     public void PlayResultsAudio()
     {
         StartCoroutine(PlayAudioClipsSequentially(resultsClips, 2f));
     }
 
+    public void PlayRefineorVoyageAudio()
+    {
+        StartCoroutine(PlayAudioClipsSequentially(refineOrVoyageClips, 2f));
+    }
+
+    public void NapoleonicVoyageAudio()
+    {
+        StartCoroutine(PlayAudioClipsSequentially(napoleonicClips, 2f));
+    }
+
+    public void MesolithicVoyageAudio()
+    {
+        StartCoroutine(PlayAudioClipsSequentially(mesolithicClips, 2f));
+    }
+
+    public void CoDesignVoyageAudio()
+    {
+        StartCoroutine(PlayAudioClipsSequentially(coDesignClips, 2f));
+    }
+
+    public void WomenShippingVoyageAudio()
+    {
+        StartCoroutine(PlayAudioClipsSequentially(shippingClips, 2f));
+    }
+
+    public void DemoAudio()
+    {
+        StartCoroutine(PlayAudioClipsSequentially(demoAudioClips, 2f));
+    }
+
+
+    public void HandleSceneAudio(string sceneName)
+    {
+        if (sceneName == "Dumfries and Galloway Napoleonic Voyage")
+        {
+            NapoleonicVoyageAudio();
+            
+        }
+        else if (sceneName == "Submerged Landscaped Mesolithic Voyage")
+        {
+            MesolithicVoyageAudio();
+            
+        }
+        else if (sceneName == "Co-Design Voyage")
+        {
+            CoDesignVoyageAudio();
+            
+        }
+        else if (sceneName == "Women and Shipping in the 20th Century")
+        {
+            WomenShippingVoyageAudio();
+            
+        }
+        else if (sceneName == "Database Search")
+        {
+            PlaySearchRoomAudio();
+            
+        }
+        else if (sceneName == "RefineOrVoyage")
+        {
+            PlayRefineorVoyageAudio();    
+        }
+        else if (sceneName == "Demo")
+        {
+            DemoAudio();
+            
+        }
+        else
+        {
+            Debug.Log("No matching tag found.");
+        }
+
+    }
 
 }

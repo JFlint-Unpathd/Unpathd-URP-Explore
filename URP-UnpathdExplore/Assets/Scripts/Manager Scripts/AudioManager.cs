@@ -35,6 +35,11 @@ public class AudioManager : MonoBehaviour
             audioSource.clip = clip;
             audioSource.Play();
         }
+        
+        else
+        {
+            Debug.Log("Audio is currently playing. New audio clip will not be played until the current one finishes.");
+        }
     }
 
     public bool IsPlaying()

@@ -28,37 +28,44 @@ public class SceneChangeOnSnap : MonoBehaviour
         if (item.tag == tag1)
         {
             SceneManager.LoadScene("Dumfries and Galloway Napoleonic Voyage");
+            VoiceoverManager.instance.HandleSceneAudio("Dumfries and Galloway Napoleonic Voyage");
             Debug.Log("Interacted item's tag: " + item.tag);
         }
         else if (item.tag == tag2)
         {
             SceneManager.LoadScene("Submerged Landscaped Mesolithic Voyage");
+            VoiceoverManager.instance.HandleSceneAudio("Submerged Landscaped Mesolithic Voyage");
             Debug.Log("Interacted item's tag: " + item.tag);
         }
         else if (item.tag == tag3)
         {
             SceneManager.LoadScene("Co-Design Voyage");
+            VoiceoverManager.instance.HandleSceneAudio("Co-Design Voyage");
             Debug.Log("Interacted item's tag: " + item.tag);
         }
         else if (item.tag == tag4)
         {
             SceneManager.LoadScene("Women and Shipping in the 20th Century");
+            VoiceoverManager.instance.HandleSceneAudio("Women and Shipping in the 20th Centur");
             Debug.Log("Interacted item's tag: " + item.tag);
         }
         
         else if (item.tag == tag5)
         {
             SceneManager.LoadScene("Database Search");
+            VoiceoverManager.instance.HandleSceneAudio("Database Search");
             Debug.Log("Interacted item's tag: " + item.tag);
         }
         else if (item.tag == tag6)
         {
             SceneManager.LoadScene("RefineOrVoyage");
+            VoiceoverManager.instance.HandleSceneAudio("RefineOrVoyage");
             Debug.Log("Interacted item's tag: " + item.tag);
         }
         else if (item.tag == tag7)
         {
             SceneManager.LoadScene("Demo");
+            VoiceoverManager.instance.HandleSceneAudio("Demo");
             Debug.Log("Interacted item's tag: " + item.tag);
         }
    

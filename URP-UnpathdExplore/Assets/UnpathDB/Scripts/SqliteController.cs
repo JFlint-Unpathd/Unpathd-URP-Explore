@@ -42,9 +42,9 @@ public class SqliteController : MonoBehaviour {
     {
         return m_resourceDict;
     }
-    public ZoomController zoomController;
+    //public ZoomController zoomController;
 
-    //....
+    private ResetRefine resetRefine;
 
     // Added for storing original positions
     public Dictionary<UnpathResource, Vector3> originalPositions = new Dictionary<UnpathResource, Vector3>();
@@ -97,10 +97,11 @@ public class SqliteController : MonoBehaviour {
         }
 
         // added to fill in inspector, kept clearing field, failsafe option
-        zoomController = FindObjectOfType<ZoomController>();
+        //zoomController = FindObjectOfType<ZoomController>();
 
         //added for map projection
         mapProjectionController.GetComponent<MapProjection>();
+        resetRefine = FindObjectOfType<ResetRefine>();
 
 
     }
@@ -320,11 +321,16 @@ public class SqliteController : MonoBehaviour {
             }
         }
 
-
-            
         }
+
         reader.Close();
         reader.Dispose();
+
+        // Notify ResetRefine that processing is done
+        if (resetRefine != null)
+        {
+            resetRefine.OnProcessingDone();
+        }
         
         //StaticBatchingUtility.Combine( m_root );
         Debug.Log( $"Object count: {count}" );
@@ -550,6 +556,14 @@ public void StopQuery()
         for( int i = 0, len = allQResults.Count; i < len; i++ ) 
         {
             Destroy(allQResults[i].gameObject);
+        }
+    }
+
+    private void NotifyProcessingDone()
+    {
+        if (resetRefine != null)
+        {
+            resetRefine.OnProcessingDone();
         }
     }
 

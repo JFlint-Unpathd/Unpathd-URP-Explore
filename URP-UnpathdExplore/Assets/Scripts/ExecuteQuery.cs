@@ -72,7 +72,7 @@ public class ExecuteQuery : MonoBehaviour
 
     private IEnumerator DisableWarning() {
         yield return new WaitWhile(() => AudioManager.instance.IsPlaying());
-        yield return new WaitForSecondsRealtime(5);
+        yield return new WaitForSecondsRealtime(2);
         warningPanel.SetActive(false);
         descriptionPanel.SetActive(true);
     }

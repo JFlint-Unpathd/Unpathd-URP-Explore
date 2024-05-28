@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class ResetRefine : MonoBehaviour
 {
@@ -41,10 +42,13 @@ public class ResetRefine : MonoBehaviour
     [Header("Other Prefabs")]
     public GameObject zoomObject;
     public GameObject birdsEye;
+    private GameObject birdsEyeInstance;
     public GameObject groundFog;
 
     [Header("PlacementCircle Radius")]
     public float radius = 5f;
+
+    private bool isReaderDone = false;
     
 
     private void Awake() {
@@ -77,8 +81,6 @@ public class ResetRefine : MonoBehaviour
         GameObject refiningObjectsInstance = InstantiatePrefab(refiningObjects);
         refiningSceneObjects.Add(refiningObjectsInstance);
 
-        
-
         // Find the XRRig GameObject
         GameObject xrRig = GameObject.FindWithTag("XRRig");
 
@@ -92,6 +94,11 @@ public class ResetRefine : MonoBehaviour
                 execQInstance = InstantiatePrefab(execQ);
                 originalExecQPosition = execQInstance.transform.position;
                 originalExecQRotation = execQInstance.transform.rotation;
+            }
+            else
+            {
+                // Reset the position and rotation if the object already exists
+                ResetTransform(execQInstance, originalExecQPosition, originalExecQRotation);
             }
 
 
@@ -163,14 +170,20 @@ public class ResetRefine : MonoBehaviour
         // Find the XRRig GameObject
         GameObject xrRig = GameObject.FindWithTag("XRRig");
 
+        VoiceoverManager.instance.PlayResultsAudio();
+
         if (reRefInstance == null)
         {
             reRefInstance = InstantiatePrefab(reRef);
             originalReRefPosition = reRefInstance.transform.position;
             originalReRefRotation = reRefInstance.transform.rotation;
         }
-
-
+        else
+        {
+            // Reset the position and rotation if the object already exists
+            ResetTransform(execQInstance, originalExecQPosition, originalExecQRotation);
+        }
+        
         if (xrRig != null)
         {
             // To be in the center when restarting
@@ -183,10 +196,12 @@ public class ResetRefine : MonoBehaviour
         {
             SFRMap = GameObject.FindGameObjectWithTag("SFR");
 
-            GameObject birdsEyeInstance = InstantiatePrefab(birdsEye);
+            birdsEyeInstance = InstantiatePrefab(birdsEye);
             resultsSceneObjects.Add(birdsEyeInstance);
 
         }
+
+        DisableBirdsEye();
 
         // Activate scene objects if they exist
         foreach (GameObject obj in resultsSceneObjects)
@@ -303,6 +318,47 @@ public class ResetRefine : MonoBehaviour
         {
             Debug.LogError("GameObject is null. Cannot reset transform.");
         }
+    }
+
+    
+    // New methods for enabling and disabling birdsEye view
+    private void DisableBirdsEye()
+    {
+        if (birdsEyeInstance != null) 
+        {
+            var rb = birdsEyeInstance.GetComponent<Rigidbody>();
+            var interactable = birdsEyeInstance.GetComponent<XRSimpleInteractable>();
+
+            if (rb != null) rb.isKinematic = true;
+            if (interactable != null) interactable.enabled = false;
+        }
+        else
+        {
+            Debug.Log("BirdsEyeInstance not found");
+        }
+    }
+
+    private void EnableBirdsEye()
+    {
+        if (birdsEyeInstance != null) 
+        {
+            var rb = birdsEyeInstance.GetComponent<Rigidbody>();
+            var interactable = birdsEyeInstance.GetComponent<XRSimpleInteractable>();
+
+            if (rb != null) rb.isKinematic = false;
+            if (interactable != null) interactable.enabled = true;
+        }
+        else
+        {
+            Debug.Log("BirdsEyeInstance not found");
+        }
+    }
+
+    // Method to be called by SqliteController when processing is done
+    public void OnProcessingDone()
+    {
+        isReaderDone = true;
+        EnableBirdsEye();
     }
 
 

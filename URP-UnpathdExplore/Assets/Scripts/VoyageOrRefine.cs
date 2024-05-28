@@ -94,6 +94,17 @@ public class VoyageOrRefine : MonoBehaviour
         // Set the renderer of firstChild to be invisible
         centerRenderer.enabled = false;
 
+        // Find and disable the interactableLabel child object
+        Transform interactableLabel = centerObject.transform.Find("Interactable Label");
+        if (interactableLabel != null)
+        {
+            interactableLabel.gameObject.SetActive(false);
+        }
+        else
+        {
+            Debug.LogError("interactableLabel child object not found in Center object");
+        }
+
         float centerObjectHeight = centerRenderer.bounds.size.y;
 
         int numberOfObjects = voyageOptions.Length;
