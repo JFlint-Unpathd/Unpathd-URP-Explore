@@ -26,7 +26,8 @@ public class VoiceoverManager : MonoBehaviour
     private AudioSource audioSource;
 
     private bool introClipsFinished = false;
-     private bool settingsAudioPlayed = false;
+    private bool settingsAudioPlayed = false;
+    public bool stopAudio;
 
     void Awake()
     {
@@ -50,6 +51,12 @@ public class VoiceoverManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
         StartCoroutine(SettingsMenuDisable());
         StartCoroutine(PlayAudioClipsSequentially(introClips, 3f));
+    }
+    
+    public static void Stop() 
+    {
+        AudioManager.Stop();
+        instance.stopAudio = true;
     }
 
     void OnDestroy()
@@ -84,6 +91,11 @@ public class VoiceoverManager : MonoBehaviour
 
         foreach (AudioClip clip in clips)
         {
+            if( stopAudio ) 
+            {  
+                stopAudio = false;
+                yield break;
+            }
             AudioManager.instance.PlayClip(clip);
             yield return new WaitUntil(() => !AudioManager.instance.IsPlaying());
         }

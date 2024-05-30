@@ -42,6 +42,11 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public static void Stop() 
+    {
+        instance.audioSource.Stop();
+    }   
+
     public bool IsPlaying()
     {
         return audioSource.isPlaying;

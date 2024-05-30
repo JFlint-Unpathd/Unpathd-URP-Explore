@@ -24,6 +24,8 @@ public class SceneChangeOnSnap : MonoBehaviour
 
     public void OnSelectEnter(SelectEnterEventArgs args)
     {
+        VoiceoverManager.Stop();
+
         GameObject item = args.interactable.gameObject;
         if (item.tag == tag1)
         {

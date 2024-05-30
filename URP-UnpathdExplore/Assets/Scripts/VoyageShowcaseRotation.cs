@@ -5,6 +5,8 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class VoyageShowcaseRotation : MonoBehaviour
 {
+    public bool allowRotation = true;
+
     private bool isRotating = true;
     private bool isGrabbed = false;
     private Quaternion originalRotation;
@@ -55,7 +57,7 @@ public class VoyageShowcaseRotation : MonoBehaviour
     {
         if (!isGrabbed)
         {
-            if (isRotating)
+            if (!isGrabbed && allowRotation)
             {
                 // Calculate the angle to rotate
                 float angle = rotationSpeed * Time.fixedDeltaTime;
