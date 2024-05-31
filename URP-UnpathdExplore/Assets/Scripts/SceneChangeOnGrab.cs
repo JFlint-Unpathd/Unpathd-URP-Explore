@@ -12,6 +12,8 @@ public class SceneChangeOnSnap : MonoBehaviour
     private string tag5 = "ResetRefine";
     private string tag6 = "RefineOrVoyage";
     private string tag7 = "Demo";
+    private string tag8 = "Credits";
+
     
 
     private XRBaseInteractable interactable;
@@ -68,7 +70,13 @@ public class SceneChangeOnSnap : MonoBehaviour
         else if (item.tag == tag7)
         {
             SceneManager.LoadScene("Demo");
-            //VoiceoverManager.instance.HandleSceneAudio("Demo");
+            VoiceoverManager.instance.HandleSceneAudio("Demo");
+            Debug.Log("Interacted item's tag: " + item.tag);
+        }
+        else if (item.tag == tag8)
+        {
+            SceneManager.LoadScene("Credits");
+            VoiceoverManager.instance.HandleSceneAudio("Credits");
             Debug.Log("Interacted item's tag: " + item.tag);
         }
    

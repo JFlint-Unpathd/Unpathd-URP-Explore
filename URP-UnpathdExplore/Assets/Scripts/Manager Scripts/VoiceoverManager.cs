@@ -15,6 +15,7 @@ public class VoiceoverManager : MonoBehaviour
     public AudioClip[] resultsClips;
     public AudioClip[] refineOrVoyageClips;
     public AudioClip[] demoAudioClips;
+    public AudioClip[] creditsAudioClips;
 
 
     [Header("Voyage Start VOs")]
@@ -190,6 +191,10 @@ public class VoiceoverManager : MonoBehaviour
     {
         StartCoroutine(PlayAudioClipsSequentially(demoAudioClips, 2f));
     }
+    public void CreditsAudio()
+    {
+        StartCoroutine(PlayAudioClipsSequentially(creditsAudioClips, 2f));
+    }
 
 
     public void HandleSceneAudio(string sceneName)
@@ -226,7 +231,10 @@ public class VoiceoverManager : MonoBehaviour
         else if (sceneName == "Demo")
         {
             DemoAudio();
-            
+        }
+        else if (sceneName == "Credits")
+        {
+            CreditsAudio();
         }
         else
         {

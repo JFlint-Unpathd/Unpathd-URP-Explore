@@ -9,6 +9,7 @@ public class InfoPanel : MonoBehaviour {
     private TMPro.TMP_Text m_title;
     private TMPro.TMP_Text m_desc;
     private TMPro.TMP_Text m_label;
+     private Transform m_parent;
 
     private Transform m_playerTransform;
 
@@ -32,26 +33,48 @@ public class InfoPanel : MonoBehaviour {
         m_label.text = label;
     }
     
+    // public static bool Show( Transform parent, string title, string desc, string label ) {
+    //     // if we're showing the same parent, actually hide... this is prob not the best way to do this, but it makes it simple
+    //     if( _instance.transform.parent == parent ) {
+    //         Hide();
+    //         return false;
+    //     }
+    //     _instance.SetInfo( title, desc, label );
+    //     if( !_instance.isActiveAndEnabled ) {
+    //         _instance.gameObject.SetActive( true );
+    //     }
+    //     _instance.transform.SetParent( parent, false );
+    //     return true;
+    // }
+
     public static bool Show( Transform parent, string title, string desc, string label ) {
-        // if we're showing the same parent, actually hide... this is prob not the best way to do this, but it makes it simple
-        if( _instance.transform.parent == parent ) {
-            Hide();
-            return false;
-        }
-        _instance.SetInfo( title, desc, label );
-        if( !_instance.isActiveAndEnabled ) {
-            _instance.gameObject.SetActive( true );
-        }
-        _instance.transform.SetParent( parent, false );
-        return true;
+    // if we're showing the same parent, actually hide... this is prob not the best way to do this, but it makes it simple
+    if( _instance.m_parent == parent ) {
+        _instance.m_parent = null;
+        Hide();
+        return false;
+    }
+    _instance.SetInfo( title, desc, label );
+    if( !_instance.isActiveAndEnabled ) {
+        _instance.gameObject.SetActive( true );
+    }
+    _instance.transform.position = parent.position;
+    _instance.m_parent = parent;
+    return true;
     }
 
+    // public static void Hide() {
+    //     _instance.transform.SetParent( null, false );
+    //     if( _instance.isActiveAndEnabled ) {
+    //         _instance.gameObject.SetActive( false );
+    //     }
+    // }
+
     public static void Hide() {
-        _instance.transform.SetParent( null, false );
-        if( _instance.isActiveAndEnabled ) {
-            _instance.gameObject.SetActive( false );
-        }
+    if( _instance.isActiveAndEnabled ) {
+        _instance.gameObject.SetActive( false );
     }
+}
 
     private void Update() {
         transform.LookAt( m_playerTransform );
