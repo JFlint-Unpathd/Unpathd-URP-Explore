@@ -24,6 +24,7 @@ public class SceneChangeOnSnap : MonoBehaviour
 
     public void OnSelectEnter(SelectEnterEventArgs args)
     {
+        Debug.Log("Select Entered. Stopping current audio...");
         VoiceoverManager.Stop();
 
         GameObject item = args.interactable.gameObject;
@@ -67,7 +68,7 @@ public class SceneChangeOnSnap : MonoBehaviour
         else if (item.tag == tag7)
         {
             SceneManager.LoadScene("Demo");
-            VoiceoverManager.instance.HandleSceneAudio("Demo");
+            //VoiceoverManager.instance.HandleSceneAudio("Demo");
             Debug.Log("Interacted item's tag: " + item.tag);
         }
    

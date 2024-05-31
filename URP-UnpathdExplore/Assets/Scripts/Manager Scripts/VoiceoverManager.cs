@@ -55,8 +55,12 @@ public class VoiceoverManager : MonoBehaviour
     
     public static void Stop() 
     {
+        Debug.Log("VoiceoverManager: Stopping current audio...");
         AudioManager.Stop();
-        instance.stopAudio = true;
+        if (instance != null)
+        {
+            instance.stopAudio = true;
+        }
     }
 
     void OnDestroy()
@@ -66,6 +70,7 @@ public class VoiceoverManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Debug.Log("Scene Loaded: " + scene.name);
         // Check if this is the IntroScene
         if (scene.name == "IntroMenu")
         {
@@ -76,6 +81,7 @@ public class VoiceoverManager : MonoBehaviour
         {
             PlaySearchRoomAudio();
         }
+        HandleSceneAudio(scene.name);
     }
 
     private IEnumerator SettingsMenuDisable()
@@ -94,6 +100,7 @@ public class VoiceoverManager : MonoBehaviour
             if( stopAudio ) 
             {  
                 stopAudio = false;
+                Debug.Log("Audio sequence stopped.");
                 yield break;
             }
             AudioManager.instance.PlayClip(clip);
@@ -147,12 +154,6 @@ public class VoiceoverManager : MonoBehaviour
     public void PlaySearchRoomAudio()
     {
         StartCoroutine(PlayAudioClipsSequentially(searchRoomClips, 2f));
-    }
-
-    private IEnumerator ExplanatoryAudioDelay(AudioClip clip, float delay)
-    {
-        yield return new WaitForSecondsRealtime(delay);
-        AudioManager.instance.PlayClip(clip);
     }
         
     public void PlayResultsAudio()

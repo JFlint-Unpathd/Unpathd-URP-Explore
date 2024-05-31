@@ -7,6 +7,9 @@ public class NextScene : MonoBehaviour
 {
     public void LoadNextScene()
     {
+        //Debug.Log("Loading Next Scene. Stopping current audio...");
+        VoiceoverManager.Stop();
+
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex + 1);
         
