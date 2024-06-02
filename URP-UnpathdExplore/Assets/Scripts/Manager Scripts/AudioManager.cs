@@ -44,7 +44,11 @@ public class AudioManager : MonoBehaviour
 
     public static void Stop() 
     {
-        instance.audioSource.Stop();
+        //instance.audioSource.Stop();
+        if (instance != null && instance.audioSource != null)
+        {
+            instance.audioSource.Stop();
+        }
     }   
 
     public bool IsPlaying()

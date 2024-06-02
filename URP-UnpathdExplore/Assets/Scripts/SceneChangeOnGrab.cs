@@ -51,7 +51,7 @@ public class SceneChangeOnSnap : MonoBehaviour
         else if (item.tag == tag4)
         {
             SceneManager.LoadScene("Women and Shipping in the 20th Century");
-            VoiceoverManager.instance.HandleSceneAudio("Women and Shipping in the 20th Centur");
+            VoiceoverManager.instance.HandleSceneAudio("Women and Shipping in the 20th Century");
             Debug.Log("Interacted item's tag: " + item.tag);
         }
         

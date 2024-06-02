@@ -8,7 +8,7 @@ public class AudioDelay : MonoBehaviour
 
     public void StartAudioDelay()
     {
-        AudioDelayManager.instance.StartExplanatoryAudioDelay(imgSettingsVo, 1f);
+        //AudioDelayManager.instance.StartExplanatoryAudioDelay(imgSettingsVo, 1f);
         Debug.Log("Audio delay started");
     }
 }

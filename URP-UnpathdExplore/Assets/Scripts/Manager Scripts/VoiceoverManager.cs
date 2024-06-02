@@ -51,7 +51,7 @@ public class VoiceoverManager : MonoBehaviour
         
         SceneManager.sceneLoaded += OnSceneLoaded;
         StartCoroutine(SettingsMenuDisable());
-        StartCoroutine(PlayAudioClipsSequentially(introClips, 3f));
+        StartCoroutine(PlayAudioClipsSequentially(introClips, 2f));
     }
     
     public static void Stop() 
@@ -76,19 +76,23 @@ public class VoiceoverManager : MonoBehaviour
         if (scene.name == "IntroMenu")
         {
             Debug.Log("detected");
-            StartCoroutine(PlayAudioClipsSequentially(introClips, 3f));
+            StartCoroutine(PlayAudioClipsSequentially(introClips, 2f));
         }
         if (scene.name == "DatabaseSearch")
         {
             PlaySearchRoomAudio();
         }
+        
         HandleSceneAudio(scene.name);
     }
 
     private IEnumerator SettingsMenuDisable()
     {
         yield return null;
-        settingsMenu.SetActive(false);
+        if (settingsMenu != null)
+        {
+            settingsMenu.SetActive(false);
+        }
     }
 
     private IEnumerator PlayAudioClipsSequentially(AudioClip[] clips, float initialDelay)
@@ -216,6 +220,7 @@ public class VoiceoverManager : MonoBehaviour
         }
         else if (sceneName == "Women and Shipping in the 20th Century")
         {
+            //Debug.Log("Women scene audio not playing");
             WomenShippingVoyageAudio();
             
         }
