@@ -1,80 +1,67 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class TeleportationManager : MonoBehaviour
-
 {
-    public TeleportationProvider teleportationProvider; 
+    public TeleportationProvider teleportationProvider;
     public GameObject[] teleportationPods;
     public GameObject[] podContents;
     private int currentPodIndex = 0;
 
+    public static TeleportationManager _instance;
+
+    public static void SetPodIndex(int index)
+    {
+        _instance.currentPodIndex = index;
+        _instance.UpdatePodContentsVisibility();
+    }
+
+    private void Awake()
+    {
+        _instance = this;
+    }
 
     void Start()
     {
-
         UpdatePodContentsVisibility();
-
     }
-
 
     public void TeleportToNextPod()
     {
         // Increment the current pod index (with wrap-around)
         currentPodIndex = (currentPodIndex + 1) % teleportationPods.Length;
-
-        // Get the next pod's teleportation anchor
-        TeleportationAnchor nextPodTeleportationAnchor = teleportationPods[currentPodIndex].GetComponent<TeleportationAnchor>();
-
-        // Calculate the direction from the pod to the content block
-        Vector3 directionToContentBlock = podContents[currentPodIndex].transform.position - nextPodTeleportationAnchor.teleportAnchorTransform.position;
-
-        // Create a rotation that looks towards the content block
-        Quaternion rotationToFaceContentBlock = Quaternion.LookRotation(directionToContentBlock);
-
-        // Generate a new teleport request
-        TeleportRequest teleportRequest = new TeleportRequest
-        {
-            destinationPosition = nextPodTeleportationAnchor.teleportAnchorTransform.position,
-            destinationRotation = nextPodTeleportationAnchor.teleportAnchorTransform.rotation
-        };
-
-        // Queue the teleportation request
-        teleportationProvider.QueueTeleportRequest(teleportRequest);
-
-        // Update the visibility of pod contents
-        UpdatePodContentsVisibility();
+        TeleportToCurrentPod();
     }
 
     public void TeleportToPreviousPod()
     {
         // Decrement the current pod index (with wrap-around)
         currentPodIndex = (currentPodIndex - 1 + teleportationPods.Length) % teleportationPods.Length;
+        TeleportToCurrentPod();
+    }
 
-        // Get the previous pod's teleportation anchor
-        TeleportationAnchor previousPodTeleportationAnchor = teleportationPods[currentPodIndex].GetComponent<TeleportationAnchor>();
+    private void TeleportToCurrentPod()
+    {
+        // Get the current pod's teleportation anchor
+        TeleportationAnchor currentPodTeleportationAnchor = teleportationPods[currentPodIndex].GetComponent<TeleportationAnchor>();
 
-        // Calculate the direction from the pod to the content block
-        Vector3 directionToContentBlock = podContents[currentPodIndex].transform.position - previousPodTeleportationAnchor.teleportAnchorTransform.position;
-        
-        // Create a rotation that looks towards the content block
-        Quaternion rotationToFaceContentBlock = Quaternion.LookRotation(directionToContentBlock);
-                                
-        // Generate a new teleport request
-        TeleportRequest teleportRequest = new TeleportRequest
+        // Ensure the teleportation anchor is valid
+        if (currentPodTeleportationAnchor != null)
         {
-            destinationPosition = previousPodTeleportationAnchor.teleportAnchorTransform.position,
-            destinationRotation = previousPodTeleportationAnchor.teleportAnchorTransform.rotation
-        };
+            // Generate a new teleport request
+            TeleportRequest teleportRequest = new TeleportRequest
+            {
+                destinationPosition = currentPodTeleportationAnchor.teleportAnchorTransform.position,
+                destinationRotation = currentPodTeleportationAnchor.teleportAnchorTransform.rotation
+            };
 
-        // Queue the teleportation request
-        teleportationProvider.QueueTeleportRequest(teleportRequest);
+            // Queue the teleportation request
+            teleportationProvider.QueueTeleportRequest(teleportRequest);
+        }
 
         // Update the visibility of pod contents
         UpdatePodContentsVisibility();
     }
-
 
     // Update the visibility of pod contents based on the current pod index
     void UpdatePodContentsVisibility()
@@ -84,5 +71,4 @@ public class TeleportationManager : MonoBehaviour
             podContents[i].SetActive(i == currentPodIndex);
         }
     }
-    
 }

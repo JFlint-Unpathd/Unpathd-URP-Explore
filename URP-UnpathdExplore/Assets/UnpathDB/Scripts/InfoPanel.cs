@@ -33,19 +33,6 @@ public class InfoPanel : MonoBehaviour {
         m_label.text = label;
     }
     
-    // public static bool Show( Transform parent, string title, string desc, string label ) {
-    //     // if we're showing the same parent, actually hide... this is prob not the best way to do this, but it makes it simple
-    //     if( _instance.transform.parent == parent ) {
-    //         Hide();
-    //         return false;
-    //     }
-    //     _instance.SetInfo( title, desc, label );
-    //     if( !_instance.isActiveAndEnabled ) {
-    //         _instance.gameObject.SetActive( true );
-    //     }
-    //     _instance.transform.SetParent( parent, false );
-    //     return true;
-    // }
 
     public static bool Show( Transform parent, string title, string desc, string label ) {
     // if we're showing the same parent, actually hide... this is prob not the best way to do this, but it makes it simple
@@ -63,18 +50,14 @@ public class InfoPanel : MonoBehaviour {
     return true;
     }
 
-    // public static void Hide() {
-    //     _instance.transform.SetParent( null, false );
-    //     if( _instance.isActiveAndEnabled ) {
-    //         _instance.gameObject.SetActive( false );
-    //     }
-    // }
 
-    public static void Hide() {
-    if( _instance.isActiveAndEnabled ) {
-        _instance.gameObject.SetActive( false );
+    public static void Hide() 
+    {
+        _instance.m_parent = null; // add this 
+        if( _instance.isActiveAndEnabled ) {
+            _instance.gameObject.SetActive( false );
+        }
     }
-}
 
     private void Update() {
         transform.LookAt( m_playerTransform );

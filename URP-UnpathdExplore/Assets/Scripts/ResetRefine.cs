@@ -92,8 +92,10 @@ public class ResetRefine : MonoBehaviour
             if (execQInstance == null)
             {
                 execQInstance = InstantiatePrefab(execQ);
-                originalExecQPosition = execQInstance.transform.position;
-                originalExecQRotation = execQInstance.transform.rotation;
+                //originalExecQPosition = execQInstance.transform.position;
+                originalExecQPosition = execQInstance.transform.localPosition;
+                //originalExecQRotation = execQInstance.transform.rotation;
+                originalExecQRotation = execQInstance.transform.localRotation;
             }
             else
             {
@@ -175,8 +177,10 @@ public class ResetRefine : MonoBehaviour
         if (reRefInstance == null)
         {
             reRefInstance = InstantiatePrefab(reRef);
-            originalReRefPosition = reRefInstance.transform.position;
-            originalReRefRotation = reRefInstance.transform.rotation;
+            //originalReRefPosition = reRefInstance.transform.position;
+            originalReRefPosition = reRefInstance.transform.localPosition;
+            //originalReRefRotation = reRefInstance.transform.rotation;
+            originalReRefRotation = reRefInstance.transform.localRotation;
         }
         else
         {
@@ -253,6 +257,7 @@ public class ResetRefine : MonoBehaviour
         m_databaseController.ClearResourceDictandLists();
         m_databaseController.ResetQuery();
 
+        InfoPanel.Hide();
 
     }
 
