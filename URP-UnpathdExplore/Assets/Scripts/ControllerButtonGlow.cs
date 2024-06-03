@@ -43,6 +43,11 @@ public class ControllerButtonGlow : MonoBehaviour
 
     [SerializeField] private GameObject menuSceneObjectPrefab;
     private GameObject menuSceneObject;
+
+     [Header("Audio Clips")]
+    [SerializeField] private AudioClip teleportClip;
+    [SerializeField] private AudioClip selectClip;
+    [SerializeField] private AudioClip menuClip;
     
     // Tutorial Stage
     private enum TutorialStage 
@@ -90,6 +95,9 @@ public class ControllerButtonGlow : MonoBehaviour
         // Instantiate teleportation pod
         teleportationPod = Instantiate(teleportationPodPrefab, new Vector3(0, 0, 3), Quaternion.identity);
         teleportationPod.SetActive(true);
+
+        // Play the teleport tutorial audio
+        AudioManager.instance.PlayClip(teleportClip);
     }
 
     private void SetMaterial(MeshRenderer renderer, Material material)
@@ -153,6 +161,8 @@ public class ControllerButtonGlow : MonoBehaviour
 
         currentTutorialStage = TutorialStage.Select;
 
+        AudioManager.instance.PlayClip(selectClip);
+
     }
 
     private void TriggerPressed(InputAction.CallbackContext obj)
@@ -177,12 +187,15 @@ public class ControllerButtonGlow : MonoBehaviour
                     // Instantiate and activate promptMenuObject
                     promptMenu = Instantiate(promptMenuObject, new Vector3(0, 1, 5), Quaternion.identity);
                     promptMenu.SetActive(true);
+
                     
                 }
                 break;
          
             case TutorialStage.Menu:
-                // Ignore as it's not this stage's action
+            // Play the menu tutorial audio
+            AudioManager.instance.PlayClip(menuClip);
+            // Ignore as it's not this stage's action
                 break;
         }
     }
