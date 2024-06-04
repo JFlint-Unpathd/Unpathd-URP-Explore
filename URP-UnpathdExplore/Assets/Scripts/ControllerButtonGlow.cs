@@ -154,7 +154,7 @@ public class ControllerButtonGlow : MonoBehaviour
         // Instantiate and activate grab object prefab
         if (!grabObjectInstantiated)
         {
-            grabObject = Instantiate(grabObjectPrefab, new Vector3(0, 0, 5), Quaternion.identity); // modify this line
+            grabObject = Instantiate(grabObjectPrefab, new Vector3(0, 0, 6), Quaternion.identity); // modify this line
             grabObject.SetActive(true);
             grabObjectInstantiated = true;
         }
