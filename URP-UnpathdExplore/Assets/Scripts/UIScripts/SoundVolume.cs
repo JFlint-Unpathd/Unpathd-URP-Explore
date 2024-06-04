@@ -7,22 +7,31 @@ using UnityEngine.SceneManagement;
 
 public class SoundVolume : MonoBehaviour
 {
-    [SerializeField] List<Slider> volumeSliders = new List<Slider>();
-    [SerializeField] private List<Slider> onOffSliders = new List<Slider>();
+    public List<Slider> volumeSliders = new List<Slider>();
+    public List<Slider> onOffSliders = new List<Slider>();
 
     private AudioSource audioSource;
     public AudioManager audioManager;
     
+
     private void Awake()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
-
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        volumeSliders.Clear();
+        onOffSliders.Clear();
 
+        FindVolumeSliders();
+        FindOnOffSliders();
+    }
+
+    
     void Start()
     {
         audioManager = GetComponent<AudioManager>();
@@ -52,44 +61,46 @@ public class SoundVolume : MonoBehaviour
         }
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        Debug.Log("sceneloadeddebug");
-        // Clear the lists
-        volumeSliders.Clear();
-        onOffSliders.Clear();
 
-        // Start a coroutine to find the new sliders after a short delay
-        StartCoroutine(FindSlidersAfterDelay());
-    }
+    // private void FindOnOffSliders()
+    // {
+    //     // Search for all on/off sliders by tag
+    //     GameObject[] sliderObjects = GameObject.FindGameObjectsWithTag("SoundOnOffSlider");
 
-    private IEnumerator FindSlidersAfterDelay()
-    {
-        // Wait for a short delay
-        yield return new WaitForSeconds(1f);
+    //     // Loop through all found GameObjects
+    //     foreach (GameObject sliderObject in sliderObjects)
+    //     {
+    //         Slider slider = sliderObject.GetComponent<Slider>();
+    //         if (slider != null)
+    //         {
+    //             // Add the found slider to the list
+    //             onOffSliders.Add(slider);
+    //         }
+    //     }
 
-        // Then find the new sliders
-        FindOnOffSliders();
-        FindVolumeSliders();
-    }
+    //     // If no on/off sliders are found
+    //     if ( onOffSliders.Count == 0)
+    //     {
+    //         Debug.LogWarning("No on/off sliders found in the scene.");
+    //     }
+    // }
 
 
     private void FindOnOffSliders()
     {
-        // Search for all on/off sliders by tag
-        GameObject[] sliderObjects = GameObject.FindGameObjectsWithTag("SoundOnOffSlider");
+        // Search for all on/off sliders, including inactive ones
+        Slider[] sliderObjects = Resources.FindObjectsOfTypeAll<Slider>();
 
         // Loop through all found GameObjects
-        foreach (GameObject sliderObject in sliderObjects)
+        foreach (Slider slider in sliderObjects)
         {
-            Slider slider = sliderObject.GetComponent<Slider>();
-            if (slider != null)
+            if (slider.gameObject.CompareTag("SoundOnOffSlider"))
             {
                 // Add the found slider to the list
                 onOffSliders.Add(slider);
             }
         }
-
+        
         // If no on/off sliders are found
         if ( onOffSliders.Count == 0)
         {
@@ -98,16 +109,39 @@ public class SoundVolume : MonoBehaviour
     }
 
 
+    // private void FindVolumeSliders()
+    // {
+    //     // Search for all volume sliders by tag
+    //     GameObject[] sliderObjects = GameObject.FindGameObjectsWithTag("VolumeSlider");
+        
+    //     // Loop through all found GameObjects
+    //     foreach (GameObject sliderObject in sliderObjects)
+    //     {
+    //         Slider slider = sliderObject.GetComponent<Slider>();
+    //         if (slider != null)
+    //         {
+    //             // Add the found slider to the list
+    //             volumeSliders.Add(slider);
+    //         }
+    //     }
+
+    //     // If no volume sliders are found, you might want to handle this case
+    //     if (volumeSliders.Count == 0)
+    //     {
+    //         Debug.LogWarning("No volume sliders found in the scene.");
+    //     }
+    // }
+
+
     private void FindVolumeSliders()
     {
-        // Search for all volume sliders by tag
-        GameObject[] sliderObjects = GameObject.FindGameObjectsWithTag("VolumeSlider");
+        // Search for all volume sliders, including inactive ones
+        Slider[] sliderObjects = Resources.FindObjectsOfTypeAll<Slider>();
 
         // Loop through all found GameObjects
-        foreach (GameObject sliderObject in sliderObjects)
+        foreach (Slider slider in sliderObjects)
         {
-            Slider slider = sliderObject.GetComponent<Slider>();
-            if (slider != null)
+            if (slider.gameObject.CompareTag("VolumeSlider"))
             {
                 // Add the found slider to the list
                 volumeSliders.Add(slider);
