@@ -1,12 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.EventSystems;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class ImageSlideshow : MonoBehaviour
 {
     public RectTransform contentPanel;
+    private Coroutine slideRoutine;
+    public XRBaseInteractable interactable;
     public float slideSpeed = 20f;
     public float waitTime = 2f;
+    public float imageNumber = 4;
 
     private float contentWidth;
     private float containerWidth;
@@ -15,8 +20,11 @@ public class ImageSlideshow : MonoBehaviour
     void Start()
     {
         containerWidth = contentPanel.parent.GetComponent<RectTransform>().rect.width;
-        contentWidth = imageWidth * 4; // Total width of all images
-        StartCoroutine(SlideImages());
+        contentWidth = imageWidth * imageNumber; // Total width of all images
+        slideRoutine = StartCoroutine(SlideImages());
+
+        interactable.onHoverEntered.AddListener(OnHoverEnter);
+        interactable.onHoverExited.AddListener(OnHoverExit);
     }
 
     IEnumerator SlideImages()
@@ -49,4 +57,18 @@ public class ImageSlideshow : MonoBehaviour
             }
         }
     }
+
+    public void OnHoverEnter(XRBaseInteractor interactor)
+    {
+        // The controller is hovering over the object, so stop the slideshow
+        StopCoroutine(slideRoutine);
+    }
+
+    public void OnHoverExit(XRBaseInteractor interactor)
+    {
+        // The controller has stopped hovering over the object, so resume the slideshow
+        slideRoutine = StartCoroutine(SlideImages());
+    }
+
+
 }

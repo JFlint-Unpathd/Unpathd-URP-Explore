@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SoundVolume : MonoBehaviour
 {
@@ -12,6 +13,15 @@ public class SoundVolume : MonoBehaviour
     private AudioSource audioSource;
     public AudioManager audioManager;
     
+    private void Awake()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
     void Start()
     {
@@ -19,6 +29,7 @@ public class SoundVolume : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         volumeSliders.Clear();
+        onOffSliders.Clear();
 
         FindOnOffSliders();
         FindVolumeSliders();
@@ -39,6 +50,27 @@ public class SoundVolume : MonoBehaviour
         {
             Load();
         }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("sceneloadeddebug");
+        // Clear the lists
+        volumeSliders.Clear();
+        onOffSliders.Clear();
+
+        // Start a coroutine to find the new sliders after a short delay
+        StartCoroutine(FindSlidersAfterDelay());
+    }
+
+    private IEnumerator FindSlidersAfterDelay()
+    {
+        // Wait for a short delay
+        yield return new WaitForSeconds(1f);
+
+        // Then find the new sliders
+        FindOnOffSliders();
+        FindVolumeSliders();
     }
 
 

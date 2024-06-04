@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Title: Warfare
-  m_QueryTerm: 
+  m_QueryTerm: GSA_Themes_Warfare_All LIKE '%Y%'
 --- !u!114 &5900939356326925887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1221,7 +1221,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Title: Materials
-  m_QueryTerm: 
+  m_QueryTerm: GSA_Themes_Material_Cargo LIKE '%Y%' AND GSA_Themes_Material_Technology
+    LIKE '%Y%'
 --- !u!114 &7075669100706148944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1833,7 +1834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885ddb8af8e470e4f8a029fca80a0390, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  voiceoverClip: {fileID: 8300000, guid: d9072ac616f8e8f4ebb29ac2dcd44894, type: 3}
+  voiceoverClip: {fileID: 8300000, guid: 1a67c6aee0c2ec84b9d81b5b1a8f20c7, type: 3}
 --- !u!54 &516627797790252067
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2563,7 +2564,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Title: Sea/Shore
-  m_QueryTerm: 
+  m_QueryTerm: GSA_LandSea LIKE '%Sea%' OR GSA_LandSea LIKE '%Land%'
 --- !u!114 &7257206859169532495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6261,7 +6262,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Title: People
-  m_QueryTerm: 
+  m_QueryTerm: 'GSA_Themes_Crew LIKE ''%Y%'' AND GSA_Themes_Migration LIKE ''%Y%''
+    AND GSA_Themes_Slavery LIKE ''%Y%'' AND GSA_Themes_People LIKE ''%Y%'' '
 --- !u!114 &2824970751070915820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10156,31 +10158,8 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 1458066896513447930, guid: bda23d9633731b148be8e46d2d6b6769, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8112450054853738976, guid: bda23d9633731b148be8e46d2d6b6769,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 776277219505503154}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bda23d9633731b148be8e46d2d6b6769, type: 3}
---- !u!1 &4475335135154763911 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8112450054853738976, guid: bda23d9633731b148be8e46d2d6b6769,
-    type: 3}
-  m_PrefabInstance: {fileID: 5660641895200504167}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &776277219505503154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4475335135154763911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 885ddb8af8e470e4f8a029fca80a0390, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  voiceoverClip: {fileID: 8300000, guid: 7b65f8965b5896a4e815725f1aa4b053, type: 3}
 --- !u!4 &8092509656646817295 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4521892648289873768, guid: bda23d9633731b148be8e46d2d6b6769,
