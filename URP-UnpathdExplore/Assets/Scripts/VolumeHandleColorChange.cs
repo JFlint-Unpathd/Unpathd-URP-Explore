@@ -1,3 +1,6 @@
+// 2024-06-05 AI-Tag 
+// This was created with assistance from Muse, a Unity Artificial Intelligence product
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,17 +16,22 @@ public class VolumeHandleColorChange : MonoBehaviour
 
     private void Start()
     {
-        // Get the Image component attached to this GameObject
-        imageComponent = GetComponent<Image>();
-
         // Set the initial color to green
-        imageComponent.color = greenColor;
+        SetColor(greenColor);
     }
 
     public void SetColor(Color color)
     {
-        imageComponent.color = color;
+        // Get the Image component attached to this GameObject
+        imageComponent = GetComponent<Image>();
+
+        if (imageComponent != null)
+        {
+            imageComponent.color = color;
+        }
+        else
+        {
+            Debug.Log("No Image component attached to this GameObject.");
+        }
     }
-    
-    
 }
