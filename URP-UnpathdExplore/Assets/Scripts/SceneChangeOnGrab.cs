@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class SceneChangeOnSnap : MonoBehaviour
+public class SceneChangeOnGrab : MonoBehaviour
 {
     private string tag1 = "DGNapoleonic";
     private string tag2 = "LandscapesMesolithic";

@@ -27,6 +27,7 @@ public class VoiceoverManager : MonoBehaviour
 
     private bool introClipsFinished = false;
     private bool settingsAudioPlayed = false;
+    public bool demoAudioPlayed = false;
     public bool stopAudio;
 
     void Awake()
@@ -146,8 +147,8 @@ public class VoiceoverManager : MonoBehaviour
 
             if (!settingsAudioPlayed)
             {
-                settingsAudioPlayed = true;
                 StartCoroutine(PlaySettingsAudioSequentially(settingsClips));
+                settingsAudioPlayed = true;
             }
         }
         else if (clips == null)
@@ -203,6 +204,8 @@ public class VoiceoverManager : MonoBehaviour
     public void DemoAudio()
     {
         StartCoroutine(PlayAudioClipsSequentially(demoAudioClips, 2f));
+        demoAudioPlayed = true;
+        
     }
 
     public void CreditsAudio()
