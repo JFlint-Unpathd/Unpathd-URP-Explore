@@ -24,7 +24,8 @@ public class MenuPopup : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(DisableInGameMenuCoroutine());
+        settingsMenu.SetActive(false);
+        //StartCoroutine(DisableInGameMenuCoroutine());
     }
 
     IEnumerator DisableInGameMenuCoroutine()

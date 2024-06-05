@@ -49,6 +49,7 @@ public class ResetRefine : MonoBehaviour
     public float radius = 5f;
 
     private bool isReaderDone = false;
+    private bool resultsAudioPlayed = false;
     
 
     private void Awake() {
@@ -71,7 +72,6 @@ public class ResetRefine : MonoBehaviour
     public void CreateInitialScene()
     {
         
-
         groundFog.SetActive(true);
 
         // Instantiate all prefabs and store references
@@ -172,7 +172,12 @@ public class ResetRefine : MonoBehaviour
         // Find the XRRig GameObject
         GameObject xrRig = GameObject.FindWithTag("XRRig");
 
-        VoiceoverManager.instance.PlayResultsAudio();
+        if (!resultsAudioPlayed) 
+        {
+            VoiceoverManager.Stop();
+            VoiceoverManager.instance.PlayResultsAudio();
+            resultsAudioPlayed = true;
+        }
 
         if (reRefInstance == null)
         {
@@ -237,6 +242,7 @@ public class ResetRefine : MonoBehaviour
         }
         
         resultsSceneObjects.Clear();
+        VoiceoverManager.Stop();
         Debug.Log("Should have destroyed resultssceneobj");
 
         // Deactivate other scene objects

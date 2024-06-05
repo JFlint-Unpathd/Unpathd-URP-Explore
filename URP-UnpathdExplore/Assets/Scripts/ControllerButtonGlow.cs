@@ -44,8 +44,8 @@ public class ControllerButtonGlow : MonoBehaviour
     [SerializeField] private GameObject menuSceneObjectPrefab;
     private GameObject menuSceneObject;
 
-     [Header("Audio Clips")]
-    [SerializeField] private AudioClip teleportClip;
+    [Header("Audio Clips")]
+    //[SerializeField] private AudioClip teleportClip;
     [SerializeField] private AudioClip selectClip;
     [SerializeField] private AudioClip menuClip;
     
@@ -97,7 +97,7 @@ public class ControllerButtonGlow : MonoBehaviour
         teleportationPod.SetActive(true);
 
         // Play the teleport tutorial audio
-        AudioManager.instance.PlayClip(teleportClip);
+        //AudioManager.instance.PlayClip(teleportClip);
     }
 
     private void SetMaterial(MeshRenderer renderer, Material material)

@@ -17,7 +17,6 @@ public class VoiceoverManager : MonoBehaviour
     public AudioClip[] demoAudioClips;
     public AudioClip[] creditsAudioClips;
 
-
     [Header("Voyage Start VOs")]
     public AudioClip[] napoleonicClips;
     public AudioClip[] mesolithicClips;
@@ -32,7 +31,7 @@ public class VoiceoverManager : MonoBehaviour
 
     void Awake()
     {
-        // Ensure only one instance of SceneAudioManager exists
+        // Ensure only one instance of VoiceoverManager exists
         if (instance == null)
         {
             instance = this;
@@ -44,11 +43,11 @@ public class VoiceoverManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     void Start()
     {
-        
         SceneManager.sceneLoaded += OnSceneLoaded;
         StartCoroutine(SettingsMenuDisable());
         StartCoroutine(PlayAudioClipsSequentially(introClips, 2f));
@@ -71,6 +70,9 @@ public class VoiceoverManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        //Stop any audio playing from the previous scene
+        Stop();
+
         Debug.Log("Scene Loaded: " + scene.name);
         // Check if this is the IntroScene
         if (scene.name == "IntroMenu")
@@ -102,8 +104,8 @@ public class VoiceoverManager : MonoBehaviour
 
         foreach (AudioClip clip in clips)
         {
-            if( stopAudio ) 
-            {  
+            if (stopAudio)
+            {
                 stopAudio = false;
                 Debug.Log("Audio sequence stopped.");
                 yield break;
@@ -144,15 +146,22 @@ public class VoiceoverManager : MonoBehaviour
 
             if (!settingsAudioPlayed)
             {
-            
-                StartCoroutine(PlayAudioClipsSequentially(settingsClips, 1f));
                 settingsAudioPlayed = true;
+                StartCoroutine(PlaySettingsAudioSequentially(settingsClips));
             }
-
         }
         else if (clips == null)
         {
             Debug.Log("No GameObject assigned to 'settingsMenu'");
+        }
+    }
+
+    private IEnumerator PlaySettingsAudioSequentially(AudioClip[] clips)
+    {
+        foreach (AudioClip clip in clips)
+        {
+            AudioManager.instance.PlayClip(clip);
+            yield return new WaitUntil(() => !AudioManager.instance.IsPlaying());
         }
     }
 
@@ -195,57 +204,43 @@ public class VoiceoverManager : MonoBehaviour
     {
         StartCoroutine(PlayAudioClipsSequentially(demoAudioClips, 2f));
     }
+
     public void CreditsAudio()
     {
         StartCoroutine(PlayAudioClipsSequentially(creditsAudioClips, 2f));
     }
 
-
     public void HandleSceneAudio(string sceneName)
     {
-        if (sceneName == "Dumfries and Galloway Napoleonic Voyage")
+        switch (sceneName)
         {
-            NapoleonicVoyageAudio();
-            
+            case "Dumfries and Galloway Napoleonic Voyage":
+                NapoleonicVoyageAudio();
+                break;
+            case "Submerged Landscaped Mesolithic Voyage":
+                MesolithicVoyageAudio();
+                break;
+            case "Co-Design Voyage":
+                CoDesignVoyageAudio();
+                break;
+            case "Women and Shipping in the 20th Century":
+                WomenShippingVoyageAudio();
+                break;
+            case "Database Search":
+                PlaySearchRoomAudio();
+                break;
+            case "RefineOrVoyage":
+                PlayRefineorVoyageAudio();
+                break;
+            case "Demo":
+                DemoAudio();
+                break;
+            case "Credits":
+                CreditsAudio();
+                break;
+            default:
+                Debug.Log("No matching tag found.");
+                break;
         }
-        else if (sceneName == "Submerged Landscaped Mesolithic Voyage")
-        {
-            MesolithicVoyageAudio();
-            
-        }
-        else if (sceneName == "Co-Design Voyage")
-        {
-            CoDesignVoyageAudio();
-            
-        }
-        else if (sceneName == "Women and Shipping in the 20th Century")
-        {
-            //Debug.Log("Women scene audio not playing");
-            WomenShippingVoyageAudio();
-            
-        }
-        else if (sceneName == "Database Search")
-        {
-            PlaySearchRoomAudio();
-            
-        }
-        else if (sceneName == "RefineOrVoyage")
-        {
-            PlayRefineorVoyageAudio();    
-        }
-        else if (sceneName == "Demo")
-        {
-            DemoAudio();
-        }
-        else if (sceneName == "Credits")
-        {
-            CreditsAudio();
-        }
-        else
-        {
-            Debug.Log("No matching tag found.");
-        }
-
     }
-
 }
