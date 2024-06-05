@@ -204,7 +204,6 @@ public class VoiceoverManager : MonoBehaviour
     public void DemoAudio()
     {
         StartCoroutine(PlayAudioClipsSequentially(demoAudioClips, 2f));
-        demoAudioPlayed = true;
         
     }
 

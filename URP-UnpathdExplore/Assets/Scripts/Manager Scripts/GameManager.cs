@@ -12,16 +12,21 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        Debug.Log("Awake called. Current instance: " + instance);
+        
         if(instance != null)
         {
+            Debug.Log("Instance already exists. Destroying gameObject.");
             Destroy(gameObject);
         }
         else
         {
+            Debug.Log("No existing instance. Setting this as instance.");
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
     }
+
 
     void OnEnable()
     {

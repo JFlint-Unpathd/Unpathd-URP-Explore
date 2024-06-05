@@ -85,28 +85,6 @@ public class ControllerButtonGlow : MonoBehaviour
         return isOnPod;
     }
 
-    private void Start()
-    {
-        // Set initial materials
-        SetMaterial(triggerRenderer, glowMaterial);
-        SetMaterial(primaryBtnRenderer, glowMaterial);
-        SetMaterial(thumbStickRenderer, glowMaterial);
-
-        // Instantiate teleportation pod
-        teleportationPod = Instantiate(teleportationPodPrefab, new Vector3(0, 0, 3), Quaternion.identity);
-        teleportationPod.SetActive(true);
-
-        if (VoiceoverManager.instance.demoAudioPlayed)
-        {
-            AudioManager.instance.PlayClip(teleportClip);
-        }
-        else
-        {
-            VoiceoverManager.instance.DemoAudio();
-            AudioManager.instance.PlayClip(teleportClip);
-        }
-    }
-
 
     private void SetMaterial(MeshRenderer renderer, Material material)
     {
@@ -128,6 +106,18 @@ public class ControllerButtonGlow : MonoBehaviour
         thumbStickReference.action.canceled += ThumbStickCancelled;
     }
 
+        private void Start()
+    {
+        // Set initial materials
+        SetMaterial(triggerRenderer, glowMaterial);
+        SetMaterial(primaryBtnRenderer, glowMaterial);
+        SetMaterial(thumbStickRenderer, glowMaterial);
+
+        teleportationPod = Instantiate(teleportationPodPrefab, new Vector3(0, 0, 3), Quaternion.identity);
+        teleportationPod.SetActive(true);
+    }
+
+
     private void ThumbStickPressed(InputAction.CallbackContext obj)
     {
         switch (currentTutorialStage)
@@ -145,6 +135,13 @@ public class ControllerButtonGlow : MonoBehaviour
             case TutorialStage.Menu:
                 // Ignore, not this stage's action
                 break;
+        }
+    }
+    private void ThumbStickCancelled(InputAction.CallbackContext obj)
+    {
+        if (!thumbStickPressed)
+        {
+            SetMaterial(thumbStickRenderer, glowMaterial);
         }
     }
 
@@ -196,15 +193,24 @@ public class ControllerButtonGlow : MonoBehaviour
                     promptMenu = Instantiate(promptMenuObject, new Vector3(0, 1, 5), Quaternion.identity);
                     promptMenu.SetActive(true);
 
+                    // Play the menu tutorial audio
+                    AudioManager.instance.PlayClip(menuClip);
                     
                 }
                 break;
          
             case TutorialStage.Menu:
-            // Play the menu tutorial audio
-            //AudioManager.instance.PlayClip(menuClip);
             // Ignore as it's not this stage's action
                 break;
+        }
+    }
+
+    
+    private void TriggerCanceled(InputAction.CallbackContext obj)
+    {
+        if (!triggerPressed)
+        {
+            //SetMaterial(triggerRenderer, glowMaterial);
         }
     }
 
@@ -234,6 +240,14 @@ public class ControllerButtonGlow : MonoBehaviour
         }
     }
 
+    private void PrimaryCancelled(InputAction.CallbackContext obj)
+    {
+        if (!primaryPressed)
+        {
+            SetMaterial(primaryBtnRenderer, glowMaterial);
+        }
+    }
+    
     private IEnumerator DemoFinished()
     {
         yield return new WaitForSeconds(3f);
@@ -252,28 +266,5 @@ public class ControllerButtonGlow : MonoBehaviour
 
     }
 
-    private void TriggerCanceled(InputAction.CallbackContext obj)
-    {
-        if (!triggerPressed)
-        {
-            //SetMaterial(triggerRenderer, glowMaterial);
-        }
-    }
-
-    private void PrimaryCancelled(InputAction.CallbackContext obj)
-    {
-        if (!primaryPressed)
-        {
-            SetMaterial(primaryBtnRenderer, glowMaterial);
-        }
-    }
-
-    private void ThumbStickCancelled(InputAction.CallbackContext obj)
-    {
-        if (!thumbStickPressed)
-        {
-            SetMaterial(thumbStickRenderer, glowMaterial);
-        }
-    }
 
 }
