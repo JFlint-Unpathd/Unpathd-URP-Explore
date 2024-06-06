@@ -21,7 +21,7 @@ public class AudioManager : MonoBehaviour
         else
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            PersistanceClass.DontDestroyOnLoad(gameObject);
 
             audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.playOnAwake = false; 

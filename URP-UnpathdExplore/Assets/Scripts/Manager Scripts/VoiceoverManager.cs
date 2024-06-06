@@ -36,7 +36,7 @@ public class VoiceoverManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            PersistanceClass.DontDestroyOnLoad(gameObject);
         }
         else
         {

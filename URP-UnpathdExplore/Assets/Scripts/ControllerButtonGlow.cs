@@ -250,7 +250,7 @@ public class ControllerButtonGlow : MonoBehaviour
     
     private IEnumerator DemoFinished()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         GameObject inGameMenu = GameObject.FindWithTag("InGameMenu");
         if (inGameMenu != null)
         {

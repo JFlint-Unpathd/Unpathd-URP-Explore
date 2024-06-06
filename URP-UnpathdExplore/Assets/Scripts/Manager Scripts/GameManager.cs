@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("No existing instance. Setting this as instance.");
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            PersistanceClass.DontDestroyOnLoad(gameObject);
         }
     }
 

@@ -43,7 +43,7 @@ public class ResetRefine : MonoBehaviour
     public GameObject zoomObject;
     public GameObject birdsEye;
     private GameObject birdsEyeInstance;
-    public GameObject groundFog;
+    //public GameObject groundFog;
 
     [Header("PlacementCircle Radius")]
     public float radius = 5f;
@@ -72,7 +72,7 @@ public class ResetRefine : MonoBehaviour
     public void CreateInitialScene()
     {
         
-        groundFog.SetActive(true);
+       // groundFog.SetActive(true);
 
         // Instantiate all prefabs and store references
         GameObject startingEnvInstance = InstantiatePrefab(startingEnv);
@@ -92,10 +92,9 @@ public class ResetRefine : MonoBehaviour
             if (execQInstance == null)
             {
                 execQInstance = InstantiatePrefab(execQ);
-                //originalExecQPosition = execQInstance.transform.position;
-                originalExecQPosition = execQInstance.transform.localPosition;
-                //originalExecQRotation = execQInstance.transform.rotation;
-                originalExecQRotation = execQInstance.transform.localRotation;
+                execQInstance.transform.position = originalExecQPosition;
+                execQInstance.transform.rotation = originalExecQRotation;
+                
             }
             else
             {
@@ -147,7 +146,7 @@ public class ResetRefine : MonoBehaviour
         }
 
         refiningSceneObjects.Clear();
-        groundFog.SetActive(false);
+        //groundFog.SetActive(false);
         
     }
 
@@ -182,10 +181,9 @@ public class ResetRefine : MonoBehaviour
         if (reRefInstance == null)
         {
             reRefInstance = InstantiatePrefab(reRef);
-            //originalReRefPosition = reRefInstance.transform.position;
-            originalReRefPosition = reRefInstance.transform.localPosition;
-            //originalReRefRotation = reRefInstance.transform.rotation;
-            originalReRefRotation = reRefInstance.transform.localRotation;
+            reRefInstance.transform.position = originalReRefPosition;
+            reRefInstance.transform.rotation = originalReRefRotation;
+            
         }
         else
         {
@@ -322,8 +320,8 @@ public class ResetRefine : MonoBehaviour
     {
         if (gameObject != null)
         {
-            gameObject.transform.position = originalPosition;
-            gameObject.transform.rotation = originalRotation;
+            gameObject.transform.localPosition = originalPosition;
+            gameObject.transform.localRotation = originalRotation;
         }
         else
         {

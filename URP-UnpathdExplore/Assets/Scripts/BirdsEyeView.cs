@@ -79,24 +79,11 @@ public class BirdsEyeView : MonoBehaviour
             xrOrigin.transform.position = transform.position - offset;
 
             // Find the birdPlane GameObject using the BirdPlane tag even if it's inactive
-            GameObject[] birdPlanes = GameObject.FindGameObjectsWithTag("BirdPlane");
-            if (birdPlanes.Length > 0)
-            {
-                birdPlane = birdPlanes[0];
-            }
-            else
+            birdPlane = GameObject.FindGameObjectWithTag("BirdPlane");
+            if (birdPlane == null)
             {
                 Debug.LogError("BirdPlane not found");
                 return;
-            }
-
-            if (birdPlane != null)
-            {
-                birdPlane.SetActive(true);
-            }
-            else
-            {
-                Debug.LogError("BirdPlane GameObject is null");
             }
 
             isSelected = true;

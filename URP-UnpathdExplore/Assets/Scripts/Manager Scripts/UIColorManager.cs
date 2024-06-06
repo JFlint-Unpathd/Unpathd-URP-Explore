@@ -35,7 +35,7 @@ public class UIColorManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            PersistanceClass.DontDestroyOnLoad(gameObject);
         }
         else
         {
