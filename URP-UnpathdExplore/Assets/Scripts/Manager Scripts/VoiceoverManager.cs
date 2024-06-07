@@ -28,6 +28,9 @@ public class VoiceoverManager : MonoBehaviour
     private bool introClipsFinished = false;
     private bool settingsAudioPlayed = false;
     public bool demoAudioPlayed = false;
+
+    private bool refineOrVoyagePlayed = false;
+
     public bool stopAudio;
 
     void Awake()
@@ -176,9 +179,13 @@ public class VoiceoverManager : MonoBehaviour
         StartCoroutine(PlayAudioClipsSequentially(resultsClips, 2f));
     }
 
-    public void PlayRefineorVoyageAudio()
+    public IEnumerator  PlayRefineorVoyageAudio()
     {
-        StartCoroutine(PlayAudioClipsSequentially(refineOrVoyageClips, 2f));
+        if (!refineOrVoyagePlayed)
+        {
+            refineOrVoyagePlayed = true; // Set the boolean to true 
+            yield return StartCoroutine(PlayAudioClipsSequentially(refineOrVoyageClips, 2f));
+        }
     }
 
     public void NapoleonicVoyageAudio()
@@ -232,7 +239,8 @@ public class VoiceoverManager : MonoBehaviour
                 PlaySearchRoomAudio();
                 break;
             case "RefineOrVoyage":
-                PlayRefineorVoyageAudio();
+                //PlayRefineorVoyageAudio();
+                StartCoroutine(PlayRefineorVoyageAudio());
                 break;
             case "Demo":
                 DemoAudio();
