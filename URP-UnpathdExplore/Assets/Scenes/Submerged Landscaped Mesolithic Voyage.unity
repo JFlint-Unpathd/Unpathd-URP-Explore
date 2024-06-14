@@ -227,6 +227,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 728604234}
     m_Modifications:
+    - target: {fileID: 56493873846029607, guid: 9f47b6779a8a13b4faddb6ac8d317e4e,
+        type: 3}
+      propertyPath: teleportationManager
+      value: 
+      objectReference: {fileID: 984211238}
     - target: {fileID: 1415207206072466799, guid: 9f47b6779a8a13b4faddb6ac8d317e4e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1063,6 +1068,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 952911846}
     m_Modifications:
+    - target: {fileID: 56493873846029607, guid: 9f47b6779a8a13b4faddb6ac8d317e4e,
+        type: 3}
+      propertyPath: teleportationManager
+      value: 
+      objectReference: {fileID: 984211238}
     - target: {fileID: 1415207206072466799, guid: 9f47b6779a8a13b4faddb6ac8d317e4e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2075,6 +2085,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 964185631}
     m_Modifications:
+    - target: {fileID: 56493873846029607, guid: 9f47b6779a8a13b4faddb6ac8d317e4e,
+        type: 3}
+      propertyPath: teleportationManager
+      value: 
+      objectReference: {fileID: 984211238}
     - target: {fileID: 1415207206072466799, guid: 9f47b6779a8a13b4faddb6ac8d317e4e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2140,79 +2155,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f47b6779a8a13b4faddb6ac8d317e4e, type: 3}
---- !u!1001 &554985906
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 878433121}
-    m_Modifications:
-    - target: {fileID: 4092250436079912126, guid: 108601cd8539ce042939916826b2301e,
-        type: 3}
-      propertyPath: m_Name
-      value: Next
-      objectReference: {fileID: 0}
-    - target: {fileID: 6607646096912721616, guid: 108601cd8539ce042939916826b2301e,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.102
-      objectReference: {fileID: 0}
-    - target: {fileID: 6607646096912721616, guid: 108601cd8539ce042939916826b2301e,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.069000006
-      objectReference: {fileID: 0}
-    - target: {fileID: 6607646096912721616, guid: 108601cd8539ce042939916826b2301e,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.32399988
-      objectReference: {fileID: 0}
-    - target: {fileID: 6607646096912721616, guid: 108601cd8539ce042939916826b2301e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6607646096912721616, guid: 108601cd8539ce042939916826b2301e,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6607646096912721616, guid: 108601cd8539ce042939916826b2301e,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6607646096912721616, guid: 108601cd8539ce042939916826b2301e,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6607646096912721616, guid: 108601cd8539ce042939916826b2301e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 6607646096912721616, guid: 108601cd8539ce042939916826b2301e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 6607646096912721616, guid: 108601cd8539ce042939916826b2301e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7735343051216260844, guid: 108601cd8539ce042939916826b2301e,
-        type: 3}
-      propertyPath: teleportationManager
-      value: 
-      objectReference: {fileID: 984211238}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 108601cd8539ce042939916826b2301e, type: 3}
 --- !u!4 &556134133 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6607646096912721616, guid: 108601cd8539ce042939916826b2301e,
@@ -3540,7 +3482,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1431951462}
+  - {fileID: 1378021919}
   - {fileID: 82957859}
   m_Father: {fileID: 7916443443668330853}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3708,6 +3650,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 878433121}
     m_Modifications:
+    - target: {fileID: 56493873846029607, guid: 9f47b6779a8a13b4faddb6ac8d317e4e,
+        type: 3}
+      propertyPath: teleportationManager
+      value: 
+      objectReference: {fileID: 984211238}
     - target: {fileID: 1415207206072466799, guid: 9f47b6779a8a13b4faddb6ac8d317e4e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19524,6 +19471,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 713619533}
     m_Modifications:
+    - target: {fileID: 3555124924067286455, guid: 108601cd8539ce042939916826b2301e,
+        type: 3}
+      propertyPath: teleportationManager
+      value: 
+      objectReference: {fileID: 984211238}
     - target: {fileID: 4092250436079912126, guid: 108601cd8539ce042939916826b2301e,
         type: 3}
       propertyPath: m_Name
@@ -19653,6 +19605,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 952911846}
     m_Modifications:
+    - target: {fileID: 3555124924067286455, guid: 108601cd8539ce042939916826b2301e,
+        type: 3}
+      propertyPath: teleportationManager
+      value: 
+      objectReference: {fileID: 984211238}
     - target: {fileID: 4092250436079912126, guid: 108601cd8539ce042939916826b2301e,
         type: 3}
       propertyPath: m_Name
@@ -20388,6 +20345,7 @@ GameObject:
   - component: {fileID: 1164129249}
   - component: {fileID: 1164129248}
   - component: {fileID: 1164129251}
+  - component: {fileID: 1164129252}
   m_Layer: 0
   m_Name: XR EventSystem
   m_TagString: Untagged
@@ -20492,6 +20450,21 @@ MonoBehaviour:
   pointerTransformOverride: {fileID: 0}
   rightXRController: {fileID: 263407574}
   leftXRController: {fileID: 263407564}
+--- !u!114 &1164129252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164129247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eb9f4b6579beca40bcbda58df54de79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xrInputModule: {fileID: 1164129248}
+  curvedInputModule: {fileID: 1164129251}
+  xrRayInteractor: {fileID: 263407569}
 --- !u!1001 &1178228078
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20500,6 +20473,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 728604234}
     m_Modifications:
+    - target: {fileID: 3555124924067286455, guid: 108601cd8539ce042939916826b2301e,
+        type: 3}
+      propertyPath: teleportationManager
+      value: 
+      objectReference: {fileID: 984211238}
     - target: {fileID: 4092250436079912126, guid: 108601cd8539ce042939916826b2301e,
         type: 3}
       propertyPath: m_Name
@@ -21224,6 +21202,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 964185631}
     m_Modifications:
+    - target: {fileID: 3555124924067286455, guid: 108601cd8539ce042939916826b2301e,
+        type: 3}
+      propertyPath: teleportationManager
+      value: 
+      objectReference: {fileID: 984211238}
     - target: {fileID: 4092250436079912126, guid: 108601cd8539ce042939916826b2301e,
         type: 3}
       propertyPath: m_Name
@@ -21922,6 +21905,90 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 611d118ba43ad2d498495db2e03830d8, type: 3}
+--- !u!1001 &1378021918
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 878433121}
+    m_Modifications:
+    - target: {fileID: 3555124924067286455, guid: 108601cd8539ce042939916826b2301e,
+        type: 3}
+      propertyPath: teleportationManager
+      value: 
+      objectReference: {fileID: 984211238}
+    - target: {fileID: 4092250436079912126, guid: 108601cd8539ce042939916826b2301e,
+        type: 3}
+      propertyPath: m_Name
+      value: Next
+      objectReference: {fileID: 0}
+    - target: {fileID: 6607646096912721616, guid: 108601cd8539ce042939916826b2301e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.102
+      objectReference: {fileID: 0}
+    - target: {fileID: 6607646096912721616, guid: 108601cd8539ce042939916826b2301e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.069000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 6607646096912721616, guid: 108601cd8539ce042939916826b2301e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.32399988
+      objectReference: {fileID: 0}
+    - target: {fileID: 6607646096912721616, guid: 108601cd8539ce042939916826b2301e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6607646096912721616, guid: 108601cd8539ce042939916826b2301e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6607646096912721616, guid: 108601cd8539ce042939916826b2301e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6607646096912721616, guid: 108601cd8539ce042939916826b2301e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6607646096912721616, guid: 108601cd8539ce042939916826b2301e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6607646096912721616, guid: 108601cd8539ce042939916826b2301e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6607646096912721616, guid: 108601cd8539ce042939916826b2301e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7735343051216260844, guid: 108601cd8539ce042939916826b2301e,
+        type: 3}
+      propertyPath: teleportationManager
+      value: 
+      objectReference: {fileID: 984211238}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 108601cd8539ce042939916826b2301e, type: 3}
+--- !u!4 &1378021919 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6607646096912721616, guid: 108601cd8539ce042939916826b2301e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1378021918}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1397413550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22111,12 +22178,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1431951462 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6607646096912721616, guid: 108601cd8539ce042939916826b2301e,
-    type: 3}
-  m_PrefabInstance: {fileID: 554985906}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1439345176
 GameObject:
   m_ObjectHideFlags: 0
@@ -22663,6 +22724,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1126799321}
     m_Modifications:
+    - target: {fileID: 56493873846029607, guid: 9f47b6779a8a13b4faddb6ac8d317e4e,
+        type: 3}
+      propertyPath: teleportationManager
+      value: 
+      objectReference: {fileID: 984211238}
     - target: {fileID: 1415207206072466799, guid: 9f47b6779a8a13b4faddb6ac8d317e4e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -22939,6 +23005,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1444471072}
     m_Modifications:
+    - target: {fileID: 56493873846029607, guid: 9f47b6779a8a13b4faddb6ac8d317e4e,
+        type: 3}
+      propertyPath: teleportationManager
+      value: 
+      objectReference: {fileID: 984211238}
     - target: {fileID: 1415207206072466799, guid: 9f47b6779a8a13b4faddb6ac8d317e4e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -23134,6 +23205,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1126799321}
     m_Modifications:
+    - target: {fileID: 3555124924067286455, guid: 108601cd8539ce042939916826b2301e,
+        type: 3}
+      propertyPath: teleportationManager
+      value: 
+      objectReference: {fileID: 984211238}
     - target: {fileID: 4092250436079912126, guid: 108601cd8539ce042939916826b2301e,
         type: 3}
       propertyPath: m_Name
@@ -23926,7 +24002,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 0}
-  m_Colliders: []
+  m_Colliders:
+  - {fileID: 1952138762}
   m_InteractionLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -24015,7 +24092,7 @@ MonoBehaviour:
   m_OnDeactivate:
     m_PersistentCalls:
       m_Calls: []
-  m_TeleportationProvider: {fileID: 0}
+  m_TeleportationProvider: {fileID: 1264528491}
   m_MatchOrientation: 0
   m_MatchDirectionalInput: 0
   m_TeleportTrigger: 0
@@ -24696,7 +24773,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 0}
-  m_Colliders: []
+  m_Colliders:
+  - {fileID: 4915490892163563619}
   m_InteractionLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -24785,7 +24863,7 @@ MonoBehaviour:
   m_OnDeactivate:
     m_PersistentCalls:
       m_Calls: []
-  m_TeleportationProvider: {fileID: 0}
+  m_TeleportationProvider: {fileID: 1264528491}
   m_MatchOrientation: 0
   m_MatchDirectionalInput: 0
   m_TeleportTrigger: 0
@@ -25915,6 +25993,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 713619533}
     m_Modifications:
+    - target: {fileID: 56493873846029607, guid: 9f47b6779a8a13b4faddb6ac8d317e4e,
+        type: 3}
+      propertyPath: teleportationManager
+      value: 
+      objectReference: {fileID: 984211238}
     - target: {fileID: 1415207206072466799, guid: 9f47b6779a8a13b4faddb6ac8d317e4e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -27799,8 +27882,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 445167592589604771}
   m_HandleRect: {fileID: 8706234249069288543}
   m_Direction: 2
-  m_Value: 1.0000006
-  m_Size: 0.6363637
+  m_Value: 1.0000007
+  m_Size: 0.63636357
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -29881,7 +29964,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 0}
-  m_Colliders: []
+  m_Colliders:
+  - {fileID: 8797036605561491269}
   m_InteractionLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -29970,7 +30054,7 @@ MonoBehaviour:
   m_OnDeactivate:
     m_PersistentCalls:
       m_Calls: []
-  m_TeleportationProvider: {fileID: 0}
+  m_TeleportationProvider: {fileID: 1264528491}
   m_MatchOrientation: 0
   m_MatchDirectionalInput: 0
   m_TeleportTrigger: 0
@@ -30326,8 +30410,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6720813866810998399}
   m_HandleRect: {fileID: 1779555219487523136}
   m_Direction: 2
-  m_Value: 1.0000004
-  m_Size: 0.6363637
+  m_Value: 1.0000006
+  m_Size: 0.6363636
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -30873,7 +30957,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 0}
-  m_Colliders: []
+  m_Colliders:
+  - {fileID: 2730257532477287018}
   m_InteractionLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -30962,7 +31047,7 @@ MonoBehaviour:
   m_OnDeactivate:
     m_PersistentCalls:
       m_Calls: []
-  m_TeleportationProvider: {fileID: 0}
+  m_TeleportationProvider: {fileID: 1264528491}
   m_MatchOrientation: 0
   m_MatchDirectionalInput: 0
   m_TeleportTrigger: 0
@@ -32615,7 +32700,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 0}
-  m_Colliders: []
+  m_Colliders:
+  - {fileID: 3302607388973327156}
   m_InteractionLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -32704,7 +32790,7 @@ MonoBehaviour:
   m_OnDeactivate:
     m_PersistentCalls:
       m_Calls: []
-  m_TeleportationProvider: {fileID: 0}
+  m_TeleportationProvider: {fileID: 1264528491}
   m_MatchOrientation: 0
   m_MatchDirectionalInput: 0
   m_TeleportTrigger: 0
@@ -35452,6 +35538,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 452959101}
     m_Modifications:
+    - target: {fileID: 3555124924067286455, guid: 108601cd8539ce042939916826b2301e,
+        type: 3}
+      propertyPath: teleportationManager
+      value: 
+      objectReference: {fileID: 984211238}
     - target: {fileID: 4092250436079912126, guid: 108601cd8539ce042939916826b2301e,
         type: 3}
       propertyPath: m_Name
@@ -35793,7 +35884,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 0}
-  m_Colliders: []
+  m_Colliders:
+  - {fileID: 1127604519762725483}
   m_InteractionLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -35882,7 +35974,7 @@ MonoBehaviour:
   m_OnDeactivate:
     m_PersistentCalls:
       m_Calls: []
-  m_TeleportationProvider: {fileID: 0}
+  m_TeleportationProvider: {fileID: 1264528491}
   m_MatchOrientation: 0
   m_MatchDirectionalInput: 0
   m_TeleportTrigger: 0
@@ -36145,7 +36237,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 0}
-  m_Colliders: []
+  m_Colliders:
+  - {fileID: 1772816865828750186}
   m_InteractionLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -36234,7 +36327,7 @@ MonoBehaviour:
   m_OnDeactivate:
     m_PersistentCalls:
       m_Calls: []
-  m_TeleportationProvider: {fileID: 0}
+  m_TeleportationProvider: {fileID: 1264528491}
   m_MatchOrientation: 0
   m_MatchDirectionalInput: 0
   m_TeleportTrigger: 0
@@ -43995,8 +44088,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5312765542403893911}
   m_HandleRect: {fileID: 3052358426428413919}
   m_Direction: 2
-  m_Value: 1.0000004
-  m_Size: 0.6363637
+  m_Value: 1.0000006
+  m_Size: 0.6363636
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -44335,7 +44428,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 0}
-  m_Colliders: []
+  m_Colliders:
+  - {fileID: 3845501345448166870}
   m_InteractionLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -44424,7 +44518,7 @@ MonoBehaviour:
   m_OnDeactivate:
     m_PersistentCalls:
       m_Calls: []
-  m_TeleportationProvider: {fileID: 0}
+  m_TeleportationProvider: {fileID: 1264528491}
   m_MatchOrientation: 0
   m_MatchDirectionalInput: 0
   m_TeleportTrigger: 0

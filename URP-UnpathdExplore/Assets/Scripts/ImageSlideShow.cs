@@ -4,8 +4,11 @@ using System.Collections;
 using UnityEngine.EventSystems;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class ImageSlideshow : MonoBehaviour
+public class ImageSlideShow : MonoBehaviour
 {
+
+    public int currentImageIndex = 0;
+
     public RectTransform contentPanel;
     private Coroutine slideRoutine;
     public XRBaseInteractable interactable;
@@ -15,12 +18,28 @@ public class ImageSlideshow : MonoBehaviour
 
     private float contentWidth;
     private float containerWidth;
-    private float imageWidth = 30f; // Width of a single image
+    //private float imageWidth = 30f; // Width of a single image
+    private float[] imageWidths;
 
     void Start()
     {
         containerWidth = contentPanel.parent.GetComponent<RectTransform>().rect.width;
-        contentWidth = imageWidth * imageNumber; // Total width of all images
+
+        imageWidths = new float[contentPanel.childCount];
+        for (int i = 0; i < contentPanel.childCount; i++)
+        {
+            imageWidths[i] = contentPanel.GetChild(i).GetComponent<RectTransform>().rect.width;
+        }
+
+
+        //contentWidth = imageWidth * imageNumber; // Total width of all images
+
+        contentWidth = 0;
+        for (int i = 0; i < imageWidths.Length; i++)
+        {
+            contentWidth += imageWidths[i];
+        }
+
         slideRoutine = StartCoroutine(SlideImages());
 
         interactable.onHoverEntered.AddListener(OnHoverEnter);
@@ -33,7 +52,8 @@ public class ImageSlideshow : MonoBehaviour
         {
             yield return new WaitForSeconds(waitTime);
 
-            float targetPosition = contentPanel.anchoredPosition.x - imageWidth;
+            //float targetPosition = contentPanel.anchoredPosition.x - imageWidth;
+            float targetPosition = -imageWidths[currentImageIndex];
             float startPosition = contentPanel.anchoredPosition.x;
 
             while (contentPanel.anchoredPosition.x > targetPosition)
