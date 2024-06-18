@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 6607646096912721616}
   - component: {fileID: 3142549472762669857}
   - component: {fileID: 3960059784965261644}
-  - component: {fileID: 8954064763078858013}
-  - component: {fileID: 6758905014714091266}
-  - component: {fileID: 2659935641802259696}
-  - component: {fileID: 3555124924067286455}
+  - component: {fileID: 7735343051216260844}
+  - component: {fileID: 7982220963000520529}
+  - component: {fileID: 4217397590415094289}
+  - component: {fileID: 6883421072362890840}
   m_Layer: 0
   m_Name: Next
   m_TagString: Untagged
@@ -88,7 +88,48 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8954064763078858013
+--- !u!114 &7735343051216260844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4092250436079912126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ecb3346d1d38bd4588c101642e2e2e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleportationManager: {fileID: 0}
+  isForwardArrow: 1
+--- !u!54 &7982220963000520529
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4092250436079912126}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &4217397590415094289
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,8 +149,8 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.084313884, y: 0.05628217, z: 0.005}
-  m_Center: {x: -0.00000011175871, y: 0.0000000037252903, z: 0.0025}
---- !u!114 &6758905014714091266
+  m_Center: {x: 0.000000007450581, y: 0.0000000037252903, z: 0.0025}
+--- !u!114 &6883421072362890840
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -211,47 +252,6 @@ MonoBehaviour:
   m_OnDeactivate:
     m_PersistentCalls:
       m_Calls: []
---- !u!54 &2659935641802259696
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4092250436079912126}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &3555124924067286455
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4092250436079912126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ecb3346d1d38bd4588c101642e2e2e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teleportationManager: {fileID: 0}
-  isForwardArrow: 1
 --- !u!1001 &554796496547538379
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -324,12 +324,12 @@ PrefabInstance:
         type: 3}
       propertyPath: interactable
       value: 
-      objectReference: {fileID: 6758905014714091266}
+      objectReference: {fileID: 6883421072362890840}
     - target: {fileID: 8634317094661461186, guid: eb9104ef66b7305468adb3697fdeed5e,
         type: 3}
       propertyPath: m_InteractableSource
       value: 
-      objectReference: {fileID: 6758905014714091266}
+      objectReference: {fileID: 6883421072362890840}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
