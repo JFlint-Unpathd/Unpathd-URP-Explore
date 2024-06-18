@@ -25,13 +25,14 @@ public class VoiceoverManager : MonoBehaviour
 
     private AudioSource audioSource;
 
-    private bool introClipsFinished = false;
+    public bool introClipsFinished = false;
     private bool settingsAudioPlayed = false;
     public bool demoAudioPlayed = false;
 
     private bool refineOrVoyagePlayed = false;
 
     public bool stopAudio;
+    
 
     void Awake()
     {
@@ -53,8 +54,13 @@ public class VoiceoverManager : MonoBehaviour
     void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        StartCoroutine(SettingsMenuDisable());
-        StartCoroutine(PlayAudioClipsSequentially(introClips, 2f));
+
+        // Only start playing the intro clips if this is the first scene
+        if (SceneManager.GetActiveScene().name == "IntroScene")
+        {
+            IntroAudio();
+        }
+        
     }
     
     public static void Stop() 
@@ -78,11 +84,14 @@ public class VoiceoverManager : MonoBehaviour
         Stop();
 
         Debug.Log("Scene Loaded: " + scene.name);
-        // Check if this is the IntroScene
+
         if (scene.name == "IntroMenu")
         {
-            Debug.Log("detected");
-            StartCoroutine(PlayAudioClipsSequentially(introClips, 2f));
+            if (!settingsAudioPlayed)
+            {
+                StartCoroutine(PlaySettingsAudioSequentially(settingsClips));
+                settingsAudioPlayed = true;
+            }
         }
         if (scene.name == "DatabaseSearch")
         {
@@ -118,46 +127,46 @@ public class VoiceoverManager : MonoBehaviour
             yield return new WaitUntil(() => !AudioManager.instance.IsPlaying());
         }
 
-        // Check if these are the intro clips
-        if (clips == introClips)
-        {
-            introClipsFinished = true;
-        }
+        // // Check if these are the intro clips
+        // if (clips == introClips)
+        // {
+        //     introClipsFinished = true;
+        // }
 
-        if (introClipsFinished && settingsMenu != null)
-        {
-            if (UnpathText != null)
-            {
-                UnpathText.SetActive(false);
-            }
+        // if (introClipsFinished && settingsMenu != null)
+        // {
+        //     // if (UnpathText != null)
+        //     // {
+        //     //     UnpathText.SetActive(false);
+        //     // }
 
-            // Deactivate all children first
-            foreach (Transform child in settingsMenu.transform)
-            {
-                child.gameObject.SetActive(false);
-            }
+        //     // Deactivate all children first
+        //     foreach (Transform child in settingsMenu.transform)
+        //     {
+        //         child.gameObject.SetActive(false);
+        //     }
 
-            settingsMenu.SetActive(true);
+        //     settingsMenu.SetActive(true);
 
-            // Then activate only the first child
-            if (settingsMenu.transform.childCount > 0)
-            {
-                Transform firstChild = settingsMenu.transform.GetChild(0);
-                firstChild.gameObject.SetActive(true);
-            }
+        //     // Then activate only the first child
+        //     if (settingsMenu.transform.childCount > 0)
+        //     {
+        //         Transform firstChild = settingsMenu.transform.GetChild(0);
+        //         firstChild.gameObject.SetActive(true);
+        //     }
 
-            yield return new WaitForSecondsRealtime(initialDelay);
+        //     yield return new WaitForSecondsRealtime(initialDelay);
 
-            if (!settingsAudioPlayed)
-            {
-                StartCoroutine(PlaySettingsAudioSequentially(settingsClips));
-                settingsAudioPlayed = true;
-            }
-        }
-        else if (clips == null)
-        {
-            Debug.Log("No GameObject assigned to 'settingsMenu'");
-        }
+        //     if (!settingsAudioPlayed)
+        //     {
+        //         StartCoroutine(PlaySettingsAudioSequentially(settingsClips));
+        //         settingsAudioPlayed = true;
+        //     }
+        // }
+        // else if (clips == null)
+        // {
+        //     Debug.Log("No GameObject assigned to 'settingsMenu'");
+        // }
     }
 
     private IEnumerator PlaySettingsAudioSequentially(AudioClip[] clips)
@@ -169,6 +178,22 @@ public class VoiceoverManager : MonoBehaviour
         }
     }
 
+    public void IntroAudio()
+    {
+        //StartCoroutine(DelayedIntroAudio(3f));
+        StartCoroutine(PlayAudioClipsSequentially(introClips, 2f));
+    }
+    
+    private IEnumerator DelayedIntroAudio(float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+        StartCoroutine(PlayAudioClipsSequentially(introClips, 0f)); // No initial delay needed here as it's already delayed
+    }
+
+    public void SettingsAudio()
+    {
+        StartCoroutine(PlayAudioClipsSequentially(settingsClips, 2f));
+    }
     public void PlaySearchRoomAudio()
     {
         StartCoroutine(PlayAudioClipsSequentially(searchRoomClips, 2f));
@@ -223,6 +248,12 @@ public class VoiceoverManager : MonoBehaviour
     {
         switch (sceneName)
         {
+            case "IntroScene":
+                IntroAudio();
+                break;
+            case "IntroMenu":
+                SettingsAudio();
+                break;
             case "Dumfries and Galloway Napoleonic Voyage":
                 NapoleonicVoyageAudio();
                 break;

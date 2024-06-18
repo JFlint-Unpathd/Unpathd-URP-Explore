@@ -17,7 +17,7 @@ public class RestartScene : MonoBehaviour
     {
         
         restartButtonReference.action.performed += ResetApplication;
-        Debug.Log("bla");
+       // Debug.Log("bla");
     }
 
     private void ResetApplication(InputAction.CallbackContext ctx)
