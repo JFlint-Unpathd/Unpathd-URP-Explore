@@ -13,6 +13,7 @@ public class SceneChangeOnGrab : MonoBehaviour
     private string tag6 = "RefineOrVoyage";
     private string tag7 = "Demo";
     private string tag8 = "Credits";
+    private string tag9 = "SoundScapes";
 
     
 
@@ -77,6 +78,12 @@ public class SceneChangeOnGrab : MonoBehaviour
         {
             SceneManager.LoadScene("Credits");
             VoiceoverManager.instance.HandleSceneAudio("Credits");
+            Debug.Log("Interacted item's tag: " + item.tag);
+        }
+        else if (item.tag == tag9)
+        {
+            SceneManager.LoadScene("SoundScapes");
+            VoiceoverManager.instance.HandleSceneAudio("SoundScapes");
             Debug.Log("Interacted item's tag: " + item.tag);
         }
    

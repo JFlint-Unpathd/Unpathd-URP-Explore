@@ -6,89 +6,82 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class ImageSlideShow : MonoBehaviour
 {
-
-    public int currentImageIndex = 0;
-
-    public RectTransform contentPanel;
-    private Coroutine slideRoutine;
-    public XRBaseInteractable interactable;
+    public HorizontalLayoutGroup layoutGroup;
     public float slideSpeed = 20f;
     public float waitTime = 2f;
-    public float imageNumber = 4;
+    // public XRBaseInteractable interactable;
 
-    private float contentWidth;
-    private float containerWidth;
-    //private float imageWidth = 30f; // Width of a single image
-    private float[] imageWidths;
+    private RectTransform[] imageRects;
+    private int imageCount;
+    private Coroutine slideRoutine;
+    private bool isCoroutineRunning = true; // Default to true to ensure slideshow starts
 
-    void Start()
+    public bool IsCoroutineRunning
     {
-        containerWidth = contentPanel.parent.GetComponent<RectTransform>().rect.width;
+        get { return isCoroutineRunning; }
+        set { isCoroutineRunning = value; }
+    }
 
-        imageWidths = new float[contentPanel.childCount];
-        for (int i = 0; i < contentPanel.childCount; i++)
+    private void Start()
+    {
+        imageCount = layoutGroup.transform.childCount;
+        imageRects = new RectTransform[imageCount];
+
+        for (int i = 0; i < imageCount; i++)
         {
-            imageWidths[i] = contentPanel.GetChild(i).GetComponent<RectTransform>().rect.width;
-        }
-
-
-        //contentWidth = imageWidth * imageNumber; // Total width of all images
-
-        contentWidth = 0;
-        for (int i = 0; i < imageWidths.Length; i++)
-        {
-            contentWidth += imageWidths[i];
+            imageRects[i] = layoutGroup.transform.GetChild(i).GetComponent<RectTransform>();
         }
 
         slideRoutine = StartCoroutine(SlideImages());
-
-        interactable.onHoverEntered.AddListener(OnHoverEnter);
-        interactable.onHoverExited.AddListener(OnHoverExit);
+        // interactable.onHoverEntered.AddListener(OnHoverEnter);
+        // interactable.onHoverExited.AddListener(OnHoverExit);
     }
 
-    IEnumerator SlideImages()
+    private IEnumerator SlideImages()
     {
         while (true)
         {
             yield return new WaitForSeconds(waitTime);
 
-            //float targetPosition = contentPanel.anchoredPosition.x - imageWidth;
-            float targetPosition = -imageWidths[currentImageIndex];
-            float startPosition = contentPanel.anchoredPosition.x;
+            float targetX = -imageRects[0].rect.width; // Target position to move first image out of the canvas
+            float startX = 0f; // Start position is at the beginning
 
-            while (contentPanel.anchoredPosition.x > targetPosition)
+            // Slide all images to the left
+            while (startX > targetX)
             {
-                contentPanel.anchoredPosition = new Vector2(contentPanel.anchoredPosition.x - slideSpeed * Time.deltaTime, contentPanel.anchoredPosition.y);
-
-                // Ensure we don't move past the target position
-                if (contentPanel.anchoredPosition.x <= targetPosition)
+                for (int i = 0; i < imageCount; i++)
                 {
-                    contentPanel.anchoredPosition = new Vector2(targetPosition, contentPanel.anchoredPosition.y);
-                    break;
+                    Vector2 currentPosition = imageRects[i].anchoredPosition;
+                    currentPosition.x -= slideSpeed * Time.deltaTime;
+                    imageRects[i].anchoredPosition = currentPosition;
+
+                    // Wrap around logic: Move image to the right side of the canvas once it's out of view
+                    if (imageRects[i].anchoredPosition.x <= -imageRects[i].rect.width)
+                    {
+                        float lastX = imageRects[(i + imageCount - 1) % imageCount].anchoredPosition.x;
+                        float lastWidth = imageRects[(i + imageCount - 1) % imageCount].rect.width;
+                        imageRects[i].anchoredPosition = new Vector2(lastX + lastWidth, imageRects[i].anchoredPosition.y);
+                    }
                 }
 
+                startX = imageRects[0].anchoredPosition.x;
                 yield return null;
-            }
-
-            // Reset position for looping if at the end
-            if (Mathf.Abs(contentPanel.anchoredPosition.x) >= contentWidth - containerWidth)
-            {
-                contentPanel.anchoredPosition = new Vector2(0, contentPanel.anchoredPosition.y);
             }
         }
     }
 
-    public void OnHoverEnter(XRBaseInteractor interactor)
-    {
-        // The controller is hovering over the object, so stop the slideshow
-        StopCoroutine(slideRoutine);
-    }
+    // private void OnHoverEnter(XRBaseInteractor interactor)
+    // {
+    //     StopCoroutine(slideRoutine);
+    //     isCoroutineRunning = false;
+    // }
 
-    public void OnHoverExit(XRBaseInteractor interactor)
-    {
-        // The controller has stopped hovering over the object, so resume the slideshow
-        slideRoutine = StartCoroutine(SlideImages());
-    }
-
-
+    // private void OnHoverExit(XRBaseInteractor interactor)
+    // {
+    //     if (!isCoroutineRunning)
+    //     {
+    //         slideRoutine = StartCoroutine(SlideImages());
+    //         isCoroutineRunning = true;
+    //     }
+    // }
 }
