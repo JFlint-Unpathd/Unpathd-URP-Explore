@@ -24,7 +24,15 @@ public class TeleportationManager : MonoBehaviour
 
     void Start()
     {
-        UpdatePodContentsVisibility();
+        // Initially hide all pod contents
+        for (int i = 0; i < podContents.Length; i++)
+        {
+            podContents[i].SetActive(false);
+        }
+
+        // Show the placeholder for the first pod initially
+        podPlaceholders[0].SetActive(true);
+       //UpdatePodContentsVisibility();
     }
 
     public void TeleportToNextPod()
