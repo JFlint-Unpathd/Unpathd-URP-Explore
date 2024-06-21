@@ -6,6 +6,7 @@ public class TeleportationManager : MonoBehaviour
     public TeleportationProvider teleportationProvider;
     public GameObject[] teleportationPods;
     public GameObject[] podContents;
+    public GameObject[] podPlaceholders;
     private int currentPodIndex = 0;
 
     public static TeleportationManager _instance;
@@ -28,7 +29,7 @@ public class TeleportationManager : MonoBehaviour
 
     public void TeleportToNextPod()
     {
-        // Increment the current pod index (with wrap-around)
+        // Increment the current pod index (with wrap-around - eg will not go out of bounds)
         currentPodIndex = (currentPodIndex + 1) % teleportationPods.Length;
         TeleportToCurrentPod();
     }
@@ -68,7 +69,28 @@ public class TeleportationManager : MonoBehaviour
     {
         for (int i = 0; i < podContents.Length; i++)
         {
+            bool isActive = i == currentPodIndex;
             podContents[i].SetActive(i == currentPodIndex);
+            podPlaceholders[i].SetActive(!isActive);
+        }
+    }
+
+     // Methods to next/prev btn handle hover events
+    public void OnButtonHoverEnter()
+    {
+        podContents[currentPodIndex].SetActive(false);
+        for (int i = 0; i < podPlaceholders.Length; i++)
+        {
+            podPlaceholders[i].SetActive(true);
+        }
+    }
+
+    public void OnButtonHoverExit()
+    {
+        podContents[currentPodIndex].SetActive(true);
+        for (int i = 0; i < podPlaceholders.Length; i++)
+        {
+            podPlaceholders[i].SetActive(i != currentPodIndex);
         }
     }
 }

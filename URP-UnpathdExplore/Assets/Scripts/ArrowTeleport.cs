@@ -10,7 +10,10 @@ public class ArrowTeleport : MonoBehaviour
     private void Awake()
     {
         interactable = GetComponent<XRBaseInteractable>();
+        
         interactable.selectEntered.AddListener(OnSelectEntered);
+        interactable.hoverEntered.AddListener(OnHoverEntered);
+        interactable.hoverExited.AddListener(OnHoverExited);
     }
 
     private void OnSelectEntered(SelectEnterEventArgs args)
@@ -23,5 +26,15 @@ public class ArrowTeleport : MonoBehaviour
         {
             teleportationManager.TeleportToPreviousPod();
         }
+    }
+
+     private void OnHoverEntered(HoverEnterEventArgs args)
+    {
+        teleportationManager.OnButtonHoverEnter();
+    }
+
+    private void OnHoverExited(HoverExitEventArgs args)
+    {
+        teleportationManager.OnButtonHoverExit();
     }
 }

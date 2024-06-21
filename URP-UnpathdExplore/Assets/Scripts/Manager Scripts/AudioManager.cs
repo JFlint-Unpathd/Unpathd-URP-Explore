@@ -55,4 +55,14 @@ public class AudioManager : MonoBehaviour
     {
         return audioSource.isPlaying;
     }
+
+        public void StopAll()
+    {
+        audioSource.Stop();
+    }
+
+    public bool IsPlaying(AudioClip clip)
+    {
+        return audioSource.isPlaying && audioSource.clip == clip;
+    }
 }
