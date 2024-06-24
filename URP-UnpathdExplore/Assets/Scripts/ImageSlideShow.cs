@@ -1,77 +1,3 @@
-// using UnityEngine;
-// using UnityEngine.UI;
-// using System.Collections;
-// using UnityEngine.EventSystems;
-// using UnityEngine.XR.Interaction.Toolkit;
-
-// public class ImageSlideShow : MonoBehaviour
-// {
-//     public HorizontalLayoutGroup layoutGroup;
-//     public float slideSpeed = 20f;
-//     public float waitTime = 2f;
-//     // public XRBaseInteractable interactable;
-
-//     private RectTransform[] imageRects;
-//     private int imageCount;
-//     private Coroutine slideRoutine;
-//     private bool isCoroutineRunning = true; // Default to true to ensure slideshow starts
-
-//     public bool IsCoroutineRunning
-//     {
-//         get { return isCoroutineRunning; }
-//         set { isCoroutineRunning = value; }
-//     }
-
-//     private void Start()
-//     {
-//         imageCount = layoutGroup.transform.childCount;
-//         imageRects = new RectTransform[imageCount];
-
-//         for (int i = 0; i < imageCount; i++)
-//         {
-//             imageRects[i] = layoutGroup.transform.GetChild(i).GetComponent<RectTransform>();
-//         }
-
-//         slideRoutine = StartCoroutine(SlideImages());
-//         // interactable.onHoverEntered.AddListener(OnHoverEnter);
-//         // interactable.onHoverExited.AddListener(OnHoverExit);
-//     }
-
-//     private IEnumerator SlideImages()
-//     {
-//         while (true)
-//         {
-//             yield return new WaitForSeconds(waitTime);
-
-//             float targetX = -imageRects[0].rect.width; // Target position to move first image out of the canvas
-//             float startX = 0f; // Start position is at the beginning
-
-//             // Slide all images to the left
-//             while (startX > targetX)
-//             {
-//                 for (int i = 0; i < imageCount; i++)
-//                 {
-//                     Vector2 currentPosition = imageRects[i].anchoredPosition;
-//                     currentPosition.x -= slideSpeed * Time.deltaTime;
-//                     imageRects[i].anchoredPosition = currentPosition;
-
-//                     // Wrap around logic: Move image to the right side of the canvas once it's out of view
-//                     if (imageRects[i].anchoredPosition.x <= -imageRects[i].rect.width)
-//                     {
-//                         float lastX = imageRects[(i + imageCount - 1) % imageCount].anchoredPosition.x;
-//                         float lastWidth = imageRects[(i + imageCount - 1) % imageCount].rect.width;
-//                         imageRects[i].anchoredPosition = new Vector2(lastX + lastWidth, imageRects[i].anchoredPosition.y);
-//                     }
-//                 }
-
-//                 startX = imageRects[0].anchoredPosition.x;
-//                 yield return null;
-//             }
-//         }
-//     }
-
-// }
-
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
@@ -86,25 +12,60 @@ public class ImageSlideShow : MonoBehaviour
     private List<RectTransform> imageRects = new List<RectTransform>();
     private Coroutine slideRoutine;
 
-    private void Start()
+    private void OnEnable()
     {
+        if (layoutGroup == null)
+        {
+            Debug.LogError($"{gameObject.name}: HorizontalLayoutGroup is not assigned.");
+            return;
+        }
+
         RecognizeImages();
-        slideRoutine = StartCoroutine(SlideImages());
+
+        if (imageRects.Count > 0 && slideRoutine == null)
+        {
+            slideRoutine = StartCoroutine(SlideImages());
+        }
+        else
+        {
+            Debug.LogWarning($"{gameObject.name}: No images recognized in the layout group or slideshow already running.");
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (slideRoutine != null)
+        {
+            StopCoroutine(slideRoutine);
+            slideRoutine = null;
+        }
     }
 
     private void RecognizeImages()
     {
+        Debug.Log($"{gameObject.name}: Images being recognized");
         int childCount = layoutGroup.transform.childCount;
         imageRects.Clear();
+
+        if (childCount == 0)
+        {
+            Debug.LogWarning($"{gameObject.name}: No child objects found in the layout group.");
+            return;
+        }
 
         for (int i = 0; i < childCount; i++)
         {
             RectTransform rectTransform = layoutGroup.transform.GetChild(i).GetComponent<RectTransform>();
-            imageRects.Add(rectTransform);
+            if (rectTransform != null)
+            {
+                imageRects.Add(rectTransform);
+                Debug.Log($"{gameObject.name}: Image {i} recognized with width: {rectTransform.rect.width}");
+            }
+            else
+            {
+                Debug.LogWarning($"{gameObject.name}: Child {i} does not have a RectTransform component.");
+            }
         }
-
-        // Optionally, you can sort images based on their initial position or any other criteria
-        // Example: imageRects.Sort((a, b) => a.localPosition.x.CompareTo(b.localPosition.x));
 
         // Set initial positions based on index and width
         float totalWidth = 0f;
@@ -146,4 +107,3 @@ public class ImageSlideShow : MonoBehaviour
         }
     }
 }
-
