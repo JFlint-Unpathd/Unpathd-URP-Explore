@@ -16,7 +16,7 @@ public class ImageSlideShow : MonoBehaviour
     {
         if (layoutGroup == null)
         {
-            Debug.LogError($"{gameObject.name}: HorizontalLayoutGroup is not assigned.");
+            //Debug.LogError($"{gameObject.name}: HorizontalLayoutGroup is not assigned.");
             return;
         }
 
@@ -28,7 +28,7 @@ public class ImageSlideShow : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"{gameObject.name}: No images recognized in the layout group or slideshow already running.");
+            //Debug.LogWarning($"{gameObject.name}: No images recognized in the layout group or slideshow already running.");
         }
     }
 
@@ -43,13 +43,13 @@ public class ImageSlideShow : MonoBehaviour
 
     private void RecognizeImages()
     {
-        Debug.Log($"{gameObject.name}: Images being recognized");
+        //Debug.Log($"{gameObject.name}: Images being recognized");
         int childCount = layoutGroup.transform.childCount;
         imageRects.Clear();
 
         if (childCount == 0)
         {
-            Debug.LogWarning($"{gameObject.name}: No child objects found in the layout group.");
+            //Debug.LogWarning($"{gameObject.name}: No child objects found in the layout group.");
             return;
         }
 
@@ -59,11 +59,11 @@ public class ImageSlideShow : MonoBehaviour
             if (rectTransform != null)
             {
                 imageRects.Add(rectTransform);
-                Debug.Log($"{gameObject.name}: Image {i} recognized with width: {rectTransform.rect.width}");
+                //Debug.Log($"{gameObject.name}: Image {i} recognized with width: {rectTransform.rect.width}");
             }
             else
             {
-                Debug.LogWarning($"{gameObject.name}: Child {i} does not have a RectTransform component.");
+                //Debug.LogWarning($"{gameObject.name}: Child {i} does not have a RectTransform component.");
             }
         }
 
