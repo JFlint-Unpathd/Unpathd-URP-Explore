@@ -154,7 +154,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f83e109597871b541b966a3233575400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocomotionSystem: {fileID: 0}
+  xrrig: {fileID: 0}
+  locomotionSystem: {fileID: 0}
 --- !u!4 &3900191
 Transform:
   m_ObjectHideFlags: 0
@@ -445,9 +446,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DoNotTesselate: 0
-  savedPos: {x: -34.999996, y: -8.750001, z: 0.0000032520293}
+  savedPos: {x: -34.999996, y: -12.750001, z: 0.0000032520293}
   savedUp: {x: 0, y: 1, z: 0}
-  savedRectSize: {x: 700, y: 55}
+  savedRectSize: {x: 700, y: 75}
   savedColor: {r: 1, g: 0.50377357, b: 0.50377357, a: 1}
   savedTextUV0: {x: 0, y: 0, z: 0, w: 0}
   savedFill: 1
@@ -2114,7 +2115,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 3.02, y: 1.1300001}
-  m_SizeDelta: {x: 75, y: 35}
+  m_SizeDelta: {x: 75, y: 36}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &567689095
 MonoBehaviour:
@@ -2263,8 +2264,8 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
+    m_Top: 2
+    m_Bottom: 3
   m_ChildAlignment: 4
   m_Spacing: 1
   m_ChildForceExpandWidth: 1
@@ -2379,7 +2380,7 @@ MonoBehaviour:
   DoNotTesselate: 0
   savedPos: {x: 0, y: 0, z: 0}
   savedUp: {x: 0, y: 1, z: 0}
-  savedRectSize: {x: 75, y: 35}
+  savedRectSize: {x: 75, y: 36}
   savedColor: {r: 0.6117647, g: 0.6117647, b: 0.6117647, a: 0.654902}
   savedTextUV0: {x: 0, y: 0, z: 0, w: 0}
   savedFill: 1
@@ -3204,9 +3205,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DoNotTesselate: 0
-  savedPos: {x: 0, y: 0, z: 0}
+  savedPos: {x: 0.0000012397766, y: -15.500001, z: 0.0000032520293}
   savedUp: {x: 0, y: 1, z: 0}
-  savedRectSize: {x: 700, y: 55}
+  savedRectSize: {x: 700, y: 75}
   savedColor: {r: 1, g: 1, b: 1, a: 0.392}
   savedTextUV0: {x: 0, y: 0, z: 0, w: 0}
   savedFill: 1
@@ -3624,9 +3625,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DoNotTesselate: 0
-  savedPos: {x: 34.7, y: -9.049999, z: 0.0000032520293}
+  savedPos: {x: 34.7, y: -13.049999, z: 0.0000032520293}
   savedUp: {x: 0, y: 1, z: 0}
-  savedRectSize: {x: 5, y: 49}
+  savedRectSize: {x: 5, y: 69}
   savedColor: {r: 1, g: 1, b: 1, a: 1}
   savedTextUV0: {x: 0, y: 0, z: 0, w: 0}
   savedFill: 1
@@ -20050,9 +20051,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DoNotTesselate: 0
-  savedPos: {x: 34.449997, y: -10.44875, z: 0.0000032520293}
+  savedPos: {x: 34.449997, y: -14.315833, z: 0.0000032520293}
   savedUp: {x: 0, y: 1, z: 0}
-  savedRectSize: {x: 5, y: 27.974998}
+  savedRectSize: {x: 5, y: 24.59375}
   savedColor: {r: 1, g: 0, b: 0, a: 1}
   savedTextUV0: {x: 0, y: 0, z: 0, w: 0}
   savedFill: 1
@@ -20546,8 +20547,38 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1601780353293002916, guid: 6b4c9e787c2b58643802ec16d6914c0d,
         type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1601780353293002916, guid: 6b4c9e787c2b58643802ec16d6914c0d,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1601780353293002916, guid: 6b4c9e787c2b58643802ec16d6914c0d,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1601780353293002916, guid: 6b4c9e787c2b58643802ec16d6914c0d,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1601780353293002916, guid: 6b4c9e787c2b58643802ec16d6914c0d,
+        type: 3}
       propertyPath: m_SizeDelta.x
       value: 700
+      objectReference: {fileID: 0}
+    - target: {fileID: 1601780353293002916, guid: 6b4c9e787c2b58643802ec16d6914c0d,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1601780353293002916, guid: 6b4c9e787c2b58643802ec16d6914c0d,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1601780353293002916, guid: 6b4c9e787c2b58643802ec16d6914c0d,
         type: 3}
@@ -20607,7 +20638,7 @@ PrefabInstance:
     - target: {fileID: 3717966061496424557, guid: 6b4c9e787c2b58643802ec16d6914c0d,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3717966061496424557, guid: 6b4c9e787c2b58643802ec16d6914c0d,
         type: 3}
@@ -20696,6 +20727,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4841796364914166649, guid: 6b4c9e787c2b58643802ec16d6914c0d,
         type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 4841796364914166649, guid: 6b4c9e787c2b58643802ec16d6914c0d,
+        type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -20712,28 +20748,115 @@ PrefabInstance:
     - target: {fileID: 7759446137550503529, guid: 6b4c9e787c2b58643802ec16d6914c0d,
         type: 3}
       propertyPath: m_text
-      value: "George Stewart, 8th Earl of Galloway \n\nOne of the most prominent
-        families in Galloway, the Stewarts of Garlies1, as the earls of Galloway
-        were known, had strong connections to the Royal Navy. George Stewart, the
-        8th Earl of Galloway, Lord Garlies, made a sizable contribution to the Napoleonic
-        Wars as a naval commander. Garlies was aboard his uncle\u2019s ship during
-        the battle of Dogger Bank as a midshipman in 1781, at the age of only 13.
-        He rose through the ranks as an officer during the French Revolutionary Wars,
-        in command of several frigates which saw action in the Mediterranean and
-        were also used in the defence of Britain against invasion.  \r\n\r\nBy 1799,
-        he was in command of the HMS Hussar, a 38-gun frigate, before being given
-        command of the much larger HMS Bellerophon, a three-masted ship of the line
-        with 74 guns on board. Incidentally, in 1814, the Bellerophon was the ship
-        which captured Napoleon and took him back to Britain, but this was long after
-        Garlies had moved on. The plans of some of Galloway\u2019s ships can be seen
-        here, as can an oil painting of Bellerophon, which, at the time of painting,
-        had Napoleon on board.  \r\n\r\nGarlies commanded many ships throughout his
-        career, including the Vesuvius and Vulcan, two artillery vessels used to
-        create explosions and bombard fortresses. He took a leading role in the Royal
-        Navy in home waters, and by 1805, had been allocated a seat on the Board
-        of Admiralty. He was promoted to Rear-Admiral in 1810 and to Vice-Admiral
-        in 1819. Garlies was a major figure in the naval defence of Britain when
-        there was a very real fear that Napoleon could invade Britain\u2019s shores.  "
+      value: "Script for Women in 20thC Shipping Voyage \r\n\r\nIntro \r\n\r\nThe
+        role of women aboard ships is an often-overlooked area of twentieth century
+        history; whether it is in naval service in wartime and beyond, or aboard
+        commercial shipping like cruise liners and Merchant Navy cargo vessels. In
+        this Voyage, designed by Vicky Blencowe, we will explore how women contributed
+        to the maritime world of twentieth century Britain. We will be paying particular
+        attention to the increased responsibilities taken on by women aboard ships
+        as the century progressed. Many developments throughout this period are indeed
+        welcome, but social change in the maritime world can be slow, and there is
+        still progress to be made even in the 21st century. \r\n\r\n \r\n\r\nThe
+        role of women at the dawn of the century \r\n\r\nAt the dawn of the twentieth
+        century, Britain\u2019s naval and mercantile shipping was dominated by male
+        personnel. Before the twentieth century, women were mainly employed as servants
+        aboard ships, or were passengers accompanying male officers. In the eighteenth
+        century, though, there is evidence of women aboard pirate ships or women
+        disguised as men or boys in order to secure employment.  \r\n\r\nOne well-known
+        and particularly striking case is that of Anne Bonny, an Irish pirate who
+        sailed in the Caribbean. Bonny has been remembered in popular media and ballads
+        since the eighteenth century, and her story, though remarkable, has almost
+        certainly been sensationalised. We do know for certain that she stood trial,
+        alongside another female pirate, Mary Read, in 1720. Both women were convicted
+        of piracy, but escaped the noose by claiming to be pregnant. Bonny was captured
+        among the crew of John \u201CCalico Jack\u201D Rackham\u2019s crew, although
+        her fate after this is unknown as she disappears from historical record. 
+        \r\n\r\nThroughout the eighteenth and nineteenth centuries, women were also
+        aboard ships as companions to male officers. In the Royal Navy, men of the
+        rank of Warrant Officer and above were permitted to bring their wives, and
+        it was primarily through this role that women experienced naval service.
+        Wives at sea contributed to the running of the ship in domestic roles, and,
+        during battle, played a role in caring for the wounded and even supporting
+        the ships\u2019 gunners by running cartridges of powder and ammunition to
+        the canons above.  \r\n\r\nWomen were generally regarded as unfit for a life
+        as a sailor, but this attitude would change throughout the twentieth century,
+        not least because of the valuable service of women during two world wars. 
+        \r\n\r\n \r\n\r\nWomen in Naval Service During Two World Wars: The Wrens
+        and the Shipbuilding Industry \r\n\r\nAt the outbreak of the First World
+        War in 1914, the British Admiralty, reflecting the prevailing attitudes of
+        the time, believed the place of women was in the home, and were reluctant
+        to hire women into naval service. However, it soon became clear that the
+        high mortality rate of male sailors was not sustainable, and that women would
+        be required to fill many of the roles held by men. In 1917, the Women\u2019s
+        Royal Naval Service (the W.R.N.S. \u2013 known as the Wrens) was formed and
+        was approved by King George V.   \r\n\r\nThe Navy was the first of the armed
+        forces to recruit women, but their original roles were akin to those that
+        followed in the Women\u2019s Auxiliary forces in the Army and Air Force.
+        These included roles for women as cooks, telephone operators and store workers.
+        Gradually, though, this would grow to include mechanical jobs. Women also
+        made a pivotal contribution to the maritime industries on the home front
+        during the First World War. \r\n\r\nHistoric England, who lead the Unpath\u2019d
+        Waters Project, curated an exhibition in 2023 which uncovered the many stories
+        of women working in the shipping industry in the northeast of England. This
+        project highlighted the stories of local women who volunteered to take up
+        roles in heavy industry between 1914 and 1918, and also took up highly specialised
+        engineering roles, keeping the maritime industry afloat. The widespread use
+        of female labour during the First World War spurred positive social change
+        for women, as it contributed to the decision in 1918 to extend the vote to
+        women over 30. Despite this progress, social attitudes to women in the Navy,
+        and wider society, took some time to catch up. It\u2019s also worth noting
+        that when the war effort ended, the vast majority of female workers were
+        displaced, in order to make room for the men returning from the front. \r\n\r\nOn
+        the outbreak of the Second World War, in recognition of their invaluable
+        work decades earlier the Wrens were reformed. Their duties expanded considerably,
+        to include ancillary roles as writers, stewards, motor drivers and communication
+        workers. As the wartime fleets expanded, so did the W.R.N.S., and the responsibilities
+        allocated to the Wrens. Wrens with communications skills, for example, were
+        allocated roles operating radar and communications equipment. Those with
+        language skills were tasked with intercepting and deciphering enemy codes,
+        and some Wrens also worked in the Government Code and Cypher School at Bletchley
+        Park, where the German ENIGMA code was broken playing a vital role in bringing
+        the war to an end and saving countless lives. \r\n\r\n \r\n\r\nWomen in commercial
+        shipping in the 20th C \r\n\r\nThroughout the twentieth century female seafarers
+        also crossed the oceans aboard commercial vessels \u2013 from cruise liners
+        to Merchant Navy cargo ships. For a large part of the twentieth century,
+        women\u2019s roles aboard these ships were akin to those carried out by women
+        in hotels. The advancement of steam travel in the previous century had meant
+        that by 1900, passengers aboard commercial ships had come to expect smoother
+        crossings on long-distance journeys. Opportunities for women seafarers at
+        this time came mainly as stewardesses, and female employment was still low,
+        but the burgeoning hospitality sector aboard cruise liners meant that more
+        opportunities arose as the century progressed.  \r\n\r\nWomen were also employed
+        as nurses aboard military and commercial ships, but these positions offered
+        mixed opportunities. There was considerable opposition to full-time nursing
+        posts aboard ships in the early twentieth century, with some preferring to
+        offer \u2018hybrid\u2019 positions which relied on hiring stewardesses with
+        nursing experience to carry out dual roles. This was overturned in the inter-war
+        period, most likely a legacy of the service of women in the WRNS and on the
+        home front during the First World War.  Nurses were given officer status
+        and were no longer employed in hybrid roles. This was a welcome development,
+        but it would be a long time before women were given equal status as ships\u2019
+        doctors. Improvements for women in commercial shipping came through a series
+        of laws passed in the 1970s which allocated women equal status as mariners,
+        and also ensured that all new ships being built included separate facilities
+        for female workers on board, improving living conditions and also helping
+        increase the number of women employees.  \r\n\r\n \r\n\r\nWomen in the post-war
+        era: progress? \r\n\r\nCultural attitudes towards women in naval service
+        or working at sea aboard commercial shipping changed throughout the twentieth
+        century. The developments in the 1970s in commercial shipping were welcome,
+        but it was as late as 1993 when the Women\u2019s Royal Naval Service was
+        absorbed into the Royal Navy, allowing women to sail as equals in the armed
+        forces. Increasing responsibility and access to higher ranks or more specialist
+        roles aboard ships also progressively improved for women throughout the twentieth
+        century. Many developments, though, came because of personnel shortages,
+        rather than through any drive for social change. At the dawn of the 21st
+        century, conditions for women aboard ships was more encouraging. Women are
+        now captains and officers aboard naval and commercial ships, but it was not
+        until 2022 that Captain Milly Ingham became the first female officer to command
+        an Royal Navy ship \u2013 the HMS Protector. This is a huge milestone for
+        female officers in the Royal Navy, but there is still progress to be made
+        in years to come! \r\n\r"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
