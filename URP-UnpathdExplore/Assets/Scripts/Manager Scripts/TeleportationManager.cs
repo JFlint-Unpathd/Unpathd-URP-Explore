@@ -89,8 +89,12 @@ public class TeleportationManager : MonoBehaviour
         podContents[currentPodIndex].SetActive(false);
         for (int i = 0; i < podPlaceholders.Length; i++)
         {
-            podPlaceholders[i].SetActive(true);
+            if (i != currentPodIndex)
+            {
+                podPlaceholders[i].SetActive(true);
+            }
         }
+        podContents[currentPodIndex].SetActive(false);
     }
 
     public void OnButtonHoverExit()
@@ -98,7 +102,11 @@ public class TeleportationManager : MonoBehaviour
         podContents[currentPodIndex].SetActive(true);
         for (int i = 0; i < podPlaceholders.Length; i++)
         {
-            podPlaceholders[i].SetActive(i != currentPodIndex);
+            if (i != currentPodIndex)
+            {
+                podPlaceholders[i].SetActive(false);
+            }
         }
+        podContents[currentPodIndex].SetActive(true);
     }
 }
