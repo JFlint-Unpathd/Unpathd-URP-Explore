@@ -13,6 +13,7 @@ public class MenuPopup : MonoBehaviour
 
     private void Awake()
     {
+        settingsMenu.SetActive(false);
         toggleReference.action.started += Toggle;
 
         //originalPosition = settingsMenu.transform.position;
@@ -24,7 +25,7 @@ public class MenuPopup : MonoBehaviour
 
     private void Start()
     {
-        settingsMenu.SetActive(false);
+        
         //StartCoroutine(DisableInGameMenuCoroutine());
     }
 
