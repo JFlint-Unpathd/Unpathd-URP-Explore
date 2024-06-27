@@ -4,16 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class SoundVolume : MonoBehaviour
 {
+    public static SoundVolume instance;
     [SerializeField]
     private List<Slider> volumeSliders = new List<Slider>();
 
     [SerializeField]
     private List<Slider> onOffSliders = new List<Slider>();
 
-    // Persistent sliders that are manually added from the Inspector.
     [SerializeField]
     private List<Slider> persistentVolumeSliders = new List<Slider>(); 
 
@@ -25,6 +26,15 @@ public class SoundVolume : MonoBehaviour
     
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
@@ -33,6 +43,11 @@ public class SoundVolume : MonoBehaviour
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
         SceneManager.sceneUnloaded -= OnSceneUnloaded;
+    }
+    
+    void Start()
+    {
+        LoadVolumeSettings();
     }
     
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -53,35 +68,79 @@ public class SoundVolume : MonoBehaviour
         onOffSliders.AddRange(persistentOnOffSliders);
     }
 
-    void Start()
+    public bool IsMuted()
     {
-        audioManager = GetComponent<AudioManager>();
-        audioSource = GetComponent<AudioSource>();
+        return onOffSliders.Any(slider => slider.value == 0);
+    }
 
-        volumeSliders.Clear();
-        onOffSliders.Clear();
+    private void LoadVolumeSettings()
+    {
+        foreach (Slider slider in volumeSliders)
+        {
+            slider.onValueChanged.AddListener(SetVolume);
+        }
 
-        FindOnOffSliders();
-        FindVolumeSliders();
-
-        // Set the on/off sliders to the "on" state
         foreach (Slider slider in onOffSliders)
         {
-            slider.value = 1f; // Set to the maximum value, assuming 1 is the "on" 
+            slider.onValueChanged.AddListener(SetVolume);
         }
 
-        if(!PlayerPrefs.HasKey("musicVolume"))
+        foreach (Slider slider in persistentVolumeSliders)
         {
-            PlayerPrefs.SetFloat("musicVolume", 1);
-            Load();
+            slider.onValueChanged.AddListener(SetVolume);
         }
-        else
+
+        foreach (Slider slider in persistentOnOffSliders)
         {
-            Load();
+            slider.onValueChanged.AddListener(SetVolume);
+        }
+
+        float savedVolume = PlayerPrefs.GetFloat("Volume", 1f);
+        foreach (Slider slider in volumeSliders)
+        {
+            slider.value = savedVolume;
+        }
+
+        foreach (Slider slider in persistentVolumeSliders)
+        {
+            slider.value = savedVolume;
+        }
+
+        foreach (Slider slider in onOffSliders)
+        {
+            slider.value = PlayerPrefs.GetFloat(slider.name, slider.value);
+        }
+
+        foreach (Slider slider in persistentOnOffSliders)
+        {
+            slider.value = PlayerPrefs.GetFloat(slider.name, slider.value);
         }
     }
 
-    private void FindOnOffSliders()
+    private void SetVolume(float volume)
+    {
+        foreach (Slider slider in volumeSliders)
+        {
+            PlayerPrefs.SetFloat("Volume", slider.value);
+        }
+
+        foreach (Slider slider in persistentVolumeSliders)
+        {
+            PlayerPrefs.SetFloat("Volume", slider.value);
+        }
+
+        foreach (Slider slider in onOffSliders)
+        {
+            PlayerPrefs.SetFloat(slider.name, slider.value);
+        }
+
+        foreach (Slider slider in persistentOnOffSliders)
+        {
+            PlayerPrefs.SetFloat(slider.name, slider.value);
+        }
+    }
+
+private void FindOnOffSliders()
     {
         // Add persistent sliders that are attached from the Inspector
         onOffSliders.AddRange(persistentOnOffSliders);
@@ -128,110 +187,6 @@ public class SoundVolume : MonoBehaviour
         if (volumeSliders.Count == 0)
         {
             Debug.LogWarning("No volume sliders found in the scene.");
-        }
-    }
-
-    public void ChangeVolume()
-    {
-        foreach (Slider slider in volumeSliders)
-        {
-            // Check if the slider is currently being interacted with
-            if (slider.gameObject == UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject)
-            {
-                // Set the volume based on the value of the active slider
-                AudioListener.volume = slider.value;
-                break; // Exit the loop once the active slider is found
-            }
-        }
-
-        SynchronizeVolumeSliders();
-        Save();
-    }
-
-    private void SynchronizeVolumeSliders()
-    {
-        // Check if there are multiple volume sliders
-        if (volumeSliders.Count > 1)
-        {
-            // Get the value of the active volume slider
-            float activeVolume = AudioListener.volume;
-
-            // Update the value of all other volume sliders
-            foreach (Slider slider in volumeSliders)
-            {
-                if (slider.gameObject != UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject)
-                {
-                    slider.value = activeVolume;
-                }
-            }
-        }
-    }
-
-    private void Load()
-    {
-        float savedVolume = PlayerPrefs.GetFloat("musicVolume");
-
-        // Set the saved volume to all volume sliders
-        foreach (Slider slider in volumeSliders)
-        {
-            if (slider != null)
-            {
-                slider.value = savedVolume;
-            }
-        }
-    }
-
-    private void Save()
-    {
-        float volumeToSave;
-
-        if (volumeSliders.Count > 0)
-        {
-            // If there's at least one slider in the list, get the volume value from the first slider
-            volumeToSave = volumeSliders[0].value;
-        }
-        else
-        {
-            Debug.Log("making it 1");
-            // If there are no sliders in the list, default to full volume
-            volumeToSave = 1f;
-        }
-
-        // Save the volume value to PlayerPrefs
-        PlayerPrefs.SetFloat("musicVolume", volumeToSave);
-    }
-
-    public void PlayPauseSoundEffects()
-    {
-        if (AudioListener.volume > 0)
-        {
-            AudioListener.volume = 0;
-            // If audio is muted, set color to red
-            SetSlidersColor(Color.red);
-        }
-        else
-        {
-            AudioListener.volume = 1;
-            // If audio is unmuted, set color to green
-            SetSlidersColor(Color.green);
-        }
-
-        Save();
-    }
-    
-    private void SetSlidersColor(Color color)
-    {
-        foreach (Slider slider in onOffSliders)
-        {
-            // Check if the slider is not null before trying to access it
-            if (slider != null)
-            {
-                var handleColorChangeComponent = slider.handleRect.GetComponent<VolumeHandleColorChange>();
-                if (handleColorChangeComponent != null)
-                {
-                    handleColorChangeComponent.SetColor(color);
-                }
-            }
         }
     }
 }

@@ -1,5 +1,8 @@
-using UnityEngine;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class VoiceoverManager : MonoBehaviour
@@ -10,18 +13,29 @@ public class VoiceoverManager : MonoBehaviour
     
     [Header("Scene Start VOs")]
     public AudioClip[] introClips;
+    public bool[] introClipsDescriptive; // Add a boolean array to mark descriptive clips
     public AudioClip[] settingsClips;
+    public bool[] settingsClipsDescriptive;
     public AudioClip[] searchRoomClips;
+    public bool[] searchRoomClipsDescriptive;
     public AudioClip[] resultsClips;
+    public bool[] resultsClipsDescriptive;
     public AudioClip[] refineOrVoyageClips;
+    public bool[] refineOrVoyageClipsDescriptive;
     public AudioClip[] demoAudioClips;
+    public bool[] demoAudioClipsDescriptive;
     public AudioClip[] creditsAudioClips;
+    public bool[] creditsAudioClipsDescriptive;
 
     [Header("Voyage Start VOs")]
     public AudioClip[] napoleonicClips;
+    public bool[] napoleonicClipsDescriptive;
     public AudioClip[] mesolithicClips;
+    public bool[] mesolithicClipsDescriptive;
     public AudioClip[] coDesignClips;
+    public bool[] coDesignClipsDescriptive;
     public AudioClip[] shippingClips;
+    public bool[] shippingClipsDescriptive;
 
     private AudioSource audioSource;
 
@@ -30,12 +44,10 @@ public class VoiceoverManager : MonoBehaviour
     public bool demoAudioPlayed = false;
 
     private bool refineOrVoyagePlayed = false;
-
     public bool stopAudio;
 
     void Awake()
     {
-        // Ensure only one instance of VoiceoverManager exists
         if (instance == null)
         {
             instance = this;
@@ -43,7 +55,6 @@ public class VoiceoverManager : MonoBehaviour
         }
         else
         {
-            // If another instance exists, destroy this one
             Destroy(gameObject);
         }
 
@@ -54,7 +65,7 @@ public class VoiceoverManager : MonoBehaviour
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
         StartCoroutine(SettingsMenuDisable());
-        StartCoroutine(PlayAudioClipsSequentially(introClips, 2f));
+        StartCoroutine(PlayAudioClipsSequentially(introClips, introClipsDescriptive, 2f));
     }
     
     public static void Stop() 
@@ -74,15 +85,13 @@ public class VoiceoverManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        //Stop any audio playing from the previous scene
         Stop();
 
         Debug.Log("Scene Loaded: " + scene.name);
-        // Check if this is the IntroScene
         if (scene.name == "IntroMenu")
         {
             Debug.Log("detected");
-            StartCoroutine(PlayAudioClipsSequentially(introClips, 2f));
+            StartCoroutine(PlayAudioClipsSequentially(introClips, introClipsDescriptive, 2f));
         }
         if (scene.name == "DatabaseSearch")
         {
@@ -101,12 +110,11 @@ public class VoiceoverManager : MonoBehaviour
         }
     }
 
-    private IEnumerator PlayAudioClipsSequentially(AudioClip[] clips, float initialDelay)
+    private IEnumerator PlayAudioClipsSequentially(AudioClip[] clips, bool[] isDescriptive, float initialDelay)
     {
-        // Initial delay
         yield return new WaitForSecondsRealtime(initialDelay);
 
-        foreach (AudioClip clip in clips)
+        for (int i = 0; i < clips.Length; i++)
         {
             if (stopAudio)
             {
@@ -114,11 +122,17 @@ public class VoiceoverManager : MonoBehaviour
                 Debug.Log("Audio sequence stopped.");
                 yield break;
             }
-            AudioManager.instance.PlayClip(clip);
+
+            // Check if the clip is descriptive and if it should be muted
+            if (isDescriptive[i] && SoundVolume.instance.IsMuted())
+            {
+                continue;
+            }
+
+            AudioManager.instance.PlayClip(clips[i]);
             yield return new WaitUntil(() => !AudioManager.instance.IsPlaying());
         }
 
-        // Check if these are the intro clips
         if (clips == introClips)
         {
             introClipsFinished = true;
@@ -131,7 +145,6 @@ public class VoiceoverManager : MonoBehaviour
                 UnpathText.SetActive(false);
             }
 
-            // Deactivate all children first
             foreach (Transform child in settingsMenu.transform)
             {
                 child.gameObject.SetActive(false);
@@ -139,7 +152,6 @@ public class VoiceoverManager : MonoBehaviour
 
             settingsMenu.SetActive(true);
 
-            // Then activate only the first child
             if (settingsMenu.transform.childCount > 0)
             {
                 Transform firstChild = settingsMenu.transform.GetChild(0);
@@ -150,7 +162,7 @@ public class VoiceoverManager : MonoBehaviour
 
             if (!settingsAudioPlayed)
             {
-                StartCoroutine(PlaySettingsAudioSequentially(settingsClips));
+                StartCoroutine(PlaySettingsAudioSequentially(settingsClips, settingsClipsDescriptive));
                 settingsAudioPlayed = true;
             }
         }
@@ -160,63 +172,67 @@ public class VoiceoverManager : MonoBehaviour
         }
     }
 
-    private IEnumerator PlaySettingsAudioSequentially(AudioClip[] clips)
+    private IEnumerator PlaySettingsAudioSequentially(AudioClip[] clips, bool[] isDescriptive)
     {
-        foreach (AudioClip clip in clips)
+        for (int i = 0; i < clips.Length; i++)
         {
-            AudioManager.instance.PlayClip(clip);
+            if (isDescriptive[i] && SoundVolume.instance.IsMuted())
+            {
+                continue;
+            }
+
+            AudioManager.instance.PlayClip(clips[i]);
             yield return new WaitUntil(() => !AudioManager.instance.IsPlaying());
         }
     }
 
     public void PlaySearchRoomAudio()
     {
-        StartCoroutine(PlayAudioClipsSequentially(searchRoomClips, 2f));
+        StartCoroutine(PlayAudioClipsSequentially(searchRoomClips, searchRoomClipsDescriptive, 2f));
     }
         
     public void PlayResultsAudio()
     {
-        StartCoroutine(PlayAudioClipsSequentially(resultsClips, 2f));
+        StartCoroutine(PlayAudioClipsSequentially(resultsClips, resultsClipsDescriptive, 2f));
     }
 
-    public IEnumerator  PlayRefineorVoyageAudio()
+    public IEnumerator PlayRefineorVoyageAudio()
     {
         if (!refineOrVoyagePlayed)
         {
-            refineOrVoyagePlayed = true; // Set the boolean to true 
-            yield return StartCoroutine(PlayAudioClipsSequentially(refineOrVoyageClips, 2f));
+            refineOrVoyagePlayed = true;
+            yield return StartCoroutine(PlayAudioClipsSequentially(refineOrVoyageClips, refineOrVoyageClipsDescriptive, 2f));
         }
     }
 
     public void NapoleonicVoyageAudio()
     {
-        StartCoroutine(PlayAudioClipsSequentially(napoleonicClips, 2f));
+        StartCoroutine(PlayAudioClipsSequentially(napoleonicClips, napoleonicClipsDescriptive, 2f));
     }
 
     public void MesolithicVoyageAudio()
     {
-        StartCoroutine(PlayAudioClipsSequentially(mesolithicClips, 2f));
+        StartCoroutine(PlayAudioClipsSequentially(mesolithicClips, mesolithicClipsDescriptive, 2f));
     }
 
     public void CoDesignVoyageAudio()
     {
-        StartCoroutine(PlayAudioClipsSequentially(coDesignClips, 2f));
+        StartCoroutine(PlayAudioClipsSequentially(coDesignClips, coDesignClipsDescriptive, 2f));
     }
 
     public void WomenShippingVoyageAudio()
     {
-        StartCoroutine(PlayAudioClipsSequentially(shippingClips, 2f));
+        StartCoroutine(PlayAudioClipsSequentially(shippingClips, shippingClipsDescriptive, 2f));
     }
 
     public void DemoAudio()
     {
-        StartCoroutine(PlayAudioClipsSequentially(demoAudioClips, 2f));
-        
+        StartCoroutine(PlayAudioClipsSequentially(demoAudioClips, demoAudioClipsDescriptive, 2f));
     }
 
     public void CreditsAudio()
     {
-        StartCoroutine(PlayAudioClipsSequentially(creditsAudioClips, 2f));
+        StartCoroutine(PlayAudioClipsSequentially(creditsAudioClips, creditsAudioClipsDescriptive, 2f));
     }
 
     public void HandleSceneAudio(string sceneName)
@@ -239,7 +255,6 @@ public class VoiceoverManager : MonoBehaviour
                 PlaySearchRoomAudio();
                 break;
             case "RefineOrVoyage":
-                //PlayRefineorVoyageAudio();
                 StartCoroutine(PlayRefineorVoyageAudio());
                 break;
             case "Demo":
