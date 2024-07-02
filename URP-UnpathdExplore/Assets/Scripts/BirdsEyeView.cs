@@ -4,10 +4,10 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class BirdsEyeView : MonoBehaviour
 {
  
-    private GameObject xrOrigin;
+    public GameObject xrOrigin;
     private GameObject birdPlane;
 
-    private Rigidbody xrOriginRigidbody;    
+    public Rigidbody xrOriginRigidbody;    
     private XRBaseInteractable interactable;
 
     private bool isSelected = false;
@@ -15,7 +15,7 @@ public class BirdsEyeView : MonoBehaviour
 
     private SqliteController sqliteController;
 
-    float yOffset = 0.5f; 
+    float yOffset = 0.2f; 
 
     void Awake()
     {
@@ -73,10 +73,20 @@ public class BirdsEyeView : MonoBehaviour
             //Adjust the positions of all resources
             foreach (var resource in sqliteController.GetResourceDict().Values)
             {
-                resource.transform.position = new Vector3(resource.transform.position.x, 0.5f, resource.transform.position.z);
+                if (resource != null)
+                {
+                    resource.transform.position = new Vector3(resource.transform.position.x, 0.5f, resource.transform.position.z);
+                }
+                else
+                {
+                    Debug.LogWarning("A resource was found to be null during position adjustment.");
+                }
             }
 
-            xrOrigin.transform.position = transform.position - offset;
+            if (xrOrigin != null)
+            {
+                xrOrigin.transform.position = transform.position - offset;
+            }
 
             // Find the birdPlane GameObject using the BirdPlane tag even if it's inactive
             birdPlane = GameObject.FindGameObjectWithTag("BirdPlane");
@@ -94,13 +104,23 @@ public class BirdsEyeView : MonoBehaviour
             // Restore the original positions of all resources
             foreach (var entry in sqliteController.GetOriginalPositions())
             {
-                entry.Key.transform.position = entry.Value;
+                if (entry.Key != null)
+                {
+                    entry.Key.transform.position = entry.Value;
+                }
+                else
+                {
+                    Debug.LogWarning("A resource was found to be null during position restoration.");
+                }
             }
 
-            xrOrigin.transform.position = new Vector3(xrOrigin.transform.position.x, originalYPosition, xrOrigin.transform.position.z);
-            isSelected = false; 
-        
+            if (xrOrigin != null)
+            {
+                xrOrigin.transform.position = new Vector3(xrOrigin.transform.position.x, originalYPosition, xrOrigin.transform.position.z);
+            }
 
+            isSelected = false;
+        
         }
     }
 }

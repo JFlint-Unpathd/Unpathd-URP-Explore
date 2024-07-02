@@ -61,7 +61,6 @@ public class ItemSelectionController : MonoBehaviour
         
         GetComponentInChildren<TMPro.TMP_Text>().text = thisResource.m_Title;
         
-
     }
 
 
@@ -95,42 +94,6 @@ public class ItemSelectionController : MonoBehaviour
             }
         }
     }
-
-
-
-    // private void OnSelectEntered(SelectEnterEventArgs args)
-    // {
-    //     resultSelected = !resultSelected;
-    //     // Get the list of all Q results
-    //     List<UnpathResource> allQResults = sqliteController.GetAllQResults();
-
-    //     // Display the info panel associated with the selected item
-    //     //infoPanel.SetActive(true);
-
-    //     if(!resultSelected)
-    //     {
-    //         // Loop through all the items in the list
-    //         foreach (UnpathResource item in allQResults)
-    //         {
-    //             // Disable all objects except the selected one
-    //             item.gameObject.SetActive(item == thisResource);
-    //         }
-            
-    //         InfoPanelOn();
-            
-            
-    //     }
-
-    //     else
-    //     {
-    //         InfoPanelOff();
-            
-    //         foreach (var obj in allQResults)
-    //         {
-    //             obj.gameObject.SetActive(true);
-    //         }
-    //     }
-    // }
 
     private void InfoPanelOn()
     {
