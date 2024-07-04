@@ -60,6 +60,6 @@ public class MapProjection : MonoBehaviour
         //sfrFloorMap.transform.position += new Vector3(longitudeOffset, 0, latitudeOffset);
         
         // Set the position of "SFR Floor Map" to the desired location
-        sfrFloorMap.transform.position = new Vector3(-2.45f,-1.5f,8.45f);
+        sfrFloorMap.transform.position = new Vector3(-2.45f,0f,8.45f);
     }
 }
