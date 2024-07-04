@@ -110,66 +110,84 @@ public class VoiceoverManager : MonoBehaviour
         }
     }
 
+    //original method where descriptive was not considered
+    // private IEnumerator PlayAudioClipsSequentiallyNoBool(AudioClip[] clips, float initialDelay)
+    // {
+    //     yield return new WaitForSecondsRealtime(initialDelay);  // Initial delay before starting the sequence
+
+    //     foreach (AudioClip clip in clips)
+    //     {
+    //         AudioManager.instance.PlayClip(clip);
+    //         yield return new WaitUntil(() => !AudioManager.instance.IsPlaying());  // Wait until the clip finishes playing
+    //     }
+    // }
+
+
+    //plays audio sequentially, takes into account if is descriptive and checks if on/off toggle is off
+    //in which case skips the ones marked descriptive
     private IEnumerator PlayAudioClipsSequentially(AudioClip[] clips, bool[] isDescriptive, float initialDelay)
+{
+    bool isDescriptiveMuted = PlayerPrefs.GetInt("DescriptiveMuted", 0) == 1;
+    yield return new WaitForSecondsRealtime(initialDelay);
+
+    for (int i = 0; i < clips.Length; i++)
     {
+        if (stopAudio)
+        {
+            stopAudio = false;
+            Debug.Log("Audio sequence stopped.");
+            yield break;
+        }
+
+        if (isDescriptive[i] && isDescriptiveMuted)
+        {
+            continue; // Skip this clip as it's descriptive and should be muted
+        }
+
+        AudioManager.instance.PlayClip(clips[i]);
+        yield return new WaitUntil(() => !AudioManager.instance.IsPlaying());
+    }
+
+    if (clips == introClips)
+    {
+        introClipsFinished = true;
+    }
+
+    if (introClipsFinished && settingsMenu != null)
+    {
+        if (UnpathText != null)
+        {
+            UnpathText.SetActive(false);
+        }
+
+        foreach (Transform child in settingsMenu.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+
+        settingsMenu.SetActive(true);
+
+        if (settingsMenu.transform.childCount > 0)
+        {
+            Transform firstChild = settingsMenu.transform.GetChild(0);
+            firstChild.gameObject.SetActive(true);
+        }
+
         yield return new WaitForSecondsRealtime(initialDelay);
 
-        for (int i = 0; i < clips.Length; i++)
+        if (!settingsAudioPlayed)
         {
-            if (stopAudio)
-            {
-                stopAudio = false;
-                Debug.Log("Audio sequence stopped.");
-                yield break;
-            }
-
-            // Check if the clip is descriptive and if it should be muted
-            if (isDescriptive[i] && SoundVolume.instance.IsMuted())
-            {
-                continue;
-            }
-
-            AudioManager.instance.PlayClip(clips[i]);
-            yield return new WaitUntil(() => !AudioManager.instance.IsPlaying());
+            StartCoroutine(PlaySettingsAudioSequentially(settingsClips, settingsClipsDescriptive));
+            settingsAudioPlayed = true;
         }
+    }
 
-        if (clips == introClips)
-        {
-            introClipsFinished = true;
-        }
+    else if (clips == null)
+    {
+        Debug.Log("No GameObject assigned to 'settingsMenu'");
+    }
 
-        if (introClipsFinished && settingsMenu != null)
-        {
-            if (UnpathText != null)
-            {
-                UnpathText.SetActive(false);
-            }
-
-            foreach (Transform child in settingsMenu.transform)
-            {
-                child.gameObject.SetActive(false);
-            }
-
-            settingsMenu.SetActive(true);
-
-            if (settingsMenu.transform.childCount > 0)
-            {
-                Transform firstChild = settingsMenu.transform.GetChild(0);
-                firstChild.gameObject.SetActive(true);
-            }
-
-            yield return new WaitForSecondsRealtime(initialDelay);
-
-            if (!settingsAudioPlayed)
-            {
-                StartCoroutine(PlaySettingsAudioSequentially(settingsClips, settingsClipsDescriptive));
-                settingsAudioPlayed = true;
-            }
-        }
-        else if (clips == null)
-        {
-            Debug.Log("No GameObject assigned to 'settingsMenu'");
-        }
+        
     }
 
     private IEnumerator PlaySettingsAudioSequentially(AudioClip[] clips, bool[] isDescriptive)

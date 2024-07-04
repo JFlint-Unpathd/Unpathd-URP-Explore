@@ -18,6 +18,11 @@ public class VolumeHandleColorChange : MonoBehaviour
     {
         // Set the initial color to green
         SetColor(greenColor);
+
+         if (SoundVolume.instance != null)
+        {
+            SoundVolume.instance.OnMuteStateChanged += UpdateHandleColor;
+        }
     }
 
     public void SetColor(Color color)
@@ -33,5 +38,11 @@ public class VolumeHandleColorChange : MonoBehaviour
         {
             Debug.Log("No Image component attached to this GameObject.");
         }
+    }
+
+    private void UpdateHandleColor(bool isMuted)
+    {
+        // Change the handle color based on the mute state
+        SetColor(isMuted ? redColor : greenColor);
     }
 }

@@ -23,6 +23,8 @@ public class SoundVolume : MonoBehaviour
 
     private AudioSource audioSource;
     public AudioManager audioManager;
+
+    public Action<bool> OnMuteStateChanged;
     
     private void Awake()
     {
@@ -117,7 +119,7 @@ public class SoundVolume : MonoBehaviour
         }
     }
 
-    private void SetVolume(float volume)
+    public void SetVolume(float volume)
     {
         foreach (Slider slider in volumeSliders)
         {
@@ -138,9 +140,22 @@ public class SoundVolume : MonoBehaviour
         {
             PlayerPrefs.SetFloat(slider.name, slider.value);
         }
+
     }
 
-private void FindOnOffSliders()
+    public void ToggleMute()
+    {
+        // Toggle the mute state based on the slider value
+        bool isMuted = onOffSliders.Any(slider => slider.value == 0);
+        PlayerPrefs.SetInt("DescriptiveMuted", isMuted ? 1 : 0);
+
+        Debug.Log("Descriptive audio muted: " + isMuted);
+
+        // Trigger the mute state change event
+        OnMuteStateChanged?.Invoke(isMuted);
+    }
+
+    private void FindOnOffSliders()
     {
         // Add persistent sliders that are attached from the Inspector
         onOffSliders.AddRange(persistentOnOffSliders);

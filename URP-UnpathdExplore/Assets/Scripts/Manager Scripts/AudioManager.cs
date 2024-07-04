@@ -65,4 +65,17 @@ public class AudioManager : MonoBehaviour
     {
         return audioSource.isPlaying && audioSource.clip == clip;
     }
+
+    public void SetVolume(float volume)
+    {
+        if (audioSource != null)
+        {
+            audioSource.volume = volume;
+        }
+        else
+        {
+            Debug.LogError("AudioSource not found.");
+        }
+    }
+
 }
