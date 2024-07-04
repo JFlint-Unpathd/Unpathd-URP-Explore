@@ -79,22 +79,22 @@ public class SoundVolume : MonoBehaviour
     {
         foreach (Slider slider in volumeSliders)
         {
-            slider.onValueChanged.AddListener(SetVolume);
+            slider.onValueChanged.AddListener(delegate { ChangeVolume(); });
         }
 
         foreach (Slider slider in onOffSliders)
         {
-            slider.onValueChanged.AddListener(SetVolume);
+            slider.onValueChanged.AddListener(delegate { ChangeVolume(); });
         }
 
         foreach (Slider slider in persistentVolumeSliders)
         {
-            slider.onValueChanged.AddListener(SetVolume);
+            slider.onValueChanged.AddListener(delegate { ChangeVolume(); });
         }
 
         foreach (Slider slider in persistentOnOffSliders)
         {
-            slider.onValueChanged.AddListener(SetVolume);
+            slider.onValueChanged.AddListener(delegate { ChangeVolume(); });
         }
 
         float savedVolume = PlayerPrefs.GetFloat("Volume", 1f);
@@ -119,28 +119,60 @@ public class SoundVolume : MonoBehaviour
         }
     }
 
-    public void SetVolume(float volume)
+    public void ChangeVolume()
     {
         foreach (Slider slider in volumeSliders)
         {
-            PlayerPrefs.SetFloat("Volume", slider.value);
+            // Check if the slider is currently being interacted with
+            if (slider.gameObject == UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject)
+            {
+                // Set the volume based on the value of the active slider
+                AudioListener.volume = slider.value;
+                break; // Exit the loop once the active slider is found
+            }
         }
 
-        foreach (Slider slider in persistentVolumeSliders)
+        SynchronizeVolumeSliders();
+        SaveVolumeSettings();
+    }
+
+    private void SynchronizeVolumeSliders()
+    {
+        // Check if there are multiple volume sliders
+        if (volumeSliders.Count > 1)
         {
-            PlayerPrefs.SetFloat("Volume", slider.value);
-        }
+            // Get the value of the active volume slider
+            float activeVolume = AudioListener.volume;
 
-        foreach (Slider slider in onOffSliders)
+            // Update the value of all other volume sliders
+            foreach (Slider slider in volumeSliders)
+            {
+                if (slider.gameObject != UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject)
+                {
+                    slider.value = activeVolume;
+                }
+            }
+        }
+    }
+
+    private void SaveVolumeSettings()
+    {
+        float volumeToSave;
+
+        if (volumeSliders.Count > 0)
         {
-            PlayerPrefs.SetFloat(slider.name, slider.value);
+            // If there's at least one slider in the list, get the volume value from the first slider
+            volumeToSave = volumeSliders[0].value;
         }
-
-        foreach (Slider slider in persistentOnOffSliders)
+        else
         {
-            PlayerPrefs.SetFloat(slider.name, slider.value);
+            Debug.Log("making it 1");
+            // If there are no sliders in the list, default to full volume
+            volumeToSave = 1f;
         }
 
+        // Save the volume value to PlayerPrefs
+        PlayerPrefs.SetFloat("Volume", volumeToSave);
     }
 
     public void ToggleMute()
