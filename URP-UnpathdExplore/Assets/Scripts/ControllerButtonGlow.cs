@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -23,120 +22,135 @@ public class ControllerButtonGlow : MonoBehaviour
 
     [Header("Labels")]
     [SerializeField] private GameObject triggerLabel;
+    [SerializeField] private GameObject secondaryTriggerLabel;
     [SerializeField] private GameObject primaryBtnLabel;
     [SerializeField] private GameObject thumbStickLabel;
-
-    private bool triggerPressed = false;
-    private bool primaryPressed = false;
-    private bool thumbStickPressed = false;
-    public bool isOnPod;
-    private bool disableTeleportationStarted = false;
-    private bool grabObjectInstantiated = false;
 
     [Header("PromptPrefab")]
     [SerializeField] private GameObject teleportationPodPrefab;
     private GameObject teleportationPod;
+    [SerializeField] private GameObject selectObjectPrefab;
+    private GameObject selectObject;
     [SerializeField] private GameObject grabObjectPrefab;
     private GameObject grabObject;
+    [SerializeField] private GameObject menuSceneObjectPrefab;
+    private GameObject menuSceneObject;
     [SerializeField] private GameObject promptMenuObject;
     private GameObject promptMenu;
 
-    [SerializeField] private GameObject menuSceneObjectPrefab;
-    private GameObject menuSceneObject;
+    [SerializeField] private GameObject reminderPanel;
 
     [Header("Audio Clips")]
     [SerializeField] private AudioClip teleportClip;
     [SerializeField] private AudioClip selectClip;
+    [SerializeField] private AudioClip grabClip;
     [SerializeField] private AudioClip menuClip;
-    
-    // Tutorial Stage
-    private enum TutorialStage 
+
+    private enum TutorialStage
     {
         Teleport,
         Select,
+        Grab,
         Menu
     }
 
     private TutorialStage currentTutorialStage = TutorialStage.Teleport;
 
+    private bool triggerPressed = false;
+    private bool primaryPressed = false;
+    private bool grabReleased = false;
+    private bool thumbStickPressed = false;
+    public bool isOnPod;
+    private bool disableTeleportationStarted = false;
+    private bool selectObjectInstantiated = false;
+    private bool canTransitionToGrab = false;
+    private bool hasGrabbedObject = false;
+    private bool isSelectStageFinished = false;
+
 
     private void OnTriggerEnter(Collider other)
     {
-        // Check if the XR Rig has collided with the teleportation pod
         if (other.gameObject.CompareTag("TeleportationPod"))
         {
             isOnPod = true;
-            Debug.Log("OnTriggerEnter: " + other.gameObject.tag);
+        }
+        else if (other.gameObject == grabObject)
+        {
+            hasGrabbedObject = true; // Set true when the grab object is interacted with
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        // Check if the XR Rig has exited the teleportation pod
         if (other.gameObject.CompareTag("TeleportationPod"))
         {
             isOnPod = false;
-            Debug.Log("OnTriggerExit: " + other.gameObject.tag);
         }
     }
 
-    private bool IsOnPod()
+
+    public bool IsOnPod()
     {
         return isOnPod;
     }
-
 
     private void SetMaterial(MeshRenderer renderer, Material material)
     {
         renderer.material = material;
     }
 
-    void Awake()
+    private void Awake()
     {
-        // trigger
         triggerButtonReference.action.performed += TriggerPressed;
         triggerButtonReference.action.canceled += TriggerCanceled;
-
-        // primary
-        primaryBtnReference.action.performed += PrimaryPressed; 
+        primaryBtnReference.action.performed += PrimaryPressed;
         primaryBtnReference.action.canceled += PrimaryCancelled;
-
-        // thumbstick
         thumbStickReference.action.performed += ThumbStickPressed;
         thumbStickReference.action.canceled += ThumbStickCancelled;
     }
 
-        private void Start()
+    private void Start()
     {
-        // Set initial materials
         SetMaterial(triggerRenderer, glowMaterial);
         SetMaterial(primaryBtnRenderer, glowMaterial);
         SetMaterial(thumbStickRenderer, glowMaterial);
 
         teleportationPod = Instantiate(teleportationPodPrefab, new Vector3(0, 0, 3), Quaternion.identity);
         teleportationPod.SetActive(true);
+
+        reminderPanel.SetActive(false);
+        secondaryTriggerLabel.SetActive(false);
     }
 
+    private void TransitionToGrabStage()
+    {
+        StartCoroutine(HandleGrabStageTransition());
+    }
+
+    private IEnumerator HandleGrabStageTransition()
+    {
+        // Add a delay before transitioning to the grab stage
+        yield return new WaitForSeconds(2f);
+
+        grabObject = Instantiate(grabObjectPrefab, new Vector3(0, 1, 6), Quaternion.identity);
+        grabObject.SetActive(true);
+
+        SetMaterial(triggerRenderer, glowMaterial);
+        secondaryTriggerLabel.SetActive(true);
+
+        currentTutorialStage = TutorialStage.Grab;
+        AudioManager.instance.PlayClip(grabClip);
+    }
 
     private void ThumbStickPressed(InputAction.CallbackContext obj)
     {
-        switch (currentTutorialStage)
+        if (currentTutorialStage == TutorialStage.Teleport && !thumbStickPressed && IsOnPod())
         {
-            case TutorialStage.Teleport:
-                if (!thumbStickPressed && IsOnPod())
-                {
-                    disableTeleportationStarted = true;
-                    StartCoroutine(DisableTeleportationFeatures());
-                }
-                break;
-            case TutorialStage.Select:
-                // Ignore, not this stage's action
-                break;
-            case TutorialStage.Menu:
-                // Ignore, not this stage's action
-                break;
+            disableTeleportationStarted = true;
+            StartCoroutine(DisableTeleportationFeatures());
         }
     }
+
     private void ThumbStickCancelled(InputAction.CallbackContext obj)
     {
         if (!thumbStickPressed)
@@ -148,95 +162,103 @@ public class ControllerButtonGlow : MonoBehaviour
     private IEnumerator DisableTeleportationFeatures()
     {
         yield return new WaitForSeconds(1f);
-        
+
         SetMaterial(thumbStickRenderer, normalMaterial);
         thumbStickLabel.SetActive(false);
         thumbStickPressed = true;
-
-        // Deactivate teleport anchor after teleportation
         teleportationPod.SetActive(false);
 
-        // Instantiate and activate grab object prefab
-        if (!grabObjectInstantiated)
+        if (!selectObjectInstantiated)
         {
-            grabObject = Instantiate(grabObjectPrefab, new Vector3(0, 0, 6), Quaternion.identity); // modify this line
-            grabObject.SetActive(true);
-            grabObjectInstantiated = true;
+            selectObject = Instantiate(selectObjectPrefab, new Vector3(0, 0, 6), Quaternion.identity);
+            selectObject.SetActive(true);
+            selectObjectInstantiated = true;
         }
 
         currentTutorialStage = TutorialStage.Select;
-
         AudioManager.instance.PlayClip(selectClip);
 
+        // Example: Set the select stage as finished
+        isSelectStageFinished = true;
     }
 
     private void TriggerPressed(InputAction.CallbackContext obj)
     {
-        switch (currentTutorialStage)
+        // Check if in Select stage, selection is finished, and grabObject is ready
+        if (currentTutorialStage == TutorialStage.Select && !triggerPressed)
         {
-            case TutorialStage.Teleport:
-                // Ignore, not this stage's action
-                break;
-            case TutorialStage.Select:
-                if (!triggerPressed)
-                {
-        
-                    // Disable teleportation light and panel after delay
-                    SetMaterial(triggerRenderer, normalMaterial);
-                    triggerLabel.SetActive(false);
-                    currentTutorialStage = TutorialStage.Menu;
+            SetMaterial(triggerRenderer, normalMaterial);
+            triggerLabel.SetActive(false);
 
-                    // Deactivate the grabObject
-                    grabObject.SetActive(false);
+            if (selectObject != null)
+            {
+                selectObject.SetActive(false);
+            }
 
-                    // Instantiate and activate promptMenuObject
-                    promptMenu = Instantiate(promptMenuObject, new Vector3(0, 1, 5), Quaternion.identity);
-                    promptMenu.SetActive(true);
+            SetMaterial(triggerRenderer, glowMaterial);
+            secondaryTriggerLabel.SetActive(true);
 
-                    // Play the menu tutorial audio
-                    AudioManager.instance.PlayClip(menuClip);
-                    
-                }
-                break;
-         
-            case TutorialStage.Menu:
-            // Ignore as it's not this stage's action
-                break;
+            canTransitionToGrab = true;
+
+            if (isSelectStageFinished)
+            {
+                TransitionToGrabStage();
+            }
+        }
+        else if (currentTutorialStage == TutorialStage.Grab && !hasGrabbedObject)
+        {
+            StartCoroutine(ShowReleaseReminder());
+            Debug.Log("Handling Grab Stage Trigger Press");
         }
     }
 
-    
     private void TriggerCanceled(InputAction.CallbackContext obj)
     {
-        if (!triggerPressed)
+        Debug.Log("Trigger Released");
+        if (currentTutorialStage == TutorialStage.Grab && grabObject != null && grabObject.activeSelf)
         {
-            //SetMaterial(triggerRenderer, glowMaterial);
+            grabReleased = true;
+            reminderPanel.SetActive(false);
+
+            SetMaterial(triggerRenderer, normalMaterial);
+            secondaryTriggerLabel.SetActive(false);
+
+            if (grabObject != null)
+            {
+                grabObject.SetActive(false);
+            }
+
+            promptMenu = Instantiate(promptMenuObject, new Vector3(0, 1, 5), Quaternion.identity);
+            promptMenu.SetActive(true);
+
+            AudioManager.instance.PlayClip(menuClip);
+            currentTutorialStage = TutorialStage.Menu;
+        }
+    }
+
+    private IEnumerator ShowReleaseReminder()
+    {
+        yield return new WaitForSeconds(5f);
+        if (!grabReleased && currentTutorialStage == TutorialStage.Grab)
+        {
+            reminderPanel.SetActive(true);
         }
     }
 
     private void PrimaryPressed(InputAction.CallbackContext obj)
     {
-        switch (currentTutorialStage)
+        Debug.Log($"Primary Button Pressed: current stage = {currentTutorialStage}, primaryPressed = {primaryPressed}");
+
+        if (currentTutorialStage == TutorialStage.Menu && !primaryPressed)
         {
-            case TutorialStage.Teleport:
-                // Ignore, not this stage's action
-                break;
-            case TutorialStage.Select:
-                // Ignore, not this stage's action
-                break;
-            case TutorialStage.Menu:
-                if (!primaryPressed)
-                {
-                    if (promptMenu != null)
-                    {
-                        promptMenu.SetActive(false);
-                    }
-                    SetMaterial(primaryBtnRenderer, normalMaterial);
-                    primaryBtnLabel.SetActive(false);
-                    primaryPressed = true;
-                    StartCoroutine(DemoFinished());
-                }
-                break;
+            if (promptMenu != null)
+            {
+                promptMenu.SetActive(false);
+            }
+            SetMaterial(primaryBtnRenderer, normalMaterial);
+            primaryBtnLabel.SetActive(false);
+            primaryPressed = true;
+            StartCoroutine(DemoFinished());
         }
     }
 
@@ -247,7 +269,7 @@ public class ControllerButtonGlow : MonoBehaviour
             SetMaterial(primaryBtnRenderer, glowMaterial);
         }
     }
-    
+
     private IEnumerator DemoFinished()
     {
         yield return new WaitForSeconds(1f);
@@ -258,13 +280,10 @@ public class ControllerButtonGlow : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("myObject is not assigned.");
+            Debug.LogWarning("InGameMenu is not assigned.");
         }
 
         menuSceneObject = Instantiate(menuSceneObjectPrefab, new Vector3(0, 1, 7), Quaternion.identity);
         menuSceneObject.SetActive(true);
-
     }
-
-
 }
