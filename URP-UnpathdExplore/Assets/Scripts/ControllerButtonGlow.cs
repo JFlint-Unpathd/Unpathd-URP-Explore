@@ -38,8 +38,6 @@ public class ControllerButtonGlow : MonoBehaviour
     [SerializeField] private GameObject promptMenuObject;
     private GameObject promptMenu;
 
-    [SerializeField] private GameObject reminderPanel;
-
     [Header("Audio Clips")]
     [SerializeField] private AudioClip teleportClip;
     [SerializeField] private AudioClip selectClip;
@@ -67,6 +65,8 @@ public class ControllerButtonGlow : MonoBehaviour
     private bool hasGrabbedObject = false;
     private bool isSelectStageFinished = false;
 
+    private Coroutine grabReminderCoroutine;
+    private GameObject reminderPanel;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -87,7 +87,6 @@ public class ControllerButtonGlow : MonoBehaviour
             isOnPod = false;
         }
     }
-
 
     public bool IsOnPod()
     {
@@ -118,7 +117,6 @@ public class ControllerButtonGlow : MonoBehaviour
         teleportationPod = Instantiate(teleportationPodPrefab, new Vector3(0, 0, 3), Quaternion.identity);
         teleportationPod.SetActive(true);
 
-        reminderPanel.SetActive(false);
         secondaryTriggerLabel.SetActive(false);
     }
 
@@ -134,6 +132,13 @@ public class ControllerButtonGlow : MonoBehaviour
 
         grabObject = Instantiate(grabObjectPrefab, new Vector3(0, 1, 6), Quaternion.identity);
         grabObject.SetActive(true);
+
+        // Find and deactivate the reminder panel
+        reminderPanel = grabObject.transform.Find("Reminder Panel")?.gameObject;
+        if (reminderPanel != null)
+        {
+            reminderPanel.SetActive(false);
+        }
 
         SetMaterial(triggerRenderer, glowMaterial);
         secondaryTriggerLabel.SetActive(true);
@@ -207,7 +212,11 @@ public class ControllerButtonGlow : MonoBehaviour
         }
         else if (currentTutorialStage == TutorialStage.Grab && !hasGrabbedObject)
         {
-            StartCoroutine(ShowReleaseReminder());
+            if (grabReminderCoroutine != null)
+            {
+                StopCoroutine(grabReminderCoroutine);
+            }
+            grabReminderCoroutine = StartCoroutine(ShowReleaseReminder());
             Debug.Log("Handling Grab Stage Trigger Press");
         }
     }
@@ -215,10 +224,18 @@ public class ControllerButtonGlow : MonoBehaviour
     private void TriggerCanceled(InputAction.CallbackContext obj)
     {
         Debug.Log("Trigger Released");
+        if (grabReminderCoroutine != null)
+        {
+            StopCoroutine(grabReminderCoroutine);
+        }
+
         if (currentTutorialStage == TutorialStage.Grab && grabObject != null && grabObject.activeSelf)
         {
             grabReleased = true;
-            reminderPanel.SetActive(false);
+            if (reminderPanel != null)
+            {
+                reminderPanel.SetActive(false);
+            }
 
             SetMaterial(triggerRenderer, normalMaterial);
             secondaryTriggerLabel.SetActive(false);
@@ -241,7 +258,10 @@ public class ControllerButtonGlow : MonoBehaviour
         yield return new WaitForSeconds(5f);
         if (!grabReleased && currentTutorialStage == TutorialStage.Grab)
         {
-            reminderPanel.SetActive(true);
+            if (reminderPanel != null)
+            {
+                reminderPanel.SetActive(true);
+            }
         }
     }
 
@@ -272,7 +292,7 @@ public class ControllerButtonGlow : MonoBehaviour
 
     private IEnumerator DemoFinished()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         GameObject inGameMenu = GameObject.FindWithTag("InGameMenu");
         if (inGameMenu != null)
         {
