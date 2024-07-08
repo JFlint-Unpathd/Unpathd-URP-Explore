@@ -75,7 +75,7 @@ public class BirdsEyeView : MonoBehaviour
             {
                 if (resource != null)
                 {
-                    resource.transform.position = new Vector3(resource.transform.position.x, 0.2f, resource.transform.position.z);
+                    resource.transform.position = new Vector3(resource.transform.position.x, 0.5f, resource.transform.position.z);
                 }
                 else
                 {

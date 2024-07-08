@@ -354,7 +354,7 @@ public class ResetRefine : MonoBehaviour
             var rb = birdsEyeInstance.GetComponent<Rigidbody>();
             var interactable = birdsEyeInstance.GetComponent<XRSimpleInteractable>();
 
-            if (rb != null) rb.isKinematic = false;
+            if (rb != null) rb.isKinematic = true;
             if (interactable != null) interactable.enabled = true;
         }
         else
