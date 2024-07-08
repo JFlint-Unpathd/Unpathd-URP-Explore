@@ -44,7 +44,6 @@ public class SqliteController : MonoBehaviour {
     {
         return m_resourceDict;
     }
-    //public ZoomController zoomController;
 
     private ResetRefine resetRefine;
 
@@ -97,10 +96,7 @@ public class SqliteController : MonoBehaviour {
         } else {
             InitDB( dbPath );
         }
-
-        // added to fill in inspector, kept clearing field, failsafe option
-        //zoomController = FindObjectOfType<ZoomController>();
-
+        
         //added for map projection
         mapProjectionController.GetComponent<MapProjection>();
         resetRefine = FindObjectOfType<ResetRefine>();
@@ -322,13 +318,6 @@ public class SqliteController : MonoBehaviour {
                 originalPositions[res] = res.transform.position;
             }
 
-            // added for zoom logic
-            // interactable that has been instantiated is being added to zoom list when a hover is detected
-            // XRSimpleInteractable interactable = obj.GetComponent<XRSimpleInteractable>();
-            // if( interactable == null ) {
-            //     interactable = obj.AddComponent<XRSimpleInteractable>();
-            // }
-            // interactable.hoverEntered.AddListener( ( interactor ) => { zoomController.ZoomList( id ); } );
                 if( count % loadPerFrame == 0 ) 
                 {
                     yield return 0;
@@ -411,7 +400,7 @@ public class SqliteController : MonoBehaviour {
         {
             return yCoordinate;
         }
-        return -1.0; // Handle unknown cases
+        return 0; // Handle unknown cases
     }
         
     public void ClearResourceDictandLists()

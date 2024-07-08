@@ -41,25 +41,6 @@ public class MapProjection : MonoBehaviour
         float latitudeOffset = referenceLatitude - referenceObject.transform.position.z;
         float longitudeOffset = referenceLongitude - referenceObject.transform.position.x;
 
-        
-
-        // // Iterate through child objects and move them relative to the reference object (Plymouth)
-        // foreach (Transform child in instantiatedPrefab.transform)
-        // {
-        //     // Calculate new position based on the offset
-        //     Vector3 newPosition = new Vector3(child.position.x + longitudeOffset, child.position.y, child.position.z + latitudeOffset - latitudeOffset);
-
-        //     // Set the new position for the child object
-        //     child.position = newPosition;
-
-        //     // You can also add rotation adjustments here if needed
-        //     // child.rotation = Quaternion.Euler(newRotation);
-        // }
-
-        // Apply the offset to "SFR Floor Map"
-        //sfrFloorMap.transform.position += new Vector3(longitudeOffset, 0, latitudeOffset);
-        
-        // Set the position of "SFR Floor Map" to the desired location
-        sfrFloorMap.transform.position = new Vector3(-2.45f,0f,8.45f);
+        sfrFloorMap.transform.position = new Vector3(-2.45f,-.1f,8.45f);
     }
 }

@@ -69,6 +69,9 @@ public class ItemSelectionController : MonoBehaviour
         // Change the preferredWidth and preferredHeight to 50 and 30 respectively
         layoutElement.preferredWidth = 50;
         layoutElement.preferredHeight = 30;
+
+        // Scale up the mesh visually
+        thisResource.transform.localScale = new Vector3(2f, 2f, 2f);
     }
 
     private void ShrinkLayout(HoverExitEventArgs args)
@@ -76,7 +79,11 @@ public class ItemSelectionController : MonoBehaviour
         // Revert the preferredWidth and preferredHeight back to the original values
         layoutElement.preferredWidth = originalWidth;
         layoutElement.preferredHeight = originalHeight;
+
+        // Revert the scale of the mesh visually
+        thisResource.transform.localScale = Vector3.one; // Assuming original scale was (1, 1, 1)
     }
+
 
     private void OnShowInfo( SelectEnterEventArgs args ) 
     {
