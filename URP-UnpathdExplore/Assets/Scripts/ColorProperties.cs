@@ -7,5 +7,6 @@ public class ColorProperties : ScriptableObject
     public Color hoverColor;
     public Color selectedColor;
     public Color snappedColor;
+
 }
 

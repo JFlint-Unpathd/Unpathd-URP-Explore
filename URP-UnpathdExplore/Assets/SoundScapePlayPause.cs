@@ -6,11 +6,9 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class SoundScapePlayPause : MonoBehaviour
 {
     public AudioClip voiceoverClip;
-    public Color playingColor = Color.red;
-    public Color originalColor = Color.white;
-
+    
     private XRBaseInteractable interactable;
-    private MeshRenderer[] meshRenderers;
+    private ColorInteractionChange colorChanger;
     private bool isPlaying = false;
 
     void Start()
@@ -18,34 +16,26 @@ public class SoundScapePlayPause : MonoBehaviour
         interactable = GetComponent<XRBaseInteractable>();
         interactable.selectEntered.AddListener(OnSelectEntered);
 
-        // Get all MeshRenderer components in children
-        meshRenderers = GetComponentsInChildren<MeshRenderer>();
-
-        // Store the original colors
-        foreach (var renderer in meshRenderers)
-        {
-            renderer.material.color = originalColor;
-        }
+        // Access the ColorInteractionChange component
+        colorChanger = GetComponentInChildren<ColorInteractionChange>();
+        colorChanger.SetSoundScapeInstance(true); // Mark this instance as a SoundScape instance
     }
 
     private void Update()
     {
-        // Check if the audio clip is playing and change color accordingly
-        if (AudioManager.instance.IsPlaying(voiceoverClip))
+        bool currentlyPlaying = AudioManager.instance.IsPlaying(voiceoverClip);
+
+        if (currentlyPlaying && !isPlaying)
         {
-            if (!isPlaying)
-            {
-                ChangeColor(playingColor);
-                isPlaying = true;
-            }
+            // Audio started playing
+            colorChanger.SetPlayingColor(colorChanger.colorProperties.snappedColor);
+            isPlaying = true;
         }
-        else
+        else if (!currentlyPlaying && isPlaying)
         {
-            if (isPlaying)
-            {
-                ChangeColor(originalColor);
-                isPlaying = false;
-            }
+            // Audio stopped playing
+            colorChanger.ResetColor();
+            isPlaying = false;
         }
     }
 
@@ -65,17 +55,9 @@ public class SoundScapePlayPause : MonoBehaviour
         AudioManager.instance.PlayClip(voiceoverClip);
     }
 
-    private void ChangeColor(Color color)
-    {
-        foreach (var renderer in meshRenderers)
-        {
-            renderer.material.color = color;
-        }
-    }
-
     private void StopAudio()
     {
         // Stop audio playback on this object
-        AudioManager.instance.StopAll();
+        AudioManager.instance.StopClip(voiceoverClip);
     }
 }

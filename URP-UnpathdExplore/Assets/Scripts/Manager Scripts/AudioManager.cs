@@ -51,6 +51,15 @@ public class AudioManager : MonoBehaviour
         }
     }   
 
+    // adde for MDes SOund Scene
+    public void StopClip(AudioClip clip)
+    {
+        if (audioSource.isPlaying && audioSource.clip == clip)
+        {
+            audioSource.Stop();
+        }
+    }
+
     public bool IsPlaying()
     {
         return audioSource.isPlaying;
