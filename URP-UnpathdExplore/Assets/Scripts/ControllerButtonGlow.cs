@@ -255,7 +255,7 @@ public class ControllerButtonGlow : MonoBehaviour
 
     private IEnumerator ShowReleaseReminder()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
         if (!grabReleased && currentTutorialStage == TutorialStage.Grab)
         {
             if (reminderPanel != null)
