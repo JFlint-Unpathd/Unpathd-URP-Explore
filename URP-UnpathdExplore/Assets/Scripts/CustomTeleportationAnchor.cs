@@ -16,21 +16,6 @@ public class CustomTeleportationAnchor : TeleportationAnchor
 
         TeleportationManager.SetPodIndex( transform.GetSiblingIndex() );
         
-        // // Disable all other content
-        // foreach (CustomTeleportationAnchor anchor in FindObjectsOfType<CustomTeleportationAnchor>())
-        // {
-        //     if (anchor != this && anchor.associatedContent != null)
-        //     {
-        //         anchor.associatedContent.SetActive(false);
-        //     }
-        // }
-
-        // // Enable the content associated with this anchor
-        // if (associatedContent != null)
-        // {
-        //     associatedContent.SetActive(true);
-        // }
-
         return true;
     }
 }
