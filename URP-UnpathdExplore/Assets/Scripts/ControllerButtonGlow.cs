@@ -223,6 +223,12 @@ public class ControllerButtonGlow : MonoBehaviour
 
     private void TriggerCanceled(InputAction.CallbackContext obj)
     {
+        if (this == null || !this.gameObject.activeInHierarchy) 
+        {
+            Debug.Log("ControllerButtonGlow object is no longer active.");
+            return;
+        }
+        
         Debug.Log("Trigger Released");
         if (grabReminderCoroutine != null)
         {

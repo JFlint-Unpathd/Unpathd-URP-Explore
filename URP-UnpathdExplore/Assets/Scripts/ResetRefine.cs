@@ -125,9 +125,7 @@ public class ResetRefine : MonoBehaviour
         ArrangeObjectsInCircle(refiningObjectsInstance.transform);
         ResetTransform(execQInstance, originalExecQPosition, originalExecQRotation);
 
-
     }
-
 
 
     public void DestroyInitialScene()
@@ -154,8 +152,19 @@ public class ResetRefine : MonoBehaviour
     {
         if (prefab != null)
         {
-            return Instantiate(prefab);
+            GameObject instance = Instantiate(prefab);
+            Rigidbody rb = instance.GetComponent<Rigidbody>();
             
+            if (rb != null)
+            {
+                rb.isKinematic = true;  // Set the Rigidbody component to kinematic
+            }
+            else
+            {
+                Debug.LogWarning("No Rigidbody component found on the instantiated prefab. Kinematic state not set.");
+            }
+
+            return instance;
         }
         else
         {
@@ -307,12 +316,8 @@ public class ResetRefine : MonoBehaviour
             {
                 // Save the original transform after arranging the objects in the circle
                 transformKeeper.SaveOriginalTransform();
-                //Debug.Log("Saved CIRCLEtransform for child " + i + ": Position - " + transformKeeper.OriginalPosition + ", Rotation - " + transformKeeper.OriginalRotation);
 
             }
-
-           //Debug.Log($"Setting position of child {i} to {newPos}");
-
         }
     }
 
