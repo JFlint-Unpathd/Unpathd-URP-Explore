@@ -5,7 +5,6 @@ using System.IO;
 using UnityEngine;
 using System.Collections;
 using System;
-using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -18,6 +17,7 @@ public class SqliteController : MonoBehaviour {
     // Mono DLL in MonoBleedingEdge/lib/mono/unity
     
     public GameObject m_ResourcePrefab;
+    public GameObject m_SubmarineMarker;
     private GameObject m_root;
 
     private const string DBName = @"unpath.db";
@@ -32,6 +32,7 @@ public class SqliteController : MonoBehaviour {
     private SqliteDataReader m_reader;
 
     private Dictionary<string, UnpathResource> m_resourceDict = new Dictionary<string, UnpathResource>();
+    private Dictionary<string, GameObject> queryTermToPrefabMap;
     private static readonly Dictionary<string, double> temporalTagToCoordinateMap;
 
     private List<string> m_orQueryList = new List<string>();
@@ -101,6 +102,11 @@ public class SqliteController : MonoBehaviour {
         mapProjectionController.GetComponent<MapProjection>();
         resetRefine = FindObjectOfType<ResetRefine>();
 
+        // Initialize the dictionary
+        queryTermToPrefabMap = new Dictionary<string, GameObject> {
+            { "GSA_GrossSubject_Submarine LIKE '%Y%'", m_SubmarineMarker },
+
+        };
 
     }
 
@@ -287,6 +293,15 @@ public class SqliteController : MonoBehaviour {
             double lat = 0f;
             double lng = 0f;
             if( double.TryParse( latString, out lat ) && double.TryParse( lngString, out lng ) ) {
+
+            GameObject prefabToInstantiate = m_ResourcePrefab; // Default prefab
+            foreach (var queryTerm in m_currentQueryList) {
+                if (queryTermToPrefabMap.TryGetValue(queryTerm, out GameObject mappedPrefab)) {
+                    prefabToInstantiate = mappedPrefab;
+                    break;
+                }
+            }
+
             GameObject obj;
             obj = Instantiate( m_ResourcePrefab, new Vector3( (float)lng * m_xFactor, 0f, (float)(lat - 50.0) * m_yFactor ), Quaternion.identity );
             obj.name = title + "__" + id;
