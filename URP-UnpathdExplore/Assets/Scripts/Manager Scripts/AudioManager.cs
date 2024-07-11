@@ -51,7 +51,7 @@ public class AudioManager : MonoBehaviour
         }
     }   
 
-    //stop method that regards where yo resume clips 
+
     public void StopAndTrack(int podIndex)
     {
         if (podIndex < 0 || podIndex >= TeleportationManager._instance.lastPlaybackTimes.Length)
@@ -60,12 +60,24 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        if (audioSource.isPlaying)
+        if (instance.audioSource.isPlaying)
         {
-            TeleportationManager._instance.lastPlaybackTimes[podIndex] = audioSource.time;
-            audioSource.Stop();
+            float playbackTime = instance.audioSource.time;
+            float clipLength = instance.audioSource.clip.length;
+            
+            // Check if playback time is near the end of the clip
+            if (playbackTime >= (clipLength - 0.1f)) // 0.1 seconds threshold
+            {
+                TeleportationManager._instance.lastPlaybackTimes[podIndex] = 0; // Reset if finished
+            }
+            else
+            {
+                TeleportationManager._instance.lastPlaybackTimes[podIndex] = playbackTime;
+            }
+            instance.audioSource.Stop();
         }
     }
+
 
     // added for MDes Sound Scene
     public void StopClip(AudioClip clip)

@@ -117,11 +117,14 @@ public class TeleportationManager : MonoBehaviour
         }
 
         AudioClip clip = podVoiceovers[podIndex];
+        float startTime = lastPlaybackTimes[podIndex]; // Get the last playback time for the pod
+
         if (clip != null)
         {
-            AudioManager.instance.PlayClip(clip);
+            AudioManager.instance.PlayClip(clip, startTime); // Start playing from the last playback time
         }
     }
+
 
     private void UpdatePodContentsVisibility()
     {
