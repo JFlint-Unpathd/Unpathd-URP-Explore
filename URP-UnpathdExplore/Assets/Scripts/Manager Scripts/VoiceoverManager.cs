@@ -43,7 +43,7 @@ public class VoiceoverManager : MonoBehaviour
     private bool settingsAudioPlayed = false;
     public bool demoAudioPlayed = false;
 
-    private bool refineOrVoyagePlayed = false;
+    public bool refineOrVoyagePlayed = false;
     public bool stopAudio;
 
     void Awake()
@@ -72,6 +72,7 @@ public class VoiceoverManager : MonoBehaviour
     {
         Debug.Log("VoiceoverManager: Stopping current audio...");
         AudioManager.Stop();
+        instance.audioSource.Stop();
         if (instance != null)
         {
             instance.stopAudio = true;
@@ -96,6 +97,11 @@ public class VoiceoverManager : MonoBehaviour
         if (scene.name == "DatabaseSearch")
         {
             PlaySearchRoomAudio();
+        }
+        
+        if (scene.name == "RefineOrVoyage" && !refineOrVoyagePlayed)
+        {
+            PlayRefineorVoyageAudio();
         }
         
         HandleSceneAudio(scene.name);
@@ -127,6 +133,7 @@ public class VoiceoverManager : MonoBehaviour
     //in which case skips the ones marked descriptive
     private IEnumerator PlayAudioClipsSequentially(AudioClip[] clips, bool[] isDescriptive, float initialDelay)
 {
+    Debug.Log("PlayAudioClipsSequentially called");
     bool isDescriptiveMuted = PlayerPrefs.GetInt("DescriptiveMuted", 0) == 1;
     yield return new WaitForSecondsRealtime(initialDelay);
 
@@ -141,12 +148,16 @@ public class VoiceoverManager : MonoBehaviour
 
         if (isDescriptive[i] && isDescriptiveMuted)
         {
+            Debug.Log("Skipping descriptive clip: " + clips[i].name);
             continue; // Skip this clip as it's descriptive and should be muted
         }
 
+        Debug.Log("Playing clip: " + clips[i].name);
         AudioManager.instance.PlayClip(clips[i]);
         yield return new WaitUntil(() => !AudioManager.instance.IsPlaying());
     }
+
+    Debug.Log("Finished playing all clips in the sequence.");
 
     if (clips == introClips)
     {
@@ -188,7 +199,7 @@ public class VoiceoverManager : MonoBehaviour
     }
 
         
-    }
+}
 
     private IEnumerator PlaySettingsAudioSequentially(AudioClip[] clips, bool[] isDescriptive)
     {
@@ -214,13 +225,16 @@ public class VoiceoverManager : MonoBehaviour
         StartCoroutine(PlayAudioClipsSequentially(resultsClips, resultsClipsDescriptive, 2f));
     }
 
-    public IEnumerator PlayRefineorVoyageAudio()
+    public void PlayRefineorVoyageAudio()
     {
-        if (!refineOrVoyagePlayed)
+        if (refineOrVoyagePlayed)
         {
-            refineOrVoyagePlayed = true;
-            yield return StartCoroutine(PlayAudioClipsSequentially(refineOrVoyageClips, refineOrVoyageClipsDescriptive, 2f));
+            Debug.Log("Refine or Voyage audio has already been played.");
+            return; // Exit if already played
         }
+
+        StartCoroutine(PlayAudioClipsSequentially(refineOrVoyageClips, refineOrVoyageClipsDescriptive, 2f));
+        refineOrVoyagePlayed = true; // Set the flag before starting playback
     }
 
     public void NapoleonicVoyageAudio()
@@ -273,7 +287,7 @@ public class VoiceoverManager : MonoBehaviour
                 PlaySearchRoomAudio();
                 break;
             case "RefineOrVoyage":
-                StartCoroutine(PlayRefineorVoyageAudio());
+                PlayRefineorVoyageAudio();
                 break;
             case "Demo":
                 DemoAudio();
