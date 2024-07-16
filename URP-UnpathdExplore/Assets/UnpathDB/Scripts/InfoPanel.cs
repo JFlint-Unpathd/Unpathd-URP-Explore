@@ -45,7 +45,12 @@ public class InfoPanel : MonoBehaviour {
     if( !_instance.isActiveAndEnabled ) {
         _instance.gameObject.SetActive( true );
     }
-    _instance.transform.position = parent.position;
+    //original by Bruce
+    //_instance.transform.position = parent.position;
+
+    //making the info panel slightly higher
+    _instance.transform.position = new Vector3(parent.position.x, parent.position.y + 0.5f, parent.position.z);
+
     _instance.m_parent = parent;
     return true;
     }

@@ -18,6 +18,7 @@ public class SqliteController : MonoBehaviour {
     
     public GameObject m_ResourcePrefab;
     public GameObject m_SubmarineMarker;
+    public GameObject m_ArtefactMarker;
     private GameObject m_root;
 
     private const string DBName = @"unpath.db";
@@ -105,6 +106,7 @@ public class SqliteController : MonoBehaviour {
         // Initialize the dictionary
         queryTermToPrefabMap = new Dictionary<string, GameObject> {
             { "GSA_GrossSubject_Submarine LIKE '%Y%'", m_SubmarineMarker },
+            { "GSA_GrossSubject_Artefact LIKE '%Y%'", m_ArtefactMarker },
 
         };
 
@@ -295,15 +297,20 @@ public class SqliteController : MonoBehaviour {
             if( double.TryParse( latString, out lat ) && double.TryParse( lngString, out lng ) ) {
 
             GameObject prefabToInstantiate = m_ResourcePrefab; // Default prefab
+            
             foreach (var queryTerm in m_currentQueryList) {
                 if (queryTermToPrefabMap.TryGetValue(queryTerm, out GameObject mappedPrefab)) {
                     prefabToInstantiate = mappedPrefab;
                     break;
                 }
+                else 
+                {
+                    Debug.Log($"No matching prefab found for query term: {queryTerm}");
+                }
             }
 
             GameObject obj;
-            obj = Instantiate( m_ResourcePrefab, new Vector3( (float)lng * m_xFactor, 0f, (float)(lat - 50.0) * m_yFactor ), Quaternion.identity );
+            obj = Instantiate( prefabToInstantiate, new Vector3( (float)lng * m_xFactor, 0f, (float)(lat - 50.0) * m_yFactor ), Quaternion.identity );
             obj.name = title + "__" + id;
             obj.transform.SetParent( m_root.transform );
             UnpathResource res = obj.AddComponent<UnpathResource>();
