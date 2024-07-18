@@ -105,8 +105,8 @@ public class SqliteController : MonoBehaviour {
 
         // Initialize the dictionary
         queryTermToPrefabMap = new Dictionary<string, GameObject> {
-            { "GSA_GrossSubject_Submarine LIKE '%Y%'", m_SubmarineMarker },
-            { "GSA_GrossSubject_Artefact LIKE '%Y%'", m_ArtefactMarker },
+           // { "GSA_GrossSubject_Submarine LIKE '%Y%'", m_SubmarineMarker },
+            //{ "GSA_GrossSubject_Artefact LIKE '%Y%'", m_ArtefactMarker },
 
         };
 
