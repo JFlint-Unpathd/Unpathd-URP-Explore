@@ -14,6 +14,7 @@ public class SceneChangeOnGrab : MonoBehaviour
     private string tag7 = "Demo";
     private string tag8 = "Credits";
     private string tag9 = "SoundScapes";
+    private string tag10 = "UnpathDesign";
 
     
 
@@ -84,6 +85,12 @@ public class SceneChangeOnGrab : MonoBehaviour
         {
             SceneManager.LoadScene("SoundScapes");
             VoiceoverManager.instance.HandleSceneAudio("SoundScapes");
+            Debug.Log("Interacted item's tag: " + item.tag);
+        }
+        else if (item.tag == tag10)
+        {
+            SceneManager.LoadScene("Co-Design Voyage");
+            
             Debug.Log("Interacted item's tag: " + item.tag);
         }
    
