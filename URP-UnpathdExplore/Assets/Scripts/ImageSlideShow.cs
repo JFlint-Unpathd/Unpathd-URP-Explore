@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR.Interaction.Toolkit;
 using System.Collections;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(BoxCollider))]
 public class ImageSlideShow : MonoBehaviour
 {
     public HorizontalLayoutGroup layoutGroup;
@@ -11,14 +13,22 @@ public class ImageSlideShow : MonoBehaviour
 
     private List<RectTransform> imageRects = new List<RectTransform>();
     private Coroutine slideRoutine;
+    private XRBaseInteractable interactable;
+    private BoxCollider boxCollider; // To adjust the size of the collider
+
+    private bool isPaused = false;
 
     private void OnEnable()
     {
+        // Ensure the layout group is assigned
         if (layoutGroup == null)
         {
-            //Debug.LogError($"{gameObject.name}: HorizontalLayoutGroup is not assigned.");
+            Debug.LogError($"{gameObject.name}: HorizontalLayoutGroup is not assigned.");
             return;
         }
+
+        // Adjust the BoxCollider size to match the RectTransform
+        AdjustColliderSize();
 
         RecognizeImages();
 
@@ -28,7 +38,21 @@ public class ImageSlideShow : MonoBehaviour
         }
         else
         {
-            //Debug.LogWarning($"{gameObject.name}: No images recognized in the layout group or slideshow already running.");
+            Debug.LogWarning($"{gameObject.name}: No images recognized in the layout group or slideshow already running.");
+        }
+
+        // Find the XRBaseInteractable in the parent
+        interactable = GetComponentInParent<XRBaseInteractable>();
+
+        // Subscribe to hover events
+        if (interactable != null)
+        {
+            interactable.hoverEntered.AddListener(OnHoverEnter);
+            interactable.hoverExited.AddListener(OnHoverExit);
+        }
+        else
+        {
+            Debug.LogWarning($"{gameObject.name}: No XRBaseInteractable found in parent.");
         }
     }
 
@@ -39,17 +63,41 @@ public class ImageSlideShow : MonoBehaviour
             StopCoroutine(slideRoutine);
             slideRoutine = null;
         }
+
+        // Unsubscribe from hover events
+        if (interactable != null)
+        {
+            interactable.hoverEntered.RemoveListener(OnHoverEnter);
+            interactable.hoverExited.RemoveListener(OnHoverExit);
+        }
+    }
+
+    private void AdjustColliderSize()
+    {
+        // Get the RectTransform and BoxCollider components
+        RectTransform rectTransform = GetComponent<RectTransform>();
+        boxCollider = GetComponent<BoxCollider>();
+
+        // Match the BoxCollider size to the RectTransform size
+        if (rectTransform != null && boxCollider != null)
+        {
+            boxCollider.size = new Vector3(rectTransform.rect.width, rectTransform.rect.height, 0.1f);
+            boxCollider.center = new Vector3(rectTransform.rect.width / 2, -rectTransform.rect.height / 2, 0);
+        }
+        else
+        {
+            Debug.LogWarning($"{gameObject.name}: RectTransform or BoxCollider component is missing.");
+        }
     }
 
     private void RecognizeImages()
     {
-        //Debug.Log($"{gameObject.name}: Images being recognized");
         int childCount = layoutGroup.transform.childCount;
         imageRects.Clear();
 
         if (childCount == 0)
         {
-            //Debug.LogWarning($"{gameObject.name}: No child objects found in the layout group.");
+            Debug.LogWarning($"{gameObject.name}: No child objects found in the layout group.");
             return;
         }
 
@@ -59,11 +107,10 @@ public class ImageSlideShow : MonoBehaviour
             if (rectTransform != null)
             {
                 imageRects.Add(rectTransform);
-                //Debug.Log($"{gameObject.name}: Image {i} recognized with width: {rectTransform.rect.width}");
             }
             else
             {
-                //Debug.LogWarning($"{gameObject.name}: Child {i} does not have a RectTransform component.");
+                Debug.LogWarning($"{gameObject.name}: Child {i} does not have a RectTransform component.");
             }
         }
 
@@ -80,12 +127,24 @@ public class ImageSlideShow : MonoBehaviour
     {
         while (true)
         {
+            if (isPaused)
+            {
+                yield return null;
+                continue;
+            }
+
             yield return new WaitForSeconds(waitTime);
 
             float targetX = -imageRects[0].rect.width;
 
             while (imageRects[0].anchoredPosition.x > targetX)
             {
+                if (isPaused)
+                {
+                    yield return null;
+                    continue;
+                }
+
                 for (int i = 0; i < imageRects.Count; i++)
                 {
                     Vector2 currentPosition = imageRects[i].anchoredPosition;
@@ -105,5 +164,17 @@ public class ImageSlideShow : MonoBehaviour
                 yield return null;
             }
         }
+    }
+
+    private void OnHoverEnter(HoverEnterEventArgs args)
+    {
+        isPaused = true;
+        
+    }
+
+    private void OnHoverExit(HoverExitEventArgs args)
+    {
+        isPaused = false;
+       
     }
 }
