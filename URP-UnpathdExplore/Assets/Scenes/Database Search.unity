@@ -1503,22 +1503,22 @@ PrefabInstance:
     - target: {fileID: 5266296088281592269, guid: 6edc2daaed8147a4ea07f12cbb1b6e53,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5266296088281592269, guid: 6edc2daaed8147a4ea07f12cbb1b6e53,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5266296088281592269, guid: 6edc2daaed8147a4ea07f12cbb1b6e53,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 123
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5266296088281592269, guid: 6edc2daaed8147a4ea07f12cbb1b6e53,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 34.46
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5455404958953471349, guid: 6edc2daaed8147a4ea07f12cbb1b6e53,
         type: 3}
@@ -2007,6 +2007,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: XR Interaction Setup
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779434764812163990, guid: 895f6f3c2d334633b5800312285058d2,
+        type: 3}
+      propertyPath: m_RequiresDepthTextureOption
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9014170783809206330, guid: 895f6f3c2d334633b5800312285058d2,
         type: 3}
@@ -2646,6 +2651,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2943904140560786232, guid: 77279bcf000de9d478312c5ec2f11d5d,
         type: 3}
+      propertyPath: moveWithTransform
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2943904140560786232, guid: 77279bcf000de9d478312c5ec2f11d5d,
+        type: 3}
+      propertyPath: InitialModule.size3D
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2943904140560786232, guid: 77279bcf000de9d478312c5ec2f11d5d,
+        type: 3}
       propertyPath: ShapeModule.arc.mode
       value: 1
       objectReference: {fileID: 0}
@@ -2671,6 +2686,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2943904140560786232, guid: 77279bcf000de9d478312c5ec2f11d5d,
         type: 3}
+      propertyPath: InitialModule.rotation3D
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2943904140560786232, guid: 77279bcf000de9d478312c5ec2f11d5d,
+        type: 3}
       propertyPath: ShapeModule.m_Rotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -2687,7 +2707,7 @@ PrefabInstance:
     - target: {fileID: 2943904140560786232, guid: 77279bcf000de9d478312c5ec2f11d5d,
         type: 3}
       propertyPath: ShapeModule.radius.value
-      value: 8
+      value: 6.99
       objectReference: {fileID: 0}
     - target: {fileID: 2943904140560786232, guid: 77279bcf000de9d478312c5ec2f11d5d,
         type: 3}
@@ -2697,12 +2717,17 @@ PrefabInstance:
     - target: {fileID: 2943904140560786232, guid: 77279bcf000de9d478312c5ec2f11d5d,
         type: 3}
       propertyPath: InitialModule.maxNumParticles
-      value: 5000
+      value: 9000
       objectReference: {fileID: 0}
     - target: {fileID: 2943904140560786232, guid: 77279bcf000de9d478312c5ec2f11d5d,
         type: 3}
       propertyPath: InitialModule.startSize.scalar
-      value: 5
+      value: 2.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 2943904140560786232, guid: 77279bcf000de9d478312c5ec2f11d5d,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 2943904140560786232, guid: 77279bcf000de9d478312c5ec2f11d5d,
         type: 3}
@@ -2736,8 +2761,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2943904140560786233, guid: 77279bcf000de9d478312c5ec2f11d5d,
         type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 2943904140560786233, guid: 77279bcf000de9d478312c5ec2f11d5d,
+        type: 3}
       propertyPath: m_AllowRoll
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2943904140560786233, guid: 77279bcf000de9d478312c5ec2f11d5d,
+        type: 3}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2943904140560786233, guid: 77279bcf000de9d478312c5ec2f11d5d,
+        type: 3}
+      propertyPath: m_MeshDistribution
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2943904140560786235, guid: 77279bcf000de9d478312c5ec2f11d5d,
         type: 3}
