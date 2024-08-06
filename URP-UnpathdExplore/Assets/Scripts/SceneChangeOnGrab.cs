@@ -28,75 +28,48 @@ public class SceneChangeOnGrab : MonoBehaviour
 
     public void OnSelectEnter(SelectEnterEventArgs args)
     {
-        Debug.Log("Select Entered. Stopping current audio...");
+        GameObject item = args.interactable.gameObject;
+        ChangeScene(item.tag);
+    }
+
+    private void ChangeScene(string itemTag)
+    {
+        // Stop the current audio
         VoiceoverManager.Stop();
 
-        GameObject item = args.interactable.gameObject;
-        if (item.tag == tag1)
+        // Load the new scene
+        switch (itemTag)
         {
-            SceneManager.LoadScene("Dumfries and Galloway Napoleonic Voyage");
-            VoiceoverManager.instance.HandleSceneAudio("Dumfries and Galloway Napoleonic Voyage");
-            Debug.Log("Interacted item's tag: " + item.tag);
-        }
-        else if (item.tag == tag2)
-        {
-            SceneManager.LoadScene("Submerged Landscaped Mesolithic Voyage");
-            VoiceoverManager.instance.HandleSceneAudio("Submerged Landscaped Mesolithic Voyage");
-            Debug.Log("Interacted item's tag: " + item.tag);
-        }
-        else if (item.tag == tag3)
-        {
-            SceneManager.LoadScene("Co-Design Voyage");
-            VoiceoverManager.instance.HandleSceneAudio("Co-Design Voyage");
-            Debug.Log("Interacted item's tag: " + item.tag);
-        }
-        else if (item.tag == tag4)
-        {
-            SceneManager.LoadScene("Women and Shipping in the 20th Century");
-            VoiceoverManager.instance.HandleSceneAudio("Women and Shipping in the 20th Century");
-            Debug.Log("Interacted item's tag: " + item.tag);
-        }
-        
-        else if (item.tag == tag5)
-        {
-            SceneManager.LoadScene("Database Search");
-            VoiceoverManager.instance.HandleSceneAudio("Database Search");
-            Debug.Log("Interacted item's tag: " + item.tag);
-        }
-        else if (item.tag == tag6)
-        {
-            SceneManager.LoadScene("RefineOrVoyage");
-            VoiceoverManager.instance.HandleSceneAudio("RefineOrVoyage");
-            Debug.Log("Interacted item's tag: " + item.tag);
-        }
-        else if (item.tag == tag7)
-        {
-            SceneManager.LoadScene("Demo");
-            VoiceoverManager.instance.HandleSceneAudio("Demo");
-            Debug.Log("Interacted item's tag: " + item.tag);
-        }
-        else if (item.tag == tag8)
-        {
-            SceneManager.LoadScene("Credits");
-            VoiceoverManager.instance.HandleSceneAudio("Credits");
-            Debug.Log("Interacted item's tag: " + item.tag);
-        }
-        else if (item.tag == tag9)
-        {
-            SceneManager.LoadScene("SoundScapes");
-            VoiceoverManager.instance.HandleSceneAudio("SoundScapes");
-            Debug.Log("Interacted item's tag: " + item.tag);
-        }
-        else if (item.tag == tag10)
-        {
-            SceneManager.LoadScene("Co-Design Voyage");
-            
-            Debug.Log("Interacted item's tag: " + item.tag);
-        }
-   
-        else
-        {
-            Debug.Log("No matching tag found.");
+            case "DGNapoleonic":
+                SceneManager.LoadScene("Dumfries and Galloway Napoleonic Voyage");
+                break;
+            case "LandscapesMesolithic":
+                SceneManager.LoadScene("Submerged Landscaped Mesolithic Voyage");
+                break;
+            case "UnpathDesign":
+                SceneManager.LoadScene("Co-Design Voyage");
+                break;
+            case "WomenShipping":
+                SceneManager.LoadScene("Women and Shipping in the 20th Century");
+                break;
+            case "ResetRefine":
+                SceneManager.LoadScene("Database Search");
+                break;
+            case "RefineOrVoyage":
+                SceneManager.LoadScene("RefineOrVoyage");
+                break;
+            case "Demo":
+                SceneManager.LoadScene("Demo");
+                break;
+            case "Credits":
+                SceneManager.LoadScene("Credits");
+                break;
+            case "SoundScapes":
+                SceneManager.LoadScene("SoundScapes");
+                break;
+            default:
+                Debug.Log("No matching tag found.");
+                break;
         }
     }
 
