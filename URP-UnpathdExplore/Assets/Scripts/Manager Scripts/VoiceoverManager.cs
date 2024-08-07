@@ -71,11 +71,11 @@ public class VoiceoverManager : MonoBehaviour
     public static void Stop() 
     {
         Debug.Log("VoiceoverManager: Stopping current audio...");
-        AudioManager.Stop();
-        instance.audioSource.Stop();
         if (instance != null)
         {
-            instance.stopAudio = true;
+            instance.stopAudio = true; // Ensure stopAudio is set before stopping
+            AudioManager.Stop();
+            instance.audioSource.Stop();
         }
     }
 
@@ -84,28 +84,34 @@ public class VoiceoverManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Debug.Log("Scene Loaded: " + scene.name);
+        
         Stop();
 
-        Debug.Log("Scene Loaded: " + scene.name);
+        Debug.Log("Loading scene audio for: " + scene.name);
+        
+        // Handle audio based on scene name
         if (scene.name == "IntroMenu")
         {
-            Debug.Log("detected");
             StartCoroutine(PlayAudioClipsSequentially(introClips, introClipsDescriptive, 2f));
         }
-        if (scene.name == "DatabaseSearch")
+        else if (scene.name == "DatabaseSearch")
         {
             PlaySearchRoomAudio();
         }
-        
-        if (scene.name == "RefineOrVoyage" && !refineOrVoyagePlayed)
+        else if (scene.name == "RefineOrVoyage" && !refineOrVoyagePlayed)
         {
             PlayRefineorVoyageAudio();
         }
-        
-        HandleSceneAudio(scene.name);
+        else
+        {
+            HandleSceneAudio(scene.name);
+        }
     }
+
 
     private IEnumerator SettingsMenuDisable()
     {
@@ -133,7 +139,9 @@ public class VoiceoverManager : MonoBehaviour
     //in which case skips the ones marked descriptive
     private IEnumerator PlayAudioClipsSequentially(AudioClip[] clips, bool[] isDescriptive, float initialDelay)
 {
-    Debug.Log("PlayAudioClipsSequentially called");
+    Debug.Log("Starting to play audio clips sequentially...");
+    stopAudio = false; // Reset the flag at the start of the coroutine
+
     bool isDescriptiveMuted = PlayerPrefs.GetInt("DescriptiveMuted", 0) == 1;
     yield return new WaitForSecondsRealtime(initialDelay);
 
@@ -141,7 +149,7 @@ public class VoiceoverManager : MonoBehaviour
     {
         if (stopAudio)
         {
-            stopAudio = false;
+            stopAudio = false; // Reset flag
             Debug.Log("Audio sequence stopped.");
             yield break;
         }
@@ -192,112 +200,106 @@ public class VoiceoverManager : MonoBehaviour
             settingsAudioPlayed = true;
         }
     }
-
-    else if (clips == null)
-    {
-        Debug.Log("No GameObject assigned to 'settingsMenu'");
-    }
-
-        
 }
 
-    private IEnumerator PlaySettingsAudioSequentially(AudioClip[] clips, bool[] isDescriptive)
-    {
-        for (int i = 0; i < clips.Length; i++)
-        {
-            if (isDescriptive[i] && SoundVolume.instance.IsMuted())
-            {
-                continue;
-            }
 
-            AudioManager.instance.PlayClip(clips[i]);
-            yield return new WaitUntil(() => !AudioManager.instance.IsPlaying());
+private IEnumerator PlaySettingsAudioSequentially(AudioClip[] clips, bool[] isDescriptive)
+{
+    for (int i = 0; i < clips.Length; i++)
+    {
+        if (isDescriptive[i] && PlayerPrefs.GetInt("DescriptiveMuted", 0) == 1)
+        {
+            continue;
         }
+
+        AudioManager.instance.PlayClip(clips[i]);
+        yield return new WaitUntil(() => !AudioManager.instance.IsPlaying());
     }
+}
 
     public void PlaySearchRoomAudio()
+{
+    StartCoroutine(PlayAudioClipsSequentially(searchRoomClips, searchRoomClipsDescriptive, 2f));
+}
+    
+public void PlayResultsAudio()
+{
+    StartCoroutine(PlayAudioClipsSequentially(resultsClips, resultsClipsDescriptive, 2f));
+}
+
+public void PlayRefineorVoyageAudio()
+{
+    if (refineOrVoyagePlayed)
     {
-        StartCoroutine(PlayAudioClipsSequentially(searchRoomClips, searchRoomClipsDescriptive, 2f));
-    }
-        
-    public void PlayResultsAudio()
-    {
-        StartCoroutine(PlayAudioClipsSequentially(resultsClips, resultsClipsDescriptive, 2f));
+        Debug.Log("Refine or Voyage audio has already been played.");
+        return; // Exit if already played
     }
 
-    public void PlayRefineorVoyageAudio()
-    {
-        if (refineOrVoyagePlayed)
-        {
-            Debug.Log("Refine or Voyage audio has already been played.");
-            return; // Exit if already played
-        }
+    StartCoroutine(PlayAudioClipsSequentially(refineOrVoyageClips, refineOrVoyageClipsDescriptive, 2f));
+    refineOrVoyagePlayed = true; // Set the flag before starting playback
+}
 
-        StartCoroutine(PlayAudioClipsSequentially(refineOrVoyageClips, refineOrVoyageClipsDescriptive, 2f));
-        refineOrVoyagePlayed = true; // Set the flag before starting playback
-    }
+public void NapoleonicVoyageAudio()
+{
+    StartCoroutine(PlayAudioClipsSequentially(napoleonicClips, napoleonicClipsDescriptive, 2f));
+}
 
-    public void NapoleonicVoyageAudio()
-    {
-        StartCoroutine(PlayAudioClipsSequentially(napoleonicClips, napoleonicClipsDescriptive, 2f));
-    }
+public void MesolithicVoyageAudio()
+{
+    StartCoroutine(PlayAudioClipsSequentially(mesolithicClips, mesolithicClipsDescriptive, 2f));
+}
 
-    public void MesolithicVoyageAudio()
-    {
-        StartCoroutine(PlayAudioClipsSequentially(mesolithicClips, mesolithicClipsDescriptive, 2f));
-    }
+public void CoDesignVoyageAudio()
+{
+    StartCoroutine(PlayAudioClipsSequentially(coDesignClips, coDesignClipsDescriptive, 2f));
+}
 
-    public void CoDesignVoyageAudio()
-    {
-        StartCoroutine(PlayAudioClipsSequentially(coDesignClips, coDesignClipsDescriptive, 2f));
-    }
+public void WomenShippingVoyageAudio()
+{
+    StartCoroutine(PlayAudioClipsSequentially(shippingClips, shippingClipsDescriptive, 2f));
+}
 
-    public void WomenShippingVoyageAudio()
-    {
-        StartCoroutine(PlayAudioClipsSequentially(shippingClips, shippingClipsDescriptive, 2f));
-    }
+public void DemoAudio()
+{
+    StartCoroutine(PlayAudioClipsSequentially(demoAudioClips, demoAudioClipsDescriptive, 2f));
+}
 
-    public void DemoAudio()
-    {
-        StartCoroutine(PlayAudioClipsSequentially(demoAudioClips, demoAudioClipsDescriptive, 2f));
-    }
+public void CreditsAudio()
+{
+    StartCoroutine(PlayAudioClipsSequentially(creditsAudioClips, creditsAudioClipsDescriptive, 2f));
+}
 
-    public void CreditsAudio()
+public void HandleSceneAudio(string sceneName)
+{
+    switch (sceneName)
     {
-        StartCoroutine(PlayAudioClipsSequentially(creditsAudioClips, creditsAudioClipsDescriptive, 2f));
+        case "Dumfries and Galloway Napoleonic Voyage":
+            NapoleonicVoyageAudio();
+            break;
+        case "Submerged Landscaped Mesolithic Voyage":
+            MesolithicVoyageAudio();
+            break;
+        case "Co-Design Voyage":
+            CoDesignVoyageAudio();
+            break;
+        case "Women and Shipping in the 20th Century":
+            WomenShippingVoyageAudio();
+            break;
+        case "Database Search":
+            PlaySearchRoomAudio();
+            break;
+        case "RefineOrVoyage":
+            PlayRefineorVoyageAudio();
+            break;
+        case "Demo":
+            DemoAudio();
+            break;
+        case "Credits":
+            CreditsAudio();
+            break;
+        default:
+            Debug.Log("No matching scene found for audio playback.");
+            break;
     }
-
-    public void HandleSceneAudio(string sceneName)
-    {
-        switch (sceneName)
-        {
-            case "Dumfries and Galloway Napoleonic Voyage":
-                NapoleonicVoyageAudio();
-                break;
-            case "Submerged Landscaped Mesolithic Voyage":
-                MesolithicVoyageAudio();
-                break;
-            case "Co-Design Voyage":
-                CoDesignVoyageAudio();
-                break;
-            case "Women and Shipping in the 20th Century":
-                WomenShippingVoyageAudio();
-                break;
-            case "Database Search":
-                PlaySearchRoomAudio();
-                break;
-            case "RefineOrVoyage":
-                PlayRefineorVoyageAudio();
-                break;
-            case "Demo":
-                DemoAudio();
-                break;
-            case "Credits":
-                CreditsAudio();
-                break;
-            default:
-                Debug.Log("No matching tag found.");
-                break;
-        }
-    }
+}
 }

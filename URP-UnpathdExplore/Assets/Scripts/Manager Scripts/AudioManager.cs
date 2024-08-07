@@ -31,23 +31,26 @@ public class AudioManager : MonoBehaviour
 
     public void PlayClip(AudioClip clip, float startTime = 0)
     {
-        if (!audioSource.isPlaying)
+        if (audioSource.isPlaying)
         {
-            audioSource.clip = clip;
-            audioSource.time = startTime;
-            audioSource.Play();
+            Debug.Log("Audio is currently playing. Stopping current audio to play new clip.");
+            Stop(); // Ensure the current audio is stopped before playing a new one
+
         }
-        else
-        {
-            Debug.Log("Audio is currently playing. New audio clip will not be played until the current one finishes.");
-        }
+        
+        Debug.Log("AudioManager: Playing clip " + clip.name);
+        audioSource.clip = clip;
+        audioSource.time = startTime;
+        audioSource.Play();
     }
 
     public static void Stop() 
     {
         if (instance != null && instance.audioSource != null)
         {
+            Debug.Log("AudioManager: Stopping audio clip...");
             instance.audioSource.Stop();
+            instance.audioSource.clip = null;
         }
     }   
 
@@ -96,6 +99,7 @@ public class AudioManager : MonoBehaviour
     public void StopAll()
     {
         audioSource.Stop();
+        audioSource.clip = null;
     }
 
     public bool IsPlaying(AudioClip clip)
