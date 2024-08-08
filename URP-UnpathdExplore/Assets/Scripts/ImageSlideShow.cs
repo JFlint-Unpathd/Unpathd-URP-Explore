@@ -28,7 +28,7 @@ public class ImageSlideShow : MonoBehaviour
         }
 
         // Adjust the BoxCollider size to match the RectTransform
-        AdjustColliderSize();
+        //AdjustColliderSize();
 
         RecognizeImages();
 
@@ -72,23 +72,23 @@ public class ImageSlideShow : MonoBehaviour
         }
     }
 
-    private void AdjustColliderSize()
-    {
-        // Get the RectTransform and BoxCollider components
-        RectTransform rectTransform = GetComponent<RectTransform>();
-        boxCollider = GetComponent<BoxCollider>();
+    // private void AdjustColliderSize()
+    // {
+    //     // Get the RectTransform and BoxCollider components
+    //     RectTransform rectTransform = GetComponent<RectTransform>();
+    //     boxCollider = GetComponent<BoxCollider>();
 
-        // Match the BoxCollider size to the RectTransform size
-        if (rectTransform != null && boxCollider != null)
-        {
-            boxCollider.size = new Vector3(rectTransform.rect.width, rectTransform.rect.height, 0.1f);
-            boxCollider.center = new Vector3(rectTransform.rect.width / 2, -rectTransform.rect.height / 2, 0);
-        }
-        else
-        {
-            Debug.LogWarning($"{gameObject.name}: RectTransform or BoxCollider component is missing.");
-        }
-    }
+    //     // Match the BoxCollider size to the RectTransform size
+    //     if (rectTransform != null && boxCollider != null)
+    //     {
+    //         boxCollider.size = new Vector3(rectTransform.rect.width, rectTransform.rect.height, 0.1f);
+    //         boxCollider.center = new Vector3(rectTransform.rect.width / 2, -rectTransform.rect.height / 2, 0);
+    //     }
+    //     else
+    //     {
+    //         Debug.LogWarning($"{gameObject.name}: RectTransform or BoxCollider component is missing.");
+    //     }
+    // }
 
     private void RecognizeImages()
     {
