@@ -1,6 +1,3 @@
-// 2024-03-22 AI-Tag 
-// This was created with assistance from Muse, a Unity Artificial Intelligence product
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
