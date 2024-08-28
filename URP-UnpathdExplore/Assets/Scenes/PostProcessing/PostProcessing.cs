@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class PostProcessing : MonoBehaviour
 {
+    
+    
     [Header("Post Processing Volume")]
     [SerializeField] private Volume postProcessing;
     [SerializeField] private bool disable;
@@ -16,6 +18,7 @@ public class PostProcessing : MonoBehaviour
 
     [Header("Post Processing Effects")]
     private Bloom bloom;
+
 
     private void Start()
     {
