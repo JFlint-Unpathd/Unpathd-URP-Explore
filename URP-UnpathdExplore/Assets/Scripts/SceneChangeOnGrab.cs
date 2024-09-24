@@ -15,8 +15,8 @@ public class SceneChangeOnGrab : MonoBehaviour
     private string tag8 = "Credits";
     private string tag9 = "SoundScapes";
     private string tag10 = "UnpathDesign";
+    private string tag11 = "ScienceSea";
 
-    
 
     private XRBaseInteractable interactable;
 
@@ -66,6 +66,9 @@ public class SceneChangeOnGrab : MonoBehaviour
                 break;
             case "SoundScapes":
                 SceneManager.LoadScene("SoundScapes");
+                break;
+            case "ScienceSea":
+                SceneManager.LoadScene("Science and the Sea");
                 break;
             default:
                 Debug.Log("No matching tag found.");
