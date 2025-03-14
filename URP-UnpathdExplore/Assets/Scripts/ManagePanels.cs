@@ -15,9 +15,9 @@ public class ManagePanels : MonoBehaviour
 
     IEnumerator DisablePanelsCoroutine()
     {
-
+        Debug.Log("Disabling ui panels...");
         yield return null;
-
+        panel1.SetActive(false);
         panel2.SetActive(false);
         panel3.SetActive(false);
         panel4.SetActive(false);

@@ -41,6 +41,7 @@ public class MapProjection : MonoBehaviour
         float latitudeOffset = referenceLatitude - referenceObject.transform.position.z;
         float longitudeOffset = referenceLongitude - referenceObject.transform.position.x;
 
-        sfrFloorMap.transform.position = new Vector3(-2.45f,-.1f,8.45f);
+        sfrFloorMap.transform.position = new Vector3(-4.26f,-0.1f,11.03f);
+        sfrFloorMap.transform.localScale = new Vector3(14.9f,5f,19.2f);
     }
 }

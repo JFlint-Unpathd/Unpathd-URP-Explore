@@ -11,12 +11,12 @@ public class PostProcessingManager : MonoBehaviour
         
         if(instance != null)
         {
-            Debug.Log("Instance already exists. Destroying gameObject.");
+            Debug.Log("Instance already exists. Destroying gameObject: "+gameObject.name);
             Destroy(gameObject);
         }
         else
         {
-            Debug.Log("No existing instance. Setting this as instance.");
+            Debug.Log("No existing instance. Setting this as instance: "+gameObject.name);
             instance = this;
             PersistanceClass.DontDestroyOnLoad(gameObject);
         }

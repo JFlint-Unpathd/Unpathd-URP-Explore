@@ -17,6 +17,10 @@ public class ItemSelectionController : MonoBehaviour
     private SqliteController sqliteController;
     private UnpathResource thisResource;
 
+    private AudioDelay m_rolloverAudio;
+
+    private Vector3 m_originalScale;
+
     private void Awake()
     {
         //infoPanel.SetActive(false);
@@ -30,7 +34,10 @@ public class ItemSelectionController : MonoBehaviour
         // Store the original preferredWidth and preferredHeight
         originalWidth = layoutElement.preferredWidth;
         originalHeight = layoutElement.preferredHeight;
-        
+
+
+        m_rolloverAudio = GetComponent<AudioDelay>();
+        m_rolloverAudio.enabled = false;
     }
 
 
@@ -40,6 +47,7 @@ public class ItemSelectionController : MonoBehaviour
         interactable = GetComponent<XRBaseInteractable>();
         sqliteController = FindObjectOfType<SqliteController>();
         thisResource = GetComponent<UnpathResource>();
+        m_originalScale = thisResource.transform.localScale;
 
         if (sqliteController == null)
         {
@@ -71,7 +79,9 @@ public class ItemSelectionController : MonoBehaviour
         layoutElement.preferredHeight = 30;
 
         // Scale up the mesh visually
-        thisResource.transform.localScale = new Vector3(2f, 2f, 2f);
+        thisResource.transform.localScale = m_originalScale * 2f;
+
+        m_rolloverAudio.enabled = true;
     }
 
     private void ShrinkLayout(HoverExitEventArgs args)
@@ -81,7 +91,9 @@ public class ItemSelectionController : MonoBehaviour
         layoutElement.preferredHeight = originalHeight;
 
         // Revert the scale of the mesh visually
-        thisResource.transform.localScale = Vector3.one; // Assuming original scale was (1, 1, 1)
+        thisResource.transform.localScale = m_originalScale;
+
+        m_rolloverAudio.enabled = false;
     }
 
 

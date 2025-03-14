@@ -15,6 +15,7 @@ static class PersistanceManager
 
     public static void DontDestroyOnLoad(GameObject obj)
     {
+        Debug.Log("Keep Alive: "+obj.name);
         _elements.Add(obj);
         Object.DontDestroyOnLoad(obj);
     }

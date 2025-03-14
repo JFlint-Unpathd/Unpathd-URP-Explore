@@ -45,6 +45,7 @@ public class MenuPopup : MonoBehaviour
         }
     }
 
+
     private void OnDestroy()
     {
         toggleReference.action.started -= Toggle;

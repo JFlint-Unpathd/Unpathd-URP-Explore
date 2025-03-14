@@ -12,12 +12,13 @@ public class ArrowTeleport : MonoBehaviour
         interactable = GetComponent<XRBaseInteractable>();
         
         interactable.selectEntered.AddListener(OnSelectEntered);
-        interactable.hoverEntered.AddListener(OnHoverEntered);
-        interactable.hoverExited.AddListener(OnHoverExited);
+        //interactable.hoverEntered.AddListener(OnHoverEntered);
+        //interactable.hoverExited.AddListener(OnHoverExited);
     }
 
     private void OnSelectEntered(SelectEnterEventArgs args)
     {
+        OnHoverEntered(null);
         if (isForwardArrow)
         {
             teleportationManager.TeleportToNextPod();

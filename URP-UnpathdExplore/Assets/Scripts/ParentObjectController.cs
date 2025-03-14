@@ -32,8 +32,8 @@ public class ParentObjectController : MonoBehaviour
     
 
         grabInteractable.hoverEntered.AddListener(OnHover);
-        grabInteractable.selectEntered.AddListener(OnGrab);
-        grabInteractable.selectExited.AddListener(OnRelease);
+        //grabInteractable.selectEntered.AddListener(OnGrab);
+        //grabInteractable.selectExited.AddListener(OnRelease);
     }
 
     private void OnHover(HoverEnterEventArgs args)

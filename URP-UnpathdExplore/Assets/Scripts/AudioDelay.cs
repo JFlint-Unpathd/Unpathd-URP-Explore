@@ -4,11 +4,19 @@ using UnityEngine;
 
 public class AudioDelay : MonoBehaviour
 {
-    public AudioClip imgSettingsVo;
+    public AudioClip m_Clip;
+    public float m_DelaySeconds;
 
-    public void StartAudioDelay()
+    public void OnEnable()
     {
-        //AudioDelayManager.instance.StartExplanatoryAudioDelay(imgSettingsVo, 1f);
-        Debug.Log("Audio delay started");
+        if (m_Clip != null)
+        {
+            AudioDelayManager.SetClip(m_Clip, m_DelaySeconds);
+        }
+    }
+
+    private void OnDisable()
+    {
+        AudioDelayManager.Stop();
     }
 }

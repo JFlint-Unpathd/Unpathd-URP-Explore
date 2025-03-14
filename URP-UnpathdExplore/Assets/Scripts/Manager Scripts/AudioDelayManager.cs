@@ -4,36 +4,29 @@ using UnityEngine;
 
 public class AudioDelayManager : MonoBehaviour
 {
-    // public static AudioDelayManager instance;
+    public AudioSource m_AudioSource;
 
+    private static AudioDelayManager _Instance;
 
-    // private void Awake()
-    // {
-    //     // Singleton pattern to ensure there's only one instance of this manager
-    //     if (instance == null)
-    //     {
-    //         instance = this;
-    //     }
-    //     else
-    //     {
-    //         Destroy(gameObject);
-    //     }
-    // }
+    private void Awake()
+    {
+        if(_Instance != null)
+        {
+            Debug.LogWarning("TRYING TO CREATE TWO AUDIO DELAY MANAGERS!");
+            return;
+        }
+        _Instance = this;
+    }
 
-    // void Start()
-    // {
-        
-    // }
+    public static void SetClip(AudioClip clip, float delay)
+    {
+        _Instance.m_AudioSource.Stop();
+        _Instance.m_AudioSource.clip = clip;
+        _Instance.m_AudioSource.PlayDelayed(delay);
+    }
 
-    // public void StartExplanatoryAudioDelay(AudioClip audioClip, float delay)
-    // {
-    //     StartCoroutine(ExplanatoryAudioDelay(audioClip, delay));
-    // }
-
-    // private IEnumerator ExplanatoryAudioDelay(AudioClip audioClip, float delay)
-    // {
-    //     yield return new WaitForSecondsRealtime(delay);
-    //     AudioManager.instance.PlayClip(audioClip);
-    //     Debug.Log("Coroutine started for audio delay");
-    // }
+    public static void Stop()
+    {
+        _Instance.m_AudioSource.Stop();
+    }
 }

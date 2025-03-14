@@ -32,8 +32,8 @@ public class HoverFloat : MonoBehaviour
         // Listners 
         xrInteractable.hoverEntered.AddListener(StartHover);
         xrInteractable.hoverExited.AddListener(StopHover);
-        xrInteractable.selectEntered.AddListener(StartGrab);
-        xrInteractable.selectExited.AddListener(StopGrab);
+        //xrInteractable.selectEntered.AddListener(StartGrab);
+        //xrInteractable.selectExited.AddListener(StopGrab);
         
     }
 

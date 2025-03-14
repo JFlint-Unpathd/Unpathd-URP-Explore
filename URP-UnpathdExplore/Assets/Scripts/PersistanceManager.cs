@@ -15,6 +15,7 @@ public class PersistanceClass
 
     public static void DontDestroyOnLoad(GameObject obj)
     {
+        Debug.Log("Keep Alive 2: "+obj.name);
         _elements.Add(obj);
         Object.DontDestroyOnLoad(obj);
     }

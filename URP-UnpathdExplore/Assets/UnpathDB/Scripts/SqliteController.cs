@@ -10,15 +10,31 @@ using TMPro;
 using UnityEngine.XR.Interaction.Toolkit;
 
 
-public class SqliteController : MonoBehaviour {
+public class SqliteController : MonoBehaviour
+{
     // Resources:
     // https://www.mono-project.com/docs/database-access/providers/sqlite/
 
     // Mono DLL in MonoBleedingEdge/lib/mono/unity
-    
+
     public GameObject m_ResourcePrefab;
+
+    [Header("Markers")]
+    public GameObject m_PlaneMarker;
     public GameObject m_SubmarineMarker;
+    public GameObject m_CargoMarker;
+    public GameObject m_WarMarker;
+    public GameObject m_PassengerMarker;
     public GameObject m_ArtefactMarker;
+    [Header("AudioClips")]
+    public AudioClip m_PlaneAudio;
+    public AudioClip m_SubAudio;
+    public AudioClip m_CargoAudio;
+    public AudioClip m_WarAudio;
+    public AudioClip m_PassengerAudio;
+    public AudioClip m_ArtefactAudio;
+
+
     private GameObject m_root;
 
     private const string DBName = @"unpath.db";
@@ -26,11 +42,14 @@ public class SqliteController : MonoBehaviour {
     private string SelectAllDBTemplate = "SELECT * FROM resource";
     private string SelectFromDBTemplate = @"SELECT {0} FROM {1} WHERE {2}";
     private string SelectFromWithJoinDBTemplate = @"SELECT {0} FROM {1} JOIN {2} ON {3}";
-   
+    private string RowCountTemplate = "SELECT count(*) FROM {1} WHERE {2}";
+
+
 
     private SqliteConnection m_connection;
     private SqliteCommand m_command;
     private SqliteDataReader m_reader;
+    private SqliteCommand m_countCommand;
 
     private Dictionary<string, UnpathResource> m_resourceDict = new Dictionary<string, UnpathResource>();
     private Dictionary<string, GameObject> queryTermToPrefabMap;
@@ -40,9 +59,9 @@ public class SqliteController : MonoBehaviour {
     private List<string> m_andQueryList = new List<string>();
     private List<string> m_currentQueryList = new List<string>();
 
- 
+
     //added as a public getter for zoomlogic
-    public Dictionary<string, UnpathResource> GetResourceDict() 
+    public Dictionary<string, UnpathResource> GetResourceDict()
     {
         return m_resourceDict;
     }
@@ -68,13 +87,14 @@ public class SqliteController : MonoBehaviour {
     public MapProjection mapProjectionController;
 
     //added for ExecuteQ Script to allow list to be acessed 
-    public List<string> GetCurrentQueryList() 
+    public List<string> GetCurrentQueryList()
     {
         return m_currentQueryList;
     }
 
 
-    public enum QueryType {
+    public enum QueryType
+    {
         None,
         And,
         Or
@@ -84,45 +104,52 @@ public class SqliteController : MonoBehaviour {
     public float m_yFactor = 2f;
 
     private Coroutine queryCoroutine;
-    
 
-    private void Start() {
-        string dbPath = Path.Combine( Application.persistentDataPath, "data", DBName );
-        Debug.Log( $"DB path: {dbPath}" );
 
-        m_root = new GameObject( "root" );
+    private void Start()
+    {
+        string dbPath = Path.Combine(Application.persistentDataPath, "data", DBName);
+        Debug.Log($"DB path: {dbPath}");
+
+        m_root = new GameObject("root");
 
         // We want to copy our database ot the persistent data dir, if necessary
-        if( !File.Exists( dbPath ) ) {
-            StartCoroutine( CopyFromStreamingAssetsToPersistentData() );
-        } else {
-            InitDB( dbPath );
+        if (!File.Exists(dbPath))
+        {
+            StartCoroutine(CopyFromStreamingAssetsToPersistentData());
         }
-        
+        else
+        {
+            InitDB(dbPath);
+        }
+
         //added for map projection
         mapProjectionController.GetComponent<MapProjection>();
         resetRefine = FindObjectOfType<ResetRefine>();
 
         // Initialize the dictionary
-        queryTermToPrefabMap = new Dictionary<string, GameObject> {
-           // { "GSA_GrossSubject_Submarine LIKE '%Y%'", m_SubmarineMarker },
+        queryTermToPrefabMap = new Dictionary<string, GameObject>
+        {
+            // { "GSA_GrossSubject_Submarine LIKE '%Y%'", m_SubmarineMarker },
             //{ "GSA_GrossSubject_Artefact LIKE '%Y%'", m_ArtefactMarker },
 
         };
 
     }
 
-    private void OnDestroy() {
+    private void OnDestroy()
+    {
         m_command?.Dispose();
         m_connection?.Dispose();
     }
 
     //added by Maria
-    public SqliteDataReader ExecuteCommandWithJoin( string selections, string tableNames, string joinTable, string joinCondition, string matches ) {
-    string commandText = $"SELECT {selections} FROM {tableNames} LEFT JOIN {joinTable} ON {joinCondition} WHERE {matches}";
-    m_command.CommandText = commandText;
-    Debug.Log( m_command.CommandText );
-    return m_command.ExecuteReader();
+    public SqliteDataReader ExecuteCommandWithJoin(string selections, string tableNames, string joinTable, string joinCondition, string matches)
+    {
+        string commandText = $"SELECT {selections} FROM {tableNames} LEFT JOIN {joinTable} ON {joinCondition} WHERE {matches}";
+        m_command.CommandText = commandText;
+        Debug.Log(m_command.CommandText);
+        return m_command.ExecuteReader();
     }
 
     // // ORIGINAL BY BRUCE
@@ -144,26 +171,38 @@ public class SqliteController : MonoBehaviour {
     //     return m_reader;
     // }
 
-    public SqliteDataReader ExecuteCommand(string selections, string tableNames, string matches) 
+    public SqliteDataReader ExecuteCommand(string selections, string tableNames, string matches)
     {
         if (m_reader != null)
         {
             m_reader.Close();
             m_reader.Dispose();
         }
-        m_command.CommandText = string.Format(SelectFromDBTemplate, selections, tableNames, matches) + " LIMIT 1000";
+        m_command.CommandText = string.Format(SelectFromDBTemplate, selections, tableNames, matches);// + " LIMIT 1000";
         Debug.Log(m_command.CommandText);
 
         m_reader = m_command.ExecuteReader();
         return m_reader;
     }
 
+    public int ExecuteCommandGetRowCount(string selections, string tableNames, string matches)
+    {
+        m_countCommand.CommandText = string.Format(RowCountTemplate, selections, tableNames, matches);// + " LIMIT 1000";
+        Debug.Log(m_countCommand.CommandText);
+
+        var count = (Int64)m_countCommand.ExecuteScalar();
+        Debug.Log($"count: {count}");
+        return (Int32)count;
+    }
 
 
-    private void InitDB( string dbPath ) {
-        m_connection = new SqliteConnection( "URI=file:" + dbPath );
+
+    private void InitDB(string dbPath)
+    {
+        m_connection = new SqliteConnection("URI=file:" + dbPath);
         m_connection.Open();
         m_command = m_connection.CreateCommand();
+        m_countCommand = m_connection.CreateCommand();
 
         //InstanciateAllAtLatLng();
     }
@@ -172,20 +211,24 @@ public class SqliteController : MonoBehaviour {
     /// The actual database file needs to be read from disk, but streaming it as an object every time is a pain so copy it to persistent data folder.
     /// </summary>
     /// <returns></returns>
-    IEnumerator CopyFromStreamingAssetsToPersistentData() {
-        string filePath = Path.Combine( Application.streamingAssetsPath, DBName );
+    IEnumerator CopyFromStreamingAssetsToPersistentData()
+    {
+        string filePath = Path.Combine(Application.streamingAssetsPath, DBName);
         byte[] result;
-        if( filePath.Contains( "://" ) || filePath.Contains( ":///" ) ) {
-            UnityEngine.Networking.UnityWebRequest www = UnityEngine.Networking.UnityWebRequest.Get( filePath );
+        if (filePath.Contains("://") || filePath.Contains(":///"))
+        {
+            UnityEngine.Networking.UnityWebRequest www = UnityEngine.Networking.UnityWebRequest.Get(filePath);
             yield return www.SendWebRequest();
             result = www.downloadHandler.data;
-        } else {
-            result = File.ReadAllBytes( filePath );
         }
-        Directory.CreateDirectory( Path.Combine( Application.persistentDataPath, "data" ) );
-        string dbPath = Path.Combine( Application.persistentDataPath, "data", DBName );
-        File.WriteAllBytes( dbPath, result );
-        InitDB( dbPath );
+        else
+        {
+            result = File.ReadAllBytes(filePath);
+        }
+        Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "data"));
+        string dbPath = Path.Combine(Application.persistentDataPath, "data", DBName);
+        File.WriteAllBytes(dbPath, result);
+        InitDB(dbPath);
     }
 
     /// <summary>
@@ -193,31 +236,45 @@ public class SqliteController : MonoBehaviour {
     /// </summary>
     /// <param name="query"></param>
     /// <param name="type"></param>
-    public void AddToQuery( string query, QueryType type ) {
-        if( m_currentQueryList.Count == 0 ) {
-            m_currentQueryList.Add( query ); // No prefix for first item
+    public void AddToQuery(string query, QueryType type)
+    {
+        if (m_currentQueryList.Count == 0)
+        {
+            m_currentQueryList.Add(query); // No prefix for first item
             return;
         }
-        if( m_currentQueryList.Contains( query ) ) {
-            m_currentQueryList.RemoveAt( 0 );// edge case of the first NOT having AND/OR prefix
+        if (m_currentQueryList.Contains(query))
+        {
+            m_currentQueryList.RemoveAt(0);// edge case of the first NOT having AND/OR prefix
             return;
         }
-        if( type == QueryType.Or ) {
+        if (type == QueryType.Or)
+        {
             string q = $"OR {query} ";
-            if( m_currentQueryList.Contains( q ) ) {
-                RemoveFromQuery( q );
-            } else {
-                m_currentQueryList.Add( q );
+            if (m_currentQueryList.Contains(q))
+            {
+                RemoveFromQuery(q);
+            }
+            else
+            {
+                m_currentQueryList.Add(q);
             }
 
-        } else if( type == QueryType.And ) {
+        }
+        else if (type == QueryType.And)
+        {
             string q = $"AND {query} ";
-            if( m_currentQueryList.Contains( q ) ) {
-                RemoveFromQuery( q );
-            } else {
-                m_currentQueryList.Add( q );
+            if (m_currentQueryList.Contains(q))
+            {
+                RemoveFromQuery(q);
             }
-        } else {
+            else
+            {
+                m_currentQueryList.Add(q);
+            }
+        }
+        else
+        {
             ResetQuery();
         }
     }
@@ -226,37 +283,44 @@ public class SqliteController : MonoBehaviour {
     /// Remove a single term from our list, making sure to fix the AND/OR prefixes
     /// </summary>
     /// <param name="query"></param>
-    public void RemoveFromQuery( string query ) {
-        for( int i = 0, len = m_currentQueryList.Count; i < len; i++ ) {
-            if( m_currentQueryList[i].Contains( query ) ) {
-                m_currentQueryList.RemoveAt( i );
-                if( i == 0 ) {
-                    m_currentQueryList[0] = m_currentQueryList[0].Remove( 0, m_currentQueryList.IndexOf( " " ) + 1 );// Remove the AND/OR from the start of the string
+    public void RemoveFromQuery(string query)
+    {
+        for (int i = 0, len = m_currentQueryList.Count; i < len; i++)
+        {
+            if (m_currentQueryList[i].Contains(query))
+            {
+                m_currentQueryList.RemoveAt(i);
+                if (i == 0)
+                {
+                    m_currentQueryList[0] = m_currentQueryList[0].Remove(0, m_currentQueryList.IndexOf(" ") + 1);// Remove the AND/OR from the start of the string
                 }
                 return;
             }
         }
     }
 
-    public void ResetQuery() {
+    public void ResetQuery()
+    {
         m_currentQueryList.Clear();
     }
 
-    public void RunQuery() 
+    public void RunQuery()
     {
         //added by M
-        if( m_currentQueryList.Count == 0 ) {
-            Debug.Log( "Selection list is empty. Add query terms before running the query." );
+        if (m_currentQueryList.Count == 0)
+        {
+            Debug.Log("Selection list is empty. Add query terms before running the query.");
             return;
         }
         StringBuilder builder = new StringBuilder();
-        for( int i = 0, len = m_currentQueryList.Count; i < len; i++ ) {
-            builder.Append( m_currentQueryList[i] );
+        for (int i = 0, len = m_currentQueryList.Count; i < len; i++)
+        {
+            builder.Append(m_currentQueryList[i]);
         }
         // Original by Bruce
         string selections = "*";
         string tableNames = "resource";
-            
+
 
         if (queryCoroutine != null)
         {
@@ -264,88 +328,160 @@ public class SqliteController : MonoBehaviour {
         }
 
         mapProjectionController.ProjectMap();
-        SqliteDataReader reader = ExecuteCommand( selections, tableNames, builder.ToString() );
+        SqliteDataReader reader = ExecuteCommand(selections, tableNames, builder.ToString());
         //StartCoroutine( CreateAll( reader ) );
 
-        
-        queryCoroutine = StartCoroutine(CreateAll( reader ));
-    
+        int totalRow = ExecuteCommandGetRowCount(selections, tableNames, builder.ToString());
+        Debug.Log($"rows: {totalRow}");
+
+        queryCoroutine = StartCoroutine(CreateAll(reader, totalRow));
+
     }
 
-    private IEnumerator CreateAll( SqliteDataReader reader ) 
+    private IEnumerator CreateAll(SqliteDataReader reader, int totalCount)
     {
         const int loadPerFrame = 10;  // Change this - or add as public variable to mess around with in Editor
         int count = 0;
 
-        while( reader.Read() ) {
-
-
-        string title = reader.GetString( reader.GetOrdinal( "title" ) ); // this could be optimized to just use the bare integer, once the table layout has been finalised.
-        string id = reader.GetString( reader.GetOrdinal( "ids" ) );
-        string desc = reader.GetString( reader.GetOrdinal( "description" ) );
-        int ordinal = reader.GetOrdinal( "placename" );
-        string placename = (reader.GetValue( ordinal ) is System.DBNull) ? "" : reader.GetString( ordinal );
-        int latOrdinal = reader.GetOrdinal( "lat" );
-
-        if( reader.GetValue( latOrdinal ).GetType() != typeof( System.DBNull ) ) 
+        int maxCount = 1000;
+        int countToSkip = 0;
+        int skipped = 0;
+        float skipReal;
+        if (totalCount > maxCount)
         {
-            //Debug.Log( $"lat: {latOrdinal}; type: {reader.GetValue( latOrdinal ).GetType()}" );
-            string latString = reader.GetString( latOrdinal );
-            string lngString = reader.GetString( reader.GetOrdinal( "lng" ) );
-            double lat = 0f;
-            double lng = 0f;
-            if( double.TryParse( latString, out lat ) && double.TryParse( lngString, out lng ) ) {
-
-            GameObject prefabToInstantiate = m_ResourcePrefab; // Default prefab
-            
-            foreach (var queryTerm in m_currentQueryList) {
-                if (queryTermToPrefabMap.TryGetValue(queryTerm, out GameObject mappedPrefab)) {
-                    prefabToInstantiate = mappedPrefab;
-                    break;
-                }
-                else 
-                {
-                    Debug.Log($"No matching prefab found for query term: {queryTerm}");
-                }
-            }
-
-            GameObject obj;
-            obj = Instantiate( prefabToInstantiate, new Vector3( (float)lng * m_xFactor, 0f, (float)(lat - 50.0) * m_yFactor ), Quaternion.identity );
-            obj.name = title + "__" + id;
-            obj.transform.SetParent( m_root.transform );
-            UnpathResource res = obj.AddComponent<UnpathResource>();
-            res.m_LatLng = new LatLng( lat, lng );
-            res.m_Label = title;
-            res.m_Title = title;
-            res.m_Description = desc;
-            res.m_Placename = placename;
-            //FilterOff();
-            //Debug.Log( $"id : {id}" );
-            m_resourceDict.Add( id, res );
-            ++count;
-
-            // Add the UnpathResource object to the allObjects list for the isolate logic
-            allQResults.Add( res );
-
-            // Access the temporal column and set y-coordinate based on tags
-
-            int temporalOrdinal = reader.GetOrdinal("temporal_text");
-            if (!reader.IsDBNull(temporalOrdinal)) 
-            {
-                string temporalTag = reader.GetString(temporalOrdinal);
-                float yCoordinate = (float)GetYCoordinateFromTemporalTag(temporalTag);
-                obj.transform.position = new Vector3(obj.transform.position.x, yCoordinate, obj.transform.position.z);
-
-                // Store the original position of the resource
-                originalPositions[res] = res.transform.position;
-            }
-
-                if( count % loadPerFrame == 0 ) 
-                {
-                    yield return 0;
-                }
-            }
+            countToSkip = totalCount / maxCount;
+            skipReal = (totalCount / (float)maxCount);
+            Debug.Log($"skipping float:{skipReal}; int: {countToSkip}; total: {totalCount}");
         }
+
+        while (reader.Read())
+        {
+            //if (count >= maxCount)
+            //{
+            //    break;
+            //}
+
+            string title = reader.GetString(reader.GetOrdinal("title")); // this could be optimized to just use the bare integer, once the table layout has been finalised.
+            string id = reader.GetString(reader.GetOrdinal("ids"));
+            string desc = reader.GetString(reader.GetOrdinal("description"));
+            int ordinal = reader.GetOrdinal("placename");
+            string placename = (reader.GetValue(ordinal) is System.DBNull) ? "" : reader.GetString(ordinal);
+            int latOrdinal = reader.GetOrdinal("lat");
+
+            if (reader.GetValue(latOrdinal).GetType() != typeof(System.DBNull))
+            {
+                if (++skipped < countToSkip)
+                {
+                    continue;
+                }
+                skipped = 0;
+
+                //Debug.Log( $"lat: {latOrdinal}; type: {reader.GetValue( latOrdinal ).GetType()}" );
+                string latString = reader.GetString(latOrdinal);
+                string lngString = reader.GetString(reader.GetOrdinal("lng"));
+                double lat = 0f;
+                double lng = 0f;
+                if (double.TryParse(latString, out lat) && double.TryParse(lngString, out lng))
+                {
+
+                    GameObject prefabToInstantiate = m_ResourcePrefab; // Default prefab
+
+                    //foreach (var queryTerm in m_currentQueryList)
+                    //{
+                    //    if (queryTermToPrefabMap.TryGetValue(queryTerm, out GameObject mappedPrefab))
+                    //    {
+                    //        prefabToInstantiate = mappedPrefab;
+                    //        break;
+                    //    }
+                    //    else
+                    //    {
+                    //        Debug.Log($"No matching prefab found for query term: {queryTerm}");
+                    //    }
+                    //}
+
+                    GameObject obj;
+                    obj = Instantiate(prefabToInstantiate, new Vector3((float)lng * m_xFactor, 0f, (float)(lat - 50.0) * m_yFactor), Quaternion.identity);
+                    obj.name = title + "__" + id;
+                    obj.transform.SetParent(m_root.transform);
+                    UnpathResource res = obj.AddComponent<UnpathResource>();
+                    res.m_LatLng = new LatLng(lat, lng);
+                    res.m_Label = title;
+                    res.m_Title = title;
+                    res.m_Description = desc;
+                    res.m_Placename = placename;
+                    //FilterOff();
+                    //Debug.Log( $"id : {id}" );
+                    m_resourceDict.Add(id, res);
+                    ++count;
+
+                    var plane = reader.GetString(23);
+                    var sub = reader.GetString(24);
+                    var cargo = reader.GetString(25);
+                    var warship = reader.GetString(26);
+                    var passenger = reader.GetString(27);
+                    var artifact = reader.GetString(28);
+                    //Debug.Log($"plane: {plane}; sub: {sub}; cargo: {cargo};  war: {warship}; psngr: {passenger}; artifact: {artifact}");
+
+                    obj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                    AudioDelay delay = obj.GetComponent<AudioDelay>();
+                    if (artifact == "Y")
+                    {   
+                        obj.GetComponent<MeshFilter>().sharedMesh = m_ArtefactMarker.GetComponent<MeshFilter>().sharedMesh;
+                        delay.m_Clip = m_ArtefactAudio;
+                    }
+                    else if (sub == "Y")
+                    {
+                        obj.GetComponent<MeshFilter>().sharedMesh = m_SubmarineMarker.GetComponent<MeshFilter>().sharedMesh;
+                        delay.m_Clip = m_SubAudio;
+                    }
+                    if (plane == "Y")
+                    {
+                        obj.GetComponent<MeshFilter>().sharedMesh = m_PlaneMarker.GetComponent<MeshFilter>().sharedMesh;
+                        delay.m_Clip = m_PlaneAudio;
+                    }
+                    else if (cargo == "Y")
+                    {
+                        obj.GetComponent<MeshFilter>().sharedMesh = m_CargoMarker.GetComponent<MeshFilter>().sharedMesh;
+                        delay.m_Clip = m_CargoAudio;
+                    }
+                    if (warship == "Y")
+                    {
+                        obj.GetComponent<MeshFilter>().sharedMesh = m_WarMarker.GetComponent<MeshFilter>().sharedMesh;
+                        delay.m_Clip = m_WarAudio;
+                    }
+                    else if (passenger == "Y")
+                    {
+                        obj.GetComponent<MeshFilter>().sharedMesh = m_PassengerMarker.GetComponent<MeshFilter>().sharedMesh;
+                        delay.m_Clip = m_PassengerAudio;
+                    }
+                    else
+                    {
+                        obj.transform.localScale = Vector3.one;
+                    }
+
+
+                    // Add the UnpathResource object to the allObjects list for the isolate logic
+                    allQResults.Add(res);
+
+                    // Access the temporal column and set y-coordinate based on tags
+
+                    int temporalOrdinal = reader.GetOrdinal("temporal_text");
+                    if (!reader.IsDBNull(temporalOrdinal))
+                    {
+                        string temporalTag = reader.GetString(temporalOrdinal);
+                        float yCoordinate = (float)GetYCoordinateFromTemporalTag(temporalTag);
+                        obj.transform.position = new Vector3(obj.transform.position.x, yCoordinate, obj.transform.position.z);
+
+                        // Store the original position of the resource
+                        originalPositions[res] = res.transform.position;
+                    }
+
+                    if (count % loadPerFrame == 0)
+                    {
+                        yield return 0;
+                    }
+                }
+            }
 
         }
 
@@ -357,14 +493,14 @@ public class SqliteController : MonoBehaviour {
         {
             resetRefine.OnProcessingDone();
         }
-        
+
         //StaticBatchingUtility.Combine( m_root );
-        Debug.Log( $"Object count: {count}" );
+        Debug.Log($"Object count: {count}");
     }
 
     public void StopQuery()
     {
-        if(queryCoroutine != null)
+        if (queryCoroutine != null)
         {
             StopCoroutine(queryCoroutine);
             queryCoroutine = null;
@@ -424,16 +560,16 @@ public class SqliteController : MonoBehaviour {
         }
         return 0; // Handle unknown cases
     }
-        
+
     public void ClearResourceDictandLists()
     {
         m_resourceDict.Clear();
         DeleteResults();
         allQResults.Clear();
     }
-    public void DeleteResults() 
+    public void DeleteResults()
     {
-        for( int i = 0, len = allQResults.Count; i < len; i++ ) 
+        for (int i = 0, len = allQResults.Count; i < len; i++)
         {
             Destroy(allQResults[i].gameObject);
         }

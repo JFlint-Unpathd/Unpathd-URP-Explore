@@ -31,7 +31,7 @@ public class UIManager : MonoBehaviour
         else
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            PersistanceClass.DontDestroyOnLoad(gameObject);
         }
     }
 }

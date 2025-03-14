@@ -186,7 +186,7 @@ public class VoiceoverManager : MonoBehaviour
 
         settingsMenu.SetActive(true);
 
-        if (settingsMenu.transform.childCount > 0)
+        if (SceneManager.GetActiveScene().buildIndex<=1 && settingsMenu.transform.childCount > 0)
         {
             Transform firstChild = settingsMenu.transform.GetChild(0);
             firstChild.gameObject.SetActive(true);
